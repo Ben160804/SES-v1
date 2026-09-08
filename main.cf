@@ -1,0 +1,10 @@
+myhostname = mail.test.local
+mydomain = test.local
+inet_interfaces = all
+smtpd_tls_cert_file = /etc/postfix/cert.pem
+smtpd_tls_key_file = /etc/postfix/key.pem
+smtpd_tls_security_level = may
+smtpd_tls_protocols = !SSLv2, !SSLv3, TLSv1.2, TLSv1.3
+smtpd_tls_mandatory_ciphers = high
+smtpd_relay_restrictions = permit_mynetworks, reject_unauth_destination
+disable_dns_lookups = yes
