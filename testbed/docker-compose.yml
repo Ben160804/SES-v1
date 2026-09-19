@@ -1,0 +1,42 @@
+networks:
+  mailtest_net:
+    driver: bridge
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+services:
+  postfix:
+    build:
+      context: ./postfix
+    container_name: mailtest-postfix
+    networks:
+      mailtest_net:
+        ipv4_address: 172.28.0.10
+    volumes:
+      - ./pki/profiles:/etc/mailtest/pki:ro
+      - ./postfix/templates:/etc/mailtest/templates:ro
+
+  dovecot:
+    build:
+      context: ./dovecot
+    container_name: mailtest-dovecot
+    networks:
+      mailtest_net:
+        ipv4_address: 172.28.0.11
+    volumes:
+      - ./pki/profiles:/etc/mailtest/pki:ro
+      - ./dovecot/templates:/etc/mailtest/templates:ro
+
+  client:
+    build:
+      context: ./client
+    container_name: mailtest-client
+    networks:
+      mailtest_net:
+        ipv4_address: 172.28.0.20
+    volumes:
+      - ./client/scripts:/scripts:ro
+      - ./client/openssl:/etc/mailtest/openssl:ro
+      - ./pki/profiles:/etc/mailtest/pki:ro

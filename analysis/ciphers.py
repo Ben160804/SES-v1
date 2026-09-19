@@ -25,9 +25,15 @@ PROBLEMS & EDGE CASES HANDLED:
      but ZERO authentication, making them trivially vulnerable to MITM interception.
    - They are explicitly classified as kex="ANONYMOUS" and strength="BROKEN".
 
-4. PSK & Kerberos Authentication:
-   - Pre-Shared Key (PSK) and Kerberos (KRB5) suites do not use RSA authentication.
-   - They are mapped to kex="PSK", "DHE_PSK", or "KERBEROS" rather than defaulting to RSA_STATIC.
+4. PSK & Kerberos Authentication (RFC 4279, RFC 5489, RFC 2712):
+   - Pre-Shared Key (PSK) and Kerberos (KRB5) suites do not use traditional PKIX RSA authentication.
+   - Plain PSK (RFC 4279 §2) and Kerberos (RFC 2712) lack Ephemeral Diffie-Hellman key exchange.
+     Consequently, they provide NO Forward Secrecy (PFS = False). Compromise of the pre-shared key
+     allows retroactive decryption of past captured traffic.
+   - Per NIST SP 800-52r2 and our security model, any suite lacking PFS is classified as WEAK
+     regardless of whether it employs modern AEAD (GCM/CCM) or legacy CBC.
+   - Conversely, DHE_PSK (RFC 4279 §3) and ECDHE_PSK (RFC 5489) combine PSK authentication with
+     ephemeral DH key exchange, maintaining forward secrecy (PFS = True) and achieving HIGH or MEDIUM.
 
 5. TLS 1.3 Key Exchange Nuance (RFC 8446):
    - TLS 1.3 cipher suite names (e.g. TLS_AES_256_GCM_SHA384) do not encode the key exchange
@@ -42,7 +48,7 @@ PROBLEMS & EDGE CASES HANDLED:
 7. 4-Tier Cryptographic Strength Model (Mozilla & NIST SP 800-52r2):
    - HIGH: Modern AEAD ciphers with Forward Secrecy (GCM, Poly1305, full CCM) and PFS.
    - MEDIUM: Ciphers with Forward Secrecy (ECDHE/DHE) but using legacy CBC mode.
-   - WEAK: Static RSA key exchange (No PFS), truncated tags (CCM_8), or IANA deprecated.
+   - WEAK: Non-PFS key exchange (Static RSA, plain PSK, Kerberos — No Forward Secrecy), truncated tags (CCM_8), or IANA deprecated.
    - BROKEN: Anonymous ciphers (no auth), NULL, EXPORT, RC4, 3DES, DES, or MD5.
 
 8. Robust Error Handling & Path Validation:
@@ -119,14 +125,14 @@ def load_iana_cipher_database(csv_path=None):
 
                 # TIER 2: WEAK (Checked BEFORE Tier 3 - deliberate and load-bearing!)
                 # - Deprecated by IANA (rec == 'D')
-                # - Static RSA key exchange (No Forward Secrecy):
+                # - Non-PFS key exchange (Static RSA, plain PSK, Kerberos — No Forward Secrecy):
                 #   NOTE: This intentionally traps suites like TLS_RSA_WITH_AES_256_GCM_SHA384
-                #   (static RSA + GCM). Even though GCM is modern AEAD, the lack of PFS
-                #   disqualifies it from HIGH. Checking Tier 2 first guarantees non-PFS suites
-                #   are never promoted to HIGH regardless of cipher mode.
+                #   and TLS_PSK_WITH_AES_128_GCM_SHA256. Even though GCM is modern AEAD, the lack
+                #   of PFS disqualifies them from HIGH or MEDIUM. Static/non-PFS configurations
+                #   are inherently WEAK per our security model and NIST SP 800-52r2.
                 # - Short 64-bit truncated authentication tag (CCM_8)
                 elif (rec == "D" or 
-                      kex == "RSA_STATIC" or 
+                      not has_pfs or 
                       "_CCM_8" in name_upper or 
                       "_CCM-8" in name_upper):
                     strength = "WEAK"

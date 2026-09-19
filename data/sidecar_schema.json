@@ -1,0 +1,269 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PCAP Sidecar Label",
+  "type": "object",
+  "assumed_trust_store": {
+    "type": "string",
+    "enum": [
+      "testbed",
+      "production"
+    ],
+    "default": "testbed"
+  },
+  "required": [
+    "scenario_id",
+    "protocol",
+    "tls_presence",
+    "starttls_integrity",
+    "tls_version",
+    "cipher_strength",
+    "cert_validity",
+    "cert_chain_shape",
+    "cert_sig_algo",
+    "hostname_match",
+    "auth_outcome",
+    "expected_starttls_status",
+    "expected_trust_status"
+  ],
+  "properties": {
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^PCAP-\\d{3}$"
+    },
+    "layer": {
+      "type": "string",
+      "enum": [
+        "inventory",
+        "canonical",
+        "both"
+      ]
+    },
+    "description": {
+      "type": "string"
+    },
+    "protocol": {
+      "type": "string",
+      "enum": [
+        "SMTP",
+        "IMAP",
+        "POP3"
+      ]
+    },
+    "tls_presence": {
+      "type": "string",
+      "enum": [
+        "none",
+        "STARTTLS-upgraded",
+        "implicit-TLS"
+      ]
+    },
+    "starttls_integrity": {
+      "type": "string",
+      "enum": [
+        "normal",
+        "stripped-broken-client",
+        "stripped-broken-server",
+        "N/A",
+        "rejected",
+        "no-advertisement"
+      ]
+    },
+    "tls_version": {
+      "type": "string",
+      "enum": [
+        "1.0",
+        "1.1",
+        "1.2",
+        "1.3",
+        "N/A"
+      ]
+    },
+    "cipher_strength": {
+      "type": "string",
+      "enum": [
+        "HIGH",
+        "MEDIUM",
+        "WEAK",
+        "BROKEN",
+        "N/A"
+      ]
+    },
+    "cert_validity": {
+      "type": "string",
+      "enum": [
+        "valid",
+        "expired",
+        "not-yet-valid",
+        "N/A"
+      ]
+    },
+    "cert_chain_shape": {
+      "type": "string",
+      "enum": [
+        "self-signed-trusted",
+        "self-signed-untrusted",
+        "complete-chain",
+        "complete-chain-untrusted-root",
+        "intermediate-not-ca",
+        "chain-tampered-intermediate-sig",
+        "leaf-only",
+        "N/A"
+      ]
+    },
+    "cert_sig_algo": {
+      "type": "string",
+      "enum": [
+        "RSA-PKCS1v15",
+        "RSA-PSS",
+        "ECDSA",
+        "Ed25519",
+        "N/A"
+      ]
+    },
+    "hostname_match": {
+      "type": "string",
+      "enum": [
+        "matched",
+        "mismatched",
+        "N/A"
+      ]
+    },
+    "auth_outcome": {
+      "type": "string",
+      "enum": [
+        "none",
+        "plaintext-attempted",
+        "post-TLS-encrypted"
+      ]
+    },
+    "expected_starttls_status": {
+      "type": "string",
+      "enum": [
+        "CLEARTEXT_NO_ENCRYPTION",
+        "IMPLICIT_TLS",
+        "UPGRADED",
+        "DOWNGRADE_OR_STRIPPED",
+        "STARTTLS_REJECTED",
+        "STARTTLS_WITHOUT_ADVERTISEMENT"
+      ]
+    },
+    "expected_trust_status": {
+      "type": "string",
+      "enum": [
+        "N/A",
+        "EXPIRED",
+        "NOT_YET_VALID",
+        "TRUSTED_SELF_SIGNED",
+        "UNTRUSTED_SELF_SIGNED",
+        "TRUSTED_CHAIN",
+        "TRUSTED_CHAIN_HOSTNAME_MISMATCH",
+        "INCOMPLETE_CHAIN_MISSING_INTERMEDIATE",
+        "UNKNOWN_ROOT_CA",
+        "CA_CONSTRAINT_VIOLATION",
+        "INVALID_SIGNATURE_IN_CHAIN"
+      ]
+    },
+    "strip_cause": {
+      "type": "string",
+      "enum": [
+        "stripped-broken-client",
+        "stripped-broken-server",
+        ""
+      ]
+    },
+    "port_type": {
+      "type": "string",
+      "enum": [
+        "standard",
+        "non-standard-unknown",
+        ""
+      ]
+    },
+    "expected_protocol": {
+      "type": "string",
+      "enum": [
+        "SMTP",
+        "IMAP",
+        "POP3",
+        "Unknown",
+        ""
+      ]
+    },
+    "tls13_kex_mode": {
+      "type": "string",
+      "enum": [
+        "ECDHE",
+        "PSK_ONLY",
+        "PSK_DHE",
+        ""
+      ]
+    },
+    "tls12_kex_type": {
+      "type": "string",
+      "enum": [
+        "ECDHE",
+        "DHE",
+        ""
+      ]
+    },
+    "forward_secrecy": {
+      "type": "boolean"
+    },
+    "hello_retry_request": {
+      "type": "boolean"
+    },
+    "downgrade_sentinel": {
+      "type": "string",
+      "enum": [
+        "none",
+        "protection-signal",
+        "benign",
+        ""
+      ]
+    },
+    "starttls_outcome": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "rejected",
+        "no_advertisement",
+        ""
+      ]
+    },
+    "sig_alg_cert_present": {
+      "type": "boolean"
+    },
+    "cert_has_san": {
+      "type": "boolean"
+    },
+    "hostname_type": {
+      "type": "string",
+      "enum": [
+        "dns",
+        "ip",
+        "wildcard",
+        ""
+      ]
+    },
+    "path_selection": {
+      "type": "string",
+      "enum": [
+        "backtracking",
+        ""
+      ]
+    },
+    "certificate_observable": {
+      "type": "string",
+      "enum": [
+        "VISIBLE",
+        "ENCRYPTED",
+        "NOT_PRESENT",
+        ""
+      ]
+    },
+    "generator_requirement": {
+      "type": "string",
+      "description": "Infrastructure/scenario setup needed to produce this PCAP"
+    }
+  }
+}
