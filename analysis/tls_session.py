@@ -261,40 +261,60 @@ def reconstruct_handshake(pcap_path):
       Dict mapping stream_id (int) -> reconstructed handshake telemetry dictionary.
     """
     # ── PASS 1: Flight Sequencing, Record Content Types, Alerts & Reassembly ─────
-    # WHY THIS FILTER:
-    #   We filter on `tls.record.content_type in {20, 21, 22, 23}` to capture every valid
-    #   TLS record layer header (RFC 5246 §6.2.1, RFC 8446 §5.1):
-    #     20: ChangeCipherSpec (RFC 5246 §7.1, RFC 8446 Appendix D middlebox compatibility)
-    #     21: Alert (RFC 5246 §7.2, RFC 8446 §6)
-    #     22: Handshake (RFC 5246 §7.4, RFC 8446 §4)
-    #     23: Application Data / TLSCiphertext (RFC 5246 §6.2.1, RFC 8446 §5.2)
-    #   We do NOT use `tls.alert` because encrypted alerts or alerts wrapped in fragmented
-    #   records are suppressed by tshark unless filtered at the record layer.
     #
-    # WHY REASSEMBLY TRACKING:
-    #   X.509 Certificate chains (RFC 5246 §7.4.6) frequently exceed the TCP MSS (~1460 bytes)
-    #   and are fragmented across multiple TCP packets. Tracking `tls.handshake.reassembled_in`
-    #   ensures multi-packet handshake flights are accurately correlated.
+    # RFC 5246 §6.2.1 / RFC 8446 §5.1 — TLSPlaintext record layer:
+    #   Content types carried in tls.record.content_type:
+    #     20  ChangeCipherSpec  (RFC 5246 §7.1; RFC 8446 Appendix D compatibility shim)
+    #     21  Alert             (RFC 5246 §7.2; RFC 8446 §6)
+    #     22  Handshake         (RFC 5246 §7.4; RFC 8446 §4)
+    #     23  ApplicationData   (RFC 5246 §6.2.1; RFC 8446 §5.2 — see TLSCiphertext note below)
+    #   tls.alert is NOT used here: encrypted or fragmented alerts are suppressed by tshark
+    #   unless matched at the record layer.
+    #
+    # RFC 8446 §5.2 — TLSCiphertext / opaque_type:
+    #   "In order to avoid revealing lengths or the presence of padding, encrypted records
+    #    all have the same outer record type of application_data(23). The actual content
+    #    type is encrypted inside TLSInnerPlaintext.type."
+    #   (RFC 9846, when it revises TLS 1.3, preserves this same TLSCiphertext structure.)
+    #
+    #   Consequence for passive PCAP analysis:
+    #     TShark 4.x dissects TLS 1.3 TLSCiphertext frames into tls.record.opaque_type=23,
+    #     NOT tls.record.content_type=23, because the outer record type is structurally
+    #     distinct from the encrypted inner content type. The display filter MUST include
+    #     `|| tls.record.opaque_type in {23}` to capture these frames; without it every
+    #     post-ServerHello TLS 1.3 frame (EncryptedExtensions, Certificate,
+    #     CertificateVerify, Finished, NewSessionTicket, application data) is invisible
+    #     and outer_record_23_observed stays False → false INCOMPLETE status.
+    #
+    # RFC 5246 §7.4.6 — reassembly tracking:
+    #   Certificate chains commonly exceed the TCP MSS (~1460 bytes) and span multiple
+    #   packets. tls.handshake.reassembled_in correlates fragments to their final frame.
+    #
+    # ponytail: single tshark invocation; 8 tab-delimited fields; opaque_type last.
     cmd_flight = [
         "tshark", "-r", pcap_path,
-        "-Y", "tls.record.content_type in {20, 21, 22, 23}",
+        # RFC 5246 §6.2.1 / RFC 8446 §5.1: plaintext record types 20-23
+        # RFC 8446 §5.2: TLSCiphertext opaque_type=23 (TShark 4.x exposes as separate field)
+        "-Y", "tls.record.content_type in {20, 21, 22, 23} || tls.record.opaque_type in {23}",
         "-T", "fields",
         "-e", "frame.number",
         "-e", "tcp.stream",
         "-e", "tls.handshake.type",
-        "-e", "tls.record.content_type",
+        "-e", "tls.record.content_type",     # RFC 5246 §6.2.1 / RFC 8446 §5.1 plaintext records
         "-e", "tls.alert_message.level",
         "-e", "tls.alert_message.desc",
         "-e", "tls.handshake.reassembled_in",
+        "-e", "tls.record.opaque_type",      # RFC 8446 §5.2: TLSCiphertext outer type (TShark 4.x)
     ]
     res_flight = subprocess.run(cmd_flight, capture_output=True, text=True)
     flights = {}
     if res_flight.stdout.strip():
         for line in res_flight.stdout.strip().splitlines():
             parts = line.split('\t')
-            while len(parts) < 7:
+            while len(parts) < 8:
                 parts.append("")
-            f_num, s_id, hs_type_str, rec_ct_str, al_lvl_str, al_dsc_str, reasm_str = parts
+            # ponytail: unpack all 8 fields; opaque_ct_str is "" for TLS 1.2 frames
+            f_num, s_id, hs_type_str, rec_ct_str, al_lvl_str, al_dsc_str, reasm_str, opaque_ct_str = parts
             if not s_id.isdigit():
                 continue
             sid = int(s_id)
@@ -310,7 +330,7 @@ def reconstruct_handshake(pcap_path):
             frame = int(f_num) if f_num.isdigit() else None
             reasm = int(reasm_str) if reasm_str.isdigit() else None
 
-            # Handshake messages (type 22)
+            # RFC 5246 §7.4 / RFC 8446 §4: Handshake messages carried in content_type=22 records.
             if hs_type_str.strip():
                 for t in hs_type_str.split(','):
                     t = t.strip()
@@ -323,24 +343,37 @@ def reconstruct_handshake(pcap_path):
                             "message": msg_name,
                             "reassembled_in": reasm
                         })
-                        if t_id == 20: # Finished
+                        if t_id == 20:  # Finished — RFC 5246 §7.4.9 / RFC 8446 §4.4.4
                             flights[sid]["finished_observed"] = True
                         if t_id == 2 and flights[sid]["server_hello_frame"] is None:
                             flights[sid]["server_hello_frame"] = frame
 
-            # Record Content Types (RFC 5246, RFC 8446 §5.1)
+            # RFC 5246 §6.2.1 / RFC 8446 §5.2 — outer record type 23 detection:
+            #   tls.record.content_type=23  → TLS 1.2 ApplicationData (plaintext outer type)
+            #   tls.record.opaque_type=23   → RFC 8446 §5.2 TLSCiphertext (encrypted outer type)
+            #     "The actual content type is encrypted inside TLSInnerPlaintext.type."
+            #     Without session keys the inner type (Handshake/Alert/ApplicationData) is
+            #     unobservable — that ambiguity is propagated to the lifecycle state as
+            #     HANDSHAKE_STATUS_UNRESOLVED, not resolved by assumption.
+            # ponytail: any() would be cleaner but explicit loops are easier to grep/audit
+            record_23 = False
             if rec_ct_str.strip():
                 for ct in rec_ct_str.split(','):
-                    ct = ct.strip()
-                    if ct == "23":
-                        # Record type 23:
-                        # In TLS 1.2: definite Application Data.
-                        # In TLS 1.3: TLSCiphertext outer header for all encrypted records.
-                        flights[sid]["outer_record_23_observed"] = True
-                        if flights[sid]["first_record_23_frame"] is None:
-                            flights[sid]["first_record_23_frame"] = frame
+                    if ct.strip() == "23":
+                        record_23 = True
+                        break
+            if not record_23 and opaque_ct_str.strip():  # ponytail: skip second loop if already set
+                for ct in opaque_ct_str.split(','):
+                    if ct.strip() == "23":
+                        record_23 = True
+                        break
+            if record_23:
+                flights[sid]["outer_record_23_observed"] = True
+                if flights[sid]["first_record_23_frame"] is None:
+                    flights[sid]["first_record_23_frame"] = frame
 
-            # Alerts (record 21 or alert fields)
+            # RFC 5246 §7.2 / RFC 8446 §6 — Alerts carried in content_type=21.
+            # ponytail: split('') on empty string yields [''] which "21" will never match — safe
             if al_lvl_str.strip() or al_dsc_str.strip() or "21" in rec_ct_str.split(','):
                 lvl_name = TLS_ALERT_LEVEL_MAP.get(al_lvl_str.strip(), "UNKNOWN")
                 dsc_name = TLS_ALERT_DESC_MAP.get(al_dsc_str.strip(), f"AlertDesc_{al_dsc_str.strip()}" if al_dsc_str.strip() else "EncryptedAlert")
@@ -529,6 +562,7 @@ def reconstruct_handshake(pcap_path):
         "tshark", "-r", pcap_path,
         "-Y", "tls.handshake.type == 2",
         "-T", "fields",
+        "-e", "frame.number",
         "-e", "tcp.stream",
         "-e", "tls.handshake.version",
         "-e", "tls.handshake.extensions.supported_version",
@@ -540,15 +574,18 @@ def reconstruct_handshake(pcap_path):
     ]
     res_sh = subprocess.run(cmd_sh, capture_output=True, text=True)
     server_hellos = {}
+    # ponytail: track stream-level HRR occurrences so final ServerHello parameters don't erase HRR fact
+    hrr_streams = set()
     if res_sh.stdout.strip():
         for line in res_sh.stdout.strip().splitlines():
             parts = line.split('\t')
-            while len(parts) < 8:
+            while len(parts) < 9:
                 parts.append("")
-            s_id, hs_ver, supp_ver, ciphersuite, ks_grp, ks_sel_grp, psk_sel, random_hex = parts
+            f_num, s_id, hs_ver, supp_ver, ciphersuite, ks_grp, ks_sel_grp, psk_sel, random_hex = parts[:9]
             if not s_id.isdigit():
                 continue
             sid = int(s_id)
+            frame_id = int(f_num) if f_num.isdigit() else None
             effective_ks = ks_grp.strip() or ks_sel_grp.strip()
             psk_sel_clean = psk_sel.strip()
 
@@ -575,22 +612,56 @@ def reconstruct_handshake(pcap_path):
                 elif psk_sel_clean and effective_ks:
                     tls13_kex_mode = "PSK_DHE"
 
-            # Perfect Forward Secrecy (PFS) correction for PSK_ONLY:
-            # RFC 8446 §C.4: If PSK key establishment is used without DH (psk_ke / PSK_ONLY),
-            # past sessions can be decrypted if the PSK is ever compromised.
+            # Key Exchange mechanism & Perfect Forward Secrecy (PFS) resolution:
+            # RFC 8446 §2.2 & §C.4: In TLS 1.3, cipher suites do not encode key exchange.
+            # Key exchange and forward secrecy must be resolved dynamically from negotiated extensions:
+            #   - ECDHE: Ephemeral DH group in key_share (PFS = True).
+            #   - PSK_DHE: Pre-shared key + Ephemeral DH group (PFS = True).
+            #   - PSK_ONLY: Pre-shared key without DH (PFS = False, kex = "PSK_ONLY").
+            #   - Unknown/undetermined: Never fall back to claiming ephemeral exchange when
+            #     wire evidence didn't establish it.
+            # ponytail: single unified resolution of forward_secrecy and kex_mechanism
             forward_secrecy = ci["forward_secrecy"]
-            if tls13_kex_mode == "PSK_ONLY":
-                forward_secrecy = False
+            kex_mechanism = ci["kex"]
 
-            # HelloRetryRequest detection via SHA-256("HelloRetryRequest") in ServerHello.random
+            if is_tls13:
+                if tls13_kex_mode == "PSK_ONLY":
+                    forward_secrecy = False
+                    kex_mechanism = "PSK_ONLY"
+                elif tls13_kex_mode == "PSK_DHE":
+                    forward_secrecy = True
+                    kex_mechanism = "PSK_DHE"
+                elif tls13_kex_mode == "ECDHE":
+                    forward_secrecy = True
+                    kex_mechanism = "ECDHE"
+                else:
+                    forward_secrecy = False
+                    kex_mechanism = "UNKNOWN"
+
+            # HelloRetryRequest detection via SHA-256("HelloRetryRequest") in ServerHello.random (RFC 8446 §4.1.4)
             clean_rnd = random_hex.strip().lower().replace(":", "")
             is_hrr = (clean_rnd == RFC8446_HRR_RANDOM.lower())
+            if is_hrr:
+                hrr_streams.add(sid)
             
-            # If HelloRetryRequest was sent, update message label in flight
+            # Authoritative message relabeling in flight (RFC 8446 §4.1.4):
+            # Handshake type 2 messages are either HelloRetryRequest (special random) or standard ServerHello.
+            # Authoritative correlation: match by frame number (or reassembly frame) to relabel ONLY the HRR record.
             if is_hrr and sid in flights:
+                relabeled = False
                 for m in flights[sid]["messages"]:
-                    if m["type_id"] == 2:
+                    if m["type_id"] == 2 and (m.get("frame") == frame_id or m.get("reassembled_in") == frame_id):
                         m["message"] = "HelloRetryRequest"
+                        relabeled = True
+                        break
+                if not relabeled:
+                    # Defensive fallback: in an HRR exchange, chronologically the first type-2 message
+                    # is the HelloRetryRequest, followed by the normal ServerHello (RFC 8446 §4.1.4).
+                    # Target only the first chronological type-2 message in the stream.
+                    for m in flights[sid]["messages"]:
+                        if m["type_id"] == 2:
+                            m["message"] = "HelloRetryRequest"
+                            break
 
             # RFC 8446 §4.1.3 Downgrade Sentinel Forensics (last 8 bytes of ServerHello.random)
             downgrade_info = {
@@ -624,15 +695,23 @@ def reconstruct_handshake(pcap_path):
                     "name": ci["name"],
                     "strength": ci["strength"],
                     "forward_secrecy": forward_secrecy,
-                    "kex_mechanism": ci["kex"]
+                    "kex_mechanism": kex_mechanism
                 },
                 "tls13_key_exchange_group": tls13_kex_group,
                 "tls13_psk_selected": tls13_psk_sel,
                 "tls13_key_exchange_mode": tls13_kex_mode,
-                "is_hello_retry_request": is_hrr,
+                "hello_retry_request": (sid in hrr_streams or is_hrr),
+                "is_hello_retry_request": (sid in hrr_streams or is_hrr),  # internal backward-compatible alias
                 "tls12_server_key_exchange": None,
                 "downgrade_sentinel": downgrade_info
             }
+
+        # Post-loop guarantee: ensure that any stream where an HRR occurred retains hello_retry_request = True
+        # even if a subsequent ServerHello updated the negotiated session parameters.
+        for sid in hrr_streams:
+            if sid in server_hellos:
+                server_hellos[sid]["hello_retry_request"] = True
+                server_hellos[sid]["is_hello_retry_request"] = True
 
     # ── PASS 4: TLS 1.2 ServerKeyExchange (RFC 5246, RFC 8422) ──────────────────
     # WHY ECDHE AND DHE MUST BE STRICTLY SEPARATED:
@@ -877,6 +956,7 @@ def extract_tls_info(pcap_path):
             "tls13_key_exchange_group": sh.get("tls13_key_exchange_group"),
             "tls13_psk_selected":       sh.get("tls13_psk_selected"),
             "tls13_key_exchange_mode":  sh.get("tls13_key_exchange_mode"),
+            "hello_retry_request":      sh.get("hello_retry_request", False),
         }
 
     return sessions

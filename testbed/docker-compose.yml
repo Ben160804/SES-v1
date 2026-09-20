@@ -17,6 +17,11 @@ services:
     volumes:
       - ./pki/profiles:/etc/mailtest/pki:ro
       - ./postfix/templates:/etc/mailtest/templates:ro
+      - ./active:/etc/mailtest/active:ro
+    ports:
+      - "2525:25"
+      - "2587:587"
+      - "2465:465"
 
   dovecot:
     build:

@@ -132,95 +132,130 @@ def verify_certificate_signature(child_cert, issuer_cert):
         return False, f"Signature verification failed: {type(e).__name__}: {e}"
 
 
-def check_hostname_match(claimed_sni, san_dns, leaf_cn):
+def check_hostname_match(claimed_sni, san_dns, leaf_cn, san_ip=None):
     """
-    RFC 6125 HOSTNAME MATCHING (Section 6.4):
+    RFC 9525 / RFC 6125 SERVICE IDENTITY & HOSTNAME MATCHING (Section 4 / Section 6.4):
     -------------------------------------------------------------------------------
     PURPOSE:
       Determine whether the server's certificate identity matches what the client
-      actually intended to reach (the Server Name Indication extension from
-      ClientHello, RFC 6066 §3). This is independent of cryptographic path
-      validation — a certificate can be cryptographically valid but still be for
-      the wrong server.
+      actually intended to reach (the reference identifier). This is independent
+      of cryptographic path validation — a certificate can be cryptographically
+      valid but still be issued for a different endpoint or host.
 
-    WHY SNI IS THE REFERENCE IDENTITY (not something we generate ourselves):
-      RFC 6125 §6.1 defines the 'reference identifier' as the value the client
-      independently established before initiating the connection — in practice,
-      the SNI hostname the client sent in ClientHello. We MUST NOT derive the
-      reference identity from the certificate's own attributes (SAN or CN),
-      because that would make the check circular: a certificate would trivially
-      match itself, proving nothing about whether this is the right server.
+    REFERENCE IDENTIFIER CONTEXT & TLS SNI (RFC 9525 §3, RFC 6066 §3):
+      RFC 9525 §3 and RFC 6066 §3 explicitly specify that standard TLS SNI
+      (Server Name Indication) HostName syntax conveys only fully qualified domain
+      names, not IP address literals. However, in passive network forensics,
+      synthetic testbeds (such as PCAP-116), or non-compliant client traffic,
+      the client reference identity ('claimed_sni') may be presented as an IP
+      address. We treat 'claimed_sni' as the connection reference identifier.
+      We MUST NOT derive the reference identity from the certificate's own
+      attributes (SAN or CN), because that would make the check circular (RFC 9525 §4.1).
 
-    WHY SAN TAKES ABSOLUTE PRECEDENCE OVER CN (RFC 6125 §6.4.4):
-      The Common Name field (OID 2.5.4.3) was historically abused as the primary
-      hostname identifier before the Subject Alternative Name extension existed.
-      RFC 6125 §6.4.4 explicitly mandates that if ANY dNSName SAN is present, the
-      client MUST use SAN and MUST NOT also check CN. Mixing SAN + CN would both
-      be non-compliant and allow a cert with a malicious CN to appear to match a
-      different hostname by accident.
-      CA/Browser Forum Baseline Requirements §7.1.4.2 additionally prohibited
-      issuing certs that rely solely on CN (without SAN) since 2017.
+    IP-ID MATCHING RULES (RFC 9525 §4.4, RFC 5280 §4.2.1.6):
+      - If the reference identifier is an IP address (IP-ID), the client MUST
+        compare it ONLY against iPAddress entries in the Subject Alternative Name
+        extension (RFC 5280 §4.2.1.6).
+      - The comparison MUST be octet-for-octet (evaluated here via Python's typed
+        ipaddress.ip_address objects, which normalizes IPv4 and IPv6 notations).
+      - An IP reference identity MUST NEVER be compared against dNSName SAN entries.
+      - An IP reference identity MUST NEVER be matched against the Common Name (CN).
+      - Wildcards CANNOT match an IP-ID (RFC 9525 §4.3 / RFC 6125 §6.4.3). Wildcard
+        expansion is strictly invalid for IP addresses.
+      - Typed validation: Only valid IP candidates in san_ip are compared; malformed
+        strings are ignored and never matched via fallback string equality.
 
-    WHY WE LOWERCASE BOTH SIDES:
-      RFC 6125 §6.4.1 and RFC 5280 §7.2 specify that DNS name comparisons MUST
-      be case-insensitive. Lower-casing both strings before comparison is the
-      canonical way to enforce this without a case-folding library.
-
-    WILDCARD MATCHING RULES (RFC 6125 §6.4.3):
-      - A wildcard '*' is only permitted in the leftmost label: *.example.com
-      - It matches exactly ONE label: *.example.com matches 'mail.example.com'
-        but does NOT match 'a.mail.example.com' (two labels on the left).
-      - We enforce the single-level constraint by comparing dot counts:
-          target.count('.') == cand.count('.')
-        If the target has more dots than the wildcard pattern, it has more labels
-        on the left side and cannot match.
-      - Partial wildcards (f*.example.com) are prohibited by CA/Browser Forum
-        Baseline Requirements §11.3.1.3 (since 2012) and are not handled here.
+    DNS-ID MATCHING RULES (RFC 9525 §4.2 - §4.3, RFC 6125 §6.4):
+      - SAN (dNSName) takes absolute precedence over CN (RFC 9525 §4.2.1, RFC 6125 §6.4.4).
+        If ANY dNSName SAN is present, the client MUST NOT check CN.
+      - Case-normalization: DNS comparisons MUST be case-insensitive (RFC 9525 §4.2).
+      - Wildcard rules (RFC 9525 §4.3): A wildcard '*' is only permitted in the
+        leftmost label (*.example.com) and matches exactly one label level.
 
     RETURN VALUES:
-      'MATCHED'                   — Reference identity matched a SAN or CN entry
-      'MISMATCH'                  — Reference identity did NOT match any entry
+      'MATCHED'                   — Reference identity matched an iPAddress SAN, dNSName SAN, or CN
+      'MISMATCH'                  — Reference identity did NOT match any appropriate entry
       'SKIPPED_NO_SNI'            — No reference identity available in PCAP; skip
-      'SKIPPED_NO_CERT_IDENTIFIER'— Cert has no usable SAN and no CN; cannot check
+      'SKIPPED_NO_CERT_IDENTIFIER'— Cert has no usable SAN (DNS/IP) and no CN; cannot check
     """
     if not claimed_sni:
-        # No SNI in the ClientHello means we have no reference identity from the
-        # client's connection context. Per RFC 6125 §6.1, without a reference
-        # identifier we cannot perform hostname validation — skipping is correct.
+        # No reference identifier in the client connection context.
+        # Per RFC 9525 §4.1 / RFC 6125 §6.1, validation cannot proceed without a reference identity.
         return "SKIPPED_NO_SNI"
 
-    # Case-normalize per RFC 6125 §6.4.1
-    target = claimed_sni.strip().lower()
+    target_str = claimed_sni.strip()
 
-    # RFC 6125 §6.4.4: SAN (dNSName) takes absolute priority over CN.
+    # ponytail: Strip optional IPv6 bracket notation if present (e.g. "[2001:db8::1]" -> "2001:db8::1")
+    ip_cand_str = target_str[1:-1] if target_str.startswith("[") and target_str.endswith("]") else target_str
+    target_ip = None
+    try:
+        # ponytail: stdlib ipaddress cleanly detects and parses both IPv4 and IPv6 reference IDs
+        target_ip = ipaddress.ip_address(ip_cand_str)
+    except ValueError:
+        target_ip = None
+
+    # ───────────────────────────────────────────────────────────────────────────
+    # BRANCH A: IP-ID REFERENCE IDENTITY (RFC 9525 §4.4 & RFC 5280 §4.2.1.6)
+    # ─────────────────────────────────────────────────────────────────────────
+    if target_ip is not None:
+        # RFC 9525 §4.4:
+        # "If the reference identifier is an IP-ID, the client MUST compare that IP-ID
+        # against the iPAddress contents of the subjectAltName extension... The client
+        # MUST NOT compare an IP-ID against the dNSName contents of the subjectAltName
+        # extension, and the client MUST NOT compare an IP-ID against the CN component."
+        #
+        # First check if the certificate has zero usable identifiers of any type.
+        if not san_ip and not san_dns and (not leaf_cn or leaf_cn == "Unknown"):
+            return "SKIPPED_NO_CERT_IDENTIFIER"
+
+        # Strictly typed comparison per RFC 9525 §4.4:
+        # Loop through san_ip candidates, parse as ipaddress objects, and compare octet-by-octet.
+        # Malformed entries raise ValueError and are ignored (no literal string fallback).
+        for candidate in san_ip or []:
+            try:
+                # ponytail: typed ipaddress comparison handles IPv4/IPv6 normalization strictly
+                if target_ip == ipaddress.ip_address(str(candidate).strip()):
+                    return "MATCHED"
+            except ValueError:
+                # Discard non-IP candidate strings; do not allow fallback string matching
+                continue
+
+        # If san_ip contains no matching IP (or is empty while cert had DNS/CN identifiers),
+        # return MISMATCH. Wildcard and CN matching are strictly forbidden for IP-IDs.
+        return "MISMATCH"
+
+    # ───────────────────────────────────────────────────────────────────────────
+    # BRANCH B: DNS-ID REFERENCE IDENTITY (RFC 9525 §4.2 - §4.3)
+    # ───────────────────────────────────────────────────────────────────────────
+    # Case-normalize per RFC 9525 §4.2 / RFC 6125 §6.4.1
+    target = target_str.lower()
+
+    # RFC 9525 §4.2.1 / RFC 6125 §6.4.4: SAN (dNSName) takes absolute priority over CN.
     # We only fall through to CN if there are literally zero dNSName SANs.
     if san_dns:
         candidates = [name.strip().lower() for name in san_dns]
     elif leaf_cn and leaf_cn != "Unknown":
-        # Fallback: use CN only when no SAN is present at all.
-        # "Unknown" means we could not extract a CN OID — treat as missing.
+        # Fallback: use CN only when no dNSName SAN is present at all.
         candidates = [leaf_cn.strip().lower()]
-    else:
+    elif not san_ip:
+        # Cert has no SAN (DNS or IP) and no usable CN
         return "SKIPPED_NO_CERT_IDENTIFIER"
+    else:
+        # Cert has only iPAddress SANs, but client requested a DNS-ID (RFC 9525 §4.4)
+        return "MISMATCH"
 
     for cand in candidates:
-        # Exact match (case-normalized above already)
+        # Exact match (case-normalized above)
         if cand == target:
             return "MATCHED"
 
-        # RFC 6125 §6.4.3: Wildcard left-label matching.
+        # RFC 9525 §4.3 / RFC 6125 §6.4.3: Wildcard left-label matching.
         # The wildcard character '*' is only legal as the ENTIRE leftmost label.
         if cand.startswith("*."):
-            # cand[1:] gives e.g. ".example.com" (we keep the leading dot).
-            # We use this dot-prefixed suffix rather than cand[2:] ("example.com")
-            # so that target.endswith(suffix) won't falsely match "notexample.com".
-            # The leading '.' means the suffix must start at a real label boundary.
             suffix = cand[1:]  # e.g. ".example.com"
-
             # Single-level enforcement:
-            # *.example.com has 2 dots. target "mail.example.com" also has 2 dots → MATCH.
-            # target "a.mail.example.com" has 3 dots → NOT a match (would cross two labels).
-            # Comparing dot counts is the minimal correct implementation of this rule.
+            # *.example.com has 2 dots; mail.example.com has 2 dots -> MATCH.
+            # a.mail.example.com has 3 dots -> NOT a match (cannot cross multiple labels).
             if target.endswith(suffix) and target.count(".") == cand.count("."):
                 return "MATCHED"
 
@@ -230,33 +265,39 @@ def check_hostname_match(claimed_sni, san_dns, leaf_cn):
 
 def get_x509_subject(identifier_str):
     """
-    CONVERT SNI STRING → x509 SUBJECT TYPE FOR ServerVerifier (RFC 6066, RFC 5280):
-    -----------------------------------------------------------------------
+    CONVERT REFERENCE IDENTIFIER STRING → x509 SUBJECT TYPE FOR ServerVerifier (RFC 9525, RFC 5280):
+    ------------------------------------------------------------------------------------------------
     PURPOSE:
       cryptography's PolicyBuilder.build_server_verifier() requires a typed
       Subject object, either x509.DNSName or x509.IPAddress. It does not
-      accept a raw string. This method performs that conversion.
+      accept a raw string. This method converts the client's reference identity
+      into the appropriate typed subject object.
 
-    WHY WE TRY IP ADDRESS FIRST:
-      An SNI value (RFC 6066 §3) is typically a hostname, but clients CAN
-      technically send an IP address literal as the SNI (though RFC 6066 §3
-      explicitly says implementations MUST NOT send it for IP addresses —
-      some clients violate this). By trying ipaddress.ip_address() first,
-      we correctly classify '192.168.1.1' as x509.IPAddress (which is matched
-      against iPAddress SAN entries per RFC 5280 §4.2.1.6) rather than as
-      an x509.DNSName (which would never match).
+    REFERENCE IDENTIFIER CONTEXT & TLS SNI (RFC 9525 §3, RFC 6066 §3):
+      RFC 9525 §3 and RFC 6066 §3 explicitly specify that standard TLS SNI
+      (Server Name Indication) HostName syntax conveys only fully qualified
+      domain names, not IP address literals. When a client establishes an
+      IP-ID reference identity (e.g. connecting directly by IP address), standard
+      TLS omits the SNI extension entirely.
+      However, in forensic analysis of synthetic testbeds (such as PCAP-116),
+      higher-layer connection metadata, or non-compliant client traffic, the
+      caller supplies an IP reference identity in 'claimed_sni' / 'identifier_str'.
+      By testing ipaddress.ip_address() first, we classify an IP reference
+      identity (such as '172.28.0.10') as an x509.IPAddress (which is matched
+      strictly against iPAddress SAN entries per RFC 9525 §4.4 and RFC 5280 §4.2.1.6)
+      rather than misclassifying it as an x509.DNSName.
 
     WHY WE LOWERCASE DNSName:
-      RFC 5280 §7.2 and RFC 6125 §6.4.1 both specify that DNS name comparison
-      is case-insensitive. python-cryptography's ServerVerifier performs
+      RFC 5280 §7.2 and RFC 9525 §4.2 specify that DNS name comparisons MUST
+      be case-insensitive. python-cryptography's ServerVerifier performs
       case-insensitive comparison internally, but lowercasing at input prevents
       any edge-case normalisation surprises.
 
     WHY THIS NEVER USES THE CERTIFICATE'S OWN SAN/CN:
-      This method is called with 'claimed_sni' only — the hostname the client
-      declared in ClientHello. We never call it with the cert's own Subject CN
-      or SAN values. Doing so would violate RFC 6125 §6.1 (reference identity
-      must come from the connection context, not from the certificate itself).
+      This method is called with connection reference identities only (e.g. 'claimed_sni').
+      We never call it with the certificate's own Subject CN or SAN values, which
+      would violate RFC 9525 §4.1 (reference identity must be established independently
+      from connection context, not derived from the presented certificate).
 
     Returns: x509.DNSName or x509.IPAddress on success, None if unparseable.
     """
@@ -264,21 +305,24 @@ def get_x509_subject(identifier_str):
         return None
     clean_str = identifier_str.strip()
 
-    # Try IP address first (covers both IPv4 and IPv6).
+    # ponytail: Strip optional IPv6 bracket notation if present (e.g. "[2001:db8::1]" -> "2001:db8::1")
+    ip_str = clean_str[1:-1] if clean_str.startswith("[") and clean_str.endswith("]") else clean_str
+
+    # Try IP address first (covers both IPv4 and IPv6 per RFC 9525 §4.4).
     # ipaddress.ip_address() raises ValueError for non-IP strings,
-    # so the except branch handles the normal hostname case.
+    # so the except branch handles the domain name case.
     try:
-        return x509.IPAddress(ipaddress.ip_address(clean_str))
+        return x509.IPAddress(ipaddress.ip_address(ip_str))
     except ValueError:
-        # Hostname path: wrap in x509.DNSName, lower-cased per RFC 6125 §6.4.1.
+        # Domain name path: wrap in x509.DNSName, lower-cased per RFC 9525 §4.2.
         try:
             return x509.DNSName(clean_str.lower())
         except Exception:
             # Malformed hostname (e.g. contains illegal characters).
-            # Return None so callers fall back to SNI-absent behaviour.
+            # Return None so callers fall back to reference-identity-absent behaviour.
             return None
 
-def verify_pkix_path(leaf_cert, candidate_intermediates, trust_store_type="testbed", base_dir=None):
+def verify_pkix_path(leaf_cert, candidate_intermediates, ca_path=None, **kwargs):
     """
     RAW RFC 5280 PKIX PATH VALIDATION WITHOUT HOSTNAME BINDING:
     -----------------------------------------------------------------------
@@ -289,6 +333,14 @@ def verify_pkix_path(leaf_cert, candidate_intermediates, trust_store_type="testb
       from the cert's own attributes) or when ServerVerifier has already failed
       and we need to distinguish WHY it failed (hostname mismatch vs missing
       intermediate vs genuine path failure).
+
+    SINGLE SOURCE OF TRUTH:
+      ca_path is provided directly by TrustStoreManager.get_ca_file_path().
+      This function does not resolve or guess fallback paths.
+
+    EMPTY PEM HANDLING:
+      If ca_path points to an empty file (0 bytes or whitespace only), path validation
+      immediately returns (False, diagnostic) without spawning openssl verify.
 
     WHY NOT USE cryptography's ServerVerifier HERE:
       cryptography.x509.verification.ServerVerifier ALWAYS requires a Subject
@@ -315,24 +367,12 @@ def verify_pkix_path(leaf_cert, candidate_intermediates, trust_store_type="testb
       flag), making it exactly the path-only validator we need.
       OpenSSL 3.x is the reference implementation of RFC 5280 path processing.
 
-    WHY TEMP FILES INSTEAD OF STDIN OR PIPES:
-      'openssl verify' expects a file path as the final argument; it does not
-      accept cert data on stdin. Writing to NamedTemporaryFiles with delete=False
-      gives us real filesystem paths. We clean up in the 'finally' block to
-      ensure no temp file leaks even if subprocess raises.
-
     COMMAND STRUCTURE:
       openssl verify -CAfile <trust_anchor.pem> [-untrusted <intermediates.pem>] <leaf.pem>
         -CAfile:    Trust anchor(s) — only certs in this file are treated as roots.
         -untrusted: Candidate intermediates — NOT trusted directly; only used to
                     build the chain from leaf to a root in -CAfile.
         <leaf.pem>: The end-entity certificate to validate.
-
-    WHY -untrusted AND NOT -CAfile FOR INTERMEDIATES:
-      If we put intermediates in -CAfile, openssl would trust them as roots
-      and any leaf signed by them would be considered valid WITHOUT needing
-      the actual root. -untrusted is the correct flag: the certs are provided
-      as candidates for path construction but are not themselves trusted.
 
     RETURN VALUES:
       (True, None)         — Path valid, chain anchors to trust store
@@ -341,22 +381,24 @@ def verify_pkix_path(leaf_cert, candidate_intermediates, trust_store_type="testb
     import tempfile
     from cryptography.hazmat.primitives import serialization
 
-    # Resolve the trust anchor file path for the active trust store mode.
-    # We need the file path (not the in-memory Store object) because openssl
-    # reads from disk via -CAfile.
-    if trust_store_type == "testbed":
-        ca_dir = base_dir or os.path.dirname(os.path.abspath(__file__))
-        ca_path = os.path.join(ca_dir, "..", "data", "test_root_ca.pem")
-        if not os.path.exists(ca_path):
-            return False, f"Testbed trust anchor file not found: {ca_path}"
-    elif trust_store_type == "production":
-        import certifi
-        ca_path = certifi.where()
-    else:
-        # Custom Store objects are in-memory only — we have no file path to give openssl.
-        # This is an intentional limitation for the SNI-absent path: callers using a
-        # custom store should supply SNI so ServerVerifier can be used instead.
-        return False, "Custom Store path validation without reference identity not supported"
+    # ponytail: TrustStoreManager is the single source of truth for ca_path.
+    if not ca_path:
+        return False, "No trust anchor CA file path provided for PKIX validation"
+
+    if not os.path.exists(ca_path):
+        return False, f"Trust anchor file not found: {ca_path}"
+
+    # ponytail: handle empty PEM (0 bytes or whitespace only) cleanly without spawning openssl.
+    # Used by self_signed_untrusted scenarios.
+    if os.path.getsize(ca_path) == 0:
+        return False, "Trust store file is empty (no trusted root anchors installed)"
+
+    try:
+        with open(ca_path, "rb") as f_check:
+            if not f_check.read().strip():
+                return False, "Trust store file is empty (no trusted root anchors installed)"
+    except Exception as e:
+        return False, f"Cannot read trust anchor file {ca_path}: {e}"
 
     temp_files = []
     try:
@@ -545,7 +587,7 @@ def resolve_prospective_path(leaf_obj, candidate_pool):
             return resolved_path, None, False
 
 
-def classify_path_failure(terminating_cert, store_certs, store_type, failure_err):
+def classify_path_failure(terminating_cert, store_certs, store_type, failure_err, leaf_obj=None):
     """
     RFC 5280 §6.1 / RFC 8446 §4.4.2 PATH FAILURE CLASSIFICATION:
     ============================================================
@@ -560,17 +602,15 @@ def classify_path_failure(terminating_cert, store_certs, store_type, failure_err
         This produced false alarms when an enterprise server transmitted a complete,
         cryptographically flawless certificate chain that simply anchored to a private CA.
       • UNKNOWN_ROOT_CA:
-        The transmitted chain includes a self-signed root CA whose signature verifies,
-        but that root CA is absent from the active trust store. The wire capture is
-        internally authentic; the issue is strictly local trust policy.
+        Either the chain includes a self-signed root CA absent from the trust store,
+        or the chain terminates at an intermediate CA whose issuing root is absent from
+        the active trust store (standard TLS behavior where servers omit root CAs).
       • INCOMPLETE_CHAIN_MISSING_INTERMEDIATE:
-        The transmitted path terminates at a non-self-signed certificate whose issuing
-        CA was omitted by the server and is absent from the active store. The server
-        misconfigured its TLS handshake by failing to transmit intermediate links.
+        The transmitted path terminates at the leaf certificate itself (depth 0), meaning
+        the server failed to transmit the required intermediate CA certificate(s).
       • PATH_VALIDATION_FAILED:
         The terminating root CA IS present in the active trust store, but PKIX path
-        validation failed due to constraint violations (pathLenConstraint, basicConstraints),
-        name constraints, or unverified hop signatures.
+        validation failed due to constraint violations, name constraints, or unverified hop signatures.
     """
     if terminating_cert.issuer == terminating_cert.subject:
         sig_ok, sig_err = verify_certificate_signature(terminating_cert, terminating_cert)
@@ -591,12 +631,38 @@ def classify_path_failure(terminating_cert, store_certs, store_type, failure_err
                 f"but cryptographic verification failed: {sig_err}"
             )
     else:
-        return "INCOMPLETE_CHAIN_MISSING_INTERMEDIATE", (
-            f"Incomplete chain: path terminates at certificate "
-            f"'{terminating_cert.subject.rfc4514_string()}' issued by '{terminating_cert.issuer.rfc4514_string()}', "
-            f"but issuing CA certificate was not transmitted in TLS handshake "
-            f"and is not present in active '{store_type}' store."
-        )
+        # Non-self-signed terminating certificate:
+        # If the path terminated at the leaf certificate itself (depth 0), the server
+        # failed to transmit the intermediate CA certificate that issued the leaf.
+        if leaf_obj is not None and terminating_cert == leaf_obj:
+            return "INCOMPLETE_CHAIN_MISSING_INTERMEDIATE", (
+                f"Incomplete chain: path terminates at leaf certificate "
+                f"'{terminating_cert.subject.rfc4514_string()}' issued by '{terminating_cert.issuer.rfc4514_string()}', "
+                f"but issuing intermediate CA certificate was not transmitted in TLS handshake "
+                f"and is not present in active '{store_type}' store."
+            )
+
+        # ponytail: direct linear scan over store_certs subject matching.
+        # Minimal and dependency-free; index by subject DN if trust store exceeds 10k roots.
+        issuer_in_store = any(root.subject == terminating_cert.issuer for root in store_certs)
+        if issuer_in_store:
+            # The root CA exists in the trust store, but validation failed
+            if failure_err and "signature" in failure_err.lower():
+                return "INVALID_SIGNATURE_IN_CHAIN", (
+                    f"Signature verification failed for intermediate certificate "
+                    f"'{terminating_cert.subject.rfc4514_string()}' against root CA: {failure_err}"
+                )
+            return "PATH_VALIDATION_FAILED", (
+                f"Path validation failed against {store_type} store for intermediate "
+                f"'{terminating_cert.subject.rfc4514_string()}': {failure_err}"
+            )
+        else:
+            # The issuing root CA is not present in the active trust store
+            return "UNKNOWN_ROOT_CA", (
+                f"Certificate chain terminates at intermediate CA "
+                f"'{terminating_cert.subject.rfc4514_string()}' issued by '{terminating_cert.issuer.rfc4514_string()}', "
+                f"but issuing root CA is not present in active '{store_type}' store."
+            )
 
 
 def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="testbed"):
@@ -1021,9 +1087,12 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
 
         # ── HOSTNAME MATCHING (evaluated independently of path validation) ──────────
         # This is a separate, independent check from cryptographic path validation.
-        # A cert can be path-valid but for the wrong host (TRUSTED_CHAIN_HOSTNAME_MISMATCH).
+        # ponytail: pass san_ip to check_hostname_match for RFC 9525 §4.4 iPAddress matching
         hostname_match_status = check_hostname_match(
-            claimed_sni, leaf_dict["san_dns"], leaf_dict["subject_cn"]
+            claimed_sni,
+            leaf_dict["san_dns"],
+            leaf_dict["subject_cn"],
+            leaf_dict.get("san_ip", []),
         )
 
         # ═══════════════════════════════════════════════════════════════════════════
@@ -1148,6 +1217,7 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
                     except Exception as e_sni:
                         pkix_ok, pkix_err = verify_pkix_path(
                             leaf_obj, [],
+                            ca_path=trust_store_manager.get_ca_file_path(),
                             trust_store_type=store_type, base_dir=trust_store_manager.base_dir
                         )
                         if pkix_ok:
@@ -1163,6 +1233,7 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
                     hostname_match_status = "SKIPPED_NO_SNI"
                     pkix_ok, pkix_err = verify_pkix_path(
                         leaf_obj, [],
+                        ca_path=trust_store_manager.get_ca_file_path(),
                         trust_store_type=store_type, base_dir=trust_store_manager.base_dir
                     )
                     if pkix_ok:
@@ -1177,7 +1248,7 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
                 if not pkix_ok:
                     # Case 2 Failure Branch: check terminating cert (leaf_obj)
                     trust_status, trust_details = classify_path_failure(
-                        leaf_obj, store_certs, store_type, pkix_err
+                        leaf_obj, store_certs, store_type, pkix_err, leaf_obj=leaf_obj
                     )
                     is_anchored = False
                     verification_error = pkix_err
@@ -1242,6 +1313,7 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
                         except Exception as e_sni:
                             pkix_ok, pkix_err = verify_pkix_path(
                                 leaf_obj, intermediates_for_pkix,
+                                ca_path=trust_store_manager.get_ca_file_path(),
                                 trust_store_type=store_type, base_dir=trust_store_manager.base_dir
                             )
                             if pkix_ok:
@@ -1257,6 +1329,7 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
                         hostname_match_status = "SKIPPED_NO_SNI"
                         pkix_ok, pkix_err = verify_pkix_path(
                             leaf_obj, intermediates_for_pkix,
+                            ca_path=trust_store_manager.get_ca_file_path(),
                             trust_store_type=store_type, base_dir=trust_store_manager.base_dir
                         )
                         if pkix_ok:
@@ -1275,7 +1348,7 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
                         #   - Intermediate / unanchored cert -> INCOMPLETE_CHAIN_MISSING_INTERMEDIATE
                         #   - Root in store but constraint failed -> PATH_VALIDATION_FAILED
                         trust_status, trust_details = classify_path_failure(
-                            terminating_ca, store_certs, store_type, pkix_err
+                            terminating_ca, store_certs, store_type, pkix_err, leaf_obj=leaf_obj
                         )
                         is_anchored = False
                         verification_error = pkix_err

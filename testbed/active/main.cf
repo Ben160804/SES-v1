@@ -1,0 +1,44 @@
+# ==============================================================================
+# SECUREMAILSCOPE TESTBED - BASELINE POSTFIX MAIN.CF
+# ==============================================================================
+# RFC References: RFC 5321 (SMTP), RFC 3207 (STARTTLS), RFC 8446 (TLS 1.3)
+# ==============================================================================
+
+# Hostname & Network Identity
+myhostname = mail.test.local
+mydomain = test.local
+myorigin = $mydomain
+mydestination = $myhostname, localhost.$mydomain, localhost
+mynetworks = 127.0.0.0/8, 172.28.0.0/16
+inet_interfaces = all
+inet_protocols = ipv4
+
+# Prevent Reverse DNS Lookup Timeout Hang on Docker Bridge:
+# The client connects from 172.28.0.20. Without a local DNS server in the
+# Docker bridge, Postfix hangs for 30 seconds attempting PTR resolution.
+# Setting disable_dns_lookups = yes bypasses this delay immediately.
+disable_dns_lookups = yes
+
+# Relay Restrictions Safeguard
+smtpd_relay_restrictions = permit_mynetworks, reject_unauth_destination
+
+# ------------------------------------------------------------------------------
+# TLS Configuration
+# ------------------------------------------------------------------------------
+# Opportunistic STARTTLS advertisement
+smtpd_tls_security_level = may
+
+# Modern Postfix TLS Certificate Chain & Key Injection (Postfix 3.4+)
+# Postfix requires the private key to precede the certificate chain.
+smtpd_tls_chain_files = /etc/mailtest/active/key.pem, /etc/mailtest/active/chain.pem
+
+# TLS Logging (Level 2 = log TLS cipher suite, protocol, and peer cert details)
+smtpd_tls_loglevel = 2
+smtpd_tls_received_header = yes
+
+# TLS Protocols and Ciphers for Baseline
+smtpd_tls_protocols = >=TLSv1.2
+smtpd_tls_ciphers = high
+
+# Postfix Compatibility Level
+compatibility_level = 3.6
