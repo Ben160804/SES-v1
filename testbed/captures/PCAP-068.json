@@ -1,0 +1,20 @@
+{
+  "scenario_id": "PCAP-068",
+  "protocol": "POP3",
+  "tls_presence": "none",
+  "starttls_integrity": "stripped-broken-client",
+  "tls_version": "N/A",
+  "cipher_strength": "N/A",
+  "cert_validity": "N/A",
+  "cert_chain_shape": "N/A",
+  "cert_sig_algo": "N/A",
+  "hostname_match": "N/A",
+  "auth_outcome": "none",
+  "expected_starttls_status": "DOWNGRADE_OR_STRIPPED",
+  "expected_trust_status": "N/A",
+  "layer": "inventory",
+  "strip_cause": "stripped-broken-client",
+  "port_type": "standard",
+  "expected_protocol": "POP3",
+  "certificate_observable": "NOT_PRESENT"
+}

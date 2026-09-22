@@ -1,0 +1,19 @@
+{
+  "scenario_id": "PCAP-062",
+  "protocol": "IMAP",
+  "tls_presence": "none",
+  "starttls_integrity": "N/A",
+  "tls_version": "N/A",
+  "cipher_strength": "N/A",
+  "cert_validity": "N/A",
+  "cert_chain_shape": "N/A",
+  "cert_sig_algo": "N/A",
+  "hostname_match": "N/A",
+  "auth_outcome": "plaintext-attempted",
+  "expected_starttls_status": "CLEARTEXT_NO_ENCRYPTION",
+  "expected_trust_status": "N/A",
+  "layer": "inventory",
+  "port_type": "standard",
+  "expected_protocol": "IMAP",
+  "certificate_observable": "NOT_PRESENT"
+}

@@ -1,0 +1,67 @@
+# ==============================================================================
+# SECUREMAILSCOPE TESTBED - BASELINE DOVECOT CONFIGURATION
+# ==============================================================================
+# Base template deployed to /etc/dovecot/dovecot.conf during container build.
+# Dynamic scenarios render into /etc/mailtest/active/dovecot.conf and reload.
+# ==============================================================================
+
+protocols = imap pop3
+listen = *
+
+# Logging to container stdout
+log_path = /dev/stdout
+info_log_path = /dev/stdout
+debug_log_path = /dev/stdout
+verbose_ssl = yes
+auth_verbose = yes
+
+# Authentication
+disable_plaintext_auth = no
+auth_mechanisms = plain login
+
+passdb {
+  driver = passwd-file
+  args = scheme=PLAIN username_format=%u /etc/dovecot/users
+}
+
+userdb {
+  driver = static
+  args = uid=vmail gid=vmail home=/var/mail/%u
+}
+
+# Mail location
+mail_location = maildir:/var/mail/%u/Maildir
+
+# Default baseline SSL
+ssl = yes
+ssl_cert = </etc/dovecot/baseline_cert.pem
+ssl_key = </etc/dovecot/baseline_key.pem
+
+# Listener definitions
+service imap-login {
+  inet_listener imap {
+    port = 143
+  }
+  inet_listener imaps {
+    port = 993
+    ssl = yes
+  }
+  inet_listener imap_alt {
+    port = 1143
+    ssl = yes
+  }
+}
+
+service pop3-login {
+  inet_listener pop3 {
+    port = 110
+  }
+  inet_listener pop3s {
+    port = 995
+    ssl = yes
+  }
+  inet_listener pop3_alt {
+    port = 1110
+    ssl = yes
+  }
+}

@@ -516,6 +516,48 @@ class PKIFactory:
     # Per-scenario entry point
     # ------------------------------------------------------------------
 
+    def materialize(self, pki_spec, output_dir: str | pathlib.Path) -> dict:
+        """
+        Materialize PKI artifacts for a given PKISpec into output_dir.
+        Writes chain.pem and key.pem directly into output_dir.
+
+        Parameters
+        ----------
+        pki_spec : PKISpec
+            Normalized PKI specification containing sig_algo, validity,
+            chain_shape, san_type, and weak_key.
+        output_dir : str or Path
+            Destination directory to stage chain.pem and key.pem.
+
+        Returns
+        -------
+        dict:
+            chain_file       Path to staged chain.pem
+            key_file         Path to staged key.pem
+            trust_store_pem  Trust store PEM string
+            profile          Full generated profile dict
+        """
+        out_path = pathlib.Path(output_dir)
+        out_path.mkdir(parents=True, exist_ok=True)
+        # ponytail: read PKISpec fields without coupling stager to generator internals
+        profile = self.generate_cert_profile(
+            sig_algo=pki_spec.sig_algo,
+            validity=pki_spec.validity,
+            chain_shape=pki_spec.chain_shape,
+            san_type=pki_spec.san_type,
+            weak_key=getattr(pki_spec, "weak_key", False),
+        )
+        chain_file = out_path / "chain.pem"
+        key_file = out_path / "key.pem"
+        chain_file.write_text(profile["chain_pem"])
+        key_file.write_text(profile["key_pem"])
+        return {
+            "chain_file": chain_file,
+            "key_file": key_file,
+            "trust_store_pem": profile["trust_store_pem"],
+            "profile": profile,
+        }
+
     def generate_cert_profile(
         self,
         sig_algo: str,

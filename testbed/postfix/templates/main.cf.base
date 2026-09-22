@@ -1,0 +1,21 @@
+# General System Identity
+compatibility_level = 3.6
+myhostname = mail.test.local
+mydomain = test.local
+myorigin = $mydomain
+inet_interfaces = all
+inet_protocols = ipv4
+mydestination = $myhostname, localhost.$mydomain, localhost
+mynetworks = 127.0.0.0/8 172.28.0.0/16
+smtpd_relay_restrictions = permit_mynetworks, reject_unauth_destination
+disable_dns_lookups = yes
+
+# Native container logging to stdout (no rsyslog required)
+maillog_file = /dev/stdout
+
+# Bootstrap TLS defaults (baseline 'may' - overridden per scenario)
+smtpd_tls_cert_file = /etc/postfix/baseline_cert.pem
+smtpd_tls_key_file = /etc/postfix/baseline_key.pem
+smtpd_tls_security_level = may
+smtpd_tls_loglevel = 1
+smtpd_tls_received_header = yes

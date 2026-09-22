@@ -8,6 +8,7 @@ networks:
 
 services:
   postfix:
+    image: mailtest-postfix
     build:
       context: ./postfix
     container_name: mailtest-postfix
@@ -17,11 +18,7 @@ services:
     volumes:
       - ./pki/profiles:/etc/mailtest/pki:ro
       - ./postfix/templates:/etc/mailtest/templates:ro
-      - ./active:/etc/mailtest/active:ro
-    ports:
-      - "2525:25"
-      - "2587:587"
-      - "2465:465"
+      - ./active:/etc/mailtest/active
 
   dovecot:
     build:
@@ -33,6 +30,7 @@ services:
     volumes:
       - ./pki/profiles:/etc/mailtest/pki:ro
       - ./dovecot/templates:/etc/mailtest/templates:ro
+      - ./active:/etc/mailtest/active
 
   client:
     build:
@@ -45,3 +43,14 @@ services:
       - ./client/scripts:/scripts:ro
       - ./client/openssl:/etc/mailtest/openssl:ro
       - ./pki/profiles:/etc/mailtest/pki:ro
+
+  mitm:
+    image: python:3.12-slim
+    container_name: mailtest-mitm
+    networks:
+      mailtest_net:
+        ipv4_address: 172.28.0.30
+    volumes:
+      - ./mitm:/mitm:ro
+    command: ["python3", "-u", "/mitm/main.py"]
+

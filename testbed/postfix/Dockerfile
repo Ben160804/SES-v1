@@ -1,45 +1,41 @@
-# ==============================================================================
-# SECUREMAILSCOPE TESTBED - POSTFIX SERVER CONTAINER
-# ==============================================================================
-# Base image: Debian Bookworm Slim
-# Provides:
-#   - Postfix 3.7+ (supports modern smtpd_tls_chain_files, TLS 1.3, TLS 1.2, etc.)
-#   - rsyslog (required for Postfix daemon logging to /var/log/mail.log)
-#   - Minimal footprint, reproducible configuration
-# ==============================================================================
-
 FROM debian:bookworm-slim
 
-ENV DEBIAN_FRONTEND=noninteractive
+# 1. Install Postfix, OpenSSL, and network diagnostic tools
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      postfix \
+      openssl \
+      ca-certificates \
+      net-tools \
+      iproute2 \
+      procps && \
+    rm -rf /var/lib/apt/lists/*
 
-# Install Postfix, rsyslog, and networking diagnostics
-# ponytail: minimal package set needed to run and log Postfix.
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    postfix \
-    rsyslog \
-    ca-certificates \
-    procps \
-    iproute2 \
-    && rm -rf /var/lib/apt/lists/*
+# 2. Bootstrap certificate for initial daemon boot (placeholder until PKI exists)
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout /etc/postfix/baseline_key.pem \
+    -out /etc/postfix/baseline_cert.pem \
+    -subj "/CN=mail.test.local"
 
-# Fix Debian Postfix chroot trap (RFC 5280 / TLS certificate path accessibility):
-# Debian package defaults to chrooted smtpd/cleanup/anvil in master.cf.
-# Inside a Docker container, chroot prevents Postfix from resolving DNS,
-# reaching /dev/log, and reading mounted TLS certificates.
-# We explicitly set column 5 (chroot) to 'n' for all services.
-RUN sed -i 's/^\([a-z0-9]*\s\+[a-z0-9]\+\s\+[y-]\s\+[y-]\s\+\)[y-]/\1n/' /etc/postfix/master.cf
+# 3. Copy base main.cf
+COPY templates/main.cf.base /etc/postfix/main.cf
 
-# Create directory structure for active scenario mounting and logging
-RUN mkdir -p /etc/mailtest/active /var/spool/postfix /var/log
+# 4. Use Postfix's built-in postconf tool to safely configure Debian's master.cf:
+#    - Disable chroot for all services for container stability
+#    - Enable 25 (smtp)
+#    - Enable 587 (submission) with baseline security level inherited from main.cf
+#    - Enable 465 (smtps) with implicit TLS wrappermode
+#    - Enable 2525 (non-standard cleartext/STARTTLS SMTP)
+#    - Enable 2526 (non-standard implicit TLS SMTP for PCAP-070)
+RUN postconf -F '*/*/chroot=n' && \
+    postconf -M smtp/inet="smtp inet n - n - - smtpd" && \
+    postconf -M submission/inet="submission inet n - n - - smtpd" && \
+    postconf -M smtps/inet="smtps inet n - n - - smtpd -o smtpd_tls_wrappermode=yes" && \
+    postconf -M 2525/inet="2525 inet n - n - - smtpd" && \
+    postconf -M 2526/inet="2526 inet n - n - - smtpd -o smtpd_tls_wrappermode=yes" && \
+    newaliases
 
-# Copy entrypoint runner
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+EXPOSE 25 587 465 2525 2526
 
-# Standard Mail Submission Ports:
-#   25  - SMTP (Opportunistic STARTTLS or plaintext)
-#   587 - Submission (STARTTLS)
-#   465 - SMTPS / Submissions (Implicit TLS via smtpd_tls_wrappermode=yes)
-EXPOSE 25 587 465
-
-ENTRYPOINT ["/entrypoint.sh"]
+# 5. Foreground operation with container stdout logging
+CMD ["postfix", "start-fg"]

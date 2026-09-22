@@ -2,6 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "PCAP Sidecar Label",
   "type": "object",
+  "additionalProperties": false,
   "assumed_trust_store": {
     "type": "string",
     "enum": [

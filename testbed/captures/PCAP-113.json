@@ -1,0 +1,23 @@
+{
+  "scenario_id": "PCAP-113",
+  "protocol": "SMTP",
+  "tls_presence": "none",
+  "starttls_integrity": "rejected",
+  "tls_version": "N/A",
+  "cipher_strength": "N/A",
+  "cert_validity": "N/A",
+  "cert_chain_shape": "N/A",
+  "cert_sig_algo": "N/A",
+  "hostname_match": "N/A",
+  "auth_outcome": "none",
+  "expected_starttls_status": "STARTTLS_REJECTED",
+  "expected_trust_status": "N/A",
+  "layer": "canonical",
+  "description": "SMTP STARTTLS rejected by server",
+  "port_type": "standard",
+  "expected_protocol": "SMTP",
+  "forward_secrecy": false,
+  "starttls_outcome": "rejected",
+  "certificate_observable": "NOT_PRESENT",
+  "generator_requirement": "server_rejects_starttls"
+}

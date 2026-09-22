@@ -1,0 +1,62 @@
+{
+  "scenario_id": "PCAP-064",
+  "layer": "inventory",
+  "description": "",
+  "protocol": "smtp",
+  "service": "postfix",
+  "network": {
+    "port": 25,
+    "port_type": "standard",
+    "server_ip": "172.28.0.10",
+    "client_ip": "172.28.0.20"
+  },
+  "server_tls": {
+    "tls_presence": "STARTTLS-upgraded",
+    "tls_version": "N/A",
+    "cipher_strength": "N/A",
+    "starttls_enforcement": "optional",
+    "hostname": "mail.test.local",
+    "listener_postconf_cmd": "smtp/inet=smtp inet n - n - - smtpd"
+  },
+  "client_tls": {
+    "sni": "mail.test.local",
+    "tls_presence": "STARTTLS-upgraded",
+    "offered_version": "TLS 1.3",
+    "offered_ciphers": [],
+    "starttls_enforcement": "opportunistic_downgrade",
+    "auth_outcome": "none",
+    "client_behavior": "",
+    "resolver_result": {
+      "scenario_id": "PCAP-064",
+      "intent": "smtp STARTTLS-upgraded (inventory)",
+      "tls_version": "N/A",
+      "matrix_kex": "(none)",
+      "cert_auth_intent": "N/A",
+      "matrix_cipher_strength": "N/A",
+      "iana_candidates": [],
+      "iana_candidate_count": 0,
+      "current_runtime_candidates": [],
+      "current_runtime_candidate_count": 0,
+      "selected_cipher": null,
+      "selection_basis": "NONE",
+      "cipher_resolution_status": "NOT_APPLICABLE",
+      "runtime_status": "NOT_APPLICABLE",
+      "reason": "Adversarial network tampering (stripped-broken-client) suppresses STARTTLS; TLS handshake is not reached",
+      "missing_information": null,
+      "traceable_constraints": {
+        "starttls_integrity": "stripped-broken-client"
+      },
+      "strength_discrepancy": null,
+      "special_harness_requirement": "mitm_starttls_strip"
+    }
+  },
+  "pki": null,
+  "oracle": {
+    "expected_trust_status": "N/A",
+    "expected_starttls_status": "DOWNGRADE_OR_STRIPPED",
+    "expected_protocol": "SMTP"
+  },
+  "staged_files": {
+    "main.cf": "main.cf"
+  }
+}

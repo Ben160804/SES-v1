@@ -1,5 +1,6 @@
 import csv
 import os
+import ssl
 import sys
 
 """
@@ -187,3 +188,115 @@ def get_cipher_info(cipher_hex):
         "strength": "UNKNOWN",
         "iana_recommended": False
     }
+
+
+# ---------------------------------------------------------------------------
+# Dynamic Bidirectional IANA <-> OpenSSL Cipher Suite Translator
+# ---------------------------------------------------------------------------
+
+_IANA_NAME_TO_HEX = None
+_HEX_TO_OPENSSL_NAME = None
+_OPENSSL_NAME_TO_HEX = None
+
+
+def _init_openssl_mapping():
+    """
+    Initializes the mapping between the full IANA cipher database and OpenSSL's
+    internal cipher table by correlating their standard 16-bit cipher IDs.
+    """
+    global _IANA_NAME_TO_HEX, _HEX_TO_OPENSSL_NAME, _OPENSSL_NAME_TO_HEX
+    if _IANA_NAME_TO_HEX is not None:
+        return
+
+    db = load_iana_cipher_database()
+    _IANA_NAME_TO_HEX = {}
+    for hex_id, entry in db.items():
+        name = entry.get("name")
+        if name:
+            _IANA_NAME_TO_HEX[name.upper()] = hex_id.lower()
+
+    _HEX_TO_OPENSSL_NAME = {}
+    _OPENSSL_NAME_TO_HEX = {}
+    try:
+        ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+        ctx.set_ciphers("ALL:COMPLEMENTOFALL:@SECLEVEL=0")
+        for c in ctx.get_ciphers():
+            hex_id = f"0x{c['id'] & 0xFFFF:04x}".lower()
+            name = c["name"]
+            _HEX_TO_OPENSSL_NAME[hex_id] = name
+            _OPENSSL_NAME_TO_HEX[name.upper()] = hex_id
+    except Exception:
+        pass
+
+
+# Canonical IANA -> OpenSSL translation for suites (including legacy/broken ciphers)
+CANONICAL_IANA_TO_OPENSSL: dict[str, str] = {
+    # 3DES / DES
+    "TLS_RSA_WITH_3DES_EDE_CBC_SHA": "DES-CBC3-SHA",
+    "TLS_RSA_WITH_DES_CBC_SHA": "DES-CBC-SHA",
+    "TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA": "EDH-RSA-DES-CBC3-SHA",
+    "TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA": "ECDHE-RSA-DES-CBC3-SHA",
+    # RC4
+    "TLS_RSA_WITH_RC4_128_SHA": "RC4-SHA",
+    "TLS_RSA_WITH_RC4_128_MD5": "RC4-MD5",
+    "TLS_ECDHE_RSA_WITH_RC4_128_SHA": "ECDHE-RSA-RC4-SHA",
+    "TLS_ECDHE_ECDSA_WITH_RC4_128_SHA": "ECDHE-ECDSA-RC4-SHA",
+    # Static RSA AES
+    "TLS_RSA_WITH_AES_128_CBC_SHA": "AES128-SHA",
+    "TLS_RSA_WITH_AES_256_CBC_SHA": "AES256-SHA",
+    "TLS_RSA_WITH_AES_128_CBC_SHA256": "AES128-SHA256",
+    "TLS_RSA_WITH_AES_256_CBC_SHA256": "AES256-SHA256",
+    "TLS_RSA_WITH_AES_128_GCM_SHA256": "AES128-GCM-SHA256",
+    "TLS_RSA_WITH_AES_256_GCM_SHA384": "AES256-GCM-SHA384",
+}
+CANONICAL_OPENSSL_TO_IANA: dict[str, str] = {v.upper(): k for k, v in CANONICAL_IANA_TO_OPENSSL.items()}
+
+
+def iana_to_openssl(iana_name: str) -> str | None:
+    """
+    Translates an official IANA cipher suite name (e.g. 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384'
+    or 'TLS_RSA_WITH_3DES_EDE_CBC_SHA') to its OpenSSL cipher string ('DHE-RSA-AES256-GCM-SHA384',
+    'DES-CBC3-SHA').
+
+    If the name is already a recognized OpenSSL cipher name, it returns the name unchanged.
+    Returns None if the cipher cannot be mapped to an OpenSSL name.
+    """
+    _init_openssl_mapping()
+    clean = iana_name.strip()
+    clean_upper = clean.upper()
+
+    # 1. Match from dynamically discovered OpenSSL runtime ciphers
+    hex_id = _IANA_NAME_TO_HEX.get(clean_upper)
+    if hex_id and hex_id in _HEX_TO_OPENSSL_NAME:
+        return _HEX_TO_OPENSSL_NAME[hex_id]
+
+    # 2. Match canonical IANA -> OpenSSL translation table (including legacy/broken ciphers)
+    if clean_upper in CANONICAL_IANA_TO_OPENSSL:
+        return CANONICAL_IANA_TO_OPENSSL[clean_upper]
+
+    # 3. Check if already an OpenSSL cipher name
+    if clean_upper in _OPENSSL_NAME_TO_HEX:
+        return clean
+
+    return None
+
+
+def openssl_to_iana(openssl_name: str) -> str | None:
+    """
+    Translates an OpenSSL cipher name (e.g. 'DHE-RSA-AES256-GCM-SHA384') to its official
+    IANA cipher suite name ('TLS_DHE_RSA_WITH_AES_256_GCM_SHA384').
+    """
+    _init_openssl_mapping()
+    clean = openssl_name.strip()
+    clean_upper = clean.upper()
+
+    hex_id = _OPENSSL_NAME_TO_HEX.get(clean_upper)
+    if hex_id:
+        info = get_cipher_info(hex_id)
+        if info and not info["name"].startswith("Unknown"):
+            return info["name"]
+
+    if clean_upper in CANONICAL_OPENSSL_TO_IANA:
+        return CANONICAL_OPENSSL_TO_IANA[clean_upper]
+
+    return None

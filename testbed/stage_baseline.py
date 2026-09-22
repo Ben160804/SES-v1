@@ -42,14 +42,12 @@ def stage_baseline():
 
     # 2. Copy baseline Postfix configs
     templates_dir = here / "postfix" / "templates"
-    shutil.copy2(templates_dir / "main.cf", active_dir / "main.cf")
-    shutil.copy2(templates_dir / "master.cf", active_dir / "master.cf")
+    shutil.copy2(templates_dir / "main.cf.base", active_dir / "main.cf")
 
     print(f"[stage_baseline] Successfully staged baseline artifacts in {active_dir}:")
     print(f"  - {chain_file.name} ({len(profile['chain_pem'])} bytes)")
     print(f"  - {key_file.name} ({len(profile['key_pem'])} bytes)")
     print(f"  - main.cf")
-    print(f"  - master.cf")
 
 
 if __name__ == "__main__":

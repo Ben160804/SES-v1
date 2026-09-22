@@ -71,6 +71,14 @@ NON_STANDARD_PORTS = {
     "pop3": 1110,
 }
 
+# Centralized testbed service endpoint address map
+DEFAULT_SERVICE_ENDPOINTS = {
+    "postfix": "172.28.0.10",
+    "dovecot": "172.28.0.11",
+    "client": "172.28.0.20",
+    "mitm": "172.28.0.30",
+}
+
 
 @dataclass(frozen=True)
 class PKISpec:
@@ -115,8 +123,9 @@ class NetworkSpec:
     """Network transport and addressing configuration."""
     port: int
     port_type: str                  # "standard" | "non-standard-unknown"
+    server_app: str = "postfix"     # "postfix" | "dovecot"
     server_ip: str = "172.28.0.10"
-    client_ip: str = "172.28.0.1"
+    client_ip: str = "172.28.0.20"
 
 
 @dataclass(frozen=True)
@@ -299,11 +308,14 @@ def parse_scenario_row(row: Dict[str, str]) -> ScenarioSpec:
     )
 
     # 6. Network configuration
+    server_ip = DEFAULT_SERVICE_ENDPOINTS.get(server_app, "172.28.0.10")
+    client_ip = DEFAULT_SERVICE_ENDPOINTS.get("client", "172.28.0.20")
     network_spec = NetworkSpec(
         port=port,
         port_type=port_type,
-        server_ip="172.28.0.10",
-        client_ip="172.28.0.1",
+        server_app=server_app,
+        server_ip=server_ip,
+        client_ip=client_ip,
     )
 
     # 7. Oracle expectations

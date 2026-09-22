@@ -1,0 +1,20 @@
+{
+  "0": {
+    "stream_id": 0,
+    "protocol": "SMTP",
+    "starttls": {
+      "stream": 0,
+      "starttls_offered": true,
+      "starttls_requested": true,
+      "starttls_accepted": false,
+      "starttls_rejected": true,
+      "tls_active": false,
+      "plaintext_auth_attempted": false,
+      "status": "STARTTLS_REJECTED",
+      "details": "Client requested STARTTLS, but server explicitly rejected the command."
+    },
+    "tls": null,
+    "handshake": null,
+    "certificate": null
+  }
+}
