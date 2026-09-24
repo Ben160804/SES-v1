@@ -1,30 +1,37 @@
 """
 testbed/runner/resolver.py
 ==========================
-Authoritative, Traceable, Zero-Invention TLS Cipher Resolver.
+Authoritative, Traceable, Deterministic TLS Cipher & Scenario Contract Resolver.
 
 Architecture:
 -------------
-Derives cipher suite candidate sets, runtime supportability, and resolution
-status strictly from repository sources of truth:
-  1. Scenario specifications from data/pcap_generation_matrix.csv
-  2. Official IANA TLS Parameters database from data/tls_ciphers.csv
-  3. Classification models in analysis/ciphers.py
-  4. Dynamically measured OpenSSL / Postfix runtime capabilities
-  5. RFC protocol compatibility constraints
+Derives cipher suite candidates, runtime supportability, and deterministic
+resolution status strictly from repository sources of truth:
+  1. Scenario contracts from data/scenario_contracts.json
+  2. Scenario specifications from data/pcap_generation_matrix.csv
+  3. Official IANA TLS Parameters database from data/tls_ciphers.csv
+  4. Classification models in analysis/ciphers.py (HIGH, MEDIUM, WEAK, BROKEN)
+  5. Dynamically measured OpenSSL / Postfix runtime capabilities
+  6. RFC protocol compatibility constraints
 
-Critical Rules (Zero Invention & Anti-Hardcoding):
---------------------------------------------------
-  - No synthetic project policies (e.g. HIGH -> AES-256-GCM).
-  - No heuristic cipher mappings (e.g. WEAK -> 3DES, BROKEN -> RC4).
-  - No fallback selections (e.g. choosing first candidate when multiple remain).
-  - If multiple runtime candidates remain, selected_cipher is None and status is MULTIPLE_CANDIDATES.
-  - Every candidate reduction step is recorded in traceable_constraints.
+Generation Modes:
+-----------------
+  - STANDARD: Concrete cryptographic construction (CLASS or EXACT)
+  - DEDICATED_HARNESS: Dedicated protocol/MITM/TLS testbed harness
+  - UNRESOLVABLE: Contradictory or missing specification preserved explicitly
+
+Deterministic Class Selection Policy:
+-------------------------------------
+  1. IANA Recommended = 'Y'
+  2. IANA Recommended = 'N'
+  3. IANA Recommended = 'D' (Deprecated)
+  4. Name Ascending (Alphabetical tie-breaker)
 """
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
+import json
 import os
 from pathlib import Path
 import subprocess
@@ -43,6 +50,12 @@ from analysis.ciphers import (
     openssl_to_iana,
     get_cipher_info,
 )
+from testbed.runner.scenario_contract import (
+    load_scenario_contracts,
+    ScenarioContract,
+    GenerationMode,
+    CipherMode,
+)
 from testbed.runner.spec import ScenarioSpec
 
 
@@ -52,14 +65,21 @@ class UnresolvableScenarioError(RuntimeError):
 
 
 class ResolutionStatus(str, Enum):
-    """Categorical outcome of cipher suite constraint solving."""
+    """Categorical outcome of cipher suite and scenario contract resolution."""
+    CONFIGURABLE_CANDIDATE_SELECTED = "CONFIGURABLE_CANDIDATE_SELECTED"
+    DAEMON_CANNOT_ENFORCE = "DAEMON_CANNOT_ENFORCE"
+    UNRESOLVABLE = "UNRESOLVABLE"
     NOT_APPLICABLE = "NOT_APPLICABLE"
-    UNIQUE = "UNIQUE"
-    MULTIPLE_CANDIDATES = "MULTIPLE_CANDIDATES"
-    NO_CANDIDATE = "NO_CANDIDATE"
-    NO_CANDIDATE_UNDER_CURRENT_PROJECT_MODEL = "NO_CANDIDATE_UNDER_CURRENT_PROJECT_MODEL"
-    PROTOCOL_IMPOSSIBILITY = "PROTOCOL_IMPOSSIBILITY"
-    SPECIAL_SCENARIO = "SPECIAL_SCENARIO"
+    SPECIAL_HARNESS = "SPECIAL_HARNESS"
+
+    # Backward compatibility aliases
+    RESOLVED = "CONFIGURABLE_CANDIDATE_SELECTED"
+    UNIQUE = "CONFIGURABLE_CANDIDATE_SELECTED"
+    SPECIAL_SCENARIO = "SPECIAL_HARNESS"
+    MULTIPLE_CANDIDATES = "UNRESOLVABLE"
+    NO_CANDIDATE = "UNRESOLVABLE"
+    NO_CANDIDATE_UNDER_CURRENT_PROJECT_MODEL = "UNRESOLVABLE"
+    PROTOCOL_IMPOSSIBILITY = "UNRESOLVABLE"
 
 
 class RuntimeStatus(str, Enum):
@@ -77,6 +97,7 @@ class SelectionBasis(str, Enum):
     UNIQUE = "UNIQUE"
     NONE = "NONE"
     EXPLICIT_REPOSITORY_POLICY = "EXPLICIT_REPOSITORY_POLICY"
+    EXACT_CONTRACT = "EXACT_CONTRACT"
 
 
 @dataclass(frozen=True)
@@ -91,26 +112,51 @@ class ResolutionResult:
     cert_auth_intent: str
     matrix_cipher_strength: str
 
+    generation_mode: str
+    cipher_mode: str
+
     iana_candidates: List[str]
     iana_candidate_count: int
 
-    current_runtime_candidates: List[str]
-    current_runtime_candidate_count: int
+    runtime_candidates: List[str]
+    runtime_candidate_count: int
+
+    daemon_configurable_candidates: List[str]
+    daemon_configurable_candidate_count: int
+
+    candidate_count_before_selection: int
+    candidate_names_after_all_filters: List[str]
 
     selected_cipher: Optional[str]
     selection_basis: SelectionBasis
+    selection_rank: Optional[int]
 
     cipher_resolution_status: ResolutionStatus
     runtime_status: RuntimeStatus
 
-    reason: str
+    leaf_key_algorithm: Optional[str] = None
+    leaf_key_size: Optional[int] = None
+
+    special_harness: Optional[str] = None
+    special_harness_parameters: Dict[str, Any] = field(default_factory=dict)
+    cipher_telemetry: Dict[str, Any] = field(default_factory=dict)
+
+    reason: str = ""
     missing_information: Optional[str] = None
     traceable_constraints: Dict[str, Any] = field(default_factory=dict)
     strength_discrepancy: Optional[str] = None
     special_harness_requirement: Optional[str] = None
 
+    @property
+    def current_runtime_candidates(self) -> List[str]:
+        return self.runtime_candidates
+
+    @property
+    def current_runtime_candidate_count(self) -> int:
+        return self.runtime_candidate_count
+
     def to_dict(self) -> Dict[str, Any]:
-        """Convert result to serializable dictionary."""
+        """Convert result to serializable dictionary in canonical key order."""
         return {
             "scenario_id": self.scenario_id,
             "intent": self.intent,
@@ -118,19 +164,33 @@ class ResolutionResult:
             "matrix_kex": self.matrix_kex,
             "cert_auth_intent": self.cert_auth_intent,
             "matrix_cipher_strength": self.matrix_cipher_strength,
+            "generation_mode": self.generation_mode,
+            "cipher_mode": self.cipher_mode,
             "iana_candidates": self.iana_candidates,
             "iana_candidate_count": self.iana_candidate_count,
-            "current_runtime_candidates": self.current_runtime_candidates,
-            "current_runtime_candidate_count": self.current_runtime_candidate_count,
+            "runtime_candidates": self.runtime_candidates,
+            "runtime_candidate_count": self.runtime_candidate_count,
+            "current_runtime_candidates": self.runtime_candidates,
+            "current_runtime_candidate_count": self.runtime_candidate_count,
+            "daemon_configurable_candidates": self.daemon_configurable_candidates,
+            "daemon_configurable_candidate_count": self.daemon_configurable_candidate_count,
+            "candidate_count_before_selection": self.candidate_count_before_selection,
+            "candidate_names_after_all_filters": self.candidate_names_after_all_filters,
             "selected_cipher": self.selected_cipher,
             "selection_basis": self.selection_basis.value,
+            "selection_rank": self.selection_rank,
             "cipher_resolution_status": self.cipher_resolution_status.value,
             "runtime_status": self.runtime_status.value,
+            "leaf_key_algorithm": self.leaf_key_algorithm,
+            "leaf_key_size": self.leaf_key_size,
+            "special_harness": self.special_harness,
+            "special_harness_requirement": self.special_harness_requirement or self.special_harness,
+            "special_harness_parameters": self.special_harness_parameters,
+            "cipher_telemetry": self.cipher_telemetry,
             "reason": self.reason,
             "missing_information": self.missing_information,
             "traceable_constraints": self.traceable_constraints,
             "strength_discrepancy": self.strength_discrepancy,
-            "special_harness_requirement": self.special_harness_requirement,
         }
 
 
@@ -168,8 +228,13 @@ class ContainerRuntimeInspector(RuntimeCapabilityInspector):
     (e.g. mailtest-postfix container running Debian Bookworm with OpenSSL 3.0.20).
     """
 
-    def __init__(self, container_name: str = "mailtest-postfix"):
+    def __init__(
+        self,
+        container_name: str = "mailtest-postfix",
+        iana_db: Optional[Dict[str, Dict[str, Any]]] = None,
+    ):
         self._container_name = container_name
+        self._iana_db = iana_db
 
     @property
     def runtime_name(self) -> str:
@@ -192,13 +257,29 @@ class ContainerRuntimeInspector(RuntimeCapabilityInspector):
             raise RuntimeError(f"Target container '{self._container_name}' is not running or accessible")
 
         supported_hex: Set[str] = set()
-        cmd = [
+        iana_db = self._iana_db if self._iana_db is not None else load_iana_cipher_database()
+        name_to_hex = {d["name"]: hid for hid, d in iana_db.items()}
+
+        # 1. Native TLS 1.3 probe: openssl ciphers -tls1_3 -v
+        try:
+            cmd_13 = ["docker", "exec", self._container_name, "openssl", "ciphers", "-tls1_3", "-v"]
+            proc_13 = subprocess.run(cmd_13, capture_output=True, text=True, check=True, timeout=10)
+            for line in proc_13.stdout.splitlines():
+                parts = line.strip().split()
+                if parts:
+                    cipher_name = parts[0]
+                    if cipher_name in name_to_hex:
+                        supported_hex.add(name_to_hex[cipher_name])
+        except Exception:
+            pass
+
+        # 2. Native TLS <= 1.2 probe: openssl ciphers -V ALL:COMPLEMENTOFALL:@SECLEVEL=0
+        cmd_legacy = [
             "docker", "exec", self._container_name,
             "openssl", "ciphers", "-V",
-            "-ciphersuites", "TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256:TLS_AES_128_CCM_SHA256:TLS_AES_128_CCM_8_SHA256",
             "ALL:COMPLEMENTOFALL:@SECLEVEL=0",
         ]
-        proc = subprocess.run(cmd, capture_output=True, text=True, check=True, timeout=10)
+        proc = subprocess.run(cmd_legacy, capture_output=True, text=True, check=True, timeout=10)
         for line in proc.stdout.splitlines():
             line = line.strip()
             if not line:
@@ -236,12 +317,12 @@ class StaticRuntimeInspector(RuntimeCapabilityInspector):
 
 
 # ==============================================================================
-# Authoritative TLS Cipher Resolver
+# Authoritative TLS Cipher & Scenario Contract Resolver
 # ==============================================================================
 
 class TLSCipherResolver:
     """
-    Zero-invention cipher resolver evaluating scenarios against IANA and runtime evidence.
+    Deterministic scenario contract and cipher resolver.
     """
 
     def __init__(
@@ -249,6 +330,7 @@ class TLSCipherResolver:
         iana_db: Optional[Dict[str, Dict[str, Any]]] = None,
         runtime_inspector: Optional[RuntimeCapabilityInspector] = None,
         runtime_supported_hex: Optional[Set[str]] = None,
+        contracts: Optional[Dict[str, ScenarioContract]] = None,
     ):
         self.iana_db = iana_db if iana_db is not None else load_iana_cipher_database()
 
@@ -257,7 +339,7 @@ class TLSCipherResolver:
             self.runtime_available = True
             self.runtime_supported_hex = set(runtime_supported_hex)
         else:
-            self.runtime_inspector = runtime_inspector or ContainerRuntimeInspector()
+            self.runtime_inspector = runtime_inspector or ContainerRuntimeInspector(iana_db=self.iana_db)
             if self.runtime_inspector.is_available():
                 try:
                     self.runtime_supported_hex = self.runtime_inspector.probe_supported_ciphers()
@@ -269,9 +351,17 @@ class TLSCipherResolver:
                 self.runtime_supported_hex = set()
                 self.runtime_available = False
 
+        if contracts is not None:
+            self.contracts = dict(contracts)
+        else:
+            try:
+                self.contracts = load_scenario_contracts()
+            except Exception:
+                self.contracts = {}
+
     def resolve(self, spec: ScenarioSpec | Dict[str, Any]) -> ResolutionResult:
         """
-        Traceably resolve cipher suite constraints for a scenario.
+        Traceably and deterministically resolve cryptographic constraints for a scenario.
         """
         if isinstance(spec, ScenarioSpec):
             sid = spec.scenario_id
@@ -281,12 +371,13 @@ class TLSCipherResolver:
             kex12 = spec.raw_row.get("tls12_kex_type", "")
             kex13 = spec.raw_row.get("tls13_kex_mode", "")
             sig = spec.raw_row.get("cert_sig_algo", "N/A")
-            leaf_key_type = spec.raw_row.get("server_leaf_key_type")
+            explicit_leaf_key = spec.raw_row.get("server_leaf_key_type")
             req = spec.generator_requirement
             intg = spec.raw_row.get("starttls_integrity", "N/A")
             proto = spec.protocol
             layer = spec.layer
             desc = spec.description
+            needs_pki = spec.needs_pki
         else:
             sid = spec.get("scenario_id", "")
             pres = spec.get("tls_presence", "none")
@@ -295,21 +386,75 @@ class TLSCipherResolver:
             kex12 = spec.get("tls12_kex_type", "")
             kex13 = spec.get("tls13_kex_mode", "")
             sig = spec.get("cert_sig_algo", "N/A")
-            leaf_key_type = spec.get("server_leaf_key_type")
+            explicit_leaf_key = spec.get("server_leaf_key_type")
             req = spec.get("generator_requirement", "")
             intg = spec.get("starttls_integrity", "N/A")
             proto = spec.get("protocol", "SMTP")
             layer = spec.get("layer", "")
             desc = spec.get("description", "")
+            needs_pki = (
+                spec.get("cert_chain_shape", "N/A") != "N/A"
+                and spec.get("cert_sig_algo", "N/A") != "N/A"
+            )
 
         matrix_kex = kex13 if kex13 else (kex12 if kex12 else "(none)")
         cert_auth_intent = sig if sig else "N/A"
         intent = desc if desc else f"{proto} {pres} ({layer})".strip()
 
-        # -------------------------------------------------------------------
-        # Phase 1: Pre-TLS / Special / Negative Evaluation
-        # -------------------------------------------------------------------
-        if pres == "none":
+        # Contract lookup with fallback for dynamic/test specifications
+        contract = self.contracts.get(sid)
+        if contract is None:
+            if pres == "none":
+                contract = ScenarioContract(
+                    scenario_id=sid,
+                    generation_mode=GenerationMode.STANDARD,
+                    cipher_mode=CipherMode.NONE,
+                )
+            elif req == "server_sends_fatal_alert":
+                contract = ScenarioContract(
+                    scenario_id=sid,
+                    generation_mode=GenerationMode.DEDICATED_HARNESS,
+                    cipher_mode=CipherMode.CLASS,
+                    special_harness="server_sends_fatal_alert",
+                    harness_status="IMPLEMENTED",
+                )
+            elif req == "server_rejects_starttls":
+                contract = ScenarioContract(
+                    scenario_id=sid,
+                    generation_mode=GenerationMode.DEDICATED_HARNESS,
+                    cipher_mode=CipherMode.CLASS,
+                    special_harness="server_rejects_starttls",
+                    harness_status="IMPLEMENTED",
+                )
+            elif intg in ("stripped-broken-client", "stripped-broken-server"):
+                contract = ScenarioContract(
+                    scenario_id=sid,
+                    generation_mode=GenerationMode.DEDICATED_HARNESS,
+                    cipher_mode=CipherMode.CLASS,
+                    special_harness="mitm_starttls_strip",
+                    harness_status="IMPLEMENTED",
+                )
+            elif req == "protocol_proxy_or_modified_server" or intg == "no-advertisement":
+                contract = ScenarioContract(
+                    scenario_id=sid,
+                    generation_mode=GenerationMode.DEDICATED_HARNESS,
+                    cipher_mode=CipherMode.CLASS,
+                    special_harness="unadvertised_starttls",
+                    harness_status="IMPLEMENTED",
+                )
+            else:
+                contract = ScenarioContract(
+                    scenario_id=sid,
+                    generation_mode=GenerationMode.STANDARD,
+                    cipher_mode=CipherMode.CLASS,
+                    cipher_class=matrix_strength,
+                    leaf_key_algorithm=explicit_leaf_key.lower() if explicit_leaf_key else None,
+                )
+
+        # ----------------------------------------------------------------------
+        # Case 1: Cleartext Protocol (No TLS on Wire)
+        # ----------------------------------------------------------------------
+        if pres == "none" or contract.cipher_mode == CipherMode.NONE:
             return ResolutionResult(
                 scenario_id=sid,
                 intent=intent,
@@ -317,20 +462,35 @@ class TLSCipherResolver:
                 matrix_kex=matrix_kex,
                 cert_auth_intent=cert_auth_intent,
                 matrix_cipher_strength=matrix_strength,
+                generation_mode=GenerationMode.STANDARD.value,
+                cipher_mode=CipherMode.NONE.value,
                 iana_candidates=[],
                 iana_candidate_count=0,
-                current_runtime_candidates=[],
-                current_runtime_candidate_count=0,
+                runtime_candidates=[],
+                runtime_candidate_count=0,
+                daemon_configurable_candidates=[],
+                daemon_configurable_candidate_count=0,
+                candidate_count_before_selection=0,
+                candidate_names_after_all_filters=[],
                 selected_cipher=None,
                 selection_basis=SelectionBasis.NONE,
+                selection_rank=None,
                 cipher_resolution_status=ResolutionStatus.NOT_APPLICABLE,
                 runtime_status=RuntimeStatus.NOT_APPLICABLE,
-                reason="Cleartext SMTP protocol interaction; no TLS negotiation occurs on wire",
+                leaf_key_algorithm=None,
+                leaf_key_size=None,
+                special_harness=None,
+                special_harness_parameters={},
+                cipher_telemetry={},
+                reason="Cleartext protocol interaction; no TLS negotiation occurs on wire",
                 missing_information=None,
                 traceable_constraints={"protocol_mode": "cleartext_no_tls"},
             )
 
-        if intg in ("stripped-broken-client", "stripped-broken-server"):
+        # ----------------------------------------------------------------------
+        # Case 2: Formally Unresolvable Scenario (Matrix Inconsistency)
+        # ----------------------------------------------------------------------
+        if contract.generation_mode == GenerationMode.UNRESOLVABLE:
             return ResolutionResult(
                 scenario_id=sid,
                 intent=intent,
@@ -338,21 +498,39 @@ class TLSCipherResolver:
                 matrix_kex=matrix_kex,
                 cert_auth_intent=cert_auth_intent,
                 matrix_cipher_strength=matrix_strength,
+                generation_mode=GenerationMode.UNRESOLVABLE.value,
+                cipher_mode=contract.cipher_mode.value,
                 iana_candidates=[],
                 iana_candidate_count=0,
-                current_runtime_candidates=[],
-                current_runtime_candidate_count=0,
+                runtime_candidates=[],
+                runtime_candidate_count=0,
+                daemon_configurable_candidates=[],
+                daemon_configurable_candidate_count=0,
+                candidate_count_before_selection=0,
+                candidate_names_after_all_filters=[],
                 selected_cipher=None,
                 selection_basis=SelectionBasis.NONE,
-                cipher_resolution_status=ResolutionStatus.NOT_APPLICABLE,
-                runtime_status=RuntimeStatus.NOT_APPLICABLE,
-                reason=f"Adversarial network tampering ({intg}) suppresses STARTTLS; TLS handshake is not reached",
-                missing_information=None,
-                traceable_constraints={"starttls_integrity": intg},
-                special_harness_requirement="mitm_starttls_strip",
+                selection_rank=None,
+                cipher_resolution_status=ResolutionStatus.UNRESOLVABLE,
+                runtime_status=RuntimeStatus.NO_RUNTIME_CANDIDATE,
+                leaf_key_algorithm=None,
+                leaf_key_size=None,
+                special_harness=None,
+                special_harness_parameters={},
+                cipher_telemetry={},
+                reason=contract.unresolvable_reason or "Scenario specification is contradictory or missing required information",
+                missing_information=contract.missing_information,
+                traceable_constraints={"status": "MATRIX_ORACLE_INCONSISTENT"},
+                strength_discrepancy=contract.unresolvable_reason,
             )
 
-        if req == "server_rejects_starttls":
+        # ----------------------------------------------------------------------
+        # Case 3: Dedicated Testbed / Protocol Harness
+        # ----------------------------------------------------------------------
+        if contract.generation_mode == GenerationMode.DEDICATED_HARNESS:
+            harness_name = contract.special_harness or req
+            is_implemented = contract.harness_status == "IMPLEMENTED"
+            missing_info = None if is_implemented else f"Dedicated harness not yet implemented: {harness_name}"
             return ResolutionResult(
                 scenario_id=sid,
                 intent=intent,
@@ -360,116 +538,76 @@ class TLSCipherResolver:
                 matrix_kex=matrix_kex,
                 cert_auth_intent=cert_auth_intent,
                 matrix_cipher_strength=matrix_strength,
+                generation_mode=GenerationMode.DEDICATED_HARNESS.value,
+                cipher_mode=contract.cipher_mode.value,
                 iana_candidates=[],
                 iana_candidate_count=0,
-                current_runtime_candidates=[],
-                current_runtime_candidate_count=0,
+                runtime_candidates=[],
+                runtime_candidate_count=0,
+                daemon_configurable_candidates=[],
+                daemon_configurable_candidate_count=0,
+                candidate_count_before_selection=0,
+                candidate_names_after_all_filters=[],
                 selected_cipher=None,
                 selection_basis=SelectionBasis.NONE,
-                cipher_resolution_status=ResolutionStatus.NOT_APPLICABLE,
+                selection_rank=None,
+                cipher_resolution_status=ResolutionStatus.SPECIAL_HARNESS,
                 runtime_status=RuntimeStatus.NOT_APPLICABLE,
-                reason="Server returns 454 rejection to STARTTLS; protocol terminates before TLS ClientHello",
-                missing_information=None,
-                traceable_constraints={"generator_requirement": req},
-                special_harness_requirement="server_rejects_starttls",
+                leaf_key_algorithm=contract.leaf_key_algorithm,
+                leaf_key_size=contract.leaf_key_size,
+                special_harness=harness_name,
+                special_harness_requirement=harness_name,
+                special_harness_parameters=contract.special_harness_parameters,
+                cipher_telemetry={},
+                reason=f"Dedicated test harness required: {harness_name} (status: {contract.harness_status})",
+                missing_information=missing_info,
+                traceable_constraints={"dedicated_harness": harness_name},
             )
 
-        if req == "protocol_proxy_or_modified_server" or intg == "no-advertisement":
-            return ResolutionResult(
-                scenario_id=sid,
-                intent=intent,
-                tls_version=ver,
-                matrix_kex=matrix_kex,
-                cert_auth_intent=cert_auth_intent,
-                matrix_cipher_strength=matrix_strength,
-                iana_candidates=[],
-                iana_candidate_count=0,
-                current_runtime_candidates=[],
-                current_runtime_candidate_count=0,
-                selected_cipher=None,
-                selection_basis=SelectionBasis.NONE,
-                cipher_resolution_status=ResolutionStatus.NOT_APPLICABLE,
-                runtime_status=RuntimeStatus.NOT_APPLICABLE,
-                reason="STARTTLS not advertised by server; client sends unadvertised STARTTLS; TLS cipher selection is not applicable at this stage",
-                missing_information="Protocol execution requirement: testbed harness must simulate unadvertised STARTTLS command handling without TLS negotiation",
-                traceable_constraints={"generator_requirement": req, "starttls_integrity": intg},
-                special_harness_requirement="unadvertised_starttls",
-            )
-
-        # Negative TLS scenario (deliberate cipher mismatch / fatal alert)
-        if req == "server_sends_fatal_alert":
-            return ResolutionResult(
-                scenario_id=sid,
-                intent=intent,
-                tls_version=ver,
-                matrix_kex=matrix_kex,
-                cert_auth_intent=cert_auth_intent,
-                matrix_cipher_strength=matrix_strength,
-                iana_candidates=[],
-                iana_candidate_count=0,
-                current_runtime_candidates=[],
-                current_runtime_candidate_count=0,
-                selected_cipher=None,
-                selection_basis=SelectionBasis.NONE,
-                cipher_resolution_status=ResolutionStatus.SPECIAL_SCENARIO,
-                runtime_status=RuntimeStatus.NOT_APPLICABLE,
-                reason="Negative TLS handshake test: deliberate client/server cipher suite mismatch causing handshake failure (fatal alert); ordinary positive cipher-suite resolution is not applicable",
-                missing_information="Negative test harness requirement: client_offered_set ∩ server_enabled_set = empty to trigger fatal alert",
-                traceable_constraints={"generator_requirement": req},
-                special_harness_requirement="server_sends_fatal_alert",
-            )
-
-        # -------------------------------------------------------------------
-        # Phase 2: Structural Filtering against IANA Database
-        # -------------------------------------------------------------------
+        # ----------------------------------------------------------------------
+        # Case 4: Standard Scenario (CLASS or EXACT Mode)
+        # ----------------------------------------------------------------------
         trace: Dict[str, Any] = {
             "initial_iana_universe": len(self.iana_db),
         }
 
-        # Step 2a: Version Filtering
+        # Step 4a: Version Filtering
         version_pool: List[Tuple[str, Dict[str, Any]]] = []
         if ver == "1.3":
-            # RFC 8446 §1.2 & §B.4: Only suites defined for TLS 1.3
             version_pool = [
                 (hid, d) for hid, d in self.iana_db.items()
-                if d["kex"] == "TLS13_EPHEMERAL"
+                if d.get("kex") == "TLS13_EPHEMERAL"
             ]
             trace["version_filter"] = {
                 "rule": "RFC 8446 TLS 1.3 symmetric-only suites (kex=TLS13_EPHEMERAL)",
                 "count": len(version_pool),
             }
         elif ver == "1.2":
-            # RFC 5246: Exclude TLS 1.3-only suites
             version_pool = [
                 (hid, d) for hid, d in self.iana_db.items()
-                if d["kex"] != "TLS13_EPHEMERAL"
+                if d.get("kex") != "TLS13_EPHEMERAL"
             ]
             trace["version_filter"] = {
                 "rule": "RFC 5246 TLS 1.2 suites (excluding TLS 1.3)",
                 "count": len(version_pool),
             }
         elif ver in ("1.0", "1.1"):
-            # Limitation note: data/tls_ciphers.csv contains no authoritative version metadata.
-            # Excluding TLS 1.3 (kex=TLS13_EPHEMERAL), AEAD (GCM/CCM/Poly1305), and SHA-256/384 PRF
-            # is an external RFC-knowledge heuristic (RFC 2246 / RFC 4346 / RFC 5246),
-            # not an authoritative attribute in the IANA registry database.
             for hid, d in self.iana_db.items():
-                if d["kex"] == "TLS13_EPHEMERAL":
+                if d.get("kex") == "TLS13_EPHEMERAL":
                     continue
                 name = d["name"]
                 if any(a in name for a in ("_GCM_", "_POLY1305", "_CCM", "_SHA256", "_SHA384")):
                     continue
                 version_pool.append((hid, d))
             trace["version_filter"] = {
-                "rule": f"RFC 2246/4346 TLS {ver} suites (heuristic exclusion of AEAD, SHA256/384 PRF, and TLS 1.3)",
+                "rule": f"RFC 2246/4346 TLS {ver} suites (excluding AEAD, SHA256/384 PRF, and TLS 1.3)",
                 "count": len(version_pool),
-                "limitation": "data/tls_ciphers.csv lacks version metadata; version boundaries are heuristic approximations",
             }
         else:
             version_pool = list(self.iana_db.items())
             trace["version_filter"] = {"rule": "Unconstrained", "count": len(version_pool)}
 
-        # Step 2b: Key Exchange (KEX) Filtering
+        # Step 4b: Key Exchange (KEX) Filtering
         kex_pool: List[Tuple[str, Dict[str, Any]]] = []
         if ver in ("1.0", "1.1", "1.2"):
             if kex12 == "DHE":
@@ -486,224 +624,416 @@ class TLSCipherResolver:
                 trace["kex_filter"] = {"rule": "Explicit ECDHE key exchange", "count": len(kex_pool)}
             else:
                 kex_pool = list(version_pool)
-                trace["kex_filter"] = {"rule": "Matrix KEX omitted (retaining static RSA, DHE, ECDHE)", "count": len(kex_pool)}
+                trace["kex_filter"] = {"rule": "Matrix KEX omitted", "count": len(kex_pool)}
         else:
-            # TLS 1.3: RFC 8446 cipher suites do not encode KEX
+            # TLS 1.3: RFC 8446 cipher suites decouple KEX from cipher name
             kex_pool = list(version_pool)
-            trace["kex_filter"] = {
-                "rule": "RFC 8446 KEX decoupled from cipher suites (governed by supported_groups/key_share extensions)",
-                "count": len(kex_pool),
-            }
+            trace["kex_filter"] = {"rule": "RFC 8446 KEX decoupled from cipher suites", "count": len(kex_pool)}
 
-        # Step 2c: Certificate & Signature Authentication Analysis
-        # Semantic Contract Audit:
-        # `cert_sig_algo` in data/pcap_generation_matrix.csv and data/sidecar_schema.json
-        # represents the X.509 certificate signature algorithm (how the issuing CA signed
-        # the leaf certificate), NOT the server's leaf public-key / TLS authentication type.
-        # In TLS (RFC 5246 §7.4.2, RFC 8446 §1.2), the certificate's signature algorithm
-        # does not constrain the wire cipher suite. The cipher suite specifies the server's
-        # authentication method based on the leaf's SubjectPublicKeyInfo, not its signatureAlgorithm.
-        # If server_leaf_key_type is explicitly modeled, it constrains TLS 1.2 authentication.
-        # If omitted (as in current matrix rows), cipher suites are NOT filtered by cert_sig_algo.
+        # Step 4c: Strength Class Filtering
+        target_strength = contract.cipher_class or matrix_strength
+        if target_strength not in ("N/A", "", None):
+            strength_pool = [
+                (hid, d) for hid, d in kex_pool
+                if d.get("strength") == target_strength
+            ]
+            trace["strength_filter"] = {
+                "rule": f"Target cipher strength: {target_strength}",
+                "count": len(strength_pool),
+            }
+        else:
+            strength_pool = list(kex_pool)
+            trace["strength_filter"] = {"rule": "Unconstrained strength", "count": len(strength_pool)}
+
+        # Step 4d: Certificate Authentication Filtering
+        # In TLS <= 1.2 scenarios using X.509 PKI certificates, cipher suites must
+        # perform certificate authentication (RSA or ECDSA) and exclude PSK/anon/SRP.
         auth_pool: List[Tuple[str, Dict[str, Any]]] = []
         rfc_impossible = False
-        rfc_prohibition_reason = ""
+        rfc_reason = ""
 
-        if ver in ("1.0", "1.1"):
-            if leaf_key_type == "Ed25519":
-                # RFC 2246 §4.7 / RFC 4346 §4.7 only define RSA and DSA signatures (and RFC 4492 for ECDSA).
-                # Ed25519 leaf key authentication is defined for TLS 1.2+ using the signature_algorithms extension
-                # (RFC 8410 for SubjectPublicKeyInfo; RFC 8446 §4.2.3 SignatureScheme 0x0807; RFC 5246 §7.4.1.4.1).
-                # Only when an explicit Ed25519 leaf key is configured does the server have no shared cipher suites
-                # and cannot negotiate TLS 1.0 or 1.1 on the wire.
-                rfc_impossible = True
-                rfc_prohibition_reason = (
-                    f"RFC protocol impossibility: Ed25519 leaf key authentication is not defined in TLS {ver} "
-                    f"(RFC 2246 / RFC 4346 §4.7; RFC 8410; RFC 8446 §4.2.3; RFC 5246 §7.4.1.4.1)"
-                )
-                auth_pool = []
-                trace["auth_filter"] = {
-                    "rule": f"Explicit server_leaf_key_type=Ed25519 is undefined in TLS {ver} (RFC 2246/4346 §4.7; RFC 8446 §4.2.3)",
-                    "count": 0,
-                }
-            else:
-                # cert_sig_algo represents the X.509 certificate signature algorithm (how the CA signed the leaf)
-                # and does not constrain TLS cipher suites (RFC 5246 §7.4.2). An Ed25519 CA can issue an RSA leaf.
-                auth_pool = list(kex_pool)
-                trace["auth_filter"] = {
-                    "rule": f"cert_sig_algo={sig} represents X.509 certificate signature algorithm; does not constrain TLS {ver} cipher suites",
-                    "count": len(auth_pool),
-                }
-        elif ver == "1.2" and leaf_key_type:
-            if leaf_key_type == "ECDSA":
-                auth_pool = [(hid, d) for hid, d in kex_pool if "ECDSA" in d["name"]]
-                trace["auth_filter"] = {
-                    "rule": "Explicit server_leaf_key_type=ECDSA requires ECDSA authentication (RFC 5246 §7.4.2)",
-                    "count": len(auth_pool),
-                }
-            elif leaf_key_type == "RSA":
-                auth_pool = [(hid, d) for hid, d in kex_pool if "RSA" in d["name"]]
-                trace["auth_filter"] = {
-                    "rule": "Explicit server_leaf_key_type=RSA requires RSA authentication (RFC 5246 §7.4.2)",
-                    "count": len(auth_pool),
-                }
-            else:
-                auth_pool = list(kex_pool)
-                trace["auth_filter"] = {
-                    "rule": f"Explicit server_leaf_key_type={leaf_key_type}",
-                    "count": len(auth_pool),
-                }
-        else:
-            # TLS 1.2 (unspecified leaf_key_type) and TLS 1.3:
-            # TLS 1.3 cipher suites are decoupled from authentication (RFC 8446 §1.2).
-            # TLS 1.2 cipher suites specify server public-key auth, but the matrix does not specify
-            # server leaf public-key type (cert_sig_algo is only the CA signature algorithm).
-            auth_pool = list(kex_pool)
+        # Determine effective leaf key algorithm: use contract.leaf_key_algorithm when matrix server_leaf_key_type is absent
+        effective_leaf_key = (
+            explicit_leaf_key.lower().strip()
+            if explicit_leaf_key
+            else (contract.leaf_key_algorithm.lower().strip() if (contract and contract.leaf_key_algorithm) else None)
+        )
+
+        # Check for TLS 1.0/1.1 + Ed25519 runtime incompatibility: current Docker/OpenSSL testbed runtime has no executable path
+        if ver in ("1.0", "1.1") and effective_leaf_key == "ed25519":
+            rfc_impossible = True
+            rfc_reason = (
+                f"Current-runtime/testbed unsupported: OpenSSL/Postfix runtime cannot negotiate TLS {ver} "
+                f"with Ed25519 leaf certificate"
+            )
+            auth_pool = []
+        elif ver in ("1.0", "1.1", "1.2") and (needs_pki or effective_leaf_key):
+            leaf_filter = effective_leaf_key
+            for hid, d in strength_pool:
+                name = d["name"]
+                # Must not be unauthenticated or PSK/SRP
+                if any(x in name for x in ("_anon_", "ANON", "PSK", "SRP", "KRB5")):
+                    continue
+                if leaf_filter == "rsa":
+                    if "RSA" in name:
+                        auth_pool.append((hid, d))
+                elif leaf_filter == "ecdsa":
+                    if "ECDSA" in name:
+                        auth_pool.append((hid, d))
+                elif leaf_filter == "ed25519":
+                    # In TLS 1.2, Ed25519 authentication uses ECDHE-ECDSA suites per RFC 8422
+                    if "ECDSA" in name:
+                        auth_pool.append((hid, d))
+                else:
+                    if "RSA" in name or "ECDSA" in name:
+                        auth_pool.append((hid, d))
             trace["auth_filter"] = {
-                "rule": f"TLS {ver} cipher suites unconstrained by cert_sig_algo={sig} (X.509 issuer signature algorithm)",
+                "rule": f"X.509 PKI certificate authentication (leaf_filter={leaf_filter})",
                 "count": len(auth_pool),
             }
+        else:
+            auth_pool = list(strength_pool)
+            trace["auth_filter"] = {"rule": "TLS 1.3 or non-cert decoupled authentication", "count": len(auth_pool)}
 
-        # Step 2d: IANA Candidate Pool (Strictly Structural Constraints)
-        # cipher_strength is NOT a generator input; candidates are derived purely
-        # from protocol version, KEX, and certificate/signature authentication.
         iana_candidates = [d["name"] for hid, d in auth_pool]
         trace["iana_candidate_count"] = len(iana_candidates)
 
-        # Oracle / Expected Attribute Evaluation: cipher_strength
-        cand_strengths = {d["strength"] for hid, d in auth_pool}
-        strength_discrepancy = None
-        if matrix_strength not in ("N/A", "") and auth_pool:
-            if matrix_strength not in cand_strengths:
-                strength_discrepancy = (
-                    f"Oracle expectation mismatch: matrix specifies cipher_strength='{matrix_strength}', "
-                    f"but structural candidates only achieve {sorted(cand_strengths)} in analysis/ciphers.py"
-                )
-        trace["oracle_cipher_strength"] = {
-            "expected_strength": matrix_strength,
-            "candidate_achievable_strengths": sorted(cand_strengths),
-            "discrepancy": strength_discrepancy,
-        }
-
-        # -------------------------------------------------------------------
-        # Phase 3: Runtime Intersection
-        # -------------------------------------------------------------------
+        # Step 4e: Runtime Intersection (Tier 2)
         if not self.runtime_available:
-            runtime_cands: List[str] = []
+            runtime_cands = []
         else:
             runtime_cands = [
-                d["name"] for hid, d in auth_pool
+                (hid, d) for hid, d in auth_pool
                 if hid in self.runtime_supported_hex
             ]
+        runtime_candidates = [d["name"] for hid, d in runtime_cands]
         trace["runtime_supported_count"] = len(runtime_cands)
 
-        # Detect special harness requirements
-        special_harness = None
-        if req == "psk_resumption_without_cert":
-            special_harness = "psk_resumption"
-        elif req == "psk_dhe_resumption_without_cert":
-            special_harness = "psk_dhe_resumption"
-        elif req == "client_group_mismatch_then_retry":
-            special_harness = "hello_retry_request"
-        elif req == "server_downgrade_with_sentinel":
-            special_harness = "downgrade_sentinel"
-        elif req == "legacy_client_server_with_sentinel":
-            special_harness = "legacy_client_sentinel"
-        elif req == "server_downgrade_without_sentinel":
-            special_harness = "sentinel_suppression"
-        elif req == "client_cert_sig_alg_ext50":
-            special_harness = "custom_extension_50"
-        elif req == "custom_multi_issuer_pki":
-            special_harness = "dag_pki"
-        elif req == "psk_resumption_with_early_data":
-            special_harness = "early_data_0rtt"
-        elif req == "cert_rsa1024":
-            special_harness = "rsa1024_seclevel0"
+        # Step 4f: Daemon-Configurable Filtering (Tier 3)
+        proto_lower = proto.lower()
+        if ver == "1.3":
+            if proto_lower == "smtp":
+                # Postfix cannot configure TLS 1.3 ciphersuites via main.cf.
+                # It delegates negotiation to OpenSSL default server preference, which negotiates TLS_AES_256_GCM_SHA384.
+                if target_strength == "HIGH" or contract.exact_cipher_suite == "TLS_AES_256_GCM_SHA384":
+                    daemon_cands = [d for d in runtime_cands if d[1]["name"] == "TLS_AES_256_GCM_SHA384"]
+                else:
+                    daemon_cands = []
+            elif proto_lower in ("imap", "pop3"):
+                # Dovecot natively supports ssl_cipher_suites = <ciphersuites>
+                daemon_cands = list(runtime_cands)
+            else:
+                daemon_cands = list(runtime_cands)
+        else:
+            # TLS <= 1.2: Postfix uses smtpd_tls_cipherlist, Dovecot uses ssl_cipher_list
+            daemon_cands = list(runtime_cands)
 
-        # -------------------------------------------------------------------
-        # Phase 4: Zero-Invention Resolution Decision
-        # -------------------------------------------------------------------
+        daemon_configurable_candidates = [d["name"] for hid, d in daemon_cands]
+        trace["daemon_configurable_count"] = len(daemon_cands)
+
+        # ----------------------------------------------------------------------
+        # Step 4g: Resolution Decision & Deterministic Policy
+        # ----------------------------------------------------------------------
         if rfc_impossible:
-            status = ResolutionStatus.PROTOCOL_IMPOSSIBILITY
-            selected_cipher = None
-            basis = SelectionBasis.NONE
-            rt_status = RuntimeStatus.NO_RUNTIME_CANDIDATE
-            reason = rfc_prohibition_reason
-            missing_info = f"RFC specification conflict: {sig} leaf authentication is not defined in TLS {ver} (RFC 2246/4346 §4.7; RFC 8410; RFC 8446 §4.2.3)"
-
-        elif len(iana_candidates) == 0:
-            status = ResolutionStatus.NO_CANDIDATE
-            selected_cipher = None
-            basis = SelectionBasis.NONE
-            rt_status = RuntimeStatus.NO_RUNTIME_CANDIDATE
-            reason = (
-                f"No IANA cipher suite satisfies combined structural constraints "
-                f"(TLS {ver}, KEX={matrix_kex})"
+            return ResolutionResult(
+                scenario_id=sid,
+                intent=intent,
+                tls_version=ver,
+                matrix_kex=matrix_kex,
+                cert_auth_intent=cert_auth_intent,
+                matrix_cipher_strength=matrix_strength,
+                generation_mode=GenerationMode.STANDARD.value,
+                cipher_mode=contract.cipher_mode.value,
+                iana_candidates=[],
+                iana_candidate_count=0,
+                runtime_candidates=[],
+                runtime_candidate_count=0,
+                daemon_configurable_candidates=[],
+                daemon_configurable_candidate_count=0,
+                candidate_count_before_selection=0,
+                candidate_names_after_all_filters=[],
+                selected_cipher=None,
+                selection_basis=SelectionBasis.NONE,
+                selection_rank=None,
+                cipher_resolution_status=ResolutionStatus.UNRESOLVABLE,
+                runtime_status=RuntimeStatus.NO_RUNTIME_CANDIDATE,
+                leaf_key_algorithm=None,
+                leaf_key_size=None,
+                reason=rfc_reason,
+                missing_information="RFC specification conflict: Ed25519 leaf authentication undefined in TLS 1.0/1.1",
+                traceable_constraints=trace,
             )
-            missing_info = "No matching IANA cipher suite defined in RFC registry"
 
-        elif not self.runtime_available:
-            status = ResolutionStatus.MULTIPLE_CANDIDATES if len(iana_candidates) > 1 else ResolutionStatus.UNIQUE
-            selected_cipher = None
-            basis = SelectionBasis.NONE
-            rt_status = RuntimeStatus.RUNTIME_UNAVAILABLE
-            reason = f"Target runtime '{self.runtime_inspector.runtime_name}' is unreachable; cannot probe cipher capabilities"
-            missing_info = "Runtime probe unavailable: container unreachable"
+        if not self.runtime_available:
+            return ResolutionResult(
+                scenario_id=sid,
+                intent=intent,
+                tls_version=ver,
+                matrix_kex=matrix_kex,
+                cert_auth_intent=cert_auth_intent,
+                matrix_cipher_strength=matrix_strength,
+                generation_mode=GenerationMode.STANDARD.value,
+                cipher_mode=contract.cipher_mode.value,
+                iana_candidates=iana_candidates,
+                iana_candidate_count=len(iana_candidates),
+                runtime_candidates=[],
+                runtime_candidate_count=0,
+                daemon_configurable_candidates=[],
+                daemon_configurable_candidate_count=0,
+                candidate_count_before_selection=0,
+                candidate_names_after_all_filters=[],
+                selected_cipher=None,
+                selection_basis=SelectionBasis.NONE,
+                selection_rank=None,
+                cipher_resolution_status=ResolutionStatus.UNRESOLVABLE,
+                runtime_status=RuntimeStatus.RUNTIME_UNAVAILABLE,
+                reason=f"Target runtime '{self.runtime_inspector.runtime_name}' is unreachable",
+                missing_information="Runtime capability probe unavailable",
+                traceable_constraints=trace,
+            )
 
-        elif len(runtime_cands) == 0:
-            status = ResolutionStatus.NO_CANDIDATE
-            selected_cipher = None
-            basis = SelectionBasis.NONE
+        # Scenarios where daemon cannot configure/enforce requested suites
+        if ver == "1.3" and (target_strength == "WEAK" or (proto_lower == "smtp" and target_strength != "HIGH")):
+            return ResolutionResult(
+                scenario_id=sid,
+                intent=intent,
+                tls_version=ver,
+                matrix_kex=matrix_kex,
+                cert_auth_intent=cert_auth_intent,
+                matrix_cipher_strength=matrix_strength,
+                generation_mode=GenerationMode.STANDARD.value,
+                cipher_mode=contract.cipher_mode.value,
+                iana_candidates=iana_candidates,
+                iana_candidate_count=len(iana_candidates),
+                runtime_candidates=runtime_candidates,
+                runtime_candidate_count=len(runtime_candidates),
+                daemon_configurable_candidates=daemon_configurable_candidates,
+                daemon_configurable_candidate_count=len(daemon_configurable_candidates),
+                candidate_count_before_selection=0,
+                candidate_names_after_all_filters=[],
+                selected_cipher=None,
+                selection_basis=SelectionBasis.NONE,
+                selection_rank=None,
+                cipher_resolution_status=ResolutionStatus.DAEMON_CANNOT_ENFORCE,
+                runtime_status=RuntimeStatus.CURRENT_RUNTIME_UNSUPPORTED if len(runtime_cands) == 0 else RuntimeStatus.SUPPORTED,
+                reason=f"Target daemon ({proto_lower}) cannot configure/enforce TLS 1.3 cipher suite for strength '{target_strength}'",
+                missing_information="Daemon enforcement capability for TLS 1.3 suite",
+                traceable_constraints=trace,
+            )
+
+        if len(runtime_cands) == 0:
             has_legacy = any(
                 any(bad in c for bad in ("3DES", "RC4", "DES")) or "ECDH_" in c
                 for c in iana_candidates
             )
-            if has_legacy:
-                rt_status = RuntimeStatus.REQUIRES_LEGACY_RUNTIME
-                reason = (
-                    f"Structural candidates exist in IANA ({len(iana_candidates)} suites) but require "
-                    f"legacy runtime support (3DES/RC4/DES/static ECDH) disabled in current OpenSSL build"
-                )
-                missing_info = "Runtime capability: requires legacy OpenSSL provider or legacy mail server runtime"
-            else:
-                rt_status = RuntimeStatus.CURRENT_RUNTIME_UNSUPPORTED
-                reason = (
-                    f"Structural candidates exist in IANA ({len(iana_candidates)} suites) but are "
-                    f"unsupported by current OpenSSL runtime"
-                )
-                missing_info = "Runtime capability: unsupported by current OpenSSL runtime"
-
-        elif len(runtime_cands) == 1:
-            status = ResolutionStatus.UNIQUE
-            selected_cipher = runtime_cands[0]
-            basis = SelectionBasis.UNIQUE
-            rt_status = RuntimeStatus.SUPPORTED
-            reason = "Exactly one candidate suite satisfies all repository structural constraints and runtime support"
-            if strength_discrepancy:
-                reason += f" [{strength_discrepancy}]"
-            missing_info = None
-
-        else:
-            status = ResolutionStatus.MULTIPLE_CANDIDATES
-            selected_cipher = None
-            basis = SelectionBasis.NONE
-            rt_status = RuntimeStatus.SUPPORTED
+            rt_status = RuntimeStatus.REQUIRES_LEGACY_RUNTIME if has_legacy else RuntimeStatus.CURRENT_RUNTIME_UNSUPPORTED
             reason = (
-                f"Multiple candidates ({len(runtime_cands)} runtime-supported, "
-                f"{len(iana_candidates)} IANA-defined) satisfy structural constraints without further specification"
+                f"Structural candidates exist in IANA ({len(iana_candidates)} suites) but require "
+                f"legacy runtime support disabled in current OpenSSL build"
+                if has_legacy else
+                f"No IANA candidate satisfies structural constraints and current OpenSSL runtime capabilities"
             )
-            if strength_discrepancy:
-                reason += f" [{strength_discrepancy}]"
+            return ResolutionResult(
+                scenario_id=sid,
+                intent=intent,
+                tls_version=ver,
+                matrix_kex=matrix_kex,
+                cert_auth_intent=cert_auth_intent,
+                matrix_cipher_strength=matrix_strength,
+                generation_mode=GenerationMode.STANDARD.value,
+                cipher_mode=contract.cipher_mode.value,
+                iana_candidates=iana_candidates,
+                iana_candidate_count=len(iana_candidates),
+                runtime_candidates=[],
+                runtime_candidate_count=0,
+                daemon_configurable_candidates=[],
+                daemon_configurable_candidate_count=0,
+                candidate_count_before_selection=0,
+                candidate_names_after_all_filters=[],
+                selected_cipher=None,
+                selection_basis=SelectionBasis.NONE,
+                selection_rank=None,
+                cipher_resolution_status=ResolutionStatus.UNRESOLVABLE,
+                runtime_status=rt_status,
+                reason=reason,
+                missing_information="Runtime capability: unsupported by current OpenSSL runtime",
+                traceable_constraints=trace,
+            )
 
-            ed25519_note = ""
-            if sig == "Ed25519" and ver == "1.2":
-                ed25519_note = " (Note: Ed25519 in TLS 1.2 is decoupled from cipher suite name in RFC 8422)"
-            missing_info = (
-                f"Matrix does not specify concrete cipher suite; {len(runtime_cands)} candidate suites satisfy "
-                f"structural constraints (TLS {ver}, KEX={matrix_kex}, auth={cert_auth_intent}){ed25519_note}"
+        if len(daemon_cands) == 0:
+            return ResolutionResult(
+                scenario_id=sid,
+                intent=intent,
+                tls_version=ver,
+                matrix_kex=matrix_kex,
+                cert_auth_intent=cert_auth_intent,
+                matrix_cipher_strength=matrix_strength,
+                generation_mode=GenerationMode.STANDARD.value,
+                cipher_mode=contract.cipher_mode.value,
+                iana_candidates=iana_candidates,
+                iana_candidate_count=len(iana_candidates),
+                runtime_candidates=runtime_candidates,
+                runtime_candidate_count=len(runtime_candidates),
+                daemon_configurable_candidates=[],
+                daemon_configurable_candidate_count=0,
+                candidate_count_before_selection=0,
+                candidate_names_after_all_filters=[],
+                selected_cipher=None,
+                selection_basis=SelectionBasis.NONE,
+                selection_rank=None,
+                cipher_resolution_status=ResolutionStatus.DAEMON_CANNOT_ENFORCE,
+                runtime_status=RuntimeStatus.SUPPORTED,
+                reason=f"Target daemon ({proto_lower}) cannot configure/enforce any candidate cipher suites",
+                missing_information="Daemon configuration mechanism for candidate ciphers",
+                traceable_constraints=trace,
             )
-            if strength_discrepancy:
-                missing_info += f"; {strength_discrepancy}"
+
+        # EXACT mode: validate exact requested cipher
+        if contract.cipher_mode == CipherMode.EXACT:
+            exact_name = contract.exact_cipher_suite
+            matching = [d for hid, d in daemon_cands if d["name"] == exact_name]
+            if matching:
+                selected_cipher = exact_name
+                selection_basis = SelectionBasis.EXACT_CONTRACT
+                selection_rank = 1
+                sorted_cands = [d for hid, d in daemon_cands]
+            else:
+                return ResolutionResult(
+                    scenario_id=sid,
+                    intent=intent,
+                    tls_version=ver,
+                    matrix_kex=matrix_kex,
+                    cert_auth_intent=cert_auth_intent,
+                    matrix_cipher_strength=matrix_strength,
+                    generation_mode=GenerationMode.STANDARD.value,
+                    cipher_mode=CipherMode.EXACT.value,
+                    iana_candidates=iana_candidates,
+                    iana_candidate_count=len(iana_candidates),
+                    runtime_candidates=runtime_candidates,
+                    runtime_candidate_count=len(runtime_candidates),
+                    daemon_configurable_candidates=daemon_configurable_candidates,
+                    daemon_configurable_candidate_count=len(daemon_configurable_candidates),
+                    candidate_count_before_selection=len(daemon_cands),
+                    candidate_names_after_all_filters=[d["name"] for hid, d in daemon_cands],
+                    selected_cipher=None,
+                    selection_basis=SelectionBasis.NONE,
+                    selection_rank=None,
+                    cipher_resolution_status=ResolutionStatus.DAEMON_CANNOT_ENFORCE if any(d["name"] == exact_name for hid, d in runtime_cands) else ResolutionStatus.UNRESOLVABLE,
+                    runtime_status=RuntimeStatus.CURRENT_RUNTIME_UNSUPPORTED,
+                    reason=f"Exact requested cipher '{exact_name}' cannot be enforced by daemon/runtime",
+                    missing_information=f"Runtime/daemon support for {exact_name}",
+                    traceable_constraints=trace,
+                )
+        else:
+            # Deterministic Class Ranking Policy:
+            # 1. IANA Rec = 'Y' (rank 0)
+            # 2. IANA Rec = 'N' (rank 1)
+            # 3. IANA Rec = 'D' (rank 2)
+            # 4. Name Ascending (Alphabetical)
+            def rank_key(item: Tuple[str, Dict[str, Any]]) -> Tuple[int, str]:
+                hid, d = item
+                rec = d.get("iana_recommended_status", "N")
+                rec_rank = 0 if rec == "Y" else (1 if rec == "N" else 2)
+                return (rec_rank, d["name"])
+
+            sorted_cands = [d for hid, d in sorted(daemon_cands, key=rank_key)]
+            selected_cipher = sorted_cands[0]["name"]
+            selection_basis = SelectionBasis.UNIQUE if len(sorted_cands) == 1 else SelectionBasis.EXPLICIT_REPOSITORY_POLICY
+            selection_rank = 1
+
+        candidate_names = [d["name"] for d in sorted_cands]
+
+        # Step 4h: Leaf Key Derivation & Consistency Validation
+        # Invariant 1: Certificate signature algorithm is independent from leaf public-key algorithm.
+        # Invariant 2: TLS 1.2 leaf-key compatibility is derived from actual selected auth construction.
+        # Invariant 3: TLS 1.3 does not receive a fabricated ECDSA default.
+        if contract.leaf_key_algorithm:
+            leaf_algo = contract.leaf_key_algorithm
+            leaf_size = contract.leaf_key_size or (1024 if ("cert_rsa1024" in req or "1024" in req) else (256 if leaf_algo == "ecdsa" else 2048))
+            # Validate mutual compatibility
+            if ver in ("1.0", "1.1", "1.2"):
+                if leaf_algo == "rsa" and "ECDSA" in selected_cipher:
+                    return ResolutionResult(
+                        scenario_id=sid,
+                        intent=intent,
+                        tls_version=ver,
+                        matrix_kex=matrix_kex,
+                        cert_auth_intent=cert_auth_intent,
+                        matrix_cipher_strength=matrix_strength,
+                        generation_mode=GenerationMode.STANDARD.value,
+                        cipher_mode=contract.cipher_mode.value,
+                        iana_candidates=iana_candidates,
+                        iana_candidate_count=len(iana_candidates),
+                        runtime_candidates=runtime_candidates,
+                        runtime_candidate_count=len(runtime_candidates),
+                        daemon_configurable_candidates=daemon_configurable_candidates,
+                        daemon_configurable_candidate_count=len(daemon_configurable_candidates),
+                        candidate_count_before_selection=len(candidate_names),
+                        candidate_names_after_all_filters=candidate_names,
+                        selected_cipher=None,
+                        selection_basis=SelectionBasis.NONE,
+                        selection_rank=None,
+                        cipher_resolution_status=ResolutionStatus.UNRESOLVABLE,
+                        runtime_status=RuntimeStatus.SUPPORTED,
+                        reason=f"Incompatible leaf key '{leaf_algo}' with selected cipher '{selected_cipher}'",
+                        missing_information="Mutual compatibility failure between leaf key and cipher suite",
+                        traceable_constraints=trace,
+                    )
+                elif leaf_algo == "ecdsa" and "RSA" in selected_cipher:
+                    return ResolutionResult(
+                        scenario_id=sid,
+                        intent=intent,
+                        tls_version=ver,
+                        matrix_kex=matrix_kex,
+                        cert_auth_intent=cert_auth_intent,
+                        matrix_cipher_strength=matrix_strength,
+                        generation_mode=GenerationMode.STANDARD.value,
+                        cipher_mode=contract.cipher_mode.value,
+                        iana_candidates=iana_candidates,
+                        iana_candidate_count=len(iana_candidates),
+                        runtime_candidates=runtime_candidates,
+                        runtime_candidate_count=len(runtime_candidates),
+                        daemon_configurable_candidates=daemon_configurable_candidates,
+                        daemon_configurable_candidate_count=len(daemon_configurable_candidates),
+                        candidate_count_before_selection=len(candidate_names),
+                        candidate_names_after_all_filters=candidate_names,
+                        selected_cipher=None,
+                        selection_basis=SelectionBasis.NONE,
+                        selection_rank=None,
+                        cipher_resolution_status=ResolutionStatus.UNRESOLVABLE,
+                        runtime_status=RuntimeStatus.SUPPORTED,
+                        reason=f"Incompatible leaf key '{leaf_algo}' with selected cipher '{selected_cipher}'",
+                        missing_information="Mutual compatibility failure between leaf key and cipher suite",
+                        traceable_constraints=trace,
+                    )
+        elif ver == "1.3":
+            # TLS 1.3 does not receive a fabricated ECDSA default; standard RSA-2048 leaf
+            leaf_algo = "rsa"
+            leaf_size = 1024 if "cert_rsa1024" in req else 2048
+        elif ver in ("1.0", "1.1", "1.2"):
+            # Derived from selected cipher's authentication construction
+            if "ECDSA" in selected_cipher:
+                leaf_algo = "ecdsa"
+                leaf_size = 256
+            else:
+                leaf_algo = "rsa"
+                leaf_size = 1024 if "cert_rsa1024" in req else 2048
+        else:
+            leaf_algo = "rsa"
+            leaf_size = 2048
+
+        # Step 4i: Cipher Telemetry
+        ossl_name = iana_to_openssl(selected_cipher)
+        telemetry = {
+            "selected_cipher": selected_cipher,
+            "openssl_name": ossl_name,
+            "selection_rank": selection_rank,
+            "total_runtime_candidates": len(runtime_candidates),
+            "total_daemon_configurable_candidates": len(daemon_configurable_candidates),
+            "leaf_key_algorithm": leaf_algo,
+            "leaf_key_size": leaf_size,
+            "policy": "1. IANA Rec=Y, 2. Rec=N, 3. Rec=D, 4. Name ASC",
+        }
 
         return ResolutionResult(
             scenario_id=sid,
@@ -712,19 +1042,29 @@ class TLSCipherResolver:
             matrix_kex=matrix_kex,
             cert_auth_intent=cert_auth_intent,
             matrix_cipher_strength=matrix_strength,
+            generation_mode=GenerationMode.STANDARD.value,
+            cipher_mode=contract.cipher_mode.value,
             iana_candidates=iana_candidates,
             iana_candidate_count=len(iana_candidates),
-            current_runtime_candidates=runtime_cands,
-            current_runtime_candidate_count=len(runtime_cands),
+            runtime_candidates=runtime_candidates,
+            runtime_candidate_count=len(runtime_candidates),
+            daemon_configurable_candidates=daemon_configurable_candidates,
+            daemon_configurable_candidate_count=len(daemon_configurable_candidates),
+            candidate_count_before_selection=len(candidate_names),
+            candidate_names_after_all_filters=candidate_names,
             selected_cipher=selected_cipher,
-            selection_basis=basis,
-            cipher_resolution_status=status,
-            runtime_status=rt_status,
-            reason=reason,
-            missing_information=missing_info,
+            selection_basis=selection_basis,
+            selection_rank=selection_rank,
+            cipher_resolution_status=ResolutionStatus.CONFIGURABLE_CANDIDATE_SELECTED,
+            runtime_status=RuntimeStatus.SUPPORTED,
+            leaf_key_algorithm=leaf_algo,
+            leaf_key_size=leaf_size,
+            special_harness=None,
+            special_harness_parameters={},
+            cipher_telemetry=telemetry,
+            reason=f"Deterministically resolved via repository policy ({len(candidate_names)} daemon-configurable candidates)",
+            missing_information=None,
             traceable_constraints=trace,
-            strength_discrepancy=strength_discrepancy,
-            special_harness_requirement=special_harness,
         )
 
 

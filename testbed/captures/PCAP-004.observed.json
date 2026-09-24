@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "PCAP-004",
+  "sessions": {
+    "0": {
+      "stream_id": 0,
+      "protocol": "SMTP",
+      "starttls": {
+        "stream": 0,
+        "starttls_offered": false,
+        "starttls_requested": false,
+        "starttls_accepted": false,
+        "starttls_rejected": false,
+        "tls_active": false,
+        "plaintext_auth_attempted": false,
+        "status": "CLEARTEXT_NO_ENCRYPTION",
+        "details": "Session conducted completely in plaintext with no TLS."
+      },
+      "tls": null,
+      "handshake": null,
+      "certificate": null
+    }
+  }
+}

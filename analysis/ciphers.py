@@ -156,7 +156,8 @@ def load_iana_cipher_database(csv_path=None):
                     "kex": kex,
                     "forward_secrecy": has_pfs,
                     "strength": strength,
-                    "iana_recommended": rec == "Y"
+                    "iana_recommended": rec == "Y",
+                    "iana_recommended_status": rec if rec in ("Y", "N", "D") else "N",
                 }
 
             except (ValueError, IndexError):
@@ -276,6 +277,10 @@ def iana_to_openssl(iana_name: str) -> str | None:
 
     # 3. Check if already an OpenSSL cipher name
     if clean_upper in _OPENSSL_NAME_TO_HEX:
+        return clean
+
+    # 4. In OpenSSL, TLS 1.3 ciphers have identical names to IANA
+    if clean_upper.startswith("TLS_AES_") or clean_upper.startswith("TLS_CHACHA20_"):
         return clean
 
     return None

@@ -1,0 +1,53 @@
+{
+  "run_id": "batch_test_failure_isolation",
+  "started_at": "2026-09-24T09:00:00.740539+00:00",
+  "completed_at": "2026-09-24T09:00:00.740541+00:00",
+  "total_duration_seconds": 2.5,
+  "preflight": {
+    "bridge_interface": "br-test",
+    "active_containers": []
+  },
+  "summary": {
+    "total_selected": 2,
+    "generated": 1,
+    "generated_pass": 1,
+    "generated_inconclusive": 0,
+    "generated_fail": 0,
+    "blocked": 0,
+    "unresolvable": 0,
+    "special_harness": 0,
+    "failed": 1,
+    "cleanup_failed": 0,
+    "resumed": 0
+  },
+  "scenarios": [
+    {
+      "scenario_id": "PCAP-004",
+      "protocol": "SMTP",
+      "category": "EXECUTABLE_STANDARD",
+      "execution_state": "FAILED",
+      "comparison_status": null,
+      "selected_cipher": null,
+      "duration_seconds": 0.0,
+      "error": "Staging failed",
+      "artifacts": {},
+      "artifact_hashes": null,
+      "completed_at": null,
+      "resumed": false
+    },
+    {
+      "scenario_id": "PCAP-005",
+      "protocol": "SMTP",
+      "category": "EXECUTABLE_STANDARD",
+      "execution_state": "GENERATED",
+      "comparison_status": "PASS",
+      "selected_cipher": null,
+      "duration_seconds": 1.23,
+      "error": null,
+      "artifacts": {},
+      "artifact_hashes": null,
+      "completed_at": null,
+      "resumed": false
+    }
+  ]
+}

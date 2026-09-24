@@ -52,11 +52,12 @@ class StagedScenario:
     files: Dict[str, Path]
     service: str = "postfix"
     manifest: Dict[str, Any] = field(default_factory=dict)
+    selected_cipher: Optional[str] = None
+    trust_store_path: Optional[Path] = None
 
-
-PROVEN_BASELINES = {"PCAP-004", "PCAP-005", "PCAP-001", "PCAP-112"}
-PROVEN_IMAP_BASELINES = {"PCAP-002", "PCAP-024"}
-PROVEN_POP3_BASELINES = {"PCAP-042", "PCAP-063", "PCAP-003", "PCAP-043"}
+    def __post_init__(self):
+        if self.trust_store_path is None and "trust_store" in self.files:
+            object.__setattr__(self, "trust_store_path", self.files["trust_store"])
 
 
 def derive_client_tls_config(spec: ScenarioSpec) -> Dict[str, Any]:
@@ -88,16 +89,22 @@ def derive_client_tls_config(spec: ScenarioSpec) -> Dict[str, Any]:
     resolver_res = resolve_scenario(spec)
     if resolver_res.cipher_resolution_status == ResolutionStatus.NOT_APPLICABLE:
         offered_ciphers = []
-    elif resolver_res.cipher_resolution_status == ResolutionStatus.UNIQUE:
+    elif resolver_res.cipher_resolution_status in (ResolutionStatus.CONFIGURABLE_CANDIDATE_SELECTED, ResolutionStatus.RESOLVED):
         offered_ciphers = [resolver_res.selected_cipher]
-    elif resolver_res.cipher_resolution_status == ResolutionStatus.MULTIPLE_CANDIDATES:
-        # Critical Phase 1B correction: never offer all candidates as an implicit wire fallback
+    elif resolver_res.cipher_resolution_status in (ResolutionStatus.UNRESOLVABLE, ResolutionStatus.DAEMON_CANNOT_ENFORCE):
         offered_ciphers = []
-    elif spec.generator_requirement == "server_sends_fatal_alert":
+    elif spec.generator_requirement == "server_sends_fatal_alert" or resolver_res.special_harness == "server_sends_fatal_alert":
         # Disjoint cipher suite from server: client offers ECDHE-RSA-AES128-GCM-SHA256,
         # server only enables ECDHE-RSA-AES256-GCM-SHA384 -> intersection is empty,
         # triggering RFC 5246 fatal alert 40 (handshake_failure).
         offered_ciphers = ["TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"]
+    elif spec.generator_requirement in (
+        "psk_dhe_resumption_without_cert",
+        "psk_resumption_without_cert",
+        "psk_resumption_with_early_data",
+    ) or (resolver_res.special_harness and "psk" in resolver_res.special_harness):
+        # TLS 1.3 uses standard ciphersuites; let OpenSSL client negotiate default high suites
+        offered_ciphers = []
     else:
         offered_ciphers = []
 
@@ -106,6 +113,7 @@ def derive_client_tls_config(spec: ScenarioSpec) -> Dict[str, Any]:
         "tls_presence": spec.client.tls_presence,
         "offered_version": client_version,
         "offered_ciphers": offered_ciphers,
+        "selected_cipher": resolver_res.selected_cipher if resolver_res.cipher_resolution_status in (ResolutionStatus.CONFIGURABLE_CANDIDATE_SELECTED, ResolutionStatus.RESOLVED) else None,
         "starttls_enforcement": spec.client.starttls_enforcement,
         "auth_outcome": spec.client.auth_outcome,
         "client_behavior": spec.client.client_behavior,
@@ -182,7 +190,10 @@ class SMTPStager:
             lines.append("")
             lines.append("# Certificate Chain & Key Injection")
             lines.append("smtpd_tls_chain_files = /etc/mailtest/active/key.pem, /etc/mailtest/active/chain.pem")
-        elif spec.client.mitm_action == "strip_starttls" or spec.generator_requirement == "server_sends_fatal_alert":
+        elif (
+            spec.client.mitm_action == "strip_starttls"
+            or spec.generator_requirement in ("server_sends_fatal_alert", "psk_dhe_resumption_without_cert")
+        ):
             lines.append("")
             lines.append("# Baseline Server Certificate")
             lines.append("smtpd_tls_cert_file = /etc/postfix/baseline_cert.pem")
@@ -223,60 +234,32 @@ class SMTPStager:
             resolver_res = resolve_scenario(spec)
             status = resolver_res.cipher_resolution_status
 
-            # Baseline scenarios have wire-proven configurations in repository
-            if spec.scenario_id in PROVEN_BASELINES:
-                kex12 = spec.raw_row.get("tls12_kex_type", "")
-                if kex12 == "DHE" or "dhe" in req.lower():
-                    lines.append("tls_high_cipherlist = DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256")
+            if status in (ResolutionStatus.CONFIGURABLE_CANDIDATE_SELECTED, ResolutionStatus.RESOLVED):
+                if spec.server.tls_version != "1.3":
+                    ossl_cipher = iana_to_openssl(resolver_res.selected_cipher)
+                    if ossl_cipher:
+                        sec_level = ":@SECLEVEL=0" if (resolver_res.leaf_key_size == 1024 or spec.server.cipher_strength in ("WEAK", "BROKEN")) else ""
+                        lines.append(f"tls_high_cipherlist = {ossl_cipher}{sec_level}")
                 lines.append("smtpd_tls_ciphers = high")
                 lines.append("smtpd_tls_mandatory_ciphers = high")
-            elif spec.client.mitm_action == "strip_starttls":
-                lines.append("smtpd_tls_ciphers = high")
-            elif spec.generator_requirement == "server_sends_fatal_alert":
-                # Deliberate disjoint cipher suite for negative TLS handshake test (PCAP-121)
+            elif spec.generator_requirement == "server_sends_fatal_alert" or resolver_res.special_harness == "server_sends_fatal_alert":
                 lines.append("tls_high_cipherlist = ECDHE-RSA-AES256-GCM-SHA384")
                 lines.append("smtpd_tls_ciphers = high")
                 lines.append("smtpd_tls_mandatory_ciphers = high")
-            elif resolver_res.special_harness_requirement == "mitm_starttls_strip":
-                raise UnresolvableScenarioError(
-                    f"Scenario {spec.scenario_id} requires MITM proxy harness "
-                    f"({resolver_res.special_harness_requirement}); cannot be staged on standard Postfix"
-                )
-            elif status == ResolutionStatus.UNIQUE:
-                ossl_cipher = iana_to_openssl(resolver_res.selected_cipher)
-                if ossl_cipher:
-                    lines.append(f"tls_high_cipherlist = {ossl_cipher}")
+            elif resolver_res.special_harness == "mitm_starttls_strip" or spec.client.mitm_action == "strip_starttls":
                 lines.append("smtpd_tls_ciphers = high")
                 lines.append("smtpd_tls_mandatory_ciphers = high")
-            elif status == ResolutionStatus.MULTIPLE_CANDIDATES:
+            elif status == ResolutionStatus.SPECIAL_HARNESS:
                 raise UnresolvableScenarioError(
-                    f"Scenario {spec.scenario_id} cannot be staged: multiple candidates "
-                    f"({resolver_res.current_runtime_candidate_count} runtime-supported, "
-                    f"{resolver_res.iana_candidate_count} IANA-defined) exist without deterministic specification. "
-                    f"Missing: {resolver_res.missing_information}"
+                    f"Scenario {spec.scenario_id} requires dedicated harness "
+                    f"({resolver_res.special_harness}); cannot be staged on standard Postfix"
                 )
-            elif status == ResolutionStatus.NO_CANDIDATE_UNDER_CURRENT_PROJECT_MODEL:
+            elif status in (ResolutionStatus.UNRESOLVABLE, ResolutionStatus.DAEMON_CANNOT_ENFORCE):
                 raise UnresolvableScenarioError(
-                    f"Scenario {spec.scenario_id} cannot be staged: no candidate under project model ({resolver_res.reason})"
+                    f"Scenario {spec.scenario_id} cannot be staged: {resolver_res.reason}"
                 )
-            elif status == ResolutionStatus.PROTOCOL_IMPOSSIBILITY:
-                raise UnresolvableScenarioError(
-                    f"Scenario {spec.scenario_id} cannot be staged: RFC protocol impossibility ({resolver_res.reason})"
-                )
-            elif status == ResolutionStatus.NO_CANDIDATE:
-                if resolver_res.runtime_status == RuntimeStatus.REQUIRES_LEGACY_RUNTIME:
-                    raise UnresolvableScenarioError(
-                        f"Scenario {spec.scenario_id} cannot be staged: requires legacy runtime ({resolver_res.reason})"
-                    )
-                else:
-                    raise UnresolvableScenarioError(
-                        f"Scenario {spec.scenario_id} cannot be staged: {resolver_res.reason}"
-                    )
-            elif status == ResolutionStatus.SPECIAL_SCENARIO:
-                raise UnresolvableScenarioError(
-                    f"Scenario {spec.scenario_id} is a special/negative scenario "
-                    f"({resolver_res.special_harness_requirement}); cannot be staged as ordinary TLS"
-                )
+            elif status == ResolutionStatus.NOT_APPLICABLE:
+                pass
 
         return "\n".join(lines) + "\n"
 
@@ -311,10 +294,14 @@ class SMTPStager:
         spec: ScenarioSpec,
         staged_files: Dict[str, str],
         client_config: Dict[str, Any],
+        resolver_res: Optional[Any] = None,
     ) -> Dict[str, Any]:
         """
         Construct reproducible manifest containing source scenario expectations.
         """
+        if resolver_res is None and spec.server.tls_presence != "none":
+            resolver_res = resolve_scenario(spec)
+
         pki_manifest = None
         if spec.needs_pki:
             pki_manifest = {
@@ -323,6 +310,8 @@ class SMTPStager:
                 "chain_shape": spec.pki.chain_shape,
                 "san_type": spec.pki.san_type,
                 "weak_key": spec.pki.weak_key,
+                "leaf_key_algorithm": resolver_res.leaf_key_algorithm if resolver_res else None,
+                "leaf_key_size": resolver_res.leaf_key_size if resolver_res else None,
             }
 
         return {
@@ -341,6 +330,9 @@ class SMTPStager:
                 "tls_presence": spec.server.tls_presence,
                 "tls_version": spec.server.tls_version,
                 "cipher_strength": spec.server.cipher_strength,
+                "selected_cipher": resolver_res.selected_cipher if resolver_res else None,
+                "leaf_key_algorithm": resolver_res.leaf_key_algorithm if resolver_res else None,
+                "leaf_key_size": resolver_res.leaf_key_size if resolver_res else None,
                 "starttls_enforcement": spec.server.starttls_enforcement,
                 "hostname": spec.server.hostname,
                 "listener_postconf_cmd": self.get_listener_postconf_cmd(spec),
@@ -375,15 +367,30 @@ class SMTPStager:
 
         # 1. Materialize PKI artifacts if required by scenario
         has_pki = spec.needs_pki
-        if has_pki:
-            # ponytail: call pki_factory.materialize to keep PKI generation decoupled
-            pki_res = self.pki_factory.materialize(spec.pki, target_dir)
+        resolver_res = resolve_scenario(spec) if spec.server.tls_presence != "none" else None
+        if has_pki and resolver_res:
+            pki_spec = spec.pki
+            if pki_spec and pki_spec.leaf_key_algo is None and resolver_res.leaf_key_algorithm:
+                from testbed.runner.spec import PKISpec
+                pki_spec = PKISpec(
+                    sig_algo=pki_spec.sig_algo,
+                    validity=pki_spec.validity,
+                    chain_shape=pki_spec.chain_shape,
+                    san_type=pki_spec.san_type,
+                    weak_key=pki_spec.weak_key,
+                    leaf_key_algo=resolver_res.leaf_key_algorithm,
+                    leaf_key_size=resolver_res.leaf_key_size,
+                )
+            pki_res = self.pki_factory.materialize(pki_spec, target_dir)
             chain_path = pki_res["chain_file"]
             key_path = pki_res["key_file"]
             staged_files["chain"] = chain_path
             staged_files["key"] = key_path
             staged_relative["chain.pem"] = str(chain_path.name)
             staged_relative["key.pem"] = str(key_path.name)
+            if "trust_store_file" in pki_res:
+                staged_files["trust_store"] = pki_res["trust_store_file"]
+                staged_relative["trust_store.pem"] = str(pki_res["trust_store_file"].name)
 
         # 2. Render and write main.cf
         main_cf_content = self.render_main_cf(spec, has_pki=has_pki)
@@ -396,7 +403,7 @@ class SMTPStager:
         client_config = self.render_client_tls_config(spec)
 
         # 4. Render and write manifest.json
-        manifest_data = self.render_manifest(spec, staged_relative, client_config)
+        manifest_data = self.render_manifest(spec, staged_relative, client_config, resolver_res=resolver_res)
         manifest_path = target_dir / "manifest.json"
         manifest_path.write_text(json.dumps(manifest_data, indent=2))
         staged_files["manifest"] = manifest_path
@@ -407,6 +414,7 @@ class SMTPStager:
             files=staged_files,
             service="postfix",
             manifest=manifest_data,
+            selected_cipher=resolver_res.selected_cipher if resolver_res else None,
         )
 
 
@@ -508,42 +516,27 @@ class IMAPStager:
             resolver_res = resolve_scenario(spec)
             status = resolver_res.cipher_resolution_status
 
-            if spec.scenario_id in PROVEN_IMAP_BASELINES:
-                # Baseline scenarios have wire-proven configurations
+            if status in (ResolutionStatus.CONFIGURABLE_CANDIDATE_SELECTED, ResolutionStatus.RESOLVED):
+                if proto_ver == "1.3":
+                    lines.append(f"ssl_cipher_suites = {resolver_res.selected_cipher}")
+                else:
+                    ossl_cipher = iana_to_openssl(resolver_res.selected_cipher)
+                    if ossl_cipher:
+                        sec_level = ":@SECLEVEL=0" if (resolver_res.leaf_key_size == 1024 or spec.server.cipher_strength in ("WEAK", "BROKEN")) else ""
+                        lines.append(f"ssl_cipher_list = {ossl_cipher}{sec_level}")
+            elif resolver_res.special_harness == "mitm_starttls_strip" or spec.client.mitm_action == "strip_starttls":
                 pass
-            elif resolver_res.special_harness_requirement == "mitm_starttls_strip":
+            elif status == ResolutionStatus.SPECIAL_HARNESS:
                 raise UnresolvableScenarioError(
-                    f"Scenario {spec.scenario_id} requires MITM proxy harness "
-                    f"({resolver_res.special_harness_requirement}); cannot be staged on standard Dovecot"
+                    f"Scenario {spec.scenario_id} requires dedicated harness "
+                    f"({resolver_res.special_harness}); cannot be staged on standard Dovecot"
                 )
-            elif status == ResolutionStatus.UNIQUE:
-                ossl_cipher = iana_to_openssl(resolver_res.selected_cipher)
-                if ossl_cipher:
-                    lines.append(f"ssl_cipher_list = {ossl_cipher}")
-            elif status == ResolutionStatus.MULTIPLE_CANDIDATES:
-                raise UnresolvableScenarioError(
-                    f"Scenario {spec.scenario_id} cannot be staged: multiple candidates "
-                    f"({resolver_res.current_runtime_candidate_count} runtime-supported, "
-                    f"{resolver_res.iana_candidate_count} IANA-defined) exist without deterministic specification. "
-                    f"Missing: {resolver_res.missing_information}"
-                )
-            elif status == ResolutionStatus.NO_CANDIDATE_UNDER_CURRENT_PROJECT_MODEL:
-                raise UnresolvableScenarioError(
-                    f"Scenario {spec.scenario_id} cannot be staged: no candidate under project model ({resolver_res.reason})"
-                )
-            elif status == ResolutionStatus.PROTOCOL_IMPOSSIBILITY:
-                raise UnresolvableScenarioError(
-                    f"Scenario {spec.scenario_id} cannot be staged: RFC protocol impossibility ({resolver_res.reason})"
-                )
-            elif status == ResolutionStatus.NO_CANDIDATE:
+            elif status in (ResolutionStatus.UNRESOLVABLE, ResolutionStatus.DAEMON_CANNOT_ENFORCE):
                 raise UnresolvableScenarioError(
                     f"Scenario {spec.scenario_id} cannot be staged: {resolver_res.reason}"
                 )
-            elif status == ResolutionStatus.SPECIAL_SCENARIO:
-                raise UnresolvableScenarioError(
-                    f"Scenario {spec.scenario_id} is a special/negative scenario "
-                    f"({resolver_res.special_harness_requirement}); cannot be staged as ordinary TLS"
-                )
+            elif status == ResolutionStatus.NOT_APPLICABLE:
+                pass
 
         # 5. Service & Listener Definitions
         lines.append("")
@@ -585,7 +578,11 @@ class IMAPStager:
         spec: ScenarioSpec,
         staged_files: Dict[str, str],
         client_config: Dict[str, Any],
+        resolver_res: Optional[Any] = None,
     ) -> Dict[str, Any]:
+        if resolver_res is None and spec.server.tls_presence != "none":
+            resolver_res = resolve_scenario(spec)
+
         pki_manifest = None
         if spec.needs_pki:
             pki_manifest = {
@@ -594,6 +591,8 @@ class IMAPStager:
                 "chain_shape": spec.pki.chain_shape,
                 "san_type": spec.pki.san_type,
                 "weak_key": spec.pki.weak_key,
+                "leaf_key_algorithm": resolver_res.leaf_key_algorithm if resolver_res else None,
+                "leaf_key_size": resolver_res.leaf_key_size if resolver_res else None,
             }
 
         return {
@@ -612,6 +611,9 @@ class IMAPStager:
                 "tls_presence": spec.server.tls_presence,
                 "tls_version": spec.server.tls_version,
                 "cipher_strength": spec.server.cipher_strength,
+                "selected_cipher": resolver_res.selected_cipher if resolver_res else None,
+                "leaf_key_algorithm": resolver_res.leaf_key_algorithm if resolver_res else None,
+                "leaf_key_size": resolver_res.leaf_key_size if resolver_res else None,
                 "starttls_enforcement": spec.server.starttls_enforcement,
                 "hostname": spec.server.hostname,
             },
@@ -645,14 +647,30 @@ class IMAPStager:
 
         # 1. Materialize PKI artifacts if required by scenario
         has_pki = spec.needs_pki
-        if has_pki:
-            pki_res = self.pki_factory.materialize(spec.pki, target_dir)
+        resolver_res = resolve_scenario(spec) if spec.server.tls_presence != "none" else None
+        if has_pki and resolver_res:
+            pki_spec = spec.pki
+            if pki_spec and pki_spec.leaf_key_algo is None and resolver_res.leaf_key_algorithm:
+                from testbed.runner.spec import PKISpec
+                pki_spec = PKISpec(
+                    sig_algo=pki_spec.sig_algo,
+                    validity=pki_spec.validity,
+                    chain_shape=pki_spec.chain_shape,
+                    san_type=pki_spec.san_type,
+                    weak_key=pki_spec.weak_key,
+                    leaf_key_algo=resolver_res.leaf_key_algorithm,
+                    leaf_key_size=resolver_res.leaf_key_size,
+                )
+            pki_res = self.pki_factory.materialize(pki_spec, target_dir)
             chain_path = pki_res["chain_file"]
             key_path = pki_res["key_file"]
             staged_files["chain"] = chain_path
             staged_files["key"] = key_path
             staged_relative["chain.pem"] = str(chain_path.name)
             staged_relative["key.pem"] = str(key_path.name)
+            if "trust_store_file" in pki_res:
+                staged_files["trust_store"] = pki_res["trust_store_file"]
+                staged_relative["trust_store.pem"] = str(pki_res["trust_store_file"].name)
 
         # 2. Render and write dovecot.conf
         dovecot_conf_content = self.render_dovecot_conf(spec, has_pki=has_pki)
@@ -665,7 +683,7 @@ class IMAPStager:
         client_config = self.render_client_tls_config(spec)
 
         # 4. Render and write manifest.json
-        manifest_data = self.render_manifest(spec, staged_relative, client_config)
+        manifest_data = self.render_manifest(spec, staged_relative, client_config, resolver_res=resolver_res)
         manifest_path = target_dir / "manifest.json"
         manifest_path.write_text(json.dumps(manifest_data, indent=2))
         staged_files["manifest"] = manifest_path
@@ -676,6 +694,7 @@ class IMAPStager:
             files=staged_files,
             service="dovecot",
             manifest=manifest_data,
+            selected_cipher=resolver_res.selected_cipher if resolver_res else None,
         )
 
 
@@ -782,45 +801,27 @@ class POP3Stager:
             resolver_res = resolve_scenario(spec)
             status = resolver_res.cipher_resolution_status
 
-            if spec.scenario_id in PROVEN_POP3_BASELINES:
-                # Baseline scenarios have wire-proven configurations
+            if status in (ResolutionStatus.CONFIGURABLE_CANDIDATE_SELECTED, ResolutionStatus.RESOLVED):
+                if proto_ver == "1.3":
+                    lines.append(f"ssl_cipher_suites = {resolver_res.selected_cipher}")
+                else:
+                    ossl_cipher = iana_to_openssl(resolver_res.selected_cipher)
+                    if ossl_cipher:
+                        sec_level = ":@SECLEVEL=0" if (resolver_res.leaf_key_size == 1024 or spec.server.cipher_strength in ("WEAK", "BROKEN")) else ""
+                        lines.append(f"ssl_cipher_list = {ossl_cipher}{sec_level}")
+            elif resolver_res.special_harness == "mitm_starttls_strip" or spec.client.mitm_action == "strip_starttls":
                 pass
-            elif spec.client.mitm_action == "strip_starttls":
-                # Special MITM STLS stripping scenario - Dovecot uses baseline SSL
-                pass
-            elif resolver_res.special_harness_requirement == "mitm_starttls_strip":
+            elif status == ResolutionStatus.SPECIAL_HARNESS:
                 raise UnresolvableScenarioError(
-                    f"Scenario {spec.scenario_id} requires MITM proxy harness "
-                    f"({resolver_res.special_harness_requirement}); cannot be staged on standard Dovecot"
+                    f"Scenario {spec.scenario_id} requires dedicated harness "
+                    f"({resolver_res.special_harness}); cannot be staged on standard Dovecot"
                 )
-            elif status == ResolutionStatus.UNIQUE:
-                ossl_cipher = iana_to_openssl(resolver_res.selected_cipher)
-                if ossl_cipher:
-                    lines.append(f"ssl_cipher_list = {ossl_cipher}")
-            elif status == ResolutionStatus.MULTIPLE_CANDIDATES:
-                raise UnresolvableScenarioError(
-                    f"Scenario {spec.scenario_id} cannot be staged: multiple candidates "
-                    f"({resolver_res.current_runtime_candidate_count} runtime-supported, "
-                    f"{resolver_res.iana_candidate_count} IANA-defined) exist without deterministic specification. "
-                    f"Missing: {resolver_res.missing_information}"
-                )
-            elif status == ResolutionStatus.NO_CANDIDATE_UNDER_CURRENT_PROJECT_MODEL:
-                raise UnresolvableScenarioError(
-                    f"Scenario {spec.scenario_id} cannot be staged: no candidate under project model ({resolver_res.reason})"
-                )
-            elif status == ResolutionStatus.PROTOCOL_IMPOSSIBILITY:
-                raise UnresolvableScenarioError(
-                    f"Scenario {spec.scenario_id} cannot be staged: RFC protocol impossibility ({resolver_res.reason})"
-                )
-            elif status == ResolutionStatus.NO_CANDIDATE:
+            elif status in (ResolutionStatus.UNRESOLVABLE, ResolutionStatus.DAEMON_CANNOT_ENFORCE):
                 raise UnresolvableScenarioError(
                     f"Scenario {spec.scenario_id} cannot be staged: {resolver_res.reason}"
                 )
-            elif status == ResolutionStatus.SPECIAL_SCENARIO:
-                raise UnresolvableScenarioError(
-                    f"Scenario {spec.scenario_id} is a special/negative scenario "
-                    f"({resolver_res.special_harness_requirement}); cannot be staged as ordinary TLS"
-                )
+            elif status == ResolutionStatus.NOT_APPLICABLE:
+                pass
 
         # 5. Service & Listener Definitions
         lines.append("")
@@ -862,7 +863,11 @@ class POP3Stager:
         spec: ScenarioSpec,
         staged_files: Dict[str, str],
         client_config: Dict[str, Any],
+        resolver_res: Optional[Any] = None,
     ) -> Dict[str, Any]:
+        if resolver_res is None and spec.server.tls_presence != "none":
+            resolver_res = resolve_scenario(spec)
+
         pki_manifest = None
         if spec.needs_pki:
             pki_manifest = {
@@ -871,6 +876,8 @@ class POP3Stager:
                 "chain_shape": spec.pki.chain_shape,
                 "san_type": spec.pki.san_type,
                 "weak_key": spec.pki.weak_key,
+                "leaf_key_algorithm": resolver_res.leaf_key_algorithm if resolver_res else None,
+                "leaf_key_size": resolver_res.leaf_key_size if resolver_res else None,
             }
 
         return {
@@ -889,6 +896,9 @@ class POP3Stager:
                 "tls_presence": spec.server.tls_presence,
                 "tls_version": spec.server.tls_version,
                 "cipher_strength": spec.server.cipher_strength,
+                "selected_cipher": resolver_res.selected_cipher if resolver_res else None,
+                "leaf_key_algorithm": resolver_res.leaf_key_algorithm if resolver_res else None,
+                "leaf_key_size": resolver_res.leaf_key_size if resolver_res else None,
                 "starttls_enforcement": spec.server.starttls_enforcement,
                 "hostname": spec.server.hostname,
             },
@@ -922,14 +932,30 @@ class POP3Stager:
 
         # 1. Materialize PKI artifacts if required by scenario
         has_pki = spec.needs_pki
-        if has_pki:
-            pki_res = self.pki_factory.materialize(spec.pki, target_dir)
+        resolver_res = resolve_scenario(spec) if spec.server.tls_presence != "none" else None
+        if has_pki and resolver_res:
+            pki_spec = spec.pki
+            if pki_spec and pki_spec.leaf_key_algo is None and resolver_res.leaf_key_algorithm:
+                from testbed.runner.spec import PKISpec
+                pki_spec = PKISpec(
+                    sig_algo=pki_spec.sig_algo,
+                    validity=pki_spec.validity,
+                    chain_shape=pki_spec.chain_shape,
+                    san_type=pki_spec.san_type,
+                    weak_key=pki_spec.weak_key,
+                    leaf_key_algo=resolver_res.leaf_key_algorithm,
+                    leaf_key_size=resolver_res.leaf_key_size,
+                )
+            pki_res = self.pki_factory.materialize(pki_spec, target_dir)
             chain_path = pki_res["chain_file"]
             key_path = pki_res["key_file"]
             staged_files["chain"] = chain_path
             staged_files["key"] = key_path
             staged_relative["chain.pem"] = str(chain_path.name)
             staged_relative["key.pem"] = str(key_path.name)
+            if "trust_store_file" in pki_res:
+                staged_files["trust_store"] = pki_res["trust_store_file"]
+                staged_relative["trust_store.pem"] = str(pki_res["trust_store_file"].name)
 
         # 2. Render and write dovecot.conf
         dovecot_conf_content = self.render_dovecot_conf(spec, has_pki=has_pki)
@@ -942,7 +968,7 @@ class POP3Stager:
         client_config = self.render_client_tls_config(spec)
 
         # 4. Render and write manifest.json
-        manifest_data = self.render_manifest(spec, staged_relative, client_config)
+        manifest_data = self.render_manifest(spec, staged_relative, client_config, resolver_res=resolver_res)
         manifest_path = target_dir / "manifest.json"
         manifest_path.write_text(json.dumps(manifest_data, indent=2))
         staged_files["manifest"] = manifest_path
@@ -953,6 +979,7 @@ class POP3Stager:
             files=staged_files,
             service="dovecot",
             manifest=manifest_data,
+            selected_cipher=resolver_res.selected_cipher if resolver_res else None,
         )
 
 

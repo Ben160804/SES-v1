@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "PCAP-115",
+  "status": "INCONCLUSIVE",
+  "fields": {
+    "protocol": {
+      "status": "PASS",
+      "expected": "SMTP",
+      "observed": "SMTP"
+    },
+    "starttls_status": {
+      "status": "PASS",
+      "expected": "IMPLICIT_TLS",
+      "observed": "IMPLICIT_TLS"
+    },
+    "tls_presence": {
+      "status": "PASS",
+      "expected": "implicit-TLS",
+      "observed": "implicit-TLS"
+    },
+    "tls.fatal_alert": {
+      "status": "NOT_APPLICABLE",
+      "expected": false,
+      "observed": false
+    },
+    "tls.version": {
+      "status": "PASS",
+      "expected": "TLS 1.3",
+      "observed": "TLS 1.3"
+    },
+    "tls.cipher_strength": {
+      "status": "PASS",
+      "expected": "HIGH",
+      "observed": "HIGH"
+    },
+    "tls.cipher_name": {
+      "status": "PASS",
+      "expected": "TLS_AES_256_GCM_SHA384",
+      "observed": "TLS_AES_256_GCM_SHA384"
+    },
+    "tls.forward_secrecy": {
+      "status": "PASS",
+      "expected": true,
+      "observed": true
+    },
+    "certificate.observable": {
+      "status": "PASS",
+      "expected": "ENCRYPTED",
+      "observed": "UNOBSERVABLE"
+    },
+    "certificate.signature_algorithm": {
+      "status": "UNOBSERVABLE",
+      "expected": "ECDSA",
+      "observed": null
+    },
+    "certificate.validity": {
+      "status": "UNOBSERVABLE",
+      "expected": "valid",
+      "observed": null
+    },
+    "certificate.hostname_match": {
+      "status": "UNOBSERVABLE",
+      "expected": "matched",
+      "observed": null
+    },
+    "certificate.trust_status": {
+      "status": "UNOBSERVABLE",
+      "expected": "TRUSTED_CHAIN",
+      "observed": null
+    }
+  },
+  "mismatches": [],
+  "unknowns": [
+    "certificate.signature_algorithm",
+    "certificate.validity",
+    "certificate.hostname_match",
+    "certificate.trust_status"
+  ],
+  "evaluated_stream": 0
+}

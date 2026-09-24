@@ -20,7 +20,7 @@ Every row normalizes into a typed, frozen ScenarioSpec object.
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 import csv
 
 
@@ -91,6 +91,8 @@ class PKISpec:
     chain_shape: str    # complete, self_signed_trusted, etc.
     san_type: str       # matched_dns, mismatched_dns, wildcard, ip_san, no_san
     weak_key: bool = False  # True for RSA-1024 (PCAP-126)
+    leaf_key_algo: Optional[str] = None  # rsa, ecdsa, ed25519 (decoupled from sig_algo per RFC 5280)
+    leaf_key_size: Optional[int] = None  # 2048, 1024, 256
 
 
 @dataclass(frozen=True)
@@ -167,6 +169,161 @@ class ScenarioSpec:
     def is_pop3(self) -> bool:
         return self.protocol == "pop3"
 
+    def to_expected_dict(self, selected_cipher: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Project ScenarioSpec and matrix expectations into a pure expected artifact.
+        Deterministic, standalone representation of scenario intent with zero analyzer leakage.
+        """
+        def _parse_bool(val: Optional[str]) -> Optional[bool]:
+            if not val or val.strip() in ("", "N/A"):
+                return None
+            return val.strip().lower() in ("true", "1", "yes")
+
+        fwd_sec = _parse_bool(self.raw_row.get("forward_secrecy"))
+        hrr = _parse_bool(self.raw_row.get("hello_retry_request"))
+        sig_alg_cert_present = _parse_bool(self.raw_row.get("sig_alg_cert_present"))
+        cert_has_san = _parse_bool(self.raw_row.get("cert_has_san"))
+
+        tls_ver = self.server.tls_version
+        tls_ver_str = f"TLS {tls_ver}" if tls_ver not in ("N/A", "", None) else None
+
+        raw_cert_obs = self.raw_row.get("certificate_observable", "").strip()
+        if raw_cert_obs:
+            cert_obs = raw_cert_obs
+        elif self.server.tls_presence == "none":
+            cert_obs = "NOT_PRESENT"
+        elif self.server.tls_version == "1.3":
+            cert_obs = "ENCRYPTED"
+        elif self.needs_pki:
+            cert_obs = "VISIBLE"
+        else:
+            cert_obs = "NOT_PRESENT"
+
+        is_fatal_alert = (self.generator_requirement == "server_sends_fatal_alert")
+        is_tls = (self.server.tls_presence != "none") and not is_fatal_alert
+        has_cert = (self.needs_pki or cert_obs in ("VISIBLE", "ENCRYPTED")) and not is_fatal_alert
+        cert_observability = "conditional" if cert_obs == "ENCRYPTED" else ("always" if (cert_obs == "VISIBLE" and not is_fatal_alert) else "not_applicable")
+
+        # Resolve exact cipher if not explicitly provided
+        if selected_cipher is None and is_tls:
+            try:
+                from testbed.runner.resolver import resolve_scenario, ResolutionStatus
+                res = resolve_scenario(self)
+                if res.cipher_resolution_status in (ResolutionStatus.CONFIGURABLE_CANDIDATE_SELECTED, ResolutionStatus.RESOLVED):
+                    selected_cipher = res.selected_cipher
+            except Exception:
+                selected_cipher = None
+
+        exact_cipher_val = selected_cipher if (is_tls and selected_cipher) else None
+
+        expected_data: Dict[str, Any] = {
+            "protocol": self.protocol.upper(),
+            "tls_presence": self.server.tls_presence,
+            "starttls_integrity": self.raw_row.get("starttls_integrity", "N/A"),
+            "tls_version": self.server.tls_version,
+            "cipher_strength": self.server.cipher_strength,
+            "cert_validity": self.raw_row.get("cert_validity", "N/A"),
+            "cert_chain_shape": self.raw_row.get("cert_chain_shape", "N/A"),
+            "cert_sig_algo": self.raw_row.get("cert_sig_algo", "N/A"),
+            "hostname_match": self.raw_row.get("hostname_match", "N/A"),
+            "auth_outcome": self.client.auth_outcome,
+            "expected_starttls_status": self.oracle.expected_starttls_status,
+            "expected_trust_status": self.oracle.expected_trust_status,
+            "tls13_kex_mode": self.raw_row.get("tls13_kex_mode", ""),
+            "tls12_kex_type": self.raw_row.get("tls12_kex_type", ""),
+            "forward_secrecy": fwd_sec,
+            "hello_retry_request": hrr,
+            "downgrade_sentinel": self.raw_row.get("downgrade_sentinel", "none"),
+            "starttls_outcome": self.raw_row.get("starttls_outcome", ""),
+            "sig_alg_cert_present": sig_alg_cert_present,
+            "cert_has_san": cert_has_san,
+            "hostname_type": self.raw_row.get("hostname_type", ""),
+            "path_selection": self.raw_row.get("path_selection", ""),
+            "certificate_observable": cert_obs,
+            "generator_requirement": self.generator_requirement,
+            "exact_cipher": exact_cipher_val,
+        }
+
+        if self.layer:
+            expected_data["layer"] = self.layer
+        if self.description:
+            expected_data["description"] = self.description
+
+        assertions: Dict[str, Any] = {
+            "protocol": {
+                "expected": self.protocol.upper(),
+                "required": True,
+                "observability": "always",
+            },
+            "starttls_status": {
+                "expected": self.oracle.expected_starttls_status if not is_fatal_alert else None,
+                "required": not is_fatal_alert,
+                "observability": "always" if not is_fatal_alert else "not_applicable",
+            },
+            "tls_presence": {
+                "expected": self.server.tls_presence,
+                "required": True,
+                "observability": "always",
+            },
+            "tls.fatal_alert": {
+                "expected": True if is_fatal_alert else False,
+                "required": is_fatal_alert,
+                "observability": "always" if is_fatal_alert else "not_applicable",
+            },
+            "tls.version": {
+                "expected": tls_ver_str if not is_fatal_alert else None,
+                "required": is_tls,
+                "observability": "always" if is_tls else "not_applicable",
+            },
+            "tls.cipher_strength": {
+                "expected": (self.server.cipher_strength if self.server.cipher_strength not in ("N/A", "", None) else None) if not is_fatal_alert else None,
+                "required": is_tls,
+                "observability": "always" if is_tls else "not_applicable",
+            },
+            "tls.cipher_name": {
+                "expected": exact_cipher_val,
+                "required": is_tls and (exact_cipher_val is not None),
+                "observability": "always" if (is_tls and exact_cipher_val is not None) else "not_applicable",
+            },
+            "tls.forward_secrecy": {
+                "expected": fwd_sec if not is_fatal_alert else None,
+                "required": is_tls and fwd_sec is not None,
+                "observability": "always" if is_tls else "not_applicable",
+            },
+            "certificate.observable": {
+                "expected": "NOT_PRESENT" if is_fatal_alert else cert_obs,
+                "required": True,
+                "observability": "always",
+            },
+            "certificate.signature_algorithm": {
+                "expected": (self.raw_row.get("cert_sig_algo") if self.raw_row.get("cert_sig_algo") not in ("N/A", "", None) else None) if not is_fatal_alert else None,
+                "required": has_cert,
+                "observability": cert_observability,
+            },
+            "certificate.validity": {
+                "expected": (self.raw_row.get("cert_validity") if self.raw_row.get("cert_validity") not in ("N/A", "", None) else None) if not is_fatal_alert else None,
+                "required": has_cert,
+                "observability": cert_observability,
+            },
+            "certificate.hostname_match": {
+                "expected": (self.raw_row.get("hostname_match") if self.raw_row.get("hostname_match") not in ("N/A", "", None) else None) if not is_fatal_alert else None,
+                "required": has_cert,
+                "observability": cert_observability,
+            },
+            "certificate.trust_status": {
+                "expected": (self.oracle.expected_trust_status if self.oracle.expected_trust_status not in ("N/A", "", None) else None) if not is_fatal_alert else None,
+                "required": has_cert,
+                "observability": cert_observability,
+            },
+        }
+
+        return {
+            "schema_version": "1.0",
+            "scenario_id": self.scenario_id,
+            "expected": expected_data,
+            "assertions": assertions,
+        }
+
 
 def parse_scenario_row(row: Dict[str, str]) -> ScenarioSpec:
     """
@@ -233,12 +390,26 @@ def parse_scenario_row(row: Dict[str, str]) -> ScenarioSpec:
                 san_type = "matched_dns"
                 sni = "mail.test.local"
 
+        # Leaf key derivation decoupled from sig_algo (RFC 5280)
+        explicit_leaf_type = row.get("server_leaf_key_type")
+        if explicit_leaf_type:
+            leaf_key_algo = explicit_leaf_type.lower().strip()
+            leaf_key_size = 1024 if (weak_key or "1024" in req) else (256 if leaf_key_algo == "ecdsa" else 2048)
+        elif weak_key or "1024" in req:
+            leaf_key_algo = "rsa"
+            leaf_key_size = 1024
+        else:
+            leaf_key_algo = None
+            leaf_key_size = None
+
         pki = PKISpec(
             sig_algo=sig_algo,
             validity=validity,
             chain_shape=chain_shape,
             san_type=san_type,
             weak_key=weak_key,
+            leaf_key_algo=leaf_key_algo,
+            leaf_key_size=leaf_key_size,
         )
     elif tls_presence != "none":
         # Scenarios where TLS is negotiated or attempted without a certificate profile in the matrix

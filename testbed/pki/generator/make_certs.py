@@ -48,6 +48,7 @@ import base64
 import datetime
 import ipaddress
 import pathlib
+from typing import Any, Dict, Optional, Tuple
 
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes, serialization
@@ -139,6 +140,7 @@ def _basic_constraints(is_ca: bool, path_len=None) -> x509.BasicConstraints:
 def _sign(builder, signing_key, sig_algo: str) -> x509.Certificate:
     """
     Sign a certificate builder with the right algorithm for the given sig_algo.
+    Validates cryptographic compatibility between signing_key and sig_algo.
 
     sig_algo values correspond directly to the sidecar schema's cert_sig_algo
     field:
@@ -146,21 +148,18 @@ def _sign(builder, signing_key, sig_algo: str) -> x509.Certificate:
         "rsa_pkcs" -> RSA PKCS#1 v1.5 + SHA-256
         "rsa_pss"  -> RSA-PSS + SHA-256
         "ed25519"  -> PureEdDSA (no separate hash)
-
-    Both RSA variants share the same issuer RSA key; the padding differs.
     """
     if sig_algo == "ecdsa":
+        if not isinstance(signing_key, ec.EllipticCurvePrivateKey):
+            raise ValueError(f"Incompatible signing key {type(signing_key).__name__} for sig_algo 'ecdsa'")
         return builder.sign(signing_key, hashes.SHA256())
     elif sig_algo == "rsa_pkcs":
-        # PKCS1v15 is the default RSA signing mode in the cryptography library.
+        if not isinstance(signing_key, rsa.RSAPrivateKey):
+            raise ValueError(f"Incompatible signing key {type(signing_key).__name__} for sig_algo 'rsa_pkcs'")
         return builder.sign(signing_key, hashes.SHA256())
     elif sig_algo == "rsa_pss":
-        # RFC 4055 §3.1 — id-RSASSA-PSS (OID 1.2.840.113549.1.1.10).
-        # cryptography ≥38: CertificateBuilder.sign(key, algo, backend=None, *, rsa_padding=...)
-        # PSS must be passed as rsa_padding= keyword. Passing it as positional arg 3
-        # silently lands in the legacy backend parameter and is discarded, producing
-        # sha256WithRSAEncryption (OID .1.1.11) instead of id-RSASSA-PSS (.1.1.10).
-        # ponytail: only this one arm changes; ecdsa/rsa_pkcs/ed25519 are unaffected.
+        if not isinstance(signing_key, rsa.RSAPrivateKey):
+            raise ValueError(f"Incompatible signing key {type(signing_key).__name__} for sig_algo 'rsa_pss'")
         return builder.sign(
             signing_key,
             hashes.SHA256(),
@@ -170,7 +169,9 @@ def _sign(builder, signing_key, sig_algo: str) -> x509.Certificate:
             ),
         )
     elif sig_algo == "ed25519":
-        return builder.sign(signing_key, None)   # Ed25519 uses no separate hash
+        if not isinstance(signing_key, ed25519.Ed25519PrivateKey):
+            raise ValueError(f"Incompatible signing key {type(signing_key).__name__} for sig_algo 'ed25519'")
+        return builder.sign(signing_key, None)
     else:
         raise ValueError(f"Unknown sig_algo: {sig_algo!r}")
 
@@ -430,22 +431,52 @@ def _issuer_key_for(sig_algo: str, cache: _KeyCache):
     return cache.issuer[mapping[sig_algo]]
 
 
-def _leaf_key_for(sig_algo: str, cache: _KeyCache, weak: bool = False):
+def _leaf_key_for(
+    leaf_key_algo: Optional[str] = None,
+    leaf_key_size: Optional[int] = None,
+    cache: Optional[_KeyCache] = None,
+    weak: bool = False,
+    sig_algo_fallback: Optional[str] = None,
+):
     """
     Return the correct cached leaf key.
 
-    For RSA-1024 (weak=True, PCAP-126), return the rsa1024 cached key.
-    Otherwise the leaf key type matches the signing algorithm key type.
+    Strict Invariant (RFC 5280): Leaf public key algorithm is decoupled from
+    the CA's certificate signature algorithm.
     """
-    if weak:
+    if cache is None:
+        raise ValueError("cache must be provided")
+
+    # 1. Primary: explicitly specified leaf key algorithm and size
+    if leaf_key_algo is not None:
+        algo = str(leaf_key_algo).lower().strip()
+        if algo == "rsa":
+            if weak or leaf_key_size == 1024:
+                return cache.leaf["rsa1024"]
+            return cache.leaf["rsa2048"]
+        elif algo == "ecdsa":
+            return cache.leaf["ecdsa"]
+        elif algo == "ed25519":
+            return cache.leaf["ed25519"]
+        else:
+            raise ValueError(f"Unknown leaf_key_algo: {leaf_key_algo!r}")
+
+    # 2. Secondary fallback for backward compatibility
+    if weak or leaf_key_size == 1024:
         return cache.leaf["rsa1024"]
-    mapping = {
-        "ecdsa":    "ecdsa",
-        "rsa_pkcs": "rsa2048",
-        "rsa_pss":  "rsa2048",
-        "ed25519":  "ed25519",
-    }
-    return cache.leaf[mapping[sig_algo]]
+
+    if sig_algo_fallback:
+        mapping = {
+            "ecdsa":    "ecdsa",
+            "rsa_pkcs": "rsa2048",
+            "rsa_pss":  "rsa2048",
+            "ed25519":  "ed25519",
+        }
+        if sig_algo_fallback in mapping:
+            return cache.leaf[mapping[sig_algo_fallback]]
+
+    # 3. Default fallback: standard RSA-2048
+    return cache.leaf["rsa2048"]
 
 
 # ---------------------------------------------------------------------------
@@ -546,14 +577,19 @@ class PKIFactory:
             chain_shape=pki_spec.chain_shape,
             san_type=pki_spec.san_type,
             weak_key=getattr(pki_spec, "weak_key", False),
+            leaf_key_algo=getattr(pki_spec, "leaf_key_algo", None),
+            leaf_key_size=getattr(pki_spec, "leaf_key_size", None),
         )
         chain_file = out_path / "chain.pem"
         key_file = out_path / "key.pem"
+        trust_store_file = out_path / "trust_store.pem"
         chain_file.write_text(profile["chain_pem"])
         key_file.write_text(profile["key_pem"])
+        trust_store_file.write_text(profile["trust_store_pem"])
         return {
             "chain_file": chain_file,
             "key_file": key_file,
+            "trust_store_file": trust_store_file,
             "trust_store_pem": profile["trust_store_pem"],
             "profile": profile,
         }
@@ -565,6 +601,8 @@ class PKIFactory:
         chain_shape: str,
         san_type: str,
         weak_key: bool = False,
+        leaf_key_algo: Optional[str] = None,
+        leaf_key_size: Optional[int] = None,
     ) -> dict:
         """
         Generate the full PKI artifact set for one testbed scenario.
@@ -581,19 +619,19 @@ class PKIFactory:
 
         chain_shape : str
             Chain topology / trust mutation to apply.
-            One of:
-                "complete"              normal 3-tier chain (root->int->leaf)
-                "self_signed_trusted"   self-signed leaf; leaf IS trust anchor
-                "self_signed_untrusted" self-signed leaf; empty trust store
-                "unknown_root"          chain signed by rogue CA (not trusted)
-                "leaf_only"             intermediate excluded from chain.pem
-                "bad_constraint"        intermediate has CA=FALSE
-                "tampered_sig"          intermediate signature is corrupted
 
         san_type : str
             Subject Alternative Name content in the leaf.
-            One of: "matched_dns", "mismatched_dns", "wildcard",
-                    "ip_san", "no_san"
+
+        weak_key : bool
+            True for 1024-bit RSA key.
+
+        leaf_key_algo : str, optional
+            Server's leaf public key algorithm ("rsa", "ecdsa", "ed25519").
+            Decoupled from sig_algo per RFC 5280.
+
+        leaf_key_size : int, optional
+            Server's leaf key size (e.g. 2048, 1024).
 
         Returns
         -------
@@ -606,7 +644,10 @@ class PKIFactory:
         """
         # --- Self-signed: no intermediate at all -------------------------
         if chain_shape in ("self_signed_trusted", "self_signed_untrusted"):
-            return self._self_signed_profile(sig_algo, validity, san_type, chain_shape, weak_key=weak_key)
+            return self._self_signed_profile(
+                sig_algo, validity, san_type, chain_shape,
+                weak_key=weak_key, leaf_key_algo=leaf_key_algo, leaf_key_size=leaf_key_size
+            )
 
         # --- All other shapes: build intermediate + leaf -----------------
         issuer_key = _issuer_key_for(sig_algo, self._keys)
@@ -637,7 +678,15 @@ class PKIFactory:
         # Build the leaf cert. The leaf is always signed by the un-tampered
         # issuer_key (the cryptographic operation is valid). The tampered bytes
         # are only in the intermediate's cert DER, not in the leaf.
-        leaf_key  = _leaf_key_for(sig_algo, self._keys, weak=weak_key)
+        # RFC 5280 Invariant: leaf_key is derived independently from leaf_key_algo/size,
+        # with fallback to sig_algo if unspecified.
+        leaf_key = _leaf_key_for(
+            leaf_key_algo=leaf_key_algo,
+            leaf_key_size=leaf_key_size,
+            cache=self._keys,
+            weak=weak_key,
+            sig_algo_fallback=sig_algo,
+        )
         leaf_cert = _build_leaf_cert(
             leaf_key, intermediate_cert, issuer_key, sig_algo, validity, san_type
         )
@@ -726,6 +775,8 @@ class PKIFactory:
         san_type: str,
         chain_shape: str,
         weak_key: bool = False,
+        leaf_key_algo: Optional[str] = None,
+        leaf_key_size: Optional[int] = None,
     ) -> dict:
         """
         Generate a self-signed leaf certificate profile.
@@ -738,7 +789,30 @@ class PKIFactory:
                                      (the leaf IS the trust anchor)
             self_signed_untrusted -> empty trust store (no anchor -> UNTRUSTED)
         """
-        leaf_key = _leaf_key_for(sig_algo, self._keys, weak=weak_key)
+        # RFC 5280 Strict Invariant for Self-Signed Certificates:
+        # Subject public key == signing key == certificate self-signature algorithm's key family.
+        if sig_algo == "ecdsa":
+            required_family = "ecdsa"
+        elif sig_algo in ("rsa_pkcs", "rsa_pss"):
+            required_family = "rsa"
+        elif sig_algo == "ed25519":
+            required_family = "ed25519"
+        else:
+            raise ValueError(f"Unknown sig_algo for self-signed profile: {sig_algo!r}")
+
+        if leaf_key_algo is not None and leaf_key_algo.lower() != required_family:
+            raise ValueError(
+                f"Self-signed certificate signature/key incompatibility: requested "
+                f"sig_algo '{sig_algo}' (family '{required_family}') but leaf_key_algo is '{leaf_key_algo}'."
+            )
+
+        leaf_key = _leaf_key_for(
+            leaf_key_algo=required_family,
+            leaf_key_size=leaf_key_size,
+            cache=self._keys,
+            weak=weak_key,
+            sig_algo_fallback=sig_algo,
+        )
 
         not_before, not_after = _validity_window(validity)
         san_ext = _san_extension(san_type)

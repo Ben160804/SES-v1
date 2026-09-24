@@ -1,0 +1,12 @@
+{
+  "run_id": "batch_20260924_085243_bf8c2d9d",
+  "scenario_id": "PCAP-041",
+  "completed_at": "2026-09-24T08:55:03.622212+00:00",
+  "artifact_hashes": {
+    "pcap": "sha256:9ca736c34b0f0fddeab0b19d7bb00bff9d730461cb7cd842bf9ce5694fb15d86",
+    "expected": "sha256:4a09b5af9dfa45f4467639882173ce0c635417938bd3d2a2c2fe68d121724434",
+    "observed": "sha256:a29160c2580f5018f03e6f6709691622c8f057f9502682ae7bc0f5c4ee940243",
+    "comparison": "sha256:11f302414999013e742a3bd7f005ba8a5347fb155b2fbcc4624033327e92e2ed",
+    "evidence": "sha256:641d5c288eb7fa3886ecc68a1d36f0a9b27c4f87c20bb9ea0f707488a1d3bb49"
+  }
+}

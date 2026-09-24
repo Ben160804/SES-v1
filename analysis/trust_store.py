@@ -55,7 +55,7 @@ class TrustStoreManager:
         self.ca_file_path = None
 
         if ca_path is not None:
-            self.ca_file_path = os.path.abspath(ca_path)
+            self.ca_file_path = os.path.abspath(str(ca_path))
             self.trust_store_type = "custom_path"
         elif isinstance(trust_store, Store):
             self.trust_store_type = trust_store
@@ -74,10 +74,13 @@ class TrustStoreManager:
                     self.ca_file_path = os.path.abspath(legacy_root)
                 else:
                     self.ca_file_path = os.path.abspath(testbed_root)
+        elif isinstance(trust_store, (str, os.PathLike)) and os.path.isfile(str(trust_store)):
+            self.ca_file_path = os.path.abspath(str(trust_store))
+            self.trust_store_type = "testbed"
         else:
             raise ValueError(
                 f"Invalid trust_store argument: {trust_store!r}. "
-                "Must be 'testbed', 'production', an explicit ca_path, or a cryptography.x509.verification.Store instance."
+                "Must be 'testbed', 'production', a valid CA/trust store file path, an explicit ca_path, or a cryptography.x509.verification.Store instance."
             )
 
     def get_store(self):
@@ -118,7 +121,7 @@ class TrustStoreManager:
             # Used by self_signed_untrusted scenarios (empty trust store).
             if not content.strip():
                 self._store_certs = []
-                self._loaded_store = Store([])
+                self._loaded_store = None
                 self.trust_store_description = f"empty trust store ({self.ca_file_path}, 0 roots)"
             else:
                 try:
@@ -126,7 +129,10 @@ class TrustStoreManager:
                 except Exception:
                     self._store_certs = []
 
-                self._loaded_store = Store(self._store_certs)
+                if self._store_certs:
+                    self._loaded_store = Store(self._store_certs)
+                else:
+                    self._loaded_store = None
                 type_name = self.trust_store_type if isinstance(self.trust_store_type, str) else "custom"
                 self.trust_store_description = (
                     f"{type_name} ({self.ca_file_path}, {len(self._store_certs)} root(s))"
@@ -134,7 +140,7 @@ class TrustStoreManager:
         else:
             # Degrade gracefully: empty store means nothing will be trusted,
             # but the parser won't crash. The description surfaces the warning.
-            self._loaded_store = Store([])
+            self._loaded_store = None
             self._store_certs = []
             type_name = self.trust_store_type if isinstance(self.trust_store_type, str) else "custom"
             self.trust_store_description = (

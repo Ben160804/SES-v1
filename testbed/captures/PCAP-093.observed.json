@@ -1,0 +1,282 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "PCAP-093",
+  "sessions": {
+    "0": {
+      "stream_id": 0,
+      "protocol": "SMTP",
+      "starttls": {
+        "stream": 0,
+        "starttls_offered": false,
+        "starttls_requested": false,
+        "starttls_accepted": false,
+        "starttls_rejected": false,
+        "tls_active": true,
+        "plaintext_auth_attempted": false,
+        "status": "IMPLICIT_TLS",
+        "details": "Session used direct implicit TLS without plaintext upgrade (e.g. SMTPS/IMAPS/POP3S)."
+      },
+      "tls": {
+        "stream": 0,
+        "raw_version": "0x0303",
+        "tls_version": "TLS 1.2",
+        "raw_cipher_suite": "0xc009",
+        "cipher_name": "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA",
+        "key_exchange": "ECDHE",
+        "forward_secrecy": true,
+        "cipher_strength": "MEDIUM",
+        "tls13_key_exchange_group": null,
+        "tls13_psk_selected": null,
+        "tls13_key_exchange_mode": null,
+        "hello_retry_request": false
+      },
+      "handshake": {
+        "stream": 0,
+        "client_hello": {
+          "offered_versions": [
+            "TLS 1.2"
+          ],
+          "offered_ciphers": [
+            {
+              "hex": "0xc009",
+              "name": "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA",
+              "strength": "MEDIUM",
+              "forward_secrecy": true
+            }
+          ],
+          "offered_ciphers_count": 1,
+          "supported_groups": [
+            "x25519",
+            "secp256r1",
+            "x448",
+            "secp384r1",
+            "secp521r1"
+          ],
+          "offered_key_shares": [],
+          "signature_algorithms": [
+            "ecdsa_secp256r1_sha256",
+            "ecdsa_secp384r1_sha384",
+            "ecdsa_secp521r1_sha512",
+            "ed25519",
+            "ed448",
+            "rsa_pss_pss_sha256",
+            "rsa_pss_pss_sha384",
+            "rsa_pss_pss_sha512",
+            "rsa_pss_rsae_sha256",
+            "rsa_pss_rsae_sha384",
+            "rsa_pss_rsae_sha512",
+            "rsa_pkcs1_sha256",
+            "rsa_pkcs1_sha384",
+            "rsa_pkcs1_sha512",
+            "ecdsa_sha224",
+            "ecdsa_sha1",
+            "rsa_pkcs1_sha224",
+            "rsa_pkcs1_sha1",
+            "dsa_sha224",
+            "dsa_sha1",
+            "dsa_sha256",
+            "dsa_sha384",
+            "dsa_sha512"
+          ],
+          "signature_algorithms_cert": [],
+          "signature_algorithms_cert_present": false,
+          "psk_key_exchange_modes": [],
+          "sni": "mail.test.local",
+          "alpn": [],
+          "early_data_offered": false
+        },
+        "server_negotiation": {
+          "raw_version": "0x0303",
+          "selected_tls_version": "TLS 1.2",
+          "selected_cipher": {
+            "hex": "0xc009",
+            "name": "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA",
+            "strength": "MEDIUM",
+            "forward_secrecy": true,
+            "kex_mechanism": "ECDHE"
+          },
+          "tls13_key_exchange_group": null,
+          "tls13_psk_selected": null,
+          "tls13_key_exchange_mode": null,
+          "hello_retry_request": false,
+          "is_hello_retry_request": false,
+          "tls12_server_key_exchange": {
+            "kex_type": "ECDHE",
+            "named_curve": "x25519",
+            "named_curve_hex": "0x001d",
+            "dh_prime_length_bits": null,
+            "wire_signature_algorithm": "ed25519"
+          },
+          "downgrade_sentinel": {
+            "sentinel_detected": false,
+            "sentinel_type": null,
+            "sentinel_bytes": null,
+            "server_supports_tls13": false
+          }
+        },
+        "flight": {
+          "messages": [
+            {
+              "frame": 4,
+              "type_id": 1,
+              "message": "ClientHello",
+              "reassembled_in": null
+            },
+            {
+              "frame": 6,
+              "type_id": 2,
+              "message": "ServerHello",
+              "reassembled_in": null
+            },
+            {
+              "frame": 6,
+              "type_id": 11,
+              "message": "Certificate",
+              "reassembled_in": null
+            },
+            {
+              "frame": 6,
+              "type_id": 12,
+              "message": "ServerKeyExchange",
+              "reassembled_in": null
+            },
+            {
+              "frame": 6,
+              "type_id": 14,
+              "message": "ServerHelloDone",
+              "reassembled_in": null
+            },
+            {
+              "frame": 8,
+              "type_id": 16,
+              "message": "ClientKeyExchange",
+              "reassembled_in": null
+            },
+            {
+              "frame": 9,
+              "type_id": 4,
+              "message": "NewSessionTicket",
+              "reassembled_in": null
+            }
+          ],
+          "finished_observed": false,
+          "application_data_observed": true,
+          "outer_record_23_observed": true,
+          "early_data_observed": false,
+          "alerts": [
+            {
+              "frame": 23,
+              "level": "UNKNOWN",
+              "description": "EncryptedAlert",
+              "raw_desc": null
+            }
+          ]
+        },
+        "forensic_analysis": {
+          "handshake_status": "COMPLETED_INFERRED",
+          "client_max_version": "TLS 1.2",
+          "negotiated_version": "TLS 1.2",
+          "version_downgrade": {
+            "downgrade_signal_detected": false,
+            "classification": "MATCH",
+            "details": "Negotiated version matches or is consistent with connection context."
+          },
+          "cipher_downgrade": {
+            "downgrade_signal_detected": false,
+            "details": "Negotiated cipher suite strength is MEDIUM."
+          }
+        }
+      },
+      "certificate": {
+        "stream": 0,
+        "chain_length": 1,
+        "is_self_signed": true,
+        "trust_status": "UNTRUSTED_SELF_SIGNED",
+        "trust_details": "Cryptographically verified self-signed certificate. Untrusted: not present in active 'testbed' store.",
+        "path_verification_error": null,
+        "active_trust_store": "testbed",
+        "active_trust_store_description": "empty trust store (/home/bigfoot/mailtest/testbed/active/trust_store.pem, 0 roots)",
+        "anchored_in_active_store": false,
+        "claimed_sni": "mail.test.local",
+        "hostname_match": "MATCHED",
+        "revocation_status": "NOT_CHECKED (PASSIVE_OFFLINE_ANALYSIS)",
+        "resolved_path": [
+          {
+            "serial": "69689020461937818509242366334349100756194557829",
+            "serial_number": "69689020461937818509242366334349100756194557829",
+            "subject": "CN=mail.test.local",
+            "issuer": "CN=mail.test.local",
+            "sha256_fingerprint": "827b4fd653a1d56c706ac4e7ea0172c9c44a76b135c0505868a57bc003b4c46d"
+          }
+        ],
+        "leaf_cert": {
+          "serial_number": "69689020461937818509242366334349100756194557829",
+          "issuer_dn": "CN=mail.test.local",
+          "subject_dn": "CN=mail.test.local",
+          "issuer_cn": "mail.test.local",
+          "subject_cn": "mail.test.local",
+          "san_dns": [
+            "mail.test.local"
+          ],
+          "san_ip": [],
+          "signature_algorithm_oid": "1.3.101.112",
+          "signature_algorithm_name": "ed25519",
+          "signature_algorithm_parameters": null,
+          "signature_hash_algorithm": null,
+          "public_key_algorithm": "Ed25519",
+          "public_key_size": 256,
+          "basic_constraints": {
+            "ca": false,
+            "path_length": null
+          },
+          "key_usage": null,
+          "extended_key_usage": [],
+          "subject_key_identifier": "ddb334695b2f7a3df047051f6af52dc84f68ec8c",
+          "authority_key_identifier": "ddb334695b2f7a3df047051f6af52dc84f68ec8c",
+          "critical_extensions": [
+            "2.5.29.19"
+          ],
+          "not_before": "2026-09-23 08:52:43+00:00",
+          "not_after": "2028-09-23 08:52:43+00:00",
+          "is_expired": false,
+          "not_yet_valid": false
+        },
+        "full_chain": [
+          {
+            "serial_number": "69689020461937818509242366334349100756194557829",
+            "issuer_dn": "CN=mail.test.local",
+            "subject_dn": "CN=mail.test.local",
+            "issuer_cn": "mail.test.local",
+            "subject_cn": "mail.test.local",
+            "san_dns": [
+              "mail.test.local"
+            ],
+            "san_ip": [],
+            "signature_algorithm_oid": "1.3.101.112",
+            "signature_algorithm_name": "ed25519",
+            "signature_algorithm_parameters": null,
+            "signature_hash_algorithm": null,
+            "public_key_algorithm": "Ed25519",
+            "public_key_size": 256,
+            "basic_constraints": {
+              "ca": false,
+              "path_length": null
+            },
+            "key_usage": null,
+            "extended_key_usage": [],
+            "subject_key_identifier": "ddb334695b2f7a3df047051f6af52dc84f68ec8c",
+            "authority_key_identifier": "ddb334695b2f7a3df047051f6af52dc84f68ec8c",
+            "critical_extensions": [
+              "2.5.29.19"
+            ],
+            "not_before": "2026-09-23 08:52:43+00:00",
+            "not_after": "2028-09-23 08:52:43+00:00",
+            "is_expired": false,
+            "not_yet_valid": false
+          }
+        ],
+        "parse_errors": []
+      }
+    }
+  }
+}

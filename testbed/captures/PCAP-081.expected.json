@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "PCAP-081",
+  "expected": {
+    "protocol": "SMTP",
+    "tls_presence": "implicit-TLS",
+    "starttls_integrity": "N/A",
+    "tls_version": "1.0",
+    "cipher_strength": "WEAK",
+    "cert_validity": "expired",
+    "cert_chain_shape": "chain-tampered-intermediate-sig",
+    "cert_sig_algo": "RSA-PSS",
+    "hostname_match": "matched",
+    "auth_outcome": "post-TLS-encrypted",
+    "expected_starttls_status": "IMPLICIT_TLS",
+    "expected_trust_status": "EXPIRED",
+    "tls13_kex_mode": "",
+    "tls12_kex_type": "",
+    "forward_secrecy": null,
+    "hello_retry_request": null,
+    "downgrade_sentinel": "",
+    "starttls_outcome": "",
+    "sig_alg_cert_present": null,
+    "cert_has_san": null,
+    "hostname_type": "",
+    "path_selection": "",
+    "certificate_observable": "VISIBLE",
+    "generator_requirement": "",
+    "exact_cipher": "TLS_DHE_RSA_WITH_AES_128_CBC_SHA",
+    "layer": "inventory"
+  },
+  "assertions": {
+    "protocol": {
+      "expected": "SMTP",
+      "required": true,
+      "observability": "always"
+    },
+    "starttls_status": {
+      "expected": "IMPLICIT_TLS",
+      "required": true,
+      "observability": "always"
+    },
+    "tls_presence": {
+      "expected": "implicit-TLS",
+      "required": true,
+      "observability": "always"
+    },
+    "tls.fatal_alert": {
+      "expected": false,
+      "required": false,
+      "observability": "not_applicable"
+    },
+    "tls.version": {
+      "expected": "TLS 1.0",
+      "required": true,
+      "observability": "always"
+    },
+    "tls.cipher_strength": {
+      "expected": "WEAK",
+      "required": true,
+      "observability": "always"
+    },
+    "tls.cipher_name": {
+      "expected": "TLS_DHE_RSA_WITH_AES_128_CBC_SHA",
+      "required": true,
+      "observability": "always"
+    },
+    "tls.forward_secrecy": {
+      "expected": null,
+      "required": false,
+      "observability": "always"
+    },
+    "certificate.observable": {
+      "expected": "VISIBLE",
+      "required": true,
+      "observability": "always"
+    },
+    "certificate.signature_algorithm": {
+      "expected": "RSA-PSS",
+      "required": true,
+      "observability": "always"
+    },
+    "certificate.validity": {
+      "expected": "expired",
+      "required": true,
+      "observability": "always"
+    },
+    "certificate.hostname_match": {
+      "expected": "matched",
+      "required": true,
+      "observability": "always"
+    },
+    "certificate.trust_status": {
+      "expected": "EXPIRED",
+      "required": true,
+      "observability": "always"
+    }
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "run_id": "batch_20260924_055142_836adde2",
+  "status": "COMPLETED",
+  "started_at": "2026-09-24T05:51:42.906789+00:00",
+  "updated_at": "2026-09-24T05:51:59.433780+00:00",
+  "preflight": {
+    "timestamp": "2026-09-24T05:51:42.863438+00:00",
+    "required_services": [
+      "mailtest-postfix"
+    ],
+    "active_containers": [
+      "mailtest-dovecot",
+      "mailtest-mitm",
+      "mailtest-postfix"
+    ],
+    "bridge_interface": "br-87a3125207be",
+    "tshark_path": "/usr/bin/tshark"
+  },
+  "scenarios": {
+    "PCAP-083": {
+      "scenario_id": "PCAP-083",
+      "protocol": "smtp",
+      "category": "EXECUTABLE_STANDARD",
+      "execution_state": "GENERATED",
+      "comparison_status": "FAIL",
+      "selected_cipher": "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA",
+      "duration_seconds": 5.845,
+      "error": null,
+      "artifacts": {
+        "pcap": "/home/bigfoot/mailtest/testbed/captures/PCAP-083.pcap",
+        "expected": "/home/bigfoot/mailtest/testbed/captures/PCAP-083.expected.json",
+        "observed": "/home/bigfoot/mailtest/testbed/captures/PCAP-083.observed.json",
+        "comparison": "/home/bigfoot/mailtest/testbed/captures/PCAP-083.comparison.json",
+        "evidence": "/home/bigfoot/mailtest/testbed/captures/PCAP-083.evidence.json"
+      },
+      "artifact_hashes": {
+        "pcap": "sha256:0256f5fae7f9422375fd3e9799da94685c8c11a16f7a22d24da93718f37f9c7b",
+        "expected": "sha256:8126e045ae76fb8ce001d6a06e1332ba233150efbfc21a72a210c3f65c3eb124",
+        "observed": "sha256:91c0941733e8d66b14eac8d24ac73090e16e5b3de5bd4aa2dabf989b1ed663c1",
+        "comparison": "sha256:a793091932b91e6230746cbb5491827ada6779403799073d4cf9929d74e3f1c6",
+        "evidence": "sha256:0ef6af18e3579708fcb6cd46673c8051e7e40782b3cd968448efd138e7006dc5"
+      },
+      "completed_at": "2026-09-24T05:51:48.759244+00:00",
+      "resumed": false
+    },
+    "PCAP-093": {
+      "scenario_id": "PCAP-093",
+      "protocol": "smtp",
+      "category": "EXECUTABLE_STANDARD",
+      "execution_state": "GENERATED",
+      "comparison_status": "FAIL",
+      "selected_cipher": "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA",
+      "duration_seconds": 5.798,
+      "error": null,
+      "artifacts": {
+        "pcap": "/home/bigfoot/mailtest/testbed/captures/PCAP-093.pcap",
+        "expected": "/home/bigfoot/mailtest/testbed/captures/PCAP-093.expected.json",
+        "observed": "/home/bigfoot/mailtest/testbed/captures/PCAP-093.observed.json",
+        "comparison": "/home/bigfoot/mailtest/testbed/captures/PCAP-093.comparison.json",
+        "evidence": "/home/bigfoot/mailtest/testbed/captures/PCAP-093.evidence.json"
+      },
+      "artifact_hashes": {
+        "pcap": "sha256:8d406187dbfcfcf9e02fecffee86a2e3407948d625de094561056a92383785d6",
+        "expected": "sha256:439250e2b664d272355781abeb613c7d96eef9413365b555f59c7fb43752ec85",
+        "observed": "sha256:06b12b8ceda73bae526096b48445cdd9f68356917022cdca498a510867eaff2a",
+        "comparison": "sha256:ec026ca76f1c5668a89fbbab630be56d5d72f24002d5ef77a82c1ee06fd9a377",
+        "evidence": "sha256:381c9b953c1d744e40ea75d4a61866f35b09e0128d07f647b5fee3467c6e822b"
+      },
+      "completed_at": "2026-09-24T05:51:54.561384+00:00",
+      "resumed": false
+    },
+    "PCAP-105": {
+      "scenario_id": "PCAP-105",
+      "protocol": "smtp",
+      "category": "EXECUTABLE_STANDARD",
+      "execution_state": "GENERATED",
+      "comparison_status": "FAIL",
+      "selected_cipher": "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
+      "duration_seconds": 4.868,
+      "error": null,
+      "artifacts": {
+        "pcap": "/home/bigfoot/mailtest/testbed/captures/PCAP-105.pcap",
+        "expected": "/home/bigfoot/mailtest/testbed/captures/PCAP-105.expected.json",
+        "observed": "/home/bigfoot/mailtest/testbed/captures/PCAP-105.observed.json",
+        "comparison": "/home/bigfoot/mailtest/testbed/captures/PCAP-105.comparison.json",
+        "evidence": "/home/bigfoot/mailtest/testbed/captures/PCAP-105.evidence.json"
+      },
+      "artifact_hashes": {
+        "pcap": "sha256:06f31785788fd36c34bbc8c6a17957f54c04ff63301a5b3065d5ca6ba0bfa5cf",
+        "expected": "sha256:d9e7a5a20b58b03d59ad9cfde278d68e94a5383e9d8da3347cadb4a33ff4d1fe",
+        "observed": "sha256:5b4d09925ffe8240fdab02fad060dd1819357a6de1c71433824895016f910c36",
+        "comparison": "sha256:d9b0465f2d51b54b492e87adfafc713ca10f25d2ae19acb74ec72c70293d13a6",
+        "evidence": "sha256:683b30536dae45d35ed6abab3d3e8b81bc97b349ef27230b2be33cb33e020da6"
+      },
+      "completed_at": "2026-09-24T05:51:59.433284+00:00",
+      "resumed": false
+    }
+  }
+}

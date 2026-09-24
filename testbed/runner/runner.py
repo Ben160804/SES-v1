@@ -44,6 +44,8 @@ if str(_project_root) not in sys.path:
 from analysis.parser import PCAPAnalyzer
 from testbed.pki.generator.make_certs import PKIFactory
 from testbed.runner.client import ClientResult, SMTPClient, IMAPClient, POP3Client
+from testbed.runner.comparator import compare
+from testbed.runner.observed import build_observed_artifact, serialize_evidence
 from testbed.runner.resolver import UnresolvableScenarioError
 from testbed.runner.spec import ScenarioSpec, load_matrix
 from testbed.runner.stager import SMTPStager, IMAPStager, POP3Stager, StagedScenario
@@ -86,276 +88,64 @@ def discover_docker_bridge(network_name: str = "testbed_mailtest_net") -> str:
         raise RuntimeError(f"Failed to inspect Docker network '{network_name}': {exc.stderr.strip()}") from exc
 
 
+class StaleArtifactCleanupError(RuntimeError):
+    """Raised when deletion of stale scenario artifacts fails."""
+    pass
+
+
+def cleanup_scenario_artifacts(captures_dir: Path, scenario_id: str) -> None:
+    """
+    Remove any pre-existing generation artifacts for the given scenario_id.
+    Does not swallow OSError: if deletion fails, raises StaleArtifactCleanupError.
+    """
+    errors: List[str] = []
+    for suffix in (
+        ".pcap",
+        ".expected.json",
+        ".observed.json",
+        ".comparison.json",
+        ".evidence.json",
+        ".batch.json",
+    ):
+        target = captures_dir / f"{scenario_id}{suffix}"
+        if target.exists():
+            try:
+                target.unlink()
+            except OSError as exc:
+                errors.append(f"{target.name}: {exc}")
+    if errors:
+        raise StaleArtifactCleanupError(
+            f"Stale artifact cleanup failed for {scenario_id}: {'; '.join(errors)}"
+        )
+
+
 @dataclass
 class ScenarioExecutionResult:
     """
     Structured outcome of an automated scenario run from stager through analyzer.
     """
     scenario_id: str
-    success: bool
+    execution_success: bool
+    comparison_status: str  # "PASS", "FAIL", "INCONCLUSIVE", "NOT_RUN"
     pcap_path: Path
-    sidecar_path: Path
+    expected_path: Path
+    observed_path: Path
+    comparison_path: Path
     evidence_path: Optional[Path] = None
     client_result: Optional[ClientResult] = None
     analyzer_results: Dict[int, Any] = field(default_factory=dict)
-    sidecar_data: Dict[str, Any] = field(default_factory=dict)
+    expected_data: Dict[str, Any] = field(default_factory=dict)
+    observed_data: Dict[str, Any] = field(default_factory=dict)
+    comparison_data: Dict[str, Any] = field(default_factory=dict)
     manifest: Dict[str, Any] = field(default_factory=dict)
     error: Optional[str] = None
     status: str = "FAILED"
+    success: bool = False
 
-
-def serialize_evidence(obj: Any) -> Any:
-    """
-    Recursively transforms PCAPAnalyzer results into a deterministically JSON-serializable
-    representation without information loss:
-      - dict keys converted to strings (JSON standard requirement for integer stream IDs)
-      - bytes converted to standard hexadecimal strings (preserving full binary entropy)
-      - datetime / date converted to ISO 8601 UTC strings
-      - Enum converted to value (or name if value non-primitive)
-      - set / frozenset converted to sorted lists
-      - Path converted to str
-    """
-    if isinstance(obj, dict):
-        return {str(k): serialize_evidence(v) for k, v in obj.items()}
-    elif isinstance(obj, (list, tuple)):
-        return [serialize_evidence(item) for item in obj]
-    elif isinstance(obj, (set, frozenset)):
-        return sorted([serialize_evidence(item) for item in obj])
-    elif isinstance(obj, bytes):
-        return obj.hex()
-    elif hasattr(obj, "isoformat"):
-        return obj.isoformat()
-    elif isinstance(obj, Enum):
-        return obj.value if isinstance(obj.value, (str, int, float, bool)) else obj.name
-    elif isinstance(obj, Path):
-        return str(obj)
-    elif isinstance(obj, (str, int, float, bool, type(None))):
-        return obj
-    raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
-
-
-def build_canonical_sidecar(
-    spec: ScenarioSpec,
-    analyzer_results: Dict[int, Any],
-    client_result: Optional[ClientResult],
-) -> Dict[str, Any]:
-    """
-    Construct the canonical ground-truth sidecar dictionary adhering strictly
-    to data/sidecar_schema.json using real evidence from analyzer, client, and spec.
-    """
-    stream0 = analyzer_results.get(0, {})
-    stls = stream0.get("starttls") or {}
-    tls_info = stream0.get("tls") or {}
-    handshake = stream0.get("handshake") or {}
-    cert_info = stream0.get("certificate") or {}
-
-    # 1. Protocol
-    protocol = stream0.get("protocol") or spec.protocol.upper()
-
-    # 2. TLS presence
-    stls_status = stls.get("status")
-    if stls_status == "UPGRADED":
-        tls_presence = "STARTTLS-upgraded"
-    elif stls_status == "IMPLICIT_TLS" or (tls_info and not stls):
-        tls_presence = "implicit-TLS"
-    elif stls_status == "CLEARTEXT_NO_ENCRYPTION" or not tls_info:
-        tls_presence = "none"
-    else:
-        tls_presence = spec.server.tls_presence
-
-    # 3. STARTTLS integrity
-    if tls_presence == "none":
-        starttls_integrity = spec.raw_row.get("starttls_integrity") or "N/A"
-    elif stls.get("starttls_rejected"):
-        starttls_integrity = "rejected"
-    elif stls_status == "STARTTLS_WITHOUT_ADVERTISEMENT":
-        starttls_integrity = "no-advertisement"
-    elif stls_status == "UPGRADED":
-        starttls_integrity = "normal"
-    else:
-        starttls_integrity = spec.raw_row.get("starttls_integrity") or "normal"
-
-    # 4. TLS version
-    if tls_info and tls_info.get("tls_version"):
-        ver_raw = tls_info["tls_version"].replace("TLS ", "").strip()
-        tls_version = ver_raw if ver_raw in ["1.0", "1.1", "1.2", "1.3"] else "N/A"
-    else:
-        tls_version = "N/A"
-
-    # 5. Cipher strength
-    if tls_info and tls_info.get("cipher_strength"):
-        cipher_strength = tls_info["cipher_strength"]
-    else:
-        cipher_strength = "N/A"
-
-    # 6. Certificate validity
-    if cert_info and cert_info.get("trust_status"):
-        t_st = cert_info["trust_status"]
-        if t_st == "EXPIRED":
-            cert_validity = "expired"
-        elif t_st == "NOT_YET_VALID":
-            cert_validity = "not-yet-valid"
-        elif t_st == "N/A":
-            cert_validity = "N/A"
-        else:
-            cert_validity = "valid"
-    elif tls_presence == "none":
-        cert_validity = "N/A"
-    elif spec.pki:
-        val = spec.pki.validity
-        cert_validity = "expired" if val == "expired" else ("not-yet-valid" if val == "not_yet_valid" else "valid")
-    else:
-        cert_validity = spec.raw_row.get("cert_validity") or "N/A"
-
-    # 7. Certificate chain shape
-    if cert_info and cert_info.get("is_self_signed"):
-        if cert_info.get("trust_status") == "TRUSTED_SELF_SIGNED":
-            cert_chain_shape = "self-signed-trusted"
-        elif cert_info.get("trust_status") == "UNTRUSTED_SELF_SIGNED":
-            cert_chain_shape = "self-signed-untrusted"
-        else:
-            cert_chain_shape = spec.raw_row.get("cert_chain_shape") or "complete-chain"
-    elif tls_presence == "none":
-        cert_chain_shape = "N/A"
-    else:
-        cert_chain_shape = spec.raw_row.get("cert_chain_shape") or "complete-chain"
-
-    # 8. Certificate signature algorithm
-    if cert_info and cert_info.get("leaf_cert"):
-        leaf = cert_info["leaf_cert"]
-        sig_param = leaf.get("signature_algorithm_parameters")
-        sig_name = (leaf.get("signature_algorithm_name") or "").lower()
-        if "ed25519" in sig_name:
-            cert_sig_algo = "Ed25519"
-        elif "ecdsa" in sig_name:
-            cert_sig_algo = "ECDSA"
-        elif sig_param == "PSS" or "pss" in sig_name:
-            cert_sig_algo = "RSA-PSS"
-        elif sig_param == "PKCS1v15" or "rsa" in sig_name:
-            cert_sig_algo = "RSA-PKCS1v15"
-        else:
-            cert_sig_algo = spec.raw_row.get("cert_sig_algo") or "N/A"
-    elif tls_presence == "none":
-        cert_sig_algo = "N/A"
-    else:
-        cert_sig_algo = spec.raw_row.get("cert_sig_algo") or "N/A"
-
-    # 9. Hostname match
-    if cert_info and cert_info.get("hostname_match"):
-        hm = str(cert_info["hostname_match"]).lower()
-        hostname_match = hm if hm in ["matched", "mismatched"] else "N/A"
-    elif tls_presence == "none":
-        hostname_match = "N/A"
-    else:
-        hostname_match = spec.raw_row.get("hostname_match") or "matched"
-
-    # 10. Auth outcome
-    if stls.get("plaintext_auth_attempted"):
-        auth_outcome = "plaintext-attempted"
-    elif client_result and client_result.success and tls_presence != "none" and spec.client.auth_outcome != "none":
-        auth_outcome = spec.client.auth_outcome
-    else:
-        auth_outcome = spec.client.auth_outcome or "none"
-
-    # 11 & 12: Oracles
-    expected_starttls_status = spec.oracle.expected_starttls_status
-    expected_trust_status = spec.oracle.expected_trust_status
-
-    sidecar = {
-        "scenario_id": spec.scenario_id,
-        "protocol": protocol,
-        "tls_presence": tls_presence,
-        "starttls_integrity": starttls_integrity,
-        "tls_version": tls_version,
-        "cipher_strength": cipher_strength,
-        "cert_validity": cert_validity,
-        "cert_chain_shape": cert_chain_shape,
-        "cert_sig_algo": cert_sig_algo,
-        "hostname_match": hostname_match,
-        "auth_outcome": auth_outcome,
-        "expected_starttls_status": expected_starttls_status,
-        "expected_trust_status": expected_trust_status,
-    }
-
-    # Optional fields permitted by schema
-    if spec.layer:
-        sidecar["layer"] = spec.layer
-    if spec.description:
-        sidecar["description"] = spec.description
-
-    if spec.raw_row.get("strip_cause"):
-        sidecar["strip_cause"] = spec.raw_row["strip_cause"]
-
-    port_type = spec.network.port_type or spec.raw_row.get("port_type")
-    if port_type:
-        sidecar["port_type"] = port_type
-
-    expected_proto = spec.oracle.expected_protocol or spec.raw_row.get("expected_protocol")
-    if expected_proto:
-        sidecar["expected_protocol"] = expected_proto
-
-    # TLS 1.3 / 1.2 KEX
-    if tls_version == "1.3":
-        kex_mode = tls_info.get("tls13_key_exchange_mode") or spec.raw_row.get("tls13_kex_mode")
-        if kex_mode in ["ECDHE", "PSK_ONLY", "PSK_DHE"]:
-            sidecar["tls13_kex_mode"] = kex_mode
-    elif tls_version == "1.2":
-        kex_type = tls_info.get("key_exchange") or spec.raw_row.get("tls12_kex_type")
-        if kex_type in ["ECDHE", "DHE"]:
-            sidecar["tls12_kex_type"] = kex_type
-
-    if "forward_secrecy" in tls_info and tls_info["forward_secrecy"] is not None:
-        sidecar["forward_secrecy"] = bool(tls_info["forward_secrecy"])
-    elif spec.raw_row.get("forward_secrecy"):
-        sidecar["forward_secrecy"] = spec.raw_row["forward_secrecy"].lower() in ("true", "1", "yes")
-
-    if "hello_retry_request" in tls_info and tls_info["hello_retry_request"] is not None:
-        sidecar["hello_retry_request"] = bool(tls_info["hello_retry_request"])
-
-    if handshake.get("server_negotiation", {}).get("downgrade_sentinel", {}).get("sentinel_detected"):
-        downgrade_sig = handshake.get("forensic_analysis", {}).get("version_downgrade", {}).get("downgrade_signal_detected", False)
-        sidecar["downgrade_sentinel"] = "protection-signal" if downgrade_sig else "benign"
-    elif tls_presence != "none":
-        sidecar["downgrade_sentinel"] = "none"
-
-    if stls.get("starttls_accepted"):
-        sidecar["starttls_outcome"] = "accepted"
-    elif stls.get("starttls_rejected"):
-        sidecar["starttls_outcome"] = "rejected"
-    elif stls.get("starttls_offered") is False and stls.get("starttls_requested"):
-        sidecar["starttls_outcome"] = "no_advertisement"
-
-    if handshake.get("client_hello"):
-        ch = handshake["client_hello"]
-        sidecar["sig_alg_cert_present"] = bool(ch.get("signature_algorithms_cert_present", False))
-
-    if cert_info and cert_info.get("leaf_cert"):
-        leaf = cert_info["leaf_cert"]
-        sidecar["cert_has_san"] = bool(leaf.get("san_dns") or leaf.get("san_ip"))
-    elif spec.pki:
-        sidecar["cert_has_san"] = spec.pki.san_type in ("matched_dns", "mismatched_dns", "wildcard", "ip_san")
-
-    if spec.pki:
-        if spec.pki.san_type in ("matched_dns", "mismatched_dns"):
-            sidecar["hostname_type"] = "dns"
-        elif spec.pki.san_type == "ip_san":
-            sidecar["hostname_type"] = "ip"
-        elif spec.pki.san_type == "wildcard":
-            sidecar["hostname_type"] = "wildcard"
-
-    if tls_presence == "none":
-        sidecar["certificate_observable"] = "NOT_PRESENT"
-    elif tls_version == "1.3":
-        sidecar["certificate_observable"] = "ENCRYPTED"
-    elif cert_info and cert_info.get("leaf_cert"):
-        sidecar["certificate_observable"] = "VISIBLE"
-    else:
-        sidecar["certificate_observable"] = "NOT_PRESENT"
-
-    if spec.generator_requirement:
-        sidecar["generator_requirement"] = spec.generator_requirement
-
-    return sidecar
+    def __post_init__(self):
+        # Backward-compatible property behavior: True iff execution succeeded and comparison PASSED
+        if not self.success and self.execution_success and self.comparison_status == "PASS":
+            self.success = True
 
 
 class ScenarioRunner:
@@ -383,11 +173,23 @@ class ScenarioRunner:
         self.active_dir.mkdir(parents=True, exist_ok=True)
         self.captures_dir.mkdir(parents=True, exist_ok=True)
 
-        self.schema_path = _project_root / "data" / "sidecar_schema.json"
-        if not self.schema_path.exists():
-            raise FileNotFoundError(f"Sidecar schema not found at {self.schema_path}")
-        with open(self.schema_path, "r", encoding="utf-8") as f:
-            self.sidecar_schema = json.load(f)
+        self.expected_schema_path = _project_root / "data" / "expected_schema.json"
+        self.observed_schema_path = _project_root / "data" / "observed_schema.json"
+        self.comparison_schema_path = _project_root / "data" / "comparison_schema.json"
+
+        if not self.expected_schema_path.exists():
+            raise FileNotFoundError(f"Expected schema not found at {self.expected_schema_path}")
+        if not self.observed_schema_path.exists():
+            raise FileNotFoundError(f"Observed schema not found at {self.observed_schema_path}")
+        if not self.comparison_schema_path.exists():
+            raise FileNotFoundError(f"Comparison schema not found at {self.comparison_schema_path}")
+
+        with open(self.expected_schema_path, "r", encoding="utf-8") as f:
+            self.expected_schema = json.load(f)
+        with open(self.observed_schema_path, "r", encoding="utf-8") as f:
+            self.observed_schema = json.load(f)
+        with open(self.comparison_schema_path, "r", encoding="utf-8") as f:
+            self.comparison_schema = json.load(f)
 
         self.bridge_interface = discover_docker_bridge(self.network_name)
         self.pki_factory = PKIFactory(pki_dir=str(self.pki_dir))
@@ -550,8 +352,13 @@ class ScenarioRunner:
         port = spec.network.port
         server_ip = spec.network.server_ip
         pcap_path = self.captures_dir / f"{scenario_id}.pcap"
-        sidecar_path = self.captures_dir / f"{scenario_id}.json"
+        expected_path = self.captures_dir / f"{scenario_id}.expected.json"
+        observed_path = self.captures_dir / f"{scenario_id}.observed.json"
+        comparison_path = self.captures_dir / f"{scenario_id}.comparison.json"
         evidence_path = self.captures_dir / f"{scenario_id}.evidence.json"
+
+        # Remove stale generation artifacts for this scenario before execution
+        cleanup_scenario_artifacts(self.captures_dir, scenario_id)
 
         # 1. Stage scenario configuration and PKI artifacts
         try:
@@ -564,14 +371,36 @@ class ScenarioRunner:
             else:
                 raise NotImplementedError(f"Protocol '{spec.protocol}' stager not yet implemented")
         except UnresolvableScenarioError as unres_err:
+            expected_data = spec.to_expected_dict(selected_cipher=None)
             return ScenarioExecutionResult(
                 scenario_id=scenario_id,
-                success=False,
+                execution_success=False,
+                comparison_status="NOT_RUN",
                 pcap_path=pcap_path,
-                sidecar_path=sidecar_path,
+                expected_path=expected_path,
+                observed_path=observed_path,
+                comparison_path=comparison_path,
                 evidence_path=evidence_path,
+                expected_data=expected_data,
                 status="BLOCKED",
                 error=f"BLOCKED: {unres_err}",
+                success=False,
+            )
+        except Exception as stage_err:
+            expected_data = spec.to_expected_dict(selected_cipher=None)
+            return ScenarioExecutionResult(
+                scenario_id=scenario_id,
+                execution_success=False,
+                comparison_status="NOT_RUN",
+                pcap_path=pcap_path,
+                expected_path=expected_path,
+                observed_path=observed_path,
+                comparison_path=comparison_path,
+                evidence_path=evidence_path,
+                expected_data=expected_data,
+                status="FAILED",
+                error=f"Staging failed: {stage_err}",
+                success=False,
             )
 
         # 2. Deploy active configuration to the daemon
@@ -582,16 +411,36 @@ class ScenarioRunner:
         else:
             raise NotImplementedError(f"Protocol '{spec.protocol}' runner not yet implemented")
 
+        # For TLS 1.3 PSK resumption scenarios: obtain NewSessionTicket in a prerequisite
+        # handshake outside the capture window, so the PCAP isolates the resumed stream.
+        saved_session = None
+        reusable_ctx = None
+        if spec.generator_requirement in (
+            "psk_dhe_resumption_without_cert",
+            "psk_resumption_without_cert",
+        ):
+            saved_session, reusable_ctx = self.client.establish_resumption_ticket(
+                host=server_ip,
+                port=port,
+                sni=spec.client.sni,
+                client_tls=staged.manifest.get("client_tls", {}),
+            )
+
         # 3. Start live packet capture on the bridge interface
         try:
             cap_proc = self.start_capture(port, pcap_path, readiness_timeout=capture_timeout)
         except Exception as exc:
+            expected_data = spec.to_expected_dict(selected_cipher=getattr(staged, "selected_cipher", None))
             return ScenarioExecutionResult(
                 scenario_id=scenario_id,
-                success=False,
+                execution_success=False,
+                comparison_status="NOT_RUN",
                 pcap_path=pcap_path,
-                sidecar_path=sidecar_path,
+                expected_path=expected_path,
+                observed_path=observed_path,
+                comparison_path=comparison_path,
                 evidence_path=evidence_path,
+                expected_data=expected_data,
                 client_result=ClientResult(
                     scenario_id=scenario_id,
                     success=False,
@@ -600,6 +449,7 @@ class ScenarioRunner:
                 ),
                 error=f"Packet capture failed before client execution: {exc}",
                 status="FAILED",
+                success=False,
             )
 
         client_res: Optional[ClientResult] = None
@@ -616,6 +466,8 @@ class ScenarioRunner:
                     scenario=staged,
                     host_override=target_host,
                     port_override=port,
+                    session=saved_session,
+                    ssl_context=reusable_ctx,
                 )
             elif spec.is_imap:
                 client_res = self.imap_client.execute(
@@ -650,20 +502,31 @@ class ScenarioRunner:
 
         # Validate PCAP creation
         if not pcap_path.exists() or pcap_path.stat().st_size == 0:
+            expected_data = spec.to_expected_dict(selected_cipher=getattr(staged, "selected_cipher", None))
             return ScenarioExecutionResult(
                 scenario_id=scenario_id,
-                success=False,
+                execution_success=False,
+                comparison_status="NOT_RUN",
                 pcap_path=pcap_path,
-                sidecar_path=sidecar_path,
+                expected_path=expected_path,
+                observed_path=observed_path,
+                comparison_path=comparison_path,
                 evidence_path=evidence_path,
+                expected_data=expected_data,
                 client_result=client_res or ClientResult(scenario_id=scenario_id, success=False, tls_negotiated=False, error="No PCAP"),
                 error="Packet capture file was not created or is empty",
                 status="FAILED",
+                success=False,
             )
 
         # 6. Analyze captured PCAP using PCAPAnalyzer
         try:
-            analyzer = PCAPAnalyzer(str(pcap_path), trust_store="testbed")
+            effective_ts = (
+                str(staged.trust_store_path)
+                if staged.trust_store_path and staged.trust_store_path.exists()
+                else "testbed"
+            )
+            analyzer = PCAPAnalyzer(str(pcap_path), trust_store=effective_ts)
             analyzer_results = analyzer.analyze()
         except Exception as exc:
             error_msg = f"Analyzer failed on PCAP: {exc}"
@@ -685,56 +548,80 @@ class ScenarioRunner:
             if error_msg is None:
                 error_msg = evidence_error
 
-        # Verify negative TLS handshake failure alert requirement
+        # Verify negative TLS handshake failure alert requirement across all analyzed streams
         if spec.generator_requirement == "server_sends_fatal_alert":
-            stream0_alerts = (
-                analyzer_results.get(0, {})
-                .get("handshake", {})
-                .get("flight", {})
-                .get("alerts", [])
-                if analyzer_results.get(0, {}).get("handshake") else []
-            )
-            fatal_alerts = [a for a in stream0_alerts if a.get("level") == "FATAL"]
-            if not fatal_alerts:
+            has_fatal = False
+            for session in analyzer_results.values():
+                alerts = (session.get("handshake") or {}).get("flight", {}).get("alerts", [])
+                if any(str(a.get("level")).upper() == "FATAL" for a in alerts):
+                    has_fatal = True
+                    break
+            if not has_fatal:
                 alert_err = f"Scenario {scenario_id} expected fatal TLS alert on wire, but none found in capture"
                 if error_msg is None:
                     error_msg = alert_err
 
-        # 8. Generate Canonical Sidecar JSON conforming to data/sidecar_schema.json
-        sidecar_data = build_canonical_sidecar(spec, analyzer_results, client_res)
-
-        # 9. Actual schema validation - failure must fail the run
-        schema_validation_error: Optional[str] = None
+        # 8. Generate Expected Artifact (<scenario_id>.expected.json)
+        expected_data: Dict[str, Any] = {}
         try:
-            jsonschema.validate(instance=sidecar_data, schema=self.sidecar_schema)
-        except jsonschema.ValidationError as val_err:
-            schema_validation_error = f"Sidecar schema validation failed: {val_err.message}"
+            expected_data = spec.to_expected_dict(selected_cipher=getattr(staged, "selected_cipher", None))
+            jsonschema.validate(instance=expected_data, schema=self.expected_schema)
+            expected_path.write_text(json.dumps(expected_data, indent=2))
+        except Exception as exc:
+            exp_err = f"Expected artifact generation/validation failed: {exc}"
             if error_msg is None:
-                error_msg = schema_validation_error
+                error_msg = exp_err
 
-        # Write canonical sidecar
-        sidecar_path.write_text(json.dumps(sidecar_data, indent=2))
+        # 9. Generate Pure Observed Artifact (<scenario_id>.observed.json)
+        observed_data: Dict[str, Any] = {}
+        try:
+            observed_data = build_observed_artifact(scenario_id, analyzer_results)
+            jsonschema.validate(instance=observed_data, schema=self.observed_schema)
+            observed_path.write_text(json.dumps(observed_data, indent=2))
+        except Exception as exc:
+            obs_err = f"Observed artifact generation/validation failed: {exc}"
+            if error_msg is None:
+                error_msg = obs_err
 
-        overall_success = (
+        # 10. Generate Deterministic Comparison Artifact (<scenario_id>.comparison.json)
+        comparison_data: Dict[str, Any] = {}
+        comparison_status = "FAIL"
+        try:
+            comparison_data = compare(expected_data, observed_data)
+            jsonschema.validate(instance=comparison_data, schema=self.comparison_schema)
+            comparison_path.write_text(json.dumps(comparison_data, indent=2))
+            comparison_status = comparison_data.get("status", "FAIL")
+        except Exception as exc:
+            comp_err = f"Comparison artifact generation/validation failed: {exc}"
+            if error_msg is None:
+                error_msg = comp_err
+
+        execution_success = (
             client_res is not None
             and client_res.success
             and error_msg is None
-            and schema_validation_error is None
             and evidence_error is None
         )
+        overall_success = execution_success and (comparison_status == "PASS")
 
         return ScenarioExecutionResult(
             scenario_id=scenario_id,
-            success=overall_success,
+            execution_success=execution_success,
+            comparison_status=comparison_status,
             pcap_path=pcap_path,
-            sidecar_path=sidecar_path,
+            expected_path=expected_path,
+            observed_path=observed_path,
+            comparison_path=comparison_path,
             evidence_path=evidence_path,
             client_result=client_res,
             analyzer_results=analyzer_results,
-            sidecar_data=sidecar_data,
+            expected_data=expected_data,
+            observed_data=observed_data,
+            comparison_data=comparison_data,
             manifest=staged.manifest,
             error=error_msg,
-            status="SUCCESS" if overall_success else "FAILED",
+            status="SUCCESS" if (execution_success and comparison_status in ("PASS", "INCONCLUSIVE")) else "FAILED",
+            success=overall_success,
         )
 
 
@@ -753,8 +640,8 @@ class ScenarioRunner:
             print(f"[runner] Running scenario {sc_id} ({spec.description or spec.generator_requirement or spec.protocol})...")
             res = self.run_scenario(spec)
             results[sc_id] = res
-            status = res.status if res.status == "SUCCESS" else f"{res.status} ({res.error})"
-            print(f"[runner] Scenario {sc_id} completed: {status}")
+            status_desc = f"{res.status} [Comparison: {res.comparison_status}]" if res.execution_success else f"{res.status} ({res.error})"
+            print(f"[runner] Scenario {sc_id} completed: {status_desc}")
 
         return results
 
@@ -785,19 +672,25 @@ def main():
     print("=" * 80)
     all_passed = True
     for sc_id, res in results.items():
-        if res.status == "SUCCESS":
-            status = "PASSED"
+        if res.execution_success:
+            status = f"PASSED (Comparison: {res.comparison_status})"
         elif res.status == "BLOCKED":
             status = f"BLOCKED: {res.error}"
         else:
             status = f"FAILED: {res.error}"
-        stream0 = res.analyzer_results.get(0, {})
-        proto = stream0.get("protocol", "Unknown")
-        stls = stream0.get("starttls", {}).get("status", "N/A")
-        tls = stream0.get("tls", {}).get("tls_version", "None") if stream0.get("tls") else "None"
-        cipher = stream0.get("tls", {}).get("cipher_name", "None") if stream0.get("tls") else "None"
-        print(f"  {sc_id}: {status} | Wire Facts: Proto={proto}, STARTTLS={stls}, TLS={tls}, Cipher={cipher}")
-        if not res.success and res.status != "BLOCKED":
+
+        eval_stream = res.comparison_data.get("evaluated_stream")
+        eval_session = (
+            res.analyzer_results.get(eval_stream, {})
+            if eval_stream is not None
+            else (res.analyzer_results.get(0, {}) if res.analyzer_results else {})
+        )
+        proto = eval_session.get("protocol", "Unknown")
+        stls = eval_session.get("starttls", {}).get("status", "N/A")
+        tls = eval_session.get("tls", {}).get("tls_version", "None") if eval_session.get("tls") else "None"
+        cipher = eval_session.get("tls", {}).get("cipher_name", "None") if eval_session.get("tls") else "None"
+        print(f"  {sc_id}: {status} | Evaluated Stream {eval_stream} Wire Facts: Proto={proto}, STARTTLS={stls}, TLS={tls}, Cipher={cipher}")
+        if not (res.execution_success and res.comparison_status in ("PASS", "INCONCLUSIVE")):
             all_passed = False
 
     sys.exit(0 if all_passed else 1)

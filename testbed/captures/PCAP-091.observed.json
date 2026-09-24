@@ -1,0 +1,284 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "PCAP-091",
+  "sessions": {
+    "0": {
+      "stream_id": 0,
+      "protocol": "SMTP",
+      "starttls": {
+        "stream": 0,
+        "starttls_offered": false,
+        "starttls_requested": false,
+        "starttls_accepted": false,
+        "starttls_rejected": false,
+        "tls_active": true,
+        "plaintext_auth_attempted": false,
+        "status": "IMPLICIT_TLS",
+        "details": "Session used direct implicit TLS without plaintext upgrade (e.g. SMTPS/IMAPS/POP3S)."
+      },
+      "tls": {
+        "stream": 0,
+        "raw_version": "0x0301",
+        "tls_version": "TLS 1.0",
+        "raw_cipher_suite": "0x0033",
+        "cipher_name": "TLS_DHE_RSA_WITH_AES_128_CBC_SHA",
+        "key_exchange": "DHE",
+        "forward_secrecy": true,
+        "cipher_strength": "WEAK",
+        "tls13_key_exchange_group": null,
+        "tls13_psk_selected": null,
+        "tls13_key_exchange_mode": null,
+        "hello_retry_request": false
+      },
+      "handshake": {
+        "stream": 0,
+        "client_hello": {
+          "offered_versions": [
+            "TLS 1.0"
+          ],
+          "offered_ciphers": [
+            {
+              "hex": "0x0033",
+              "name": "TLS_DHE_RSA_WITH_AES_128_CBC_SHA",
+              "strength": "WEAK",
+              "forward_secrecy": true
+            },
+            {
+              "hex": "0x00ff",
+              "name": "Unknown (0x00ff)",
+              "strength": "UNKNOWN",
+              "forward_secrecy": false
+            }
+          ],
+          "offered_ciphers_count": 2,
+          "supported_groups": [],
+          "offered_key_shares": [],
+          "signature_algorithms": [],
+          "signature_algorithms_cert": [],
+          "signature_algorithms_cert_present": false,
+          "psk_key_exchange_modes": [],
+          "sni": "mail.test.local",
+          "alpn": [],
+          "early_data_offered": false
+        },
+        "server_negotiation": {
+          "raw_version": "0x0301",
+          "selected_tls_version": "TLS 1.0",
+          "selected_cipher": {
+            "hex": "0x0033",
+            "name": "TLS_DHE_RSA_WITH_AES_128_CBC_SHA",
+            "strength": "WEAK",
+            "forward_secrecy": true,
+            "kex_mechanism": "DHE"
+          },
+          "tls13_key_exchange_group": null,
+          "tls13_psk_selected": null,
+          "tls13_key_exchange_mode": null,
+          "hello_retry_request": false,
+          "is_hello_retry_request": false,
+          "tls12_server_key_exchange": {
+            "kex_type": "DHE",
+            "named_curve": null,
+            "named_curve_hex": null,
+            "dh_prime_length_bits": 2048,
+            "wire_signature_algorithm": null
+          },
+          "downgrade_sentinel": {
+            "sentinel_detected": false,
+            "sentinel_type": null,
+            "sentinel_bytes": null,
+            "server_supports_tls13": false
+          }
+        },
+        "flight": {
+          "messages": [
+            {
+              "frame": 4,
+              "type_id": 1,
+              "message": "ClientHello",
+              "reassembled_in": null
+            },
+            {
+              "frame": 6,
+              "type_id": 2,
+              "message": "ServerHello",
+              "reassembled_in": null
+            },
+            {
+              "frame": 6,
+              "type_id": 11,
+              "message": "Certificate",
+              "reassembled_in": null
+            },
+            {
+              "frame": 6,
+              "type_id": 12,
+              "message": "ServerKeyExchange",
+              "reassembled_in": null
+            },
+            {
+              "frame": 6,
+              "type_id": 14,
+              "message": "ServerHelloDone",
+              "reassembled_in": null
+            },
+            {
+              "frame": 8,
+              "type_id": 16,
+              "message": "ClientKeyExchange",
+              "reassembled_in": null
+            },
+            {
+              "frame": 9,
+              "type_id": 4,
+              "message": "NewSessionTicket",
+              "reassembled_in": null
+            }
+          ],
+          "finished_observed": false,
+          "application_data_observed": true,
+          "outer_record_23_observed": true,
+          "early_data_observed": false,
+          "alerts": [
+            {
+              "frame": 38,
+              "level": "UNKNOWN",
+              "description": "EncryptedAlert",
+              "raw_desc": null
+            }
+          ]
+        },
+        "forensic_analysis": {
+          "handshake_status": "COMPLETED_INFERRED",
+          "client_max_version": "TLS 1.0",
+          "negotiated_version": "TLS 1.0",
+          "version_downgrade": {
+            "downgrade_signal_detected": false,
+            "classification": "MATCH",
+            "details": "Negotiated version matches or is consistent with connection context."
+          },
+          "cipher_downgrade": {
+            "downgrade_signal_detected": true,
+            "details": "Negotiated cipher suite strength is WEAK."
+          }
+        }
+      },
+      "certificate": {
+        "stream": 0,
+        "chain_length": 1,
+        "is_self_signed": false,
+        "trust_status": "EXPIRED",
+        "trust_details": "Certificate (CN=mail.test.local) is expired (expired on 2026-09-23 08:52:43+00:00).",
+        "path_verification_error": null,
+        "active_trust_store": "testbed",
+        "active_trust_store_description": "testbed (/home/bigfoot/mailtest/testbed/active/trust_store.pem, 1 root(s))",
+        "anchored_in_active_store": false,
+        "claimed_sni": "mail.test.local",
+        "hostname_match": "MATCHED",
+        "revocation_status": "NOT_CHECKED (PASSIVE_OFFLINE_ANALYSIS)",
+        "resolved_path": [
+          {
+            "serial": "199982838311810690945915123173168831362148336716",
+            "serial_number": "199982838311810690945915123173168831362148336716",
+            "subject": "CN=mail.test.local",
+            "issuer": "CN=SecureMailScope Test Intermediate CA",
+            "sha256_fingerprint": "251ea16bbe3e403956ea1cebc376396f3b4922e84796a902dd949875eecf5815"
+          }
+        ],
+        "leaf_cert": {
+          "serial_number": "199982838311810690945915123173168831362148336716",
+          "issuer_dn": "CN=SecureMailScope Test Intermediate CA",
+          "subject_dn": "CN=mail.test.local",
+          "issuer_cn": "SecureMailScope Test Intermediate CA",
+          "subject_cn": "mail.test.local",
+          "san_dns": [
+            "mail.test.local"
+          ],
+          "san_ip": [],
+          "signature_algorithm_oid": "1.2.840.10045.4.3.2",
+          "signature_algorithm_name": "ecdsa-with-SHA256",
+          "signature_algorithm_parameters": "ECDSA",
+          "signature_hash_algorithm": "sha256",
+          "public_key_algorithm": "RSA",
+          "public_key_size": 2048,
+          "basic_constraints": {
+            "ca": false,
+            "path_length": null
+          },
+          "key_usage": {
+            "digital_signature": true,
+            "content_commitment": false,
+            "key_encipherment": true,
+            "data_encipherment": false,
+            "key_agreement": false,
+            "key_cert_sign": false,
+            "crl_sign": false,
+            "encipher_only": false,
+            "decipher_only": false
+          },
+          "extended_key_usage": [
+            "serverAuth"
+          ],
+          "subject_key_identifier": "eeba60b3292d39dcd19d06ff8c9318a8ae1ccedf",
+          "authority_key_identifier": "6dd6989d0c5596cc3857ae4f6ccb068b0aa44c8b",
+          "critical_extensions": [
+            "2.5.29.19",
+            "2.5.29.15"
+          ],
+          "not_before": "2024-09-24 08:52:43+00:00",
+          "not_after": "2026-09-23 08:52:43+00:00",
+          "is_expired": true,
+          "not_yet_valid": false
+        },
+        "full_chain": [
+          {
+            "serial_number": "199982838311810690945915123173168831362148336716",
+            "issuer_dn": "CN=SecureMailScope Test Intermediate CA",
+            "subject_dn": "CN=mail.test.local",
+            "issuer_cn": "SecureMailScope Test Intermediate CA",
+            "subject_cn": "mail.test.local",
+            "san_dns": [
+              "mail.test.local"
+            ],
+            "san_ip": [],
+            "signature_algorithm_oid": "1.2.840.10045.4.3.2",
+            "signature_algorithm_name": "ecdsa-with-SHA256",
+            "signature_algorithm_parameters": "ECDSA",
+            "signature_hash_algorithm": "sha256",
+            "public_key_algorithm": "RSA",
+            "public_key_size": 2048,
+            "basic_constraints": {
+              "ca": false,
+              "path_length": null
+            },
+            "key_usage": {
+              "digital_signature": true,
+              "content_commitment": false,
+              "key_encipherment": true,
+              "data_encipherment": false,
+              "key_agreement": false,
+              "key_cert_sign": false,
+              "crl_sign": false,
+              "encipher_only": false,
+              "decipher_only": false
+            },
+            "extended_key_usage": [
+              "serverAuth"
+            ],
+            "subject_key_identifier": "eeba60b3292d39dcd19d06ff8c9318a8ae1ccedf",
+            "authority_key_identifier": "6dd6989d0c5596cc3857ae4f6ccb068b0aa44c8b",
+            "critical_extensions": [
+              "2.5.29.19",
+              "2.5.29.15"
+            ],
+            "not_before": "2024-09-24 08:52:43+00:00",
+            "not_after": "2026-09-23 08:52:43+00:00",
+            "is_expired": true,
+            "not_yet_valid": false
+          }
+        ],
+        "parse_errors": []
+      }
+    }
+  }
+}

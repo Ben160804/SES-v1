@@ -1,0 +1,183 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SecureMailScopeExpectedArtifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "scenario_id",
+    "expected",
+    "assertions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": [
+        "1.0"
+      ]
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^PCAP-[0-9]{3}$"
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol",
+        "tls_presence",
+        "starttls_integrity",
+        "tls_version",
+        "cipher_strength",
+        "cert_validity",
+        "cert_chain_shape",
+        "cert_sig_algo",
+        "hostname_match",
+        "auth_outcome",
+        "expected_starttls_status",
+        "expected_trust_status",
+        "certificate_observable"
+      ],
+      "properties": {
+        "protocol": {
+          "type": "string",
+          "enum": [
+            "SMTP",
+            "IMAP",
+            "POP3"
+          ]
+        },
+        "tls_presence": {
+          "type": "string",
+          "enum": [
+            "none",
+            "STARTTLS-upgraded",
+            "implicit-TLS"
+          ]
+        },
+        "starttls_integrity": {
+          "type": "string"
+        },
+        "tls_version": {
+          "type": "string"
+        },
+        "cipher_strength": {
+          "type": "string"
+        },
+        "cert_validity": {
+          "type": "string"
+        },
+        "cert_chain_shape": {
+          "type": "string"
+        },
+        "cert_sig_algo": {
+          "type": "string"
+        },
+        "hostname_match": {
+          "type": "string"
+        },
+        "auth_outcome": {
+          "type": "string"
+        },
+        "expected_starttls_status": {
+          "type": "string"
+        },
+        "expected_trust_status": {
+          "type": "string"
+        },
+        "tls13_kex_mode": {
+          "type": "string"
+        },
+        "tls12_kex_type": {
+          "type": "string"
+        },
+        "forward_secrecy": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "hello_retry_request": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "downgrade_sentinel": {
+          "type": "string"
+        },
+        "starttls_outcome": {
+          "type": "string"
+        },
+        "sig_alg_cert_present": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "cert_has_san": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "hostname_type": {
+          "type": "string"
+        },
+        "path_selection": {
+          "type": "string"
+        },
+        "certificate_observable": {
+          "type": "string",
+          "enum": [
+            "VISIBLE",
+            "ENCRYPTED",
+            "NOT_PRESENT",
+            ""
+          ]
+        },
+        "generator_requirement": {
+          "type": "string"
+        },
+        "layer": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "exact_cipher": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "assertions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expected",
+          "required",
+          "observability"
+        ],
+        "properties": {
+          "expected": {},
+          "required": {
+            "type": "boolean"
+          },
+          "observability": {
+            "type": "string",
+            "enum": [
+              "always",
+              "conditional",
+              "not_applicable"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

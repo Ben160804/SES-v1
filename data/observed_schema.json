@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SecureMailScopeObservedArtifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "scenario_id",
+    "sessions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": [
+        "1.0"
+      ]
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^PCAP-[0-9]{3}$"
+    },
+    "sessions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "stream_id",
+          "protocol",
+          "starttls",
+          "tls",
+          "handshake",
+          "certificate"
+        ],
+        "properties": {
+          "stream_id": {
+            "type": "integer"
+          },
+          "protocol": {
+            "type": "string"
+          },
+          "starttls": {
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "tls": {
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "handshake": {
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "certificate": {
+            "type": [
+              "object",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

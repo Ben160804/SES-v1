@@ -1,0 +1,2270 @@
+{
+  "PCAP-001": {
+    "scenario_id": "PCAP-001",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-002": {
+    "scenario_id": "PCAP-002",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-003": {
+    "scenario_id": "PCAP-003",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-004": {
+    "scenario_id": "PCAP-004",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "NONE",
+    "cipher_class": null,
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard cleartext email protocol interaction; no TLS negotiation."
+    ]
+  },
+  "PCAP-005": {
+    "scenario_id": "PCAP-005",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-006": {
+    "scenario_id": "PCAP-006",
+    "generation_mode": "UNRESOLVABLE",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": "MATRIX_ORACLE_INCONSISTENT",
+    "missing_information": "Oracle expectation mismatch: matrix specifies cipher_strength=\"HIGH\" for TLS 1.0, but structural candidates only achieve [\"BROKEN\", \"MEDIUM\", \"WEAK\"] in analysis/ciphers.py",
+    "notes": [
+      "Row must not be silently modified; remains UNRESOLVABLE until matrix oracle is formally updated."
+    ]
+  },
+  "PCAP-007": {
+    "scenario_id": "PCAP-007",
+    "generation_mode": "UNRESOLVABLE",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": "MATRIX_ORACLE_INCONSISTENT",
+    "missing_information": "Oracle expectation mismatch: matrix specifies cipher_strength=\"HIGH\" for TLS 1.1, but structural candidates only achieve [\"BROKEN\", \"MEDIUM\", \"WEAK\"] in analysis/ciphers.py",
+    "notes": [
+      "Row must not be silently modified; remains UNRESOLVABLE until matrix oracle is formally updated."
+    ]
+  },
+  "PCAP-008": {
+    "scenario_id": "PCAP-008",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-009": {
+    "scenario_id": "PCAP-009",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "WEAK",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-010": {
+    "scenario_id": "PCAP-010",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-011": {
+    "scenario_id": "PCAP-011",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-012": {
+    "scenario_id": "PCAP-012",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-013": {
+    "scenario_id": "PCAP-013",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-014": {
+    "scenario_id": "PCAP-014",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-015": {
+    "scenario_id": "PCAP-015",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-016": {
+    "scenario_id": "PCAP-016",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-017": {
+    "scenario_id": "PCAP-017",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-018": {
+    "scenario_id": "PCAP-018",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 explicit leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-019": {
+    "scenario_id": "PCAP-019",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 explicit leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-020": {
+    "scenario_id": "PCAP-020",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 explicit leaf key policy: ed25519-256."
+    ]
+  },
+  "PCAP-021": {
+    "scenario_id": "PCAP-021",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-022": {
+    "scenario_id": "PCAP-022",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-023": {
+    "scenario_id": "PCAP-023",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "NONE",
+    "cipher_class": null,
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard cleartext email protocol interaction; no TLS negotiation."
+    ]
+  },
+  "PCAP-024": {
+    "scenario_id": "PCAP-024",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-025": {
+    "scenario_id": "PCAP-025",
+    "generation_mode": "UNRESOLVABLE",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": "MATRIX_ORACLE_INCONSISTENT",
+    "missing_information": "Oracle expectation mismatch: matrix specifies cipher_strength=\"HIGH\" for TLS 1.0, but structural candidates only achieve [\"BROKEN\", \"MEDIUM\", \"WEAK\"] in analysis/ciphers.py",
+    "notes": [
+      "Row must not be silently modified; remains UNRESOLVABLE until matrix oracle is formally updated."
+    ]
+  },
+  "PCAP-026": {
+    "scenario_id": "PCAP-026",
+    "generation_mode": "UNRESOLVABLE",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": "MATRIX_ORACLE_INCONSISTENT",
+    "missing_information": "Oracle expectation mismatch: matrix specifies cipher_strength=\"HIGH\" for TLS 1.1, but structural candidates only achieve [\"BROKEN\", \"MEDIUM\", \"WEAK\"] in analysis/ciphers.py",
+    "notes": [
+      "Row must not be silently modified; remains UNRESOLVABLE until matrix oracle is formally updated."
+    ]
+  },
+  "PCAP-027": {
+    "scenario_id": "PCAP-027",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-028": {
+    "scenario_id": "PCAP-028",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "WEAK",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-029": {
+    "scenario_id": "PCAP-029",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-030": {
+    "scenario_id": "PCAP-030",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-031": {
+    "scenario_id": "PCAP-031",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-032": {
+    "scenario_id": "PCAP-032",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-033": {
+    "scenario_id": "PCAP-033",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-034": {
+    "scenario_id": "PCAP-034",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-035": {
+    "scenario_id": "PCAP-035",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-036": {
+    "scenario_id": "PCAP-036",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-037": {
+    "scenario_id": "PCAP-037",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 explicit leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-038": {
+    "scenario_id": "PCAP-038",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 explicit leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-039": {
+    "scenario_id": "PCAP-039",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 explicit leaf key policy: ed25519-256."
+    ]
+  },
+  "PCAP-040": {
+    "scenario_id": "PCAP-040",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-041": {
+    "scenario_id": "PCAP-041",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-042": {
+    "scenario_id": "PCAP-042",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "NONE",
+    "cipher_class": null,
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard cleartext email protocol interaction; no TLS negotiation."
+    ]
+  },
+  "PCAP-043": {
+    "scenario_id": "PCAP-043",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-044": {
+    "scenario_id": "PCAP-044",
+    "generation_mode": "UNRESOLVABLE",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": "MATRIX_ORACLE_INCONSISTENT",
+    "missing_information": "Oracle expectation mismatch: matrix specifies cipher_strength=\"HIGH\" for TLS 1.0, but structural candidates only achieve [\"BROKEN\", \"MEDIUM\", \"WEAK\"] in analysis/ciphers.py",
+    "notes": [
+      "Row must not be silently modified; remains UNRESOLVABLE until matrix oracle is formally updated."
+    ]
+  },
+  "PCAP-045": {
+    "scenario_id": "PCAP-045",
+    "generation_mode": "UNRESOLVABLE",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": "MATRIX_ORACLE_INCONSISTENT",
+    "missing_information": "Oracle expectation mismatch: matrix specifies cipher_strength=\"HIGH\" for TLS 1.1, but structural candidates only achieve [\"BROKEN\", \"MEDIUM\", \"WEAK\"] in analysis/ciphers.py",
+    "notes": [
+      "Row must not be silently modified; remains UNRESOLVABLE until matrix oracle is formally updated."
+    ]
+  },
+  "PCAP-046": {
+    "scenario_id": "PCAP-046",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-047": {
+    "scenario_id": "PCAP-047",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "WEAK",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-048": {
+    "scenario_id": "PCAP-048",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-049": {
+    "scenario_id": "PCAP-049",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-050": {
+    "scenario_id": "PCAP-050",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-051": {
+    "scenario_id": "PCAP-051",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-052": {
+    "scenario_id": "PCAP-052",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-053": {
+    "scenario_id": "PCAP-053",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-054": {
+    "scenario_id": "PCAP-054",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-055": {
+    "scenario_id": "PCAP-055",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-056": {
+    "scenario_id": "PCAP-056",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 explicit leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-057": {
+    "scenario_id": "PCAP-057",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 explicit leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-058": {
+    "scenario_id": "PCAP-058",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 explicit leaf key policy: ed25519-256."
+    ]
+  },
+  "PCAP-059": {
+    "scenario_id": "PCAP-059",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-060": {
+    "scenario_id": "PCAP-060",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-061": {
+    "scenario_id": "PCAP-061",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "NONE",
+    "cipher_class": null,
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard cleartext email protocol interaction; no TLS negotiation."
+    ]
+  },
+  "PCAP-062": {
+    "scenario_id": "PCAP-062",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "NONE",
+    "cipher_class": null,
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard cleartext email protocol interaction; no TLS negotiation."
+    ]
+  },
+  "PCAP-063": {
+    "scenario_id": "PCAP-063",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "NONE",
+    "cipher_class": null,
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard cleartext email protocol interaction; no TLS negotiation."
+    ]
+  },
+  "PCAP-064": {
+    "scenario_id": "PCAP-064",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": null,
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": "mitm_starttls_strip",
+    "harness_status": "IMPLEMENTED",
+    "special_harness_parameters": {
+      "protocol": "smtp",
+      "port": 25,
+      "action": "strip_starttls"
+    },
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring mitm_starttls_strip."
+    ]
+  },
+  "PCAP-065": {
+    "scenario_id": "PCAP-065",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": null,
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": "mitm_starttls_strip",
+    "harness_status": "IMPLEMENTED",
+    "special_harness_parameters": {
+      "protocol": "smtp",
+      "port": 25,
+      "action": "strip_starttls"
+    },
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring mitm_starttls_strip."
+    ]
+  },
+  "PCAP-066": {
+    "scenario_id": "PCAP-066",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": null,
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": "mitm_starttls_strip",
+    "harness_status": "NOT_IMPLEMENTED",
+    "special_harness_parameters": {
+      "protocol": "imap",
+      "port": 143,
+      "action": "strip_starttls"
+    },
+    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
+    "missing_information": "Dedicated harness \"mitm_starttls_strip\" is not implemented in current testbed",
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring mitm_starttls_strip."
+    ]
+  },
+  "PCAP-067": {
+    "scenario_id": "PCAP-067",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": null,
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": "mitm_starttls_strip",
+    "harness_status": "NOT_IMPLEMENTED",
+    "special_harness_parameters": {
+      "protocol": "imap",
+      "port": 143,
+      "action": "strip_starttls"
+    },
+    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
+    "missing_information": "Dedicated harness \"mitm_starttls_strip\" is not implemented in current testbed",
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring mitm_starttls_strip."
+    ]
+  },
+  "PCAP-068": {
+    "scenario_id": "PCAP-068",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": null,
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": "mitm_starttls_strip",
+    "harness_status": "IMPLEMENTED",
+    "special_harness_parameters": {
+      "protocol": "pop3",
+      "port": 110,
+      "action": "strip_starttls"
+    },
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring mitm_starttls_strip."
+    ]
+  },
+  "PCAP-069": {
+    "scenario_id": "PCAP-069",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": null,
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": "mitm_starttls_strip",
+    "harness_status": "IMPLEMENTED",
+    "special_harness_parameters": {
+      "protocol": "pop3",
+      "port": 110,
+      "action": "strip_starttls"
+    },
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring mitm_starttls_strip."
+    ]
+  },
+  "PCAP-070": {
+    "scenario_id": "PCAP-070",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-071": {
+    "scenario_id": "PCAP-071",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-072": {
+    "scenario_id": "PCAP-072",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-073": {
+    "scenario_id": "PCAP-073",
+    "generation_mode": "UNRESOLVABLE",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": "MATRIX_ORACLE_INCONSISTENT",
+    "missing_information": "Oracle expectation mismatch: matrix specifies cipher_strength=\"HIGH\" for TLS 1.0, but structural candidates only achieve [\"BROKEN\", \"MEDIUM\", \"WEAK\"] in analysis/ciphers.py",
+    "notes": [
+      "Row must not be silently modified; remains UNRESOLVABLE until matrix oracle is formally updated."
+    ]
+  },
+  "PCAP-074": {
+    "scenario_id": "PCAP-074",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "MEDIUM",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-075": {
+    "scenario_id": "PCAP-075",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "BROKEN",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-076": {
+    "scenario_id": "PCAP-076",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "BROKEN",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-077": {
+    "scenario_id": "PCAP-077",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "WEAK",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 explicit leaf key policy: ed25519-256."
+    ]
+  },
+  "PCAP-078": {
+    "scenario_id": "PCAP-078",
+    "generation_mode": "UNRESOLVABLE",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": "MATRIX_ORACLE_INCONSISTENT",
+    "missing_information": "Oracle expectation mismatch: matrix specifies cipher_strength=\"HIGH\" for TLS 1.1, but structural candidates only achieve [\"BROKEN\", \"MEDIUM\", \"WEAK\"] in analysis/ciphers.py",
+    "notes": [
+      "Row must not be silently modified; remains UNRESOLVABLE until matrix oracle is formally updated."
+    ]
+  },
+  "PCAP-079": {
+    "scenario_id": "PCAP-079",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "WEAK",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-080": {
+    "scenario_id": "PCAP-080",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "MEDIUM",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-081": {
+    "scenario_id": "PCAP-081",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "WEAK",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-082": {
+    "scenario_id": "PCAP-082",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "BROKEN",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-083": {
+    "scenario_id": "PCAP-083",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "MEDIUM",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ed25519",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-084": {
+    "scenario_id": "PCAP-084",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "WEAK",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-085": {
+    "scenario_id": "PCAP-085",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "BROKEN",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-086": {
+    "scenario_id": "PCAP-086",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-087": {
+    "scenario_id": "PCAP-087",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "WEAK",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-088": {
+    "scenario_id": "PCAP-088",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 explicit leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-089": {
+    "scenario_id": "PCAP-089",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "MEDIUM",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-090": {
+    "scenario_id": "PCAP-090",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "WEAK",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 explicit leaf key policy: ed25519-256."
+    ]
+  },
+  "PCAP-091": {
+    "scenario_id": "PCAP-091",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "WEAK",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-092": {
+    "scenario_id": "PCAP-092",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "MEDIUM",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-093": {
+    "scenario_id": "PCAP-093",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "MEDIUM",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ed25519",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-094": {
+    "scenario_id": "PCAP-094",
+    "generation_mode": "UNRESOLVABLE",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": "MATRIX_ORACLE_INCONSISTENT",
+    "missing_information": "Oracle expectation mismatch: matrix specifies cipher_strength=\"HIGH\" for TLS 1.1, but structural candidates only achieve [\"BROKEN\", \"MEDIUM\", \"WEAK\"] in analysis/ciphers.py",
+    "notes": [
+      "Row must not be silently modified; remains UNRESOLVABLE until matrix oracle is formally updated."
+    ]
+  },
+  "PCAP-095": {
+    "scenario_id": "PCAP-095",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "BROKEN",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-096": {
+    "scenario_id": "PCAP-096",
+    "generation_mode": "UNRESOLVABLE",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": "MATRIX_ORACLE_INCONSISTENT",
+    "missing_information": "Oracle expectation mismatch: matrix specifies cipher_strength=\"HIGH\" for TLS 1.0, but structural candidates only achieve [\"BROKEN\", \"MEDIUM\", \"WEAK\"] in analysis/ciphers.py",
+    "notes": [
+      "Row must not be silently modified; remains UNRESOLVABLE until matrix oracle is formally updated."
+    ]
+  },
+  "PCAP-097": {
+    "scenario_id": "PCAP-097",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "BROKEN",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-098": {
+    "scenario_id": "PCAP-098",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-099": {
+    "scenario_id": "PCAP-099",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 explicit leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-100": {
+    "scenario_id": "PCAP-100",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "WEAK",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-101": {
+    "scenario_id": "PCAP-101",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-102": {
+    "scenario_id": "PCAP-102",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "BROKEN",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-103": {
+    "scenario_id": "PCAP-103",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "BROKEN",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-104": {
+    "scenario_id": "PCAP-104",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "MEDIUM",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-105": {
+    "scenario_id": "PCAP-105",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-106": {
+    "scenario_id": "PCAP-106",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": "psk_resumption",
+    "harness_status": "NOT_IMPLEMENTED",
+    "special_harness_parameters": {
+      "psk_mode": "PSK_ONLY",
+      "tls_version": "1.3"
+    },
+    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
+    "missing_information": "Dedicated harness \"psk_resumption\" is not implemented in current testbed",
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring psk_resumption."
+    ]
+  },
+  "PCAP-107": {
+    "scenario_id": "PCAP-107",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": "psk_dhe_resumption",
+    "harness_status": "IMPLEMENTED",
+    "special_harness_parameters": {
+      "psk_mode": "PSK_DHE",
+      "tls_version": "1.3"
+    },
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring psk_dhe_resumption."
+    ]
+  },
+  "PCAP-108": {
+    "scenario_id": "PCAP-108",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": "hello_retry_request",
+    "harness_status": "NOT_IMPLEMENTED",
+    "special_harness_parameters": {
+      "client_initial_key_share": "secp256r1",
+      "server_required_group": "x25519"
+    },
+    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
+    "missing_information": "Dedicated harness \"hello_retry_request\" is not implemented in current testbed",
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring hello_retry_request."
+    ]
+  },
+  "PCAP-109": {
+    "scenario_id": "PCAP-109",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": "downgrade_sentinel",
+    "harness_status": "NOT_IMPLEMENTED",
+    "special_harness_parameters": {
+      "client_offered_max": "1.3",
+      "server_negotiated": "1.2",
+      "sentinel": "DOWNGRD\\x01"
+    },
+    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
+    "missing_information": "Dedicated harness \"downgrade_sentinel\" is not implemented in current testbed",
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring downgrade_sentinel."
+    ]
+  },
+  "PCAP-110": {
+    "scenario_id": "PCAP-110",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": "legacy_client_sentinel",
+    "harness_status": "IMPLEMENTED",
+    "special_harness_parameters": {
+      "client_offered_max": "1.2",
+      "server_negotiated": "1.2"
+    },
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring legacy_client_sentinel."
+    ]
+  },
+  "PCAP-111": {
+    "scenario_id": "PCAP-111",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy."
+    ]
+  },
+  "PCAP-112": {
+    "scenario_id": "PCAP-112",
+    "generation_mode": "UNRESOLVABLE",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": "MATRIX_ORACLE_INCONSISTENT",
+    "missing_information": "Oracle expectation mismatch: matrix specifies cipher_strength=\"HIGH\" with DHE, but all DHE suites in analysis/ciphers.py are classified as \"WEAK\" due to IANA deprecation (Recommended=\"D\")",
+    "notes": [
+      "Row must not be silently modified; remains UNRESOLVABLE until matrix oracle is formally updated."
+    ]
+  },
+  "PCAP-113": {
+    "scenario_id": "PCAP-113",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": null,
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": "server_rejects_starttls",
+    "harness_status": "IMPLEMENTED",
+    "special_harness_parameters": {
+      "smtp_code": 454
+    },
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring server_rejects_starttls."
+    ]
+  },
+  "PCAP-114": {
+    "scenario_id": "PCAP-114",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": "custom_extension_50",
+    "harness_status": "NOT_IMPLEMENTED",
+    "special_harness_parameters": {
+      "ext13": "standard_sig_algs",
+      "ext50": "distinct_cert_sig_algs"
+    },
+    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
+    "missing_information": "Dedicated harness \"custom_extension_50\" is not implemented in current testbed",
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring custom_extension_50."
+    ]
+  },
+  "PCAP-115": {
+    "scenario_id": "PCAP-115",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-116": {
+    "scenario_id": "PCAP-116",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-117": {
+    "scenario_id": "PCAP-117",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-118": {
+    "scenario_id": "PCAP-118",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-119": {
+    "scenario_id": "PCAP-119",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": "dag_pki",
+    "harness_status": "NOT_IMPLEMENTED",
+    "special_harness_parameters": {
+      "topology": "multi_issuer_dag",
+      "backtracking_required": true
+    },
+    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
+    "missing_information": "Dedicated harness \"dag_pki\" is not implemented in current testbed",
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring dag_pki."
+    ]
+  },
+  "PCAP-120": {
+    "scenario_id": "PCAP-120",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": null,
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": "unadvertised_starttls",
+    "harness_status": "IMPLEMENTED",
+    "special_harness_parameters": {
+      "server_advertises_starttls": false,
+      "client_sends_starttls": true
+    },
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring unadvertised_starttls."
+    ]
+  },
+  "PCAP-121": {
+    "scenario_id": "PCAP-121",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "special_harness": "server_sends_fatal_alert",
+    "harness_status": "IMPLEMENTED",
+    "special_harness_parameters": {
+      "alert_level": "fatal",
+      "alert_description": 40
+    },
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring server_sends_fatal_alert."
+    ]
+  },
+  "PCAP-122": {
+    "scenario_id": "PCAP-122",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": "early_data_0rtt",
+    "harness_status": "NOT_IMPLEMENTED",
+    "special_harness_parameters": {
+      "early_data": true
+    },
+    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
+    "missing_information": "Dedicated harness \"early_data_0rtt\" is not implemented in current testbed",
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring early_data_0rtt."
+    ]
+  },
+  "PCAP-123": {
+    "scenario_id": "PCAP-123",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-124": {
+    "scenario_id": "PCAP-124",
+    "generation_mode": "STANDARD",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 2048,
+    "special_harness": null,
+    "harness_status": null,
+    "special_harness_parameters": {},
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Standard daemon execution using deterministic class selection policy.",
+      "TLS 1.3 neutral leaf key policy: rsa-2048."
+    ]
+  },
+  "PCAP-125": {
+    "scenario_id": "PCAP-125",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "ecdsa",
+    "leaf_key_size": 256,
+    "special_harness": "sentinel_suppression",
+    "harness_status": "NOT_IMPLEMENTED",
+    "special_harness_parameters": {
+      "client_offered_max": "1.3",
+      "server_negotiated": "1.2",
+      "sentinel": false
+    },
+    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
+    "missing_information": "Dedicated harness \"sentinel_suppression\" is not implemented in current testbed",
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring sentinel_suppression."
+    ]
+  },
+  "PCAP-126": {
+    "scenario_id": "PCAP-126",
+    "generation_mode": "DEDICATED_HARNESS",
+    "cipher_mode": "CLASS",
+    "cipher_class": "HIGH",
+    "exact_cipher_suite": null,
+    "leaf_key_algorithm": "rsa",
+    "leaf_key_size": 1024,
+    "special_harness": "cert_rsa1024",
+    "harness_status": "IMPLEMENTED",
+    "special_harness_parameters": {
+      "leaf_key_algorithm": "rsa",
+      "leaf_key_size": 1024,
+      "seclevel": 0
+    },
+    "unresolvable_reason": null,
+    "missing_information": null,
+    "notes": [
+      "Dedicated protocol phenomenon scenario requiring cert_rsa1024."
+    ]
+  }
+}

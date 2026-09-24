@@ -1,0 +1,37 @@
+# ==============================================================================
+# SECUREMAILSCOPE TESTBED - RENDERED MAIN.CF FOR PCAP-004
+# ==============================================================================
+# Description: N/A
+# ==============================================================================
+
+# Hostname & Network Identity
+myhostname = mail.test.local
+mydomain = test.local
+myorigin = $mydomain
+mydestination = $myhostname, localhost.$mydomain, localhost
+mynetworks = 127.0.0.0/8, 172.28.0.0/16
+inet_interfaces = all
+inet_protocols = ipv4
+
+# Prevent Reverse DNS lookup delays on Docker network
+disable_dns_lookups = yes
+smtpd_relay_restrictions = permit_mynetworks, reject_unauth_destination
+
+# Native container stdout logging
+maillog_file = /dev/stdout
+
+# TLS Logging (Level 2 = log TLS cipher suite, protocol, and peer cert details)
+smtpd_tls_loglevel = 2
+smtpd_tls_received_header = yes
+compatibility_level = 3.6
+
+# ------------------------------------------------------------------------------
+# TLS Presence & Security Level
+# ------------------------------------------------------------------------------
+smtpd_tls_security_level = none
+
+# TLS Protocol Restrictions
+smtpd_tls_protocols = >=TLSv1.2
+smtpd_tls_mandatory_protocols = >=TLSv1.2
+
+# Cipher Suite Configuration

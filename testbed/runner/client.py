@@ -263,12 +263,44 @@ class SMTPClient:
             "timestamp": time.time(),
         })
 
+    def establish_resumption_ticket(
+        self,
+        host: str,
+        port: int,
+        sni: Optional[str],
+        client_tls: Dict[str, Any],
+        timeout: float = 5.0,
+    ) -> Tuple[ssl.SSLSession, ssl.SSLContext]:
+        """
+        Establish an initial TLS connection outside the target PCAP capture
+        to obtain and return an RFC 8446 NewSessionTicket along with the bound SSLContext.
+        """
+        ctx = self.build_ssl_context(client_tls)
+        raw_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        raw_sock.settimeout(timeout)
+        raw_sock.connect((host, port))
+        ssl_sock = ctx.wrap_socket(raw_sock, server_hostname=sni)
+        ssl_sock.recv(1024)
+        time.sleep(0.3)
+        saved_session = ssl_sock.session
+        ssl_sock.sendall(b"QUIT\r\n")
+        try:
+            ssl_sock.recv(1024)
+        except Exception:
+            pass
+        ssl_sock.close()
+        if not saved_session or not getattr(saved_session, "has_ticket", False):
+            raise RuntimeError("Failed to obtain RFC 8446 session ticket from server")
+        return saved_session, ctx
+
     def execute(
         self,
         scenario: StagedScenario | ScenarioSpec | Dict[str, Any],
         host_override: Optional[str] = None,
         port_override: Optional[int] = None,
         source_ip: Optional[str] = None,
+        session: Optional[ssl.SSLSession] = None,
+        ssl_context: Optional[ssl.SSLContext] = None,
         timeout: float = 10.0,
     ) -> ClientResult:
         """
@@ -279,6 +311,8 @@ class SMTPClient:
           host_override: Target server IP or hostname (overrides scenario default).
           port_override: Target port (overrides scenario default).
           source_ip: Local source IP to bind (optional, e.g. "172.28.0.20").
+          session: Optional saved ssl.SSLSession for TLS 1.3 resumption testing.
+          ssl_context: Optional bound ssl.SSLContext matching the session.
           timeout: Socket connection and read timeout in seconds.
 
         Returns:
@@ -344,9 +378,9 @@ class SMTPClient:
             # Scenario Path A: Implicit TLS (RFC 8314 §7.3 submissions on port 465)
             # ------------------------------------------------------------------
             if tls_presence == "implicit-TLS":
-                ctx = self.build_ssl_context(client_tls)
+                ctx = ssl_context or self.build_ssl_context(client_tls)
                 try:
-                    ssl_sock = ctx.wrap_socket(raw_sock, server_hostname=sni)
+                    ssl_sock = ctx.wrap_socket(raw_sock, server_hostname=sni, session=session)
                     active_sock = ssl_sock
                 except ssl.SSLError as ssl_err:
                     if client_behavior == "server_sends_fatal_alert":

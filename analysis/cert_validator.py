@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 from cryptography import x509
 from cryptography.utils import CryptographyDeprecationWarning
 from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding, rsa, ec, ed25519, ed448
 from cryptography.x509.verification import PolicyBuilder
 
@@ -457,75 +458,178 @@ def verify_pkix_path(leaf_cert, candidate_intermediates, ca_path=None, **kwargs)
 
 
 
-def resolve_prospective_path(leaf_obj, candidate_pool):
+def resolve_prospective_path(leaf_obj, candidate_pool, trust_store_manager=None, ca_path=None):
     """
-    RFC 5280 §6.1 / RFC 8446 §4.4.2 PROSPECTIVE CERTIFICATION PATH RESOLUTION:
-    ==========================================================================
+    RFC 4158 / RFC 5280 §6.1 / RFC 8446 §4.4.2 PROSPECTIVE CERTIFICATION PATH RESOLUTION:
+    ======================================================================================
     Reconstructs the prospective certification path starting from the target
-    leaf certificate through the captured candidate issuer pool.
+    leaf certificate through the captured candidate issuer pool using depth-first
+    search (DFS) with backtracking.
 
-    RFC REFERENCES & DESIGN PRINCIPLES (THE "WHY"):
-      • RFC 8446 §4.4.2: The sender's certificate MUST come first (leaf),
-        while implementations MUST tolerate arbitrary ordering of the
-        remaining certificates in the Certificate message.
-      • RFC 5280 §6.1: A prospective certification path is an ordered sequence
-        of certificates (C_0, C_1, ..., C_n) where C_0 is the end-entity,
-        and each C_{i+1} certifies C_i (C_i.issuer == C_{i+1}.subject and
-        C_{i+1}'s public key cryptographically verifies C_i's signature).
-      • Loop Detection (RFC 5280 §6.1): A certificate cannot appear more than
-        once in the path to prevent cyclic chaining attacks.
-      • AKI / SKI Disambiguation (RFC 5280 §4.2.1.1-2):
-        Authority Key Identifier (AKI) and Subject Key Identifier (SKI) are used
-        strictly as OPTIONAL disambiguation when multiple candidate issuers share
-        the same Subject DN (e.g. during CA key rollover). Per RFC 5280, AKI/SKI is
-        NOT a mandatory linking condition, and its absence MUST NOT cause a valid
-        path to be rejected.
-      • basicConstraints CA Flag (RFC 5280 §4.2.1.9): Intermediate issuing
-        certificates MUST assert ca=True.
-      • Non-Duplication of PKIX Engine: RFC 5280 explicitly notes that the
-        procedure for obtaining the certificate sequence is outside the scope of
-        RFC 5280. This resolver prepares and orders the prospective candidate
-        path from captured wire evidence before handing it to the full PKIX
-        validator (ServerVerifier / openssl verify) for policy, name constraints,
-        path length constraints, and trust anchor binding.
+    KEY RFC 4158 & RFC 5280 PRINCIPLES:
+      • Backtracking (RFC 4158 §2.4): When multiple plausible issuer candidates exist
+        (e.g., cross-certification, multi-issuer DAGs, CA key rollover), the resolver
+        must not greedily stop at the first locally valid issuer. If a candidate branch
+        leads to an untrusted anchor or dead end, the resolver backtracks and explores
+        alternate candidate branches until a trusted path is found or all viable branches
+        are exhausted.
+      • Trust Anchor Awareness: A self-signed root is a successful trust anchor only when
+        it is anchored in the active trust store. A self-signed root not in the active
+        store is an untrusted branch and triggers backtracking.
+      • Loop Detection (RFC 5280 §6.1 / RFC 4158 §3.4.1): A certificate cannot appear
+        more than once in the path to prevent cyclic chaining attacks.
+      • Deterministic Exploration (RFC 5280 §4.2.1.1-2 / RFC 4158 §3.5):
+        Authority Key Identifier (AKI) and Subject Key Identifier (SKI) are used strictly
+        as an exploration order preference, not a hard exclusion. Plausible candidates
+        are sorted deterministically by (aki_rank, serial_number, DER) so that candidate
+        pool ordering on the wire never alters the resulting path.
+      • Cryptographic & CA Invariants: Each candidate hop must have
+        candidate.subject == current.issuer, candidate.public_key verifies current.signature,
+        and candidate.basicConstraints.ca == True.
 
     Returns:
       tuple: (resolved_path, path_error_tuple, is_terminating_self_signed)
         - resolved_path: list of x509.Certificate [leaf, intermediate_1, ..., terminating_ca]
-        - path_error_tuple: None or (error_code, error_details)
+        - path_error_tuple: None (on success) or (error_code, error_details)
         - is_terminating_self_signed: bool indicating if the final cert in path is a verified self-signed CA
     """
-    current = leaf_obj
-    resolved_path = [current]
-    remaining_candidates = list(candidate_pool)
-    seen_certs = {current}
+    from cryptography.hazmat.primitives import serialization
 
-    while True:
-        # Check if current cert is self-signed (issuer DN == subject DN)
-        if current.issuer == current.subject:
-            # Cryptographic verification of self-signature
-            sig_ok, sig_err = verify_certificate_signature(current, current)
-            if sig_ok:
-                # Reached a cryptographically verified self-signed root CA
-                return resolved_path, None, True
+    # Resolve active trust store context if available
+    store_certs = None
+    store_type = "testbed"
+    resolved_ca_path = ca_path
+
+    if trust_store_manager is not None:
+        trust_store_manager.get_store()
+        store_certs = getattr(trust_store_manager, "_store_certs", None)
+        store_type = getattr(trust_store_manager, "trust_store_type", "testbed")
+        if not resolved_ca_path:
+            resolved_ca_path = trust_store_manager.get_ca_file_path()
+
+    def evaluate_path_trust(path):
+        """
+        Evaluates whether a prospective path successfully anchors to the active trust store.
+        Returns: (is_anchored: bool, error_code: Optional[str], error_detail: Optional[str])
+        """
+        terminating_cert = path[-1]
+        is_self_signed = (terminating_cert.issuer == terminating_cert.subject)
+
+        if is_self_signed:
+            sig_ok, sig_err = verify_certificate_signature(terminating_cert, terminating_cert)
+            if not sig_ok:
+                return False, "SELF_SIGNED_SIGNATURE_INVALID", (
+                    f"Terminating root CA '{terminating_cert.subject.rfc4514_string()}' claims "
+                    f"self-signature but cryptographic verification failed: {sig_err}"
+                )
+
+            if store_certs is not None or resolved_ca_path:
+                in_store = False
+                if store_certs and any(terminating_cert == root for root in store_certs):
+                    in_store = True
+                elif resolved_ca_path and os.path.exists(resolved_ca_path) and os.path.getsize(resolved_ca_path) > 0:
+                    pkix_ok, _ = verify_pkix_path(path[0], path[1:], ca_path=resolved_ca_path)
+                    if pkix_ok:
+                        in_store = True
+
+                if in_store:
+                    return True, None, None
+                else:
+                    return False, "UNKNOWN_ROOT_CA", (
+                        f"Terminating root CA '{terminating_cert.subject.rfc4514_string()}' is self-signed "
+                        f"but not present in active '{store_type}' store."
+                    )
             else:
-                return resolved_path, (
-                    "SELF_SIGNED_SIGNATURE_INVALID",
-                    f"Certificate '{current.subject.rfc4514_string()}' claims self-signature but cryptographic verification failed: {sig_err}"
-                ), False
+                # No trust store provided: verified self-signed root is a valid prospective termination
+                return True, None, None
+        else:
+            # Terminating cert is NOT self-signed (root omitted from wire)
+            if store_certs is not None or resolved_ca_path:
+                if resolved_ca_path and os.path.exists(resolved_ca_path) and os.path.getsize(resolved_ca_path) > 0:
+                    pkix_ok, pkix_err = verify_pkix_path(path[0], path[1:], ca_path=resolved_ca_path)
+                    if pkix_ok:
+                        return True, None, None
+                    else:
+                        issuer_in_store = store_certs and any(root.subject == terminating_cert.issuer for root in store_certs)
+                        if issuer_in_store:
+                            if pkix_err and "signature" in pkix_err.lower():
+                                return False, "INVALID_SIGNATURE_IN_CHAIN", (
+                                    f"Signature verification failed for intermediate certificate "
+                                    f"'{terminating_cert.subject.rfc4514_string()}' against root CA: {pkix_err}"
+                                )
+                            return False, "PATH_VALIDATION_FAILED", (
+                                f"Path validation failed against '{store_type}' store: {pkix_err}"
+                            )
+                        else:
+                            err_code = "INCOMPLETE_CHAIN_MISSING_INTERMEDIATE" if len(path) == 1 else "UNKNOWN_ROOT_CA"
+                            return False, err_code, (
+                                f"Certificate chain terminates at {'leaf certificate' if len(path) == 1 else 'intermediate CA'} "
+                                f"'{terminating_cert.subject.rfc4514_string()}' issued by '{terminating_cert.issuer.rfc4514_string()}', "
+                                f"but issuing CA is not present in active '{store_type}' store."
+                            )
+                elif store_certs:
+                    matching_roots = [r for r in store_certs if r.subject == terminating_cert.issuer]
+                    if matching_roots:
+                        for root in matching_roots:
+                            s_ok, _ = verify_certificate_signature(terminating_cert, root)
+                            if s_ok:
+                                return True, None, None
+                        return False, "INVALID_SIGNATURE_IN_CHAIN", (
+                            f"Signature verification failed for intermediate '{terminating_cert.subject.rfc4514_string()}' against matching root."
+                        )
+                    else:
+                        err_code = "INCOMPLETE_CHAIN_MISSING_INTERMEDIATE" if len(path) == 1 else "UNKNOWN_ROOT_CA"
+                        return False, err_code, (
+                            f"Issuing CA '{terminating_cert.issuer.rfc4514_string()}' not present in '{store_type}' store."
+                        )
 
-        # Current is not self-signed. Search remaining candidates for its issuer.
-        # Primary filter: candidate.subject == current.issuer
-        name_matching_cands = [c for c in remaining_candidates if c.subject == current.issuer]
+            return False, "INCOMPLETE_CHAIN_MISSING_INTERMEDIATE" if len(path) == 1 else "UNKNOWN_ROOT_CA", (
+                f"Path terminates at intermediate '{terminating_cert.subject.rfc4514_string()}' without self-signed root."
+            )
+
+    attempted_branches = []
+
+    def dfs(current_path, remaining_pool):
+        current = current_path[-1]
+
+        # 1. Check if current certificate is self-signed
+        if current.issuer == current.subject:
+            is_anchored, err_code, err_detail = evaluate_path_trust(current_path)
+            if is_anchored:
+                return list(current_path), None, True
+            else:
+                attempted_branches.append({
+                    "path": list(current_path),
+                    "error_code": err_code,
+                    "details": err_detail,
+                    "is_self_signed": True
+                })
+                # Backtrack: untrusted self-signed root must not terminate the search
+                return None
+
+        # 2. Find plausible candidate issuers in remaining_pool:
+        # Loop prevention (RFC 5280 §6.1 / RFC 4158 §3.4.1): candidate must not be in current_path
+        name_matching_cands = [
+            c for c in remaining_pool
+            if c.subject == current.issuer and c not in current_path
+        ]
 
         if not name_matching_cands:
-            # No candidate in the captured pool has the subject DN matching current.issuer.
-            # The captured path terminates here without a self-signed root.
-            return resolved_path, None, False
+            # No candidates in pool can extend current.
+            # Check if current directly anchors to trust store (e.g. root omitted from wire)
+            is_anchored, err_code, err_detail = evaluate_path_trust(current_path)
+            if is_anchored:
+                return list(current_path), None, False
+            else:
+                attempted_branches.append({
+                    "path": list(current_path),
+                    "error_code": err_code,
+                    "details": err_detail,
+                    "is_self_signed": False
+                })
+                return None
 
-        # Disambiguation using AKI / SKI (RFC 5280 §4.2.1.1):
-        # Used as an optional ranking aid when multiple candidates share the same Subject DN.
-        # RFC 5280: AKI/SKI is NOT a mandatory linking condition.
+        # 4. Disambiguation using AKI / SKI (RFC 5280 §4.2.1.1 / RFC 4158 §3.5):
         current_aki = None
         try:
             aki_ext = current.extensions.get_extension_for_oid(x509.ExtensionOID.AUTHORITY_KEY_IDENTIFIER).value
@@ -533,58 +637,126 @@ def resolve_prospective_path(leaf_obj, candidate_pool):
         except Exception:
             current_aki = None
 
-        if len(name_matching_cands) > 1 and current_aki is not None:
-            def aki_rank(cand):
+        def candidate_sort_key(cand):
+            # AKI ranking: 0 = match, 1 = mismatch, 2 = missing SKI
+            rank = 0
+            if current_aki is not None:
                 try:
                     cand_ski = cand.extensions.get_extension_for_oid(x509.ExtensionOID.SUBJECT_KEY_IDENTIFIER).value.digest
-                    return 0 if cand_ski == current_aki else 1
+                    rank = 0 if cand_ski == current_aki else 1
                 except Exception:
-                    return 2
-            name_matching_cands.sort(key=aki_rank)
+                    rank = 2
+            # Deterministic tie-breaker: serial number, then DER bytes
+            return (rank, cand.serial_number, cand.public_bytes(serialization.Encoding.DER))
 
-        valid_issuer = None
-        cand_errors = []
+        sorted_candidates = sorted(name_matching_cands, key=candidate_sort_key)
 
-        for cand in name_matching_cands:
-            if cand in seen_certs:
-                # Loop prevention (RFC 5280 §6.1): certificate cannot appear twice in path
-                continue
-
+        cand_failures = []
+        for cand in sorted_candidates:
             # Verify cryptographic hop: cand's public key must verify current's signature
             sig_ok, sig_err = verify_certificate_signature(current, cand)
             if not sig_ok:
-                cand_errors.append(f"Candidate '{cand.subject.rfc4514_string()}' signature check failed: {sig_err}")
+                cand_failures.append({
+                    "cand": cand,
+                    "error_code": "INVALID_SIGNATURE_IN_CHAIN",
+                    "details": f"Candidate '{cand.subject.rfc4514_string()}' (serial {cand.serial_number}) signature check failed: {sig_err}"
+                })
                 continue
 
             # Verify basicConstraints CA flag on issuing candidate (RFC 5280 §4.2.1.9)
             try:
                 bc_ext = cand.extensions.get_extension_for_oid(x509.ExtensionOID.BASIC_CONSTRAINTS).value
                 if not bc_ext.ca:
-                    cand_errors.append(
-                        f"Issuing candidate '{cand.subject.rfc4514_string()}' has basicConstraints with ca=False"
-                    )
+                    cand_failures.append({
+                        "cand": cand,
+                        "error_code": "CA_CONSTRAINT_VIOLATION",
+                        "details": f"Issuing candidate '{cand.subject.rfc4514_string()}' has basicConstraints with ca=False"
+                    })
                     continue
             except x509.ExtensionNotFound:
-                cand_errors.append(
-                    f"Issuing candidate '{cand.subject.rfc4514_string()}' is missing mandatory basicConstraints extension"
-                )
+                cand_failures.append({
+                    "cand": cand,
+                    "error_code": "CA_CONSTRAINT_VIOLATION",
+                    "details": f"Issuing candidate '{cand.subject.rfc4514_string()}' is missing mandatory basicConstraints extension"
+                })
                 continue
 
-            valid_issuer = cand
+            # Candidate is plausible! Recurse.
+            next_remaining = [c for c in remaining_pool if c != cand]
+            res = dfs(current_path + [cand], next_remaining)
+            if res is not None:
+                return res  # Trusted path found!
+
+            # Backtrack: this candidate did not yield a trusted path, try next candidate in sorted_candidates!
+
+        # If all candidates for current were rejected by crypto/CA checks:
+        if cand_failures and not any(b["path"][:len(current_path)] == current_path for b in attempted_branches):
+            primary_err = "CA_CONSTRAINT_VIOLATION" if any(f["error_code"] == "CA_CONSTRAINT_VIOLATION" for f in cand_failures) else "INVALID_SIGNATURE_IN_CHAIN"
+            err_msg = "; ".join(f["details"] for f in cand_failures)
+            attempted_branches.append({
+                "path": list(current_path),
+                "error_code": primary_err,
+                "details": err_msg,
+                "is_self_signed": False
+            })
+
+        return None
+
+    res = dfs([leaf_obj], list(candidate_pool))
+    if res is not None:
+        return res
+
+    # ── AGGREGATE FAILURE RESOLUTION (DETERMINISTIC) ─────────────────────────
+    # If all branches failed, select the failure classification deterministically
+    # according to validator semantics, independent of candidate input ordering.
+    if not attempted_branches:
+        error_code = "INCOMPLETE_CHAIN_MISSING_INTERMEDIATE"
+        diag = (
+            f"Incomplete chain: path terminates at leaf '{leaf_obj.subject.rfc4514_string()}' "
+            f"issued by '{leaf_obj.issuer.rfc4514_string()}', but issuing intermediate CA "
+            f"certificate was not transmitted and is not present in active '{store_type}' store."
+        )
+        return [leaf_obj], (error_code, diag), False
+
+    # Precedence among failure types (Priority 1 -> 4):
+    # 1. Structural violations: CA_CONSTRAINT_VIOLATION, INVALID_SIGNATURE_IN_CHAIN, SELF_SIGNED_SIGNATURE_INVALID
+    # 2. Untrusted root: UNKNOWN_ROOT_CA
+    # 3. Path constraints: PATH_VALIDATION_FAILED
+    # 4. Incomplete intermediate: INCOMPLETE_CHAIN_MISSING_INTERMEDIATE
+    priority_order = [
+        "CA_CONSTRAINT_VIOLATION",
+        "INVALID_SIGNATURE_IN_CHAIN",
+        "SELF_SIGNED_SIGNATURE_INVALID",
+        "UNKNOWN_ROOT_CA",
+        "PATH_VALIDATION_FAILED",
+        "INCOMPLETE_CHAIN_MISSING_INTERMEDIATE",
+    ]
+
+    selected_error_code = "UNKNOWN_ROOT_CA"
+    for err_type in priority_order:
+        if any(b["error_code"] == err_type for b in attempted_branches):
+            selected_error_code = err_type
             break
 
-        if valid_issuer is not None:
-            resolved_path.append(valid_issuer)
-            seen_certs.add(valid_issuer)
-            remaining_candidates.remove(valid_issuer)
-            current = valid_issuer
-        else:
-            if cand_errors:
-                if any("ca=False" in e or "missing mandatory" in e for e in cand_errors):
-                    return resolved_path, ("CA_CONSTRAINT_VIOLATION", "; ".join(cand_errors)), False
-                else:
-                    return resolved_path, ("INVALID_SIGNATURE_IN_CHAIN", "; ".join(cand_errors)), False
-            return resolved_path, None, False
+    matching_branches = [b for b in attempted_branches if b["error_code"] == selected_error_code]
+    if not matching_branches:
+        matching_branches = attempted_branches
+    best_branch = max(matching_branches, key=lambda b: (len(b["path"]), b["path"][-1].serial_number))
+
+    if len(attempted_branches) > 1:
+        branch_summaries = []
+        for i, b in enumerate(attempted_branches, 1):
+            path_str = " -> ".join(c.subject.rfc4514_string() for c in b["path"])
+            branch_summaries.append(f"Branch {i} [{path_str}]: {b['error_code']} ({b['details']})")
+        aggregate_diag = (
+            f"All {len(attempted_branches)} candidate branch(es) failed trust verification: " +
+            "; ".join(branch_summaries)
+        )
+    else:
+        aggregate_diag = best_branch["details"]
+
+    return best_branch["path"], (selected_error_code, aggregate_diag), best_branch.get("is_self_signed", False)
+
 
 
 def classify_path_failure(terminating_cert, store_certs, store_type, failure_err, leaf_obj=None):
@@ -1122,11 +1294,12 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
         is_self_signed     = False
         is_anchored        = False
         verification_error = None
+        actual_resolved_path = [leaf_obj]
 
         # REFERENCE IDENTITY RESOLUTION (RFC 6125 §6.1):
         # Reference identity MUST come from independently observed connection context (SNI).
         reference_identity = get_x509_subject(claimed_sni) if claimed_sni else None
-        builder = PolicyBuilder().store(active_store).time(now)
+        builder = PolicyBuilder().store(active_store).time(now) if active_store is not None else None
 
         # ───────────────────────────────────────────────────────────────────────────
         # CASE 1: SELF-SIGNED CERTIFICATE (issuer DN == subject DN, single cert)
@@ -1203,7 +1376,7 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
                 pkix_ok = False
                 pkix_err = None
 
-                if reference_identity is not None:
+                if reference_identity is not None and builder is not None:
                     try:
                         verifier = builder.build_server_verifier(reference_identity)
                         verifier.verify(leaf_obj, [])
@@ -1221,11 +1394,18 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
                             trust_store_type=store_type, base_dir=trust_store_manager.base_dir
                         )
                         if pkix_ok:
-                            trust_status = "TRUSTED_CHAIN_HOSTNAME_MISMATCH"
-                            trust_details = (
-                                f"Single leaf certificate directly anchored to root CA in "
-                                f"{store_type} store, but does NOT match claimed SNI '{claimed_sni}'."
-                            )
+                            if hostname_match_status == "MISMATCH":
+                                trust_status = "TRUSTED_CHAIN_HOSTNAME_MISMATCH"
+                                trust_details = (
+                                    f"Single leaf certificate directly anchored to root CA in "
+                                    f"{store_type} store, but does NOT match claimed SNI '{claimed_sni}'."
+                                )
+                            else:
+                                trust_status = "TRUSTED_CHAIN"
+                                trust_details = (
+                                    f"Single leaf certificate cryptographically authentic, verified for "
+                                    f"SNI '{claimed_sni}', and anchored to {store_type} store via PKIX validation."
+                                )
                             is_anchored = True
                         else:
                             pkix_err = pkix_err or str(e_sni)
@@ -1280,11 +1460,15 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
                 )
                 is_anchored = False
             else:
-                # Step 2: Prospective path resolution (RFC 5280 §6.1 / RFC 8446 §4.4.2)
+                # Step 2: Prospective path resolution with backtracking (RFC 4158 / RFC 5280 §6.1 / RFC 8446 §4.4.2)
                 candidate_pool = raw_cert_objs[1:]
                 resolved_path, path_error, is_terminating_self_signed = resolve_prospective_path(
-                    leaf_obj, candidate_pool
+                    leaf_obj,
+                    candidate_pool,
+                    trust_store_manager=trust_store_manager,
+                    ca_path=trust_store_manager.get_ca_file_path()
                 )
+                actual_resolved_path = resolved_path
 
                 if path_error:
                     trust_status = path_error[0]
@@ -1299,7 +1483,7 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
                     pkix_ok = False
                     pkix_err = None
 
-                    if reference_identity is not None:
+                    if reference_identity is not None and builder is not None:
                         try:
                             verifier = builder.build_server_verifier(reference_identity)
                             verifier.verify(leaf_obj, intermediates_for_pkix)
@@ -1317,11 +1501,18 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
                                 trust_store_type=store_type, base_dir=trust_store_manager.base_dir
                             )
                             if pkix_ok:
-                                trust_status = "TRUSTED_CHAIN_HOSTNAME_MISMATCH"
-                                trust_details = (
-                                    f"Certificate chain cryptographically authentic and anchored to "
-                                    f"{store_type} store, but does NOT match claimed SNI '{claimed_sni}'."
-                                )
+                                if hostname_match_status == "MISMATCH":
+                                    trust_status = "TRUSTED_CHAIN_HOSTNAME_MISMATCH"
+                                    trust_details = (
+                                        f"Certificate chain cryptographically authentic and anchored to "
+                                        f"{store_type} store, but does NOT match claimed SNI '{claimed_sni}'."
+                                    )
+                                else:
+                                    trust_status = "TRUSTED_CHAIN"
+                                    trust_details = (
+                                        f"Certificate chain cryptographically authentic, verified for "
+                                        f"SNI '{claimed_sni}', and anchored to {store_type} trust store via PKIX validation."
+                                    )
                                 is_anchored = True
                             else:
                                 pkix_err = pkix_err or str(e_sni)
@@ -1361,6 +1552,17 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
         #   'VALID' for revocation without actually checking would be misleading.
         #   The honest answer is NOT_CHECKED, which tells downstream consumers they
         #   must run their own revocation check if they need that assurance.
+        path_summary = [
+            {
+                "serial": str(c.serial_number),
+                "serial_number": str(c.serial_number),
+                "subject": c.subject.rfc4514_string(),
+                "issuer": c.issuer.rfc4514_string(),
+                "sha256_fingerprint": c.fingerprint(hashes.SHA256()).hex(),
+            }
+            for c in actual_resolved_path
+        ]
+
         sessions_certs[sid] = {
             "stream":                        sid,
             "chain_length":                  len(parsed_chain),
@@ -1374,6 +1576,7 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
             "claimed_sni":                   claimed_sni,
             "hostname_match":                hostname_match_status,
             "revocation_status":             "NOT_CHECKED (PASSIVE_OFFLINE_ANALYSIS)",
+            "resolved_path":                 path_summary,
             "leaf_cert":                     leaf_dict,
             "full_chain":                    parsed_chain,
             "parse_errors":                  parse_errors

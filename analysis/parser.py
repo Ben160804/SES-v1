@@ -79,7 +79,7 @@ class PCAPAnalyzer:
       • Pluggable Trust Anchors: Supports dynamic switching between lab testbed roots and
         production Mozilla CA bundles for differential trust analysis.
     """
-    def __init__(self, pcap_path, trust_store="testbed"):
+    def __init__(self, pcap_path, trust_store="testbed", trust_store_manager=None):
         """
         Initializes the analyzer with the target capture file and root trust configuration.
 
@@ -89,13 +89,22 @@ class PCAPAnalyzer:
                          - "testbed": Root certificates from ./certs/ (for lab captures).
                          - "production": Mozilla CA bundle via `certifi` (for public endpoints).
                          - "system": Operating system trust store (/etc/ssl/certs).
+            trust_store_manager: Optional TrustStoreManager instance to use directly.
         """
         self.pcap_path = pcap_path
-        self.trust_store_type = trust_store
-        self.trust_store_manager = TrustStoreManager(
-            trust_store=trust_store,
-            base_dir=os.path.dirname(os.path.abspath(__file__))
-        )
+        if trust_store_manager is not None:
+            self.trust_store_manager = trust_store_manager
+            self.trust_store_type = getattr(trust_store_manager, "trust_store_type", str(trust_store))
+        elif isinstance(trust_store, TrustStoreManager):
+            self.trust_store_manager = trust_store
+            self.trust_store_type = trust_store.trust_store_type
+        else:
+            self.trust_store_manager = TrustStoreManager(
+                trust_store=trust_store,
+                base_dir=os.path.dirname(os.path.abspath(__file__))
+            )
+            self.trust_store_type = self.trust_store_manager.trust_store_type
+
 
     @property
     def trust_store_description(self):

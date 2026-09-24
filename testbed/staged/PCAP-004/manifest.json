@@ -1,0 +1,72 @@
+{
+  "scenario_id": "PCAP-004",
+  "layer": "inventory",
+  "description": "",
+  "protocol": "smtp",
+  "service": "postfix",
+  "network": {
+    "port": 25,
+    "port_type": "standard",
+    "server_ip": "172.28.0.10",
+    "client_ip": "172.28.0.20"
+  },
+  "server_tls": {
+    "tls_presence": "none",
+    "tls_version": "N/A",
+    "cipher_strength": "N/A",
+    "starttls_enforcement": "none",
+    "hostname": "mail.test.local",
+    "listener_postconf_cmd": "smtp/inet=smtp inet n - n - - smtpd"
+  },
+  "client_tls": {
+    "sni": null,
+    "tls_presence": "none",
+    "offered_version": null,
+    "offered_ciphers": [],
+    "starttls_enforcement": "none",
+    "auth_outcome": "none",
+    "client_behavior": "",
+    "resolver_result": {
+      "scenario_id": "PCAP-004",
+      "intent": "smtp none (inventory)",
+      "tls_version": "N/A",
+      "matrix_kex": "(none)",
+      "cert_auth_intent": "N/A",
+      "matrix_cipher_strength": "N/A",
+      "generation_mode": "STANDARD",
+      "cipher_mode": "NONE",
+      "iana_candidates": [],
+      "iana_candidate_count": 0,
+      "current_runtime_candidates": [],
+      "current_runtime_candidate_count": 0,
+      "candidate_count_before_selection": 0,
+      "candidate_names_after_all_filters": [],
+      "selected_cipher": null,
+      "selection_basis": "NONE",
+      "selection_rank": null,
+      "cipher_resolution_status": "NOT_APPLICABLE",
+      "runtime_status": "NOT_APPLICABLE",
+      "leaf_key_algorithm": null,
+      "leaf_key_size": null,
+      "special_harness": null,
+      "special_harness_requirement": null,
+      "special_harness_parameters": {},
+      "cipher_telemetry": {},
+      "reason": "Cleartext protocol interaction; no TLS negotiation occurs on wire",
+      "missing_information": null,
+      "traceable_constraints": {
+        "protocol_mode": "cleartext_no_tls"
+      },
+      "strength_discrepancy": null
+    }
+  },
+  "pki": null,
+  "oracle": {
+    "expected_trust_status": "N/A",
+    "expected_starttls_status": "CLEARTEXT_NO_ENCRYPTION",
+    "expected_protocol": "SMTP"
+  },
+  "staged_files": {
+    "main.cf": "main.cf"
+  }
+}

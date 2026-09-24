@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "PCAP-063",
+  "status": "PASS",
+  "fields": {
+    "protocol": {
+      "status": "PASS",
+      "expected": "POP3",
+      "observed": "POP3"
+    },
+    "starttls_status": {
+      "status": "PASS",
+      "expected": "CLEARTEXT_NO_ENCRYPTION",
+      "observed": "CLEARTEXT_NO_ENCRYPTION"
+    },
+    "tls_presence": {
+      "status": "PASS",
+      "expected": "none",
+      "observed": "none"
+    },
+    "tls.fatal_alert": {
+      "status": "NOT_APPLICABLE",
+      "expected": false,
+      "observed": false
+    },
+    "tls.version": {
+      "status": "PASS",
+      "expected": null,
+      "observed": null
+    },
+    "tls.cipher_strength": {
+      "status": "NOT_APPLICABLE",
+      "expected": null,
+      "observed": null
+    },
+    "tls.cipher_name": {
+      "status": "NOT_APPLICABLE",
+      "expected": null,
+      "observed": null
+    },
+    "tls.forward_secrecy": {
+      "status": "NOT_APPLICABLE",
+      "expected": null,
+      "observed": null
+    },
+    "certificate.observable": {
+      "status": "PASS",
+      "expected": "NOT_PRESENT",
+      "observed": "NOT_PRESENT"
+    },
+    "certificate.signature_algorithm": {
+      "status": "NOT_APPLICABLE",
+      "expected": null,
+      "observed": null
+    },
+    "certificate.validity": {
+      "status": "NOT_APPLICABLE",
+      "expected": null,
+      "observed": null
+    },
+    "certificate.hostname_match": {
+      "status": "NOT_APPLICABLE",
+      "expected": null,
+      "observed": null
+    },
+    "certificate.trust_status": {
+      "status": "NOT_APPLICABLE",
+      "expected": null,
+      "observed": null
+    }
+  },
+  "mismatches": [],
+  "unknowns": [],
+  "evaluated_stream": 0
+}

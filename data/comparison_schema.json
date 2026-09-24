@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SecureMailScopeComparisonArtifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "scenario_id",
+    "status",
+    "fields",
+    "mismatches",
+    "unknowns"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": [
+        "1.0"
+      ]
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^PCAP-[0-9]{3}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "INCONCLUSIVE"
+      ]
+    },
+    "fields": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "expected",
+          "observed"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "PASS",
+              "FAIL",
+              "UNOBSERVABLE",
+              "NOT_APPLICABLE"
+            ]
+          },
+          "expected": {},
+          "observed": {},
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "mismatches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "field",
+          "expected",
+          "observed"
+        ],
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "expected": {},
+          "observed": {},
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evaluated_stream": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "execution_summary": {
+      "type": "object"
+    }
+  }
+}
