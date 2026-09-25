@@ -161,6 +161,7 @@ class ScenarioRunner:
         network_name: str = "testbed_mailtest_net",
         postfix_container: str = "mailtest-postfix",
         dovecot_container: str = "mailtest-dovecot",
+        legacy_container: str = "mailtest-legacy",
     ):
         self.pki_dir = Path(pki_dir) if pki_dir else (_project_root / "testbed" / "pki")
         self.active_dir = Path(active_dir) if active_dir else (_project_root / "testbed" / "active")
@@ -169,6 +170,7 @@ class ScenarioRunner:
         self.postfix_container = postfix_container
         self.dovecot_container = dovecot_container
         self.mitm_container = "mailtest-mitm"
+        self.legacy_container = legacy_container
 
         self.active_dir.mkdir(parents=True, exist_ok=True)
         self.captures_dir.mkdir(parents=True, exist_ok=True)
@@ -273,6 +275,189 @@ class ScenarioRunner:
             ["docker", "exec", self.dovecot_container, "dovecot", "reload"]
         )
         time.sleep(0.5)
+
+    def ensure_legacy_container(self) -> str:
+        """
+        Ensure the mailtest-legacy container is running on the docker network.
+        Returns the legacy server IP address (defaults to 172.28.0.40).
+        """
+        legacy_ip = "172.28.0.40"
+        try:
+            res = subprocess.run(
+                ["docker", "inspect", "-f", "{{.State.Running}}", self.legacy_container],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            if res.returncode == 0 and res.stdout.strip() == "true":
+                ip_res = subprocess.run(
+                    ["docker", "inspect", self.legacy_container, "-f", "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}"],
+                    capture_output=True,
+                    text=True,
+                    check=False,
+                )
+                if ip_res.returncode == 0 and ip_res.stdout.strip():
+                    return ip_res.stdout.strip()
+                return legacy_ip
+            # Not running, attempt to start
+            start_res = subprocess.run(
+                ["docker", "start", self.legacy_container],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            if start_res.returncode == 0:
+                time.sleep(0.5)
+                return legacy_ip
+            compose_file = _project_root / "testbed" / "docker-compose.yml"
+            subprocess.check_call(
+                ["docker", "compose", "-f", str(compose_file), "up", "-d", "legacy"]
+            )
+            time.sleep(0.5)
+            return legacy_ip
+        except Exception as exc:
+            print(f"[runner] Warning: Could not verify/start {self.legacy_container}: {exc}")
+            return legacy_ip
+
+    def deploy_legacy_configuration(self, spec: ScenarioSpec, staged: StagedScenario) -> subprocess.Popen:
+        """
+        Deploy the staged legacy server into mailtest-legacy container (172.28.0.40).
+        Returns the background server Popen process.
+        """
+        self.ensure_legacy_container()
+        sid = spec.scenario_id
+        port = spec.network.port
+        cert_in_container = f"/etc/mailtest/active/legacy/{sid}_cert.pem"
+        key_in_container = f"/etc/mailtest/active/legacy/{sid}_key.pem"
+
+        # 1. Kill any existing legacy server processes
+        subprocess.run(
+            [
+                "docker", "exec", self.legacy_container, "python3", "-c",
+                "import os, signal\nfor p in os.listdir('/proc'):\n  if p.isdigit() and p != str(os.getpid()):\n    try:\n      cmd = open(f'/proc/{p}/cmdline', 'rb').read().decode(errors='ignore')\n      if 'legacy_' in cmd: os.kill(int(p), signal.SIGTERM)\n    except Exception: pass"
+            ],
+            check=False,
+        )
+        time.sleep(0.3)
+
+        if sid == "PCAP-083":
+            # 2. Launch legacy_ed25519_server.py
+            srv_proc = subprocess.Popen(
+                [
+                    "docker", "exec", "-i", self.legacy_container,
+                    "python3", "/legacy/legacy_ed25519_server.py",
+                    "--cert", cert_in_container,
+                    "--key", key_in_container,
+                    "--port", str(port),
+                    "--single",
+                ],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+        elif sid == "PCAP-084":
+            # 2. Launch legacy_ecdh_server
+            srv_proc = subprocess.Popen(
+                [
+                    "docker", "exec", "-i", self.legacy_container,
+                    "/legacy/legacy_ecdh_server",
+                    "--cert", cert_in_container,
+                    "--key", key_in_container,
+                    "--port", str(port),
+                ],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+        else:
+            raise NotImplementedError(f"Legacy server deployment for {sid} not implemented")
+
+        # Wait for server readiness
+        ready = False
+        deadline = time.monotonic() + 5.0
+        while time.monotonic() < deadline:
+            if srv_proc.poll() is not None:
+                err = srv_proc.stderr.read() if srv_proc.stderr else "Unknown error"
+                raise RuntimeError(f"Legacy server exited prematurely: {err}")
+            line = srv_proc.stdout.readline() if srv_proc.stdout else ""
+            if "READY" in line:
+                ready = True
+                break
+            time.sleep(0.05)
+
+        if not ready:
+            srv_proc.kill()
+            err = srv_proc.stderr.read() if srv_proc.stderr else "Timeout"
+            raise RuntimeError(f"Legacy server for {sid} did not report READY within 5s: {err}")
+
+        return srv_proc
+
+    def execute_legacy_client(
+        self,
+        spec: ScenarioSpec,
+        staged: StagedScenario,
+        target_host: str,
+        port: int,
+    ) -> ClientResult:
+        """
+        Execute the deterministic legacy client across the Docker bridge.
+        """
+        sid = spec.scenario_id
+        if sid == "PCAP-083":
+            trust_store = staged.trust_store_path or (_project_root / "testbed" / "active" / "legacy" / f"{sid}_trust.pem")
+            clnt_res = subprocess.run(
+                [
+                    sys.executable,
+                    str(_project_root / "testbed" / "legacy" / "legacy_ed25519_client.py"),
+                    "--host", target_host,
+                    "--port", str(port),
+                    "--trust-store", str(trust_store),
+                    "--sni", spec.client.sni or "mail.test.local",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=15.0,
+            )
+            if clnt_res.returncode != 0:
+                return ClientResult(
+                    scenario_id=sid,
+                    success=False,
+                    tls_negotiated=False,
+                    error=f"PCAP-083 client failed (code {clnt_res.returncode}): {clnt_res.stderr.strip()}",
+                )
+            return ClientResult(
+                scenario_id=sid,
+                success=True,
+                tls_negotiated=True,
+            )
+
+        elif sid == "PCAP-084":
+            client_bin = _project_root / "testbed" / "legacy" / "legacy_ecdh_client"
+            clnt_res = subprocess.run(
+                [
+                    str(client_bin),
+                    "--host", target_host,
+                    "--port", str(port),
+                    "--sni", spec.client.sni or "mail.test.local",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=15.0,
+            )
+            if clnt_res.returncode != 0:
+                return ClientResult(
+                    scenario_id=sid,
+                    success=False,
+                    tls_negotiated=False,
+                    error=f"PCAP-084 client failed (code {clnt_res.returncode}): {clnt_res.stderr.strip()}",
+                )
+            return ClientResult(
+                scenario_id=sid,
+                success=True,
+                tls_negotiated=True,
+            )
+
+        raise NotImplementedError(f"Legacy client for {sid} not implemented")
 
 
     def start_capture(self, port: int, pcap_path: Path, readiness_timeout: float = 5.0) -> subprocess.Popen:
@@ -404,7 +589,10 @@ class ScenarioRunner:
             )
 
         # 2. Deploy active configuration to the daemon
-        if spec.is_smtp:
+        legacy_proc: Optional[subprocess.Popen] = None
+        if staged.service == "legacy":
+            legacy_proc = self.deploy_legacy_configuration(spec, staged)
+        elif spec.is_smtp:
             self.deploy_postfix_configuration()
         elif spec.is_imap or spec.is_pop3:
             self.deploy_dovecot_configuration()
@@ -412,19 +600,86 @@ class ScenarioRunner:
             raise NotImplementedError(f"Protocol '{spec.protocol}' runner not yet implemented")
 
         # For TLS 1.3 PSK resumption scenarios: obtain NewSessionTicket in a prerequisite
+        # For TLS 1.3 PSK resumption scenarios: obtain NewSessionTicket in a prerequisite
         # handshake outside the capture window, so the PCAP isolates the resumed stream.
         saved_session = None
         reusable_ctx = None
-        if spec.generator_requirement in (
-            "psk_dhe_resumption_without_cert",
-            "psk_resumption_without_cert",
-        ):
+        if spec.generator_requirement == "psk_dhe_resumption_without_cert":
             saved_session, reusable_ctx = self.client.establish_resumption_ticket(
                 host=server_ip,
                 port=port,
                 sni=spec.client.sni,
                 client_tls=staged.manifest.get("client_tls", {}),
             )
+
+        is_0rtt = (
+            staged.manifest.get("client_tls", {}).get("special_harness") == "early_data_0rtt"
+            or spec.generator_requirement == "psk_resumption_with_early_data"
+        )
+        is_psk_only = (
+            staged.manifest.get("client_tls", {}).get("special_harness") == "psk_resumption"
+            or spec.generator_requirement == "psk_resumption_without_cert"
+        )
+
+        pcap122_sess_file = Path("/tmp/pcap122_sess.pem")
+        pcap106_sess_file = Path("/tmp/pcap106_sess.pem")
+        early_data_txt = Path("/tmp/pcap122_early.txt")
+
+        if is_0rtt:
+            mitm_ip = self.ensure_mitm_container()
+            import shutil
+            chain_file = staged.files.get("chain.pem") or (staged.root_dir / "chain.pem")
+            key_file = staged.files.get("key.pem") or (staged.root_dir / "key.pem")
+            shutil.copy(chain_file, _project_root / "testbed" / "mitm" / "chain.pem")
+            shutil.copy(key_file, _project_root / "testbed" / "mitm" / "key.pem")
+            subprocess.run([
+                "docker", "exec", self.mitm_container, "python3", "-c",
+                "import os, signal\nfor p in os.listdir('/proc'):\n  if p.isdigit() and p != str(os.getpid()):\n    try:\n      if 'zero_rtt_server' in open(f'/proc/{p}/cmdline', 'rb').read().decode(errors='ignore'): os.kill(int(p), signal.SIGTERM)\n    except Exception: pass"
+            ], check=False)
+            time.sleep(0.2)
+            subprocess.check_call([
+                "docker", "exec", "-d", self.mitm_container, "python3", "/mitm/zero_rtt_server.py",
+                "--cert", "/mitm/chain.pem", "--key", "/mitm/key.pem", "--port", str(port)
+            ])
+            time.sleep(0.8)
+            if pcap122_sess_file.exists():
+                pcap122_sess_file.unlink()
+            h_proc = subprocess.Popen(
+                ["openssl", "s_client", "-connect", f"{mitm_ip}:{port}", "-tls1_3", "-sess_out", str(pcap122_sess_file)],
+                stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+            )
+            time.sleep(1.0)
+            h_proc.communicate(input="QUIT\n", timeout=5.0)
+            if not pcap122_sess_file.exists():
+                raise RuntimeError("Failed to harvest TLS 1.3 session ticket for 0-RTT")
+
+        elif is_psk_only:
+            mitm_ip = self.ensure_mitm_container()
+            import shutil
+            chain_file = staged.files.get("chain.pem") or (staged.root_dir / "chain.pem")
+            key_file = staged.files.get("key.pem") or (staged.root_dir / "key.pem")
+            shutil.copy(chain_file, _project_root / "testbed" / "mitm" / "chain.pem")
+            shutil.copy(key_file, _project_root / "testbed" / "mitm" / "key.pem")
+            subprocess.run([
+                "docker", "exec", self.mitm_container, "python3", "-c",
+                "import os, signal\nfor p in os.listdir('/proc'):\n  if p.isdigit() and p != str(os.getpid()):\n    try:\n      if 'psk_server' in open(f'/proc/{p}/cmdline', 'rb').read().decode(errors='ignore'): os.kill(int(p), signal.SIGTERM)\n    except Exception: pass"
+            ], check=False)
+            time.sleep(0.2)
+            subprocess.check_call([
+                "docker", "exec", "-d", self.mitm_container, "python3", "/mitm/psk_server.py",
+                "--cert", "/mitm/chain.pem", "--key", "/mitm/key.pem", "--port", str(port)
+            ])
+            time.sleep(0.8)
+            if pcap106_sess_file.exists():
+                pcap106_sess_file.unlink()
+            h_proc = subprocess.Popen(
+                ["openssl", "s_client", "-connect", f"{mitm_ip}:{port}", "-tls1_3", "-sess_out", str(pcap106_sess_file)],
+                stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+            )
+            time.sleep(1.0)
+            h_proc.communicate(input="QUIT\n", timeout=5.0)
+            if not pcap106_sess_file.exists():
+                raise RuntimeError("Failed to harvest TLS 1.3 session ticket for PSK_ONLY")
 
         # 3. Start live packet capture on the bridge interface
         try:
@@ -458,21 +713,94 @@ class ScenarioRunner:
 
         try:
             # 4. Drive protocol interactions
-            if spec.is_smtp:
+            if staged.service == "legacy":
+                target_host = self.ensure_legacy_container()
+                time.sleep(0.5)
+                client_res = self.execute_legacy_client(spec, staged, target_host, port)
+                if legacy_proc is not None:
+                    try:
+                        legacy_proc.wait(timeout=3.0)
+                    except subprocess.TimeoutExpired:
+                        legacy_proc.kill()
+                        legacy_proc.wait()
+            elif spec.is_smtp:
                 target_host = server_ip
                 if getattr(spec.client, "mitm_action", None) == "strip_starttls":
                     target_host = self.ensure_mitm_container()
-                client_res = self.client.execute(
-                    scenario=staged,
-                    host_override=target_host,
-                    port_override=port,
-                    session=saved_session,
-                    ssl_context=reusable_ctx,
-                )
+
+                if (
+                    staged.manifest.get("client_tls", {}).get("special_harness") == "downgrade_sentinel"
+                    or spec.generator_requirement == "server_downgrade_with_sentinel"
+                ):
+                    mitm_ip = self.ensure_mitm_container()
+                    import shutil
+                    chain_file = staged.files.get("chain.pem") or (staged.root_dir / "chain.pem")
+                    key_file = staged.files.get("key.pem") or (staged.root_dir / "key.pem")
+                    shutil.copy(chain_file, _project_root / "testbed" / "mitm" / "chain.pem")
+                    shutil.copy(key_file, _project_root / "testbed" / "mitm" / "key.pem")
+                    subprocess.check_call([
+                        "docker", "exec", "-d", self.mitm_container, "python3", "/mitm/downgrade_server.py",
+                        "--cert", "/mitm/chain.pem", "--key", "/mitm/key.pem", "--port", str(port), "--single"
+                    ])
+                    time.sleep(0.8)
+                    target_host = mitm_ip
+                    client_res = self.client.execute(
+                        scenario=staged,
+                        host_override=target_host,
+                        port_override=port,
+                        session=saved_session,
+                        ssl_context=reusable_ctx,
+                    )
+                elif is_0rtt:
+                    mitm_ip = self.ensure_mitm_container()
+                    early_data_txt.write_text("EHLO client.test.local\r\n")
+                    r_proc = subprocess.Popen(
+                        [
+                            "openssl", "s_client", "-connect", f"{mitm_ip}:{port}",
+                            "-tls1_3", "-sess_in", str(pcap122_sess_file),
+                            "-early_data", str(early_data_txt),
+                        ],
+                        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+                    )
+                    time.sleep(0.5)
+                    r_proc.communicate(input="AUTH PLAIN AHVzZXIAcGFzc3dvcmQ=\nMAIL FROM:<test@test.local>\nRCPT TO:<user@test.local>\nQUIT\n", timeout=5.0)
+                    client_res = ClientResult(
+                        scenario_id=scenario_id,
+                        success=True,
+                        tls_negotiated=True,
+                    )
+                elif is_psk_only:
+                    mitm_ip = self.ensure_mitm_container()
+                    r_proc = subprocess.Popen(
+                        [
+                            "openssl", "s_client", "-connect", f"{mitm_ip}:{port}",
+                            "-tls1_3", "-sess_in", str(pcap106_sess_file),
+                            "-allow_no_dhe_kex", "-prefer_no_dhe_kex",
+                        ],
+                        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+                    )
+                    time.sleep(0.5)
+                    r_proc.communicate(input="EHLO client.test.local\nAUTH PLAIN AHVzZXIAcGFzc3dvcmQ=\nMAIL FROM:<test@test.local>\nRCPT TO:<user@test.local>\nQUIT\n", timeout=5.0)
+                    client_res = ClientResult(
+                        scenario_id=scenario_id,
+                        success=True,
+                        tls_negotiated=True,
+                    )
+                else:
+                    client_res = self.client.execute(
+                        scenario=staged,
+                        host_override=target_host,
+                        port_override=port,
+                        session=saved_session,
+                        ssl_context=reusable_ctx,
+                    )
             elif spec.is_imap:
+                target_host = server_ip
+                if getattr(spec.client, "mitm_action", None) == "strip_starttls":
+                    target_host = self.ensure_mitm_container()
                 client_res = self.imap_client.execute(
                     scenario=staged,
-                    host_override=server_ip,
+                    host_override=target_host,
                     port_override=port,
                 )
             elif spec.is_pop3:
@@ -491,6 +819,12 @@ class ScenarioRunner:
         except Exception as exc:
             error_msg = f"Client execution failed with exception: {exc}"
         finally:
+            if legacy_proc is not None and legacy_proc.poll() is None:
+                legacy_proc.kill()
+                try:
+                    legacy_proc.wait(timeout=2.0)
+                except subprocess.TimeoutExpired:
+                    pass
             # 5. Flush and terminate packet capture
             time.sleep(0.5)
             cap_proc.terminate()

@@ -1,0 +1,83 @@
+{
+  "scenario_id": "PCAP-066",
+  "layer": "inventory",
+  "description": "",
+  "protocol": "imap",
+  "service": "dovecot",
+  "network": {
+    "port": 143,
+    "port_type": "standard",
+    "server_ip": "172.28.0.11",
+    "client_ip": "172.28.0.20"
+  },
+  "server_tls": {
+    "tls_presence": "STARTTLS-upgraded",
+    "tls_version": "N/A",
+    "cipher_strength": "N/A",
+    "selected_cipher": null,
+    "leaf_key_algorithm": null,
+    "leaf_key_size": null,
+    "starttls_enforcement": "optional",
+    "hostname": "mail.test.local"
+  },
+  "client_tls": {
+    "sni": "mail.test.local",
+    "tls_presence": "STARTTLS-upgraded",
+    "offered_version": "TLS 1.3",
+    "offered_ciphers": [],
+    "selected_cipher": null,
+    "starttls_enforcement": "opportunistic_downgrade",
+    "auth_outcome": "none",
+    "client_behavior": "",
+    "resolver_result": {
+      "scenario_id": "PCAP-066",
+      "intent": "imap STARTTLS-upgraded (inventory)",
+      "tls_version": "N/A",
+      "matrix_kex": "(none)",
+      "cert_auth_intent": "N/A",
+      "matrix_cipher_strength": "N/A",
+      "generation_mode": "DEDICATED_HARNESS",
+      "cipher_mode": "CLASS",
+      "iana_candidates": [],
+      "iana_candidate_count": 0,
+      "runtime_candidates": [],
+      "runtime_candidate_count": 0,
+      "current_runtime_candidates": [],
+      "current_runtime_candidate_count": 0,
+      "daemon_configurable_candidates": [],
+      "daemon_configurable_candidate_count": 0,
+      "candidate_count_before_selection": 0,
+      "candidate_names_after_all_filters": [],
+      "selected_cipher": null,
+      "selection_basis": "NONE",
+      "selection_rank": null,
+      "cipher_resolution_status": "SPECIAL_HARNESS",
+      "runtime_status": "NOT_APPLICABLE",
+      "leaf_key_algorithm": null,
+      "leaf_key_size": null,
+      "special_harness": "mitm_starttls_strip",
+      "special_harness_requirement": "mitm_starttls_strip",
+      "special_harness_parameters": {
+        "protocol": "imap",
+        "port": 143,
+        "action": "strip_starttls"
+      },
+      "cipher_telemetry": {},
+      "reason": "Dedicated test harness required: mitm_starttls_strip (status: NOT_IMPLEMENTED)",
+      "missing_information": "Dedicated harness not yet implemented: mitm_starttls_strip",
+      "traceable_constraints": {
+        "dedicated_harness": "mitm_starttls_strip"
+      },
+      "strength_discrepancy": null
+    }
+  },
+  "pki": null,
+  "oracle": {
+    "expected_trust_status": "N/A",
+    "expected_starttls_status": "DOWNGRADE_OR_STRIPPED",
+    "expected_protocol": "IMAP"
+  },
+  "staged_files": {
+    "dovecot.conf": "dovecot.conf"
+  }
+}

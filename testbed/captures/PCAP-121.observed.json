@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "PCAP-121",
+  "sessions": {
+    "0": {
+      "stream_id": 0,
+      "protocol": "SMTP",
+      "starttls": {
+        "stream": 0,
+        "starttls_offered": false,
+        "starttls_requested": false,
+        "starttls_accepted": false,
+        "starttls_rejected": false,
+        "tls_active": true,
+        "plaintext_auth_attempted": false,
+        "status": "IMPLICIT_TLS",
+        "details": "Session used direct implicit TLS without plaintext upgrade (e.g. SMTPS/IMAPS/POP3S)."
+      },
+      "tls": null,
+      "handshake": {
+        "stream": 0,
+        "handshake_time_epoch": null,
+        "client_hello": {
+          "offered_versions": [
+            "TLS 1.2"
+          ],
+          "offered_ciphers": [
+            {
+              "hex": "0xc02f",
+              "name": "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+              "strength": "HIGH",
+              "forward_secrecy": true
+            }
+          ],
+          "offered_ciphers_count": 1,
+          "supported_groups": [
+            "x25519",
+            "secp256r1",
+            "x448",
+            "secp384r1",
+            "secp521r1"
+          ],
+          "offered_key_shares": [],
+          "signature_algorithms": [
+            "ecdsa_secp256r1_sha256",
+            "ecdsa_secp384r1_sha384",
+            "ecdsa_secp521r1_sha512",
+            "ed25519",
+            "ed448",
+            "rsa_pss_pss_sha256",
+            "rsa_pss_pss_sha384",
+            "rsa_pss_pss_sha512",
+            "rsa_pss_rsae_sha256",
+            "rsa_pss_rsae_sha384",
+            "rsa_pss_rsae_sha512",
+            "rsa_pkcs1_sha256",
+            "rsa_pkcs1_sha384",
+            "rsa_pkcs1_sha512",
+            "ecdsa_sha224",
+            "ecdsa_sha1",
+            "rsa_pkcs1_sha224",
+            "rsa_pkcs1_sha1",
+            "dsa_sha224",
+            "dsa_sha1",
+            "dsa_sha256",
+            "dsa_sha384",
+            "dsa_sha512"
+          ],
+          "signature_algorithms_cert": [],
+          "signature_algorithms_cert_present": false,
+          "psk_key_exchange_modes": [],
+          "sni": "mail.test.local",
+          "alpn": [],
+          "early_data_offered": false,
+          "client_ip": "172.28.0.1",
+          "client_port": 41782
+        },
+        "server_negotiation": {},
+        "flight": {
+          "messages": [
+            {
+              "frame": 4,
+              "type_id": 1,
+              "message": "ClientHello",
+              "reassembled_in": null
+            }
+          ],
+          "finished_observed": false,
+          "application_data_observed": false,
+          "outer_record_23_observed": false,
+          "early_data_observed": false,
+          "alerts": [
+            {
+              "frame": 6,
+              "level": "FATAL",
+              "description": "handshake_failure",
+              "raw_desc": "40",
+              "src_ip": "172.28.0.10",
+              "src_port": 465,
+              "sender": "server"
+            }
+          ]
+        },
+        "forensic_analysis": {
+          "handshake_status": "ABORTED",
+          "client_max_version": "TLS 1.2",
+          "negotiated_version": null,
+          "version_downgrade": {
+            "downgrade_signal_detected": false,
+            "classification": "MATCH",
+            "details": "Negotiated version matches or is consistent with connection context."
+          },
+          "cipher_downgrade": {
+            "downgrade_signal_detected": false,
+            "details": "Negotiated cipher suite strength is UNKNOWN."
+          }
+        }
+      },
+      "certificate": null
+    }
+  }
+}

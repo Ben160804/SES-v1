@@ -1147,10 +1147,12 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
                 #   application context. We report the dotted OID so it is visible in
                 #   forensic output rather than silently dropped.
                 extended_key_usage = []
+                extended_key_usage_present = False
                 try:
                     eku_ext = cert.extensions.get_extension_for_oid(
                         x509.ExtensionOID.EXTENDED_KEY_USAGE
                     ).value
+                    extended_key_usage_present = True
                     for oid in eku_ext:
                         if oid == x509.ExtendedKeyUsageOID.SERVER_AUTH:
                             extended_key_usage.append("serverAuth")
@@ -1164,6 +1166,7 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
                             extended_key_usage.append(oid.dotted_string)
                 except x509.ExtensionNotFound:
                     extended_key_usage = []
+                    extended_key_usage_present = False
 
                 # ── 8. KEY IDENTIFIERS (RFC 5280 §4.2.1.1 AKI, §4.2.1.2 SKI) ─────────
                 # SKI (Subject Key Identifier): SHA-1 hash of the subject's public key BitString.
@@ -1223,6 +1226,8 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
                     "basic_constraints":            basic_constraints,
                     "key_usage":                    key_usage,
                     "extended_key_usage":           extended_key_usage,
+                    "extended_key_usage_present":   extended_key_usage_present,
+                    "has_extended_key_usage":       extended_key_usage_present,
                     "subject_key_identifier":       ski,
                     "authority_key_identifier":     aki,
                     "critical_extensions":          critical_extensions,

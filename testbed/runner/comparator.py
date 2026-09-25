@@ -80,7 +80,14 @@ def select_evaluated_session(
             score += 50
         if stls.get("status") in ("UPGRADED", "IMPLICIT_TLS"):
             score += 40
-        elif stls.get("status") in ("CLEARTEXT_NO_ENCRYPTION", "STRIPPED_STARTTLS"):
+        elif stls.get("status") in (
+            "DOWNGRADE_OR_STRIPPED",
+            "STRIPPED_STARTTLS",
+            "STARTTLS_REJECTED",
+            "STARTTLS_WITHOUT_ADVERTISEMENT",
+        ):
+            score += 35
+        elif stls.get("status") == "CLEARTEXT_NO_ENCRYPTION":
             score += 30
 
         # Handshake flights or alerts observed
@@ -255,7 +262,16 @@ def compare(
         observed_presence = "STARTTLS-upgraded"
     elif observed_stls == "IMPLICIT_TLS" or (handshake.get("client_hello") and not stls.get("starttls_offered")):
         observed_presence = "implicit-TLS"
-    elif observed_stls in ("CLEARTEXT_NO_ENCRYPTION", "STRIPPED_STARTTLS") or not tls_info:
+    elif (
+        observed_stls in (
+            "CLEARTEXT_NO_ENCRYPTION",
+            "STRIPPED_STARTTLS",
+            "DOWNGRADE_OR_STRIPPED",
+            "STARTTLS_REJECTED",
+            "STARTTLS_WITHOUT_ADVERTISEMENT",
+        )
+        or not tls_info
+    ):
         observed_presence = "none"
     else:
         observed_presence = "none"
@@ -423,7 +439,7 @@ def compare(
 
     if has_leaf:
         actual_wire_obs = "VISIBLE"
-    elif is_tls13 and not is_psk_resumed and not has_fatal_alert:
+    elif is_tls13 and (not is_psk_resumed or gen_req == "psk_resumption_with_early_data") and not has_fatal_alert:
         actual_wire_obs = "ENCRYPTED"
     else:
         actual_wire_obs = "NOT_PRESENT"

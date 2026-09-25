@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "PCAP-121",
+  "status": "PASS",
+  "fields": {
+    "protocol": {
+      "status": "PASS",
+      "expected": "SMTP",
+      "observed": "SMTP"
+    },
+    "starttls_status": {
+      "status": "NOT_APPLICABLE",
+      "expected": null,
+      "observed": "IMPLICIT_TLS",
+      "reason": "STARTTLS status not required for this scenario"
+    },
+    "tls_presence": {
+      "status": "PASS",
+      "expected": "implicit-TLS",
+      "observed": "implicit-TLS"
+    },
+    "tls.fatal_alert": {
+      "status": "PASS",
+      "expected": true,
+      "observed": true
+    },
+    "tls.version": {
+      "status": "NOT_APPLICABLE",
+      "expected": null,
+      "observed": null,
+      "reason": "Handshake aborted before version negotiation"
+    },
+    "tls.cipher_strength": {
+      "status": "NOT_APPLICABLE",
+      "expected": null,
+      "observed": null,
+      "reason": "Cipher negotiation was aborted before agreement by fatal alert"
+    },
+    "tls.cipher_name": {
+      "status": "NOT_APPLICABLE",
+      "expected": null,
+      "observed": null,
+      "reason": "Cipher negotiation was aborted before agreement by fatal alert"
+    },
+    "tls.forward_secrecy": {
+      "status": "NOT_APPLICABLE",
+      "expected": null,
+      "observed": null,
+      "reason": "Handshake aborted before key exchange by fatal alert"
+    },
+    "certificate.observable": {
+      "status": "PASS",
+      "expected": "NOT_PRESENT",
+      "observed": "NOT_PRESENT"
+    },
+    "certificate.signature_algorithm": {
+      "status": "NOT_APPLICABLE",
+      "expected": null,
+      "observed": null
+    },
+    "certificate.validity": {
+      "status": "NOT_APPLICABLE",
+      "expected": null,
+      "observed": null
+    },
+    "certificate.hostname_match": {
+      "status": "NOT_APPLICABLE",
+      "expected": null,
+      "observed": null
+    },
+    "certificate.trust_status": {
+      "status": "NOT_APPLICABLE",
+      "expected": null,
+      "observed": null
+    }
+  },
+  "mismatches": [],
+  "unknowns": [],
+  "evaluated_stream": 0
+}

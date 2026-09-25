@@ -1,0 +1,38 @@
+{
+  "run_id": "batch_20260925_194318_2895277b",
+  "status": "COMPLETED",
+  "started_at": "2026-09-25T19:43:18.029458+00:00",
+  "updated_at": "2026-09-25T19:43:23.215256+00:00",
+  "preflight": {
+    "timestamp": "2026-09-25T19:43:17.995992+00:00",
+    "required_services": [
+      "mailtest-postfix"
+    ],
+    "active_containers": [
+      "mailtest-dovecot",
+      "mailtest-mitm",
+      "mailtest-postfix",
+      "openshorts-backend",
+      "openshorts-frontend",
+      "openshorts-renderer"
+    ],
+    "bridge_interface": "br-87a3125207be",
+    "tshark_path": "/usr/bin/tshark"
+  },
+  "scenarios": {
+    "PCAP-109": {
+      "scenario_id": "PCAP-109",
+      "protocol": "smtp",
+      "category": "SPECIAL_HARNESS",
+      "execution_state": "FAILED",
+      "comparison_status": null,
+      "selected_cipher": null,
+      "duration_seconds": 5.185,
+      "error": "Client execution failed with exception: 'StagedScenario' object has no attribute 'chain_path'",
+      "artifacts": {},
+      "artifact_hashes": null,
+      "completed_at": "2026-09-25T19:43:23.215062+00:00",
+      "resumed": false
+    }
+  }
+}

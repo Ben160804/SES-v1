@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "PCAP-068",
+  "expected": {
+    "protocol": "POP3",
+    "tls_presence": "none",
+    "starttls_integrity": "stripped-broken-client",
+    "tls_version": "N/A",
+    "cipher_strength": "N/A",
+    "cert_validity": "N/A",
+    "cert_chain_shape": "N/A",
+    "cert_sig_algo": "N/A",
+    "hostname_match": "N/A",
+    "auth_outcome": "none",
+    "expected_starttls_status": "DOWNGRADE_OR_STRIPPED",
+    "expected_trust_status": "N/A",
+    "tls13_kex_mode": "",
+    "tls12_kex_type": "",
+    "forward_secrecy": null,
+    "hello_retry_request": null,
+    "downgrade_sentinel": "",
+    "starttls_outcome": "",
+    "sig_alg_cert_present": null,
+    "cert_has_san": null,
+    "hostname_type": "",
+    "path_selection": "",
+    "certificate_observable": "NOT_PRESENT",
+    "generator_requirement": "",
+    "exact_cipher": null,
+    "layer": "inventory"
+  },
+  "assertions": {
+    "protocol": {
+      "expected": "POP3",
+      "required": true,
+      "observability": "always"
+    },
+    "starttls_status": {
+      "expected": "DOWNGRADE_OR_STRIPPED",
+      "required": true,
+      "observability": "always"
+    },
+    "tls_presence": {
+      "expected": "none",
+      "required": true,
+      "observability": "always"
+    },
+    "tls.fatal_alert": {
+      "expected": false,
+      "required": false,
+      "observability": "not_applicable"
+    },
+    "tls.version": {
+      "expected": null,
+      "required": false,
+      "observability": "not_applicable"
+    },
+    "tls.cipher_strength": {
+      "expected": null,
+      "required": false,
+      "observability": "not_applicable"
+    },
+    "tls.cipher_name": {
+      "expected": null,
+      "required": false,
+      "observability": "not_applicable"
+    },
+    "tls.forward_secrecy": {
+      "expected": null,
+      "required": false,
+      "observability": "not_applicable"
+    },
+    "certificate.observable": {
+      "expected": "NOT_PRESENT",
+      "required": true,
+      "observability": "always"
+    },
+    "certificate.signature_algorithm": {
+      "expected": null,
+      "required": false,
+      "observability": "not_applicable"
+    },
+    "certificate.validity": {
+      "expected": null,
+      "required": false,
+      "observability": "not_applicable"
+    },
+    "certificate.hostname_match": {
+      "expected": null,
+      "required": false,
+      "observability": "not_applicable"
+    },
+    "certificate.trust_status": {
+      "expected": null,
+      "required": false,
+      "observability": "not_applicable"
+    }
+  }
+}

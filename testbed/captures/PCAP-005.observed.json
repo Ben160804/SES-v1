@@ -32,6 +32,7 @@
       },
       "handshake": {
         "stream": 0,
+        "handshake_time_epoch": 1790377062.5582073,
         "client_hello": {
           "offered_versions": [
             "TLS 1.3"
@@ -100,7 +101,9 @@
           ],
           "sni": "mail.test.local",
           "alpn": [],
-          "early_data_offered": false
+          "early_data_offered": false,
+          "client_ip": "172.28.0.1",
+          "client_port": 57440
         },
         "server_negotiation": {
           "raw_version": "0x0304",
@@ -123,7 +126,8 @@
             "sentinel_type": null,
             "sentinel_bytes": null,
             "server_supports_tls13": false
-          }
+          },
+          "handshake_time_epoch": 1790377062.5582073
         },
         "flight": {
           "messages": [

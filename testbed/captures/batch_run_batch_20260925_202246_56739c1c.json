@@ -1,0 +1,38 @@
+{
+  "run_id": "batch_20260925_202246_56739c1c",
+  "status": "COMPLETED",
+  "started_at": "2026-09-25T20:22:46.483753+00:00",
+  "updated_at": "2026-09-25T20:22:52.516178+00:00",
+  "preflight": {
+    "timestamp": "2026-09-25T20:22:46.439513+00:00",
+    "required_services": [
+      "mailtest-postfix"
+    ],
+    "active_containers": [
+      "mailtest-dovecot",
+      "mailtest-mitm",
+      "mailtest-postfix",
+      "openshorts-backend",
+      "openshorts-frontend",
+      "openshorts-renderer"
+    ],
+    "bridge_interface": "br-87a3125207be",
+    "tshark_path": "/usr/bin/tshark"
+  },
+  "scenarios": {
+    "PCAP-106": {
+      "scenario_id": "PCAP-106",
+      "protocol": "smtp",
+      "category": "SPECIAL_HARNESS",
+      "execution_state": "FAILED",
+      "comparison_status": null,
+      "selected_cipher": null,
+      "duration_seconds": 6.031,
+      "error": "Unhandled exception during scenario execution: Failed to harvest TLS 1.3 session ticket for PSK_ONLY",
+      "artifacts": {},
+      "artifact_hashes": null,
+      "completed_at": "2026-09-25T20:22:52.515461+00:00",
+      "resumed": false
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "PCAP-126",
+  "status": "PASS",
+  "fields": {
+    "protocol": {
+      "status": "PASS",
+      "expected": "SMTP",
+      "observed": "SMTP"
+    },
+    "starttls_status": {
+      "status": "PASS",
+      "expected": "IMPLICIT_TLS",
+      "observed": "IMPLICIT_TLS"
+    },
+    "tls_presence": {
+      "status": "PASS",
+      "expected": "implicit-TLS",
+      "observed": "implicit-TLS"
+    },
+    "tls.fatal_alert": {
+      "status": "NOT_APPLICABLE",
+      "expected": false,
+      "observed": false
+    },
+    "tls.version": {
+      "status": "PASS",
+      "expected": "TLS 1.2",
+      "observed": "TLS 1.2"
+    },
+    "tls.cipher_strength": {
+      "status": "PASS",
+      "expected": "HIGH",
+      "observed": "HIGH"
+    },
+    "tls.cipher_name": {
+      "status": "NOT_APPLICABLE",
+      "expected": null,
+      "observed": "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
+    },
+    "tls.forward_secrecy": {
+      "status": "PASS",
+      "expected": true,
+      "observed": true
+    },
+    "certificate.observable": {
+      "status": "PASS",
+      "expected": "VISIBLE",
+      "observed": "VISIBLE"
+    },
+    "certificate.signature_algorithm": {
+      "status": "PASS",
+      "expected": "RSA-PKCS1v15",
+      "observed": "PKCS1v15"
+    },
+    "certificate.validity": {
+      "status": "PASS",
+      "expected": "valid",
+      "observed": "valid"
+    },
+    "certificate.hostname_match": {
+      "status": "PASS",
+      "expected": "matched",
+      "observed": "matched"
+    },
+    "certificate.trust_status": {
+      "status": "PASS",
+      "expected": "TRUSTED_CHAIN",
+      "observed": "TRUSTED_CHAIN"
+    }
+  },
+  "mismatches": [],
+  "unknowns": [],
+  "evaluated_stream": 0
+}

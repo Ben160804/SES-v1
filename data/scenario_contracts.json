@@ -1169,14 +1169,14 @@
     "leaf_key_algorithm": null,
     "leaf_key_size": null,
     "special_harness": "mitm_starttls_strip",
-    "harness_status": "NOT_IMPLEMENTED",
+    "harness_status": "IMPLEMENTED",
     "special_harness_parameters": {
       "protocol": "imap",
       "port": 143,
       "action": "strip_starttls"
     },
-    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
-    "missing_information": "Dedicated harness \"mitm_starttls_strip\" is not implemented in current testbed",
+    "unresolvable_reason": null,
+    "missing_information": null,
     "notes": [
       "Dedicated protocol phenomenon scenario requiring mitm_starttls_strip."
     ]
@@ -1190,14 +1190,14 @@
     "leaf_key_algorithm": null,
     "leaf_key_size": null,
     "special_harness": "mitm_starttls_strip",
-    "harness_status": "NOT_IMPLEMENTED",
+    "harness_status": "IMPLEMENTED",
     "special_harness_parameters": {
       "protocol": "imap",
       "port": 143,
       "action": "strip_starttls"
     },
-    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
-    "missing_information": "Dedicated harness \"mitm_starttls_strip\" is not implemented in current testbed",
+    "unresolvable_reason": null,
+    "missing_information": null,
     "notes": [
       "Dedicated protocol phenomenon scenario requiring mitm_starttls_strip."
     ]
@@ -1873,13 +1873,13 @@
     "leaf_key_algorithm": "rsa",
     "leaf_key_size": 2048,
     "special_harness": "psk_resumption",
-    "harness_status": "NOT_IMPLEMENTED",
+    "harness_status": "IMPLEMENTED",
     "special_harness_parameters": {
       "psk_mode": "PSK_ONLY",
       "tls_version": "1.3"
     },
-    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
-    "missing_information": "Dedicated harness \"psk_resumption\" is not implemented in current testbed",
+    "unresolvable_reason": null,
+    "missing_information": null,
     "notes": [
       "Dedicated protocol phenomenon scenario requiring psk_resumption."
     ]
@@ -1913,13 +1913,13 @@
     "leaf_key_algorithm": "rsa",
     "leaf_key_size": 2048,
     "special_harness": "hello_retry_request",
-    "harness_status": "NOT_IMPLEMENTED",
+    "harness_status": "IMPLEMENTED",
     "special_harness_parameters": {
       "client_initial_key_share": "secp256r1",
       "server_required_group": "x25519"
     },
-    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
-    "missing_information": "Dedicated harness \"hello_retry_request\" is not implemented in current testbed",
+    "unresolvable_reason": null,
+    "missing_information": null,
     "notes": [
       "Dedicated protocol phenomenon scenario requiring hello_retry_request."
     ]
@@ -1933,14 +1933,14 @@
     "leaf_key_algorithm": "ecdsa",
     "leaf_key_size": 256,
     "special_harness": "downgrade_sentinel",
-    "harness_status": "NOT_IMPLEMENTED",
+    "harness_status": "IMPLEMENTED",
     "special_harness_parameters": {
       "client_offered_max": "1.3",
       "server_negotiated": "1.2",
       "sentinel": "DOWNGRD\\x01"
     },
-    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
-    "missing_information": "Dedicated harness \"downgrade_sentinel\" is not implemented in current testbed",
+    "unresolvable_reason": null,
+    "missing_information": null,
     "notes": [
       "Dedicated protocol phenomenon scenario requiring downgrade_sentinel."
     ]
@@ -2027,13 +2027,13 @@
     "leaf_key_algorithm": "rsa",
     "leaf_key_size": 2048,
     "special_harness": "custom_extension_50",
-    "harness_status": "NOT_IMPLEMENTED",
+    "harness_status": "IMPLEMENTED",
     "special_harness_parameters": {
       "ext13": "standard_sig_algs",
       "ext50": "distinct_cert_sig_algs"
     },
-    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
-    "missing_information": "Dedicated harness \"custom_extension_50\" is not implemented in current testbed",
+    "unresolvable_reason": null,
+    "missing_information": null,
     "notes": [
       "Dedicated protocol phenomenon scenario requiring custom_extension_50."
     ]
@@ -2119,13 +2119,13 @@
     "leaf_key_algorithm": "ecdsa",
     "leaf_key_size": 256,
     "special_harness": "dag_pki",
-    "harness_status": "NOT_IMPLEMENTED",
+    "harness_status": "IMPLEMENTED",
     "special_harness_parameters": {
       "topology": "multi_issuer_dag",
       "backtracking_required": true
     },
-    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
-    "missing_information": "Dedicated harness \"dag_pki\" is not implemented in current testbed",
+    "unresolvable_reason": null,
+    "missing_information": null,
     "notes": [
       "Dedicated protocol phenomenon scenario requiring dag_pki."
     ]
@@ -2179,12 +2179,12 @@
     "leaf_key_algorithm": "rsa",
     "leaf_key_size": 2048,
     "special_harness": "early_data_0rtt",
-    "harness_status": "NOT_IMPLEMENTED",
+    "harness_status": "IMPLEMENTED",
     "special_harness_parameters": {
       "early_data": true
     },
-    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
-    "missing_information": "Dedicated harness \"early_data_0rtt\" is not implemented in current testbed",
+    "unresolvable_reason": null,
+    "missing_information": null,
     "notes": [
       "Dedicated protocol phenomenon scenario requiring early_data_0rtt."
     ]
@@ -2234,14 +2234,12 @@
     "leaf_key_algorithm": "ecdsa",
     "leaf_key_size": 256,
     "special_harness": "sentinel_suppression",
-    "harness_status": "NOT_IMPLEMENTED",
+    "harness_status": "IMPLEMENTED",
     "special_harness_parameters": {
       "client_offered_max": "1.3",
       "server_negotiated": "1.2",
       "sentinel": false
     },
-    "unresolvable_reason": "DEDICATED_HARNESS_UNIMPLEMENTED",
-    "missing_information": "Dedicated harness \"sentinel_suppression\" is not implemented in current testbed",
     "notes": [
       "Dedicated protocol phenomenon scenario requiring sentinel_suppression."
     ]

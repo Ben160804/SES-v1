@@ -1,7 +1,7 @@
 {
   "run_id": "batch_test_failure_isolation",
-  "started_at": "2026-09-24T09:00:00.740539+00:00",
-  "completed_at": "2026-09-24T09:00:00.740541+00:00",
+  "started_at": "2026-09-25T22:58:29.059362+00:00",
+  "completed_at": "2026-09-25T22:58:29.059364+00:00",
   "total_duration_seconds": 2.5,
   "preflight": {
     "bridge_interface": "br-test",

@@ -1,0 +1,122 @@
+{
+  "run_id": "batch_20260925_133734_c6626f15",
+  "status": "COMPLETED",
+  "started_at": "2026-09-25T13:37:34.845573+00:00",
+  "updated_at": "2026-09-25T13:37:34.847133+00:00",
+  "preflight": {
+    "timestamp": "2026-09-25T13:37:34.812315+00:00",
+    "required_services": [
+      "mailtest-postfix"
+    ],
+    "active_containers": [
+      "mailtest-dovecot",
+      "mailtest-mitm",
+      "mailtest-postfix",
+      "openshorts-backend",
+      "openshorts-frontend",
+      "openshorts-renderer"
+    ],
+    "bridge_interface": "br-87a3125207be",
+    "tshark_path": "/usr/bin/tshark"
+  },
+  "scenarios": {
+    "PCAP-106": {
+      "scenario_id": "PCAP-106",
+      "protocol": "smtp",
+      "category": "SPECIAL_HARNESS",
+      "execution_state": "SPECIAL_HARNESS",
+      "comparison_status": null,
+      "selected_cipher": null,
+      "duration_seconds": 0.0,
+      "error": "Dedicated harness: psk_resumption (NOT_IMPLEMENTED)",
+      "artifacts": {},
+      "artifact_hashes": null,
+      "completed_at": "2026-09-25T13:37:34.845953+00:00",
+      "resumed": false
+    },
+    "PCAP-108": {
+      "scenario_id": "PCAP-108",
+      "protocol": "smtp",
+      "category": "SPECIAL_HARNESS",
+      "execution_state": "SPECIAL_HARNESS",
+      "comparison_status": null,
+      "selected_cipher": null,
+      "duration_seconds": 0.0,
+      "error": "Dedicated harness: hello_retry_request (NOT_IMPLEMENTED)",
+      "artifacts": {},
+      "artifact_hashes": null,
+      "completed_at": "2026-09-25T13:37:34.846225+00:00",
+      "resumed": false
+    },
+    "PCAP-109": {
+      "scenario_id": "PCAP-109",
+      "protocol": "smtp",
+      "category": "SPECIAL_HARNESS",
+      "execution_state": "SPECIAL_HARNESS",
+      "comparison_status": null,
+      "selected_cipher": null,
+      "duration_seconds": 0.0,
+      "error": "Dedicated harness: downgrade_sentinel (NOT_IMPLEMENTED)",
+      "artifacts": {},
+      "artifact_hashes": null,
+      "completed_at": "2026-09-25T13:37:34.846554+00:00",
+      "resumed": false
+    },
+    "PCAP-114": {
+      "scenario_id": "PCAP-114",
+      "protocol": "smtp",
+      "category": "SPECIAL_HARNESS",
+      "execution_state": "SPECIAL_HARNESS",
+      "comparison_status": null,
+      "selected_cipher": null,
+      "duration_seconds": 0.0,
+      "error": "Dedicated harness: custom_extension_50 (NOT_IMPLEMENTED)",
+      "artifacts": {},
+      "artifact_hashes": null,
+      "completed_at": "2026-09-25T13:37:34.846741+00:00",
+      "resumed": false
+    },
+    "PCAP-119": {
+      "scenario_id": "PCAP-119",
+      "protocol": "smtp",
+      "category": "SPECIAL_HARNESS",
+      "execution_state": "SPECIAL_HARNESS",
+      "comparison_status": null,
+      "selected_cipher": null,
+      "duration_seconds": 0.0,
+      "error": "Dedicated harness: dag_pki (NOT_IMPLEMENTED)",
+      "artifacts": {},
+      "artifact_hashes": null,
+      "completed_at": "2026-09-25T13:37:34.846857+00:00",
+      "resumed": false
+    },
+    "PCAP-122": {
+      "scenario_id": "PCAP-122",
+      "protocol": "smtp",
+      "category": "SPECIAL_HARNESS",
+      "execution_state": "SPECIAL_HARNESS",
+      "comparison_status": null,
+      "selected_cipher": null,
+      "duration_seconds": 0.0,
+      "error": "Dedicated harness: early_data_0rtt (NOT_IMPLEMENTED)",
+      "artifacts": {},
+      "artifact_hashes": null,
+      "completed_at": "2026-09-25T13:37:34.846961+00:00",
+      "resumed": false
+    },
+    "PCAP-125": {
+      "scenario_id": "PCAP-125",
+      "protocol": "smtp",
+      "category": "SPECIAL_HARNESS",
+      "execution_state": "SPECIAL_HARNESS",
+      "comparison_status": null,
+      "selected_cipher": null,
+      "duration_seconds": 0.0,
+      "error": "Dedicated harness: sentinel_suppression (NOT_IMPLEMENTED)",
+      "artifacts": {},
+      "artifact_hashes": null,
+      "completed_at": "2026-09-25T13:37:34.847062+00:00",
+      "resumed": false
+    }
+  }
+}

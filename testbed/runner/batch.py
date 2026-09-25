@@ -165,7 +165,11 @@ def check_preflight(
     requires_dovecot = any(s.is_imap or s.is_pop3 for s in selected_specs)
     requires_mitm = any(
         contracts.get(s.scenario_id) is not None
-        and contracts[s.scenario_id].special_harness == "mitm_proxy"
+        and contracts[s.scenario_id].special_harness == "mitm_starttls_strip"
+        for s in selected_specs
+    )
+    requires_legacy = any(
+        s.scenario_id in ("PCAP-083", "PCAP-084")
         for s in selected_specs
     )
 
@@ -176,6 +180,8 @@ def check_preflight(
         required_containers.append("mailtest-dovecot")
     if requires_mitm:
         required_containers.append("mailtest-mitm")
+    if requires_legacy:
+        required_containers.append("mailtest-legacy")
 
     preflight_info["required_services"] = required_containers
 
@@ -642,16 +648,17 @@ class BatchOrchestrator:
                 continue
 
             if classification.category == BatchExecutionCategory.SPECIAL_HARNESS:
-                records[sid] = ScenarioBatchRecord(
-                    scenario_id=sid,
-                    protocol=spec.protocol,
-                    category=classification.category.value,
-                    execution_state=ScenarioExecutionState.SPECIAL_HARNESS.value,
-                    error=classification.reason,
-                    completed_at=datetime.now(timezone.utc).isoformat(),
-                )
-                save_state("IN_PROGRESS")
-                continue
+                if contract.harness_status != "IMPLEMENTED":
+                    records[sid] = ScenarioBatchRecord(
+                        scenario_id=sid,
+                        protocol=spec.protocol,
+                        category=classification.category.value,
+                        execution_state=ScenarioExecutionState.SPECIAL_HARNESS.value,
+                        error=classification.reason,
+                        completed_at=datetime.now(timezone.utc).isoformat(),
+                    )
+                    save_state("IN_PROGRESS")
+                    continue
 
             # Step 4: Execute Eligible Scenario (EXECUTABLE_STANDARD)
             scenario_start = time.time()

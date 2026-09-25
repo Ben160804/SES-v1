@@ -1,7 +1,7 @@
 # ==============================================================================
-# SECUREMAILSCOPE TESTBED - RENDERED MAIN.CF FOR PCAP-118
+# SECUREMAILSCOPE TESTBED - RENDERED MAIN.CF FOR PCAP-001
 # ==============================================================================
-# Description: SAN=*.example.com SNI=a.mail.example.com → MISMATCH
+# Description: N/A
 # ==============================================================================
 
 # Hostname & Network Identity

@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "PCAP-125",
+  "expected": {
+    "protocol": "SMTP",
+    "tls_presence": "implicit-TLS",
+    "starttls_integrity": "N/A",
+    "tls_version": "1.2",
+    "cipher_strength": "HIGH",
+    "cert_validity": "valid",
+    "cert_chain_shape": "complete-chain",
+    "cert_sig_algo": "ECDSA",
+    "hostname_match": "matched",
+    "auth_outcome": "post-TLS-encrypted",
+    "expected_starttls_status": "IMPLICIT_TLS",
+    "expected_trust_status": "TRUSTED_CHAIN",
+    "tls13_kex_mode": "",
+    "tls12_kex_type": "ECDHE",
+    "forward_secrecy": true,
+    "hello_retry_request": false,
+    "downgrade_sentinel": "none",
+    "starttls_outcome": "",
+    "sig_alg_cert_present": false,
+    "cert_has_san": false,
+    "hostname_type": "dns",
+    "path_selection": "",
+    "certificate_observable": "VISIBLE",
+    "generator_requirement": "server_downgrade_without_sentinel",
+    "exact_cipher": null,
+    "layer": "canonical",
+    "description": "TLS 1.3\u2192TLS 1.2 without sentinel \u2014 NEGOTIATED_BELOW_CLIENT_MAX"
+  },
+  "assertions": {
+    "protocol": {
+      "expected": "SMTP",
+      "required": true,
+      "observability": "always"
+    },
+    "starttls_status": {
+      "expected": "IMPLICIT_TLS",
+      "required": true,
+      "observability": "always"
+    },
+    "tls_presence": {
+      "expected": "implicit-TLS",
+      "required": true,
+      "observability": "always"
+    },
+    "tls.fatal_alert": {
+      "expected": false,
+      "required": false,
+      "observability": "not_applicable"
+    },
+    "tls.version": {
+      "expected": "TLS 1.2",
+      "required": true,
+      "observability": "always"
+    },
+    "tls.cipher_strength": {
+      "expected": "HIGH",
+      "required": true,
+      "observability": "always"
+    },
+    "tls.cipher_name": {
+      "expected": null,
+      "required": false,
+      "observability": "not_applicable"
+    },
+    "tls.forward_secrecy": {
+      "expected": true,
+      "required": true,
+      "observability": "always"
+    },
+    "certificate.observable": {
+      "expected": "VISIBLE",
+      "required": true,
+      "observability": "always"
+    },
+    "certificate.signature_algorithm": {
+      "expected": "ECDSA",
+      "required": true,
+      "observability": "always"
+    },
+    "certificate.validity": {
+      "expected": "valid",
+      "required": true,
+      "observability": "always"
+    },
+    "certificate.hostname_match": {
+      "expected": "matched",
+      "required": true,
+      "observability": "always"
+    },
+    "certificate.trust_status": {
+      "expected": "TRUSTED_CHAIN",
+      "required": true,
+      "observability": "always"
+    }
+  }
+}

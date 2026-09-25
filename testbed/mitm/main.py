@@ -13,9 +13,11 @@ import sys
 try:
     from testbed.mitm.smtp_proxy import run_proxy as run_smtp_proxy
     from testbed.mitm.pop3_proxy import run_proxy as run_pop3_proxy
+    from testbed.mitm.imap_proxy import run_proxy as run_imap_proxy
 except ImportError:
     from smtp_proxy import run_proxy as run_smtp_proxy
     from pop3_proxy import run_proxy as run_pop3_proxy
+    from imap_proxy import run_proxy as run_imap_proxy
 
 
 def main():
@@ -43,10 +45,26 @@ def main():
         },
         name="pop3_mitm_proxy",
     )
+    imap_proc = multiprocessing.Process(
+        target=run_imap_proxy,
+        kwargs={
+            "listen_host": "0.0.0.0",
+            "listen_port": 143,
+            "upstream_host": "172.28.0.11",
+            "upstream_port": 143,
+            "strip_mode": True,
+            "single_session": False,
+        },
+        name="imap_mitm_proxy",
+    )
 
     def shutdown(signum, frame):
-        smtp_proc.terminate()
-        pop3_proc.terminate()
+        for p in (smtp_proc, pop3_proc, imap_proc):
+            try:
+                if p.is_alive():
+                    p.terminate()
+            except Exception:
+                pass
         sys.exit(0)
 
     signal.signal(signal.SIGTERM, shutdown)
@@ -54,9 +72,11 @@ def main():
 
     smtp_proc.start()
     pop3_proc.start()
+    imap_proc.start()
 
     smtp_proc.join()
     pop3_proc.join()
+    imap_proc.join()
 
 
 if __name__ == "__main__":

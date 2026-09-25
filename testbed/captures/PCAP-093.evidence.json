@@ -29,6 +29,7 @@
     },
     "handshake": {
       "stream": 0,
+      "handshake_time_epoch": 1790369942.5432005,
       "client_hello": {
         "offered_versions": [
           "TLS 1.2"
@@ -80,7 +81,9 @@
         "psk_key_exchange_modes": [],
         "sni": "mail.test.local",
         "alpn": [],
-        "early_data_offered": false
+        "early_data_offered": false,
+        "client_ip": "172.28.0.1",
+        "client_port": 51648
       },
       "server_negotiation": {
         "raw_version": "0x0303",
@@ -109,7 +112,8 @@
           "sentinel_type": null,
           "sentinel_bytes": null,
           "server_supports_tls13": false
-        }
+        },
+        "handshake_time_epoch": 1790369942.5432005
       },
       "flight": {
         "messages": [
@@ -165,7 +169,10 @@
             "frame": 23,
             "level": "UNKNOWN",
             "description": "EncryptedAlert",
-            "raw_desc": null
+            "raw_desc": null,
+            "src_ip": "172.28.0.10",
+            "src_port": 465,
+            "sender": "server"
           }
         ]
       },
@@ -199,15 +206,15 @@
       "revocation_status": "NOT_CHECKED (PASSIVE_OFFLINE_ANALYSIS)",
       "resolved_path": [
         {
-          "serial": "69689020461937818509242366334349100756194557829",
-          "serial_number": "69689020461937818509242366334349100756194557829",
+          "serial": "672708557727891250546282069448355547819352805781",
+          "serial_number": "672708557727891250546282069448355547819352805781",
           "subject": "CN=mail.test.local",
           "issuer": "CN=mail.test.local",
-          "sha256_fingerprint": "827b4fd653a1d56c706ac4e7ea0172c9c44a76b135c0505868a57bc003b4c46d"
+          "sha256_fingerprint": "45683047c78f55f9bd48050c115d82244b80264fdf550f21dbfe111ca7d7d017"
         }
       ],
       "leaf_cert": {
-        "serial_number": "69689020461937818509242366334349100756194557829",
+        "serial_number": "672708557727891250546282069448355547819352805781",
         "issuer_dn": "CN=mail.test.local",
         "subject_dn": "CN=mail.test.local",
         "issuer_cn": "mail.test.local",
@@ -228,19 +235,21 @@
         },
         "key_usage": null,
         "extended_key_usage": [],
-        "subject_key_identifier": "ddb334695b2f7a3df047051f6af52dc84f68ec8c",
-        "authority_key_identifier": "ddb334695b2f7a3df047051f6af52dc84f68ec8c",
+        "extended_key_usage_present": false,
+        "has_extended_key_usage": false,
+        "subject_key_identifier": "983117a961f2985bf6e4af938b37fb181cb373d1",
+        "authority_key_identifier": "983117a961f2985bf6e4af938b37fb181cb373d1",
         "critical_extensions": [
           "2.5.29.19"
         ],
-        "not_before": "2026-09-23 08:52:43+00:00",
-        "not_after": "2028-09-23 08:52:43+00:00",
+        "not_before": "2026-09-24 20:58:59+00:00",
+        "not_after": "2028-09-24 20:58:59+00:00",
         "is_expired": false,
         "not_yet_valid": false
       },
       "full_chain": [
         {
-          "serial_number": "69689020461937818509242366334349100756194557829",
+          "serial_number": "672708557727891250546282069448355547819352805781",
           "issuer_dn": "CN=mail.test.local",
           "subject_dn": "CN=mail.test.local",
           "issuer_cn": "mail.test.local",
@@ -261,13 +270,15 @@
           },
           "key_usage": null,
           "extended_key_usage": [],
-          "subject_key_identifier": "ddb334695b2f7a3df047051f6af52dc84f68ec8c",
-          "authority_key_identifier": "ddb334695b2f7a3df047051f6af52dc84f68ec8c",
+          "extended_key_usage_present": false,
+          "has_extended_key_usage": false,
+          "subject_key_identifier": "983117a961f2985bf6e4af938b37fb181cb373d1",
+          "authority_key_identifier": "983117a961f2985bf6e4af938b37fb181cb373d1",
           "critical_extensions": [
             "2.5.29.19"
           ],
-          "not_before": "2026-09-23 08:52:43+00:00",
-          "not_after": "2028-09-23 08:52:43+00:00",
+          "not_before": "2026-09-24 20:58:59+00:00",
+          "not_after": "2028-09-24 20:58:59+00:00",
           "is_expired": false,
           "not_yet_valid": false
         }

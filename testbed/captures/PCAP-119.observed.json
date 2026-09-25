@@ -1,0 +1,487 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "PCAP-119",
+  "sessions": {
+    "0": {
+      "stream_id": 0,
+      "protocol": "SMTP",
+      "starttls": {
+        "stream": 0,
+        "starttls_offered": false,
+        "starttls_requested": false,
+        "starttls_accepted": false,
+        "starttls_rejected": false,
+        "tls_active": true,
+        "plaintext_auth_attempted": false,
+        "status": "IMPLICIT_TLS",
+        "details": "Session used direct implicit TLS without plaintext upgrade (e.g. SMTPS/IMAPS/POP3S)."
+      },
+      "tls": {
+        "stream": 0,
+        "raw_version": "0x0303",
+        "tls_version": "TLS 1.2",
+        "raw_cipher_suite": "0xc02c",
+        "cipher_name": "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+        "key_exchange": "ECDHE",
+        "forward_secrecy": true,
+        "cipher_strength": "HIGH",
+        "tls13_key_exchange_group": null,
+        "tls13_psk_selected": null,
+        "tls13_key_exchange_mode": null,
+        "hello_retry_request": false
+      },
+      "handshake": {
+        "stream": 0,
+        "handshake_time_epoch": 1790368023.3322225,
+        "client_hello": {
+          "offered_versions": [
+            "TLS 1.2"
+          ],
+          "offered_ciphers": [
+            {
+              "hex": "0xc02c",
+              "name": "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+              "strength": "HIGH",
+              "forward_secrecy": true
+            },
+            {
+              "hex": "0xc030",
+              "name": "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+              "strength": "HIGH",
+              "forward_secrecy": true
+            },
+            {
+              "hex": "0xc02b",
+              "name": "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
+              "strength": "HIGH",
+              "forward_secrecy": true
+            },
+            {
+              "hex": "0xc02f",
+              "name": "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+              "strength": "HIGH",
+              "forward_secrecy": true
+            },
+            {
+              "hex": "0xcca9",
+              "name": "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
+              "strength": "HIGH",
+              "forward_secrecy": true
+            },
+            {
+              "hex": "0xcca8",
+              "name": "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256",
+              "strength": "HIGH",
+              "forward_secrecy": true
+            },
+            {
+              "hex": "0xc024",
+              "name": "TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384",
+              "strength": "MEDIUM",
+              "forward_secrecy": true
+            },
+            {
+              "hex": "0xc028",
+              "name": "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384",
+              "strength": "MEDIUM",
+              "forward_secrecy": true
+            },
+            {
+              "hex": "0xc023",
+              "name": "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256",
+              "strength": "MEDIUM",
+              "forward_secrecy": true
+            },
+            {
+              "hex": "0xc027",
+              "name": "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256",
+              "strength": "MEDIUM",
+              "forward_secrecy": true
+            },
+            {
+              "hex": "0x009f",
+              "name": "TLS_DHE_RSA_WITH_AES_256_GCM_SHA384",
+              "strength": "WEAK",
+              "forward_secrecy": true
+            },
+            {
+              "hex": "0x009e",
+              "name": "TLS_DHE_RSA_WITH_AES_128_GCM_SHA256",
+              "strength": "WEAK",
+              "forward_secrecy": true
+            },
+            {
+              "hex": "0x006b",
+              "name": "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256",
+              "strength": "WEAK",
+              "forward_secrecy": true
+            },
+            {
+              "hex": "0x0067",
+              "name": "TLS_DHE_RSA_WITH_AES_128_CBC_SHA256",
+              "strength": "WEAK",
+              "forward_secrecy": true
+            }
+          ],
+          "offered_ciphers_count": 14,
+          "supported_groups": [
+            "x25519",
+            "secp256r1",
+            "x448",
+            "secp384r1",
+            "secp521r1"
+          ],
+          "offered_key_shares": [],
+          "signature_algorithms": [
+            "ecdsa_secp256r1_sha256",
+            "ecdsa_secp384r1_sha384",
+            "ecdsa_secp521r1_sha512",
+            "ed25519",
+            "ed448",
+            "rsa_pss_pss_sha256",
+            "rsa_pss_pss_sha384",
+            "rsa_pss_pss_sha512",
+            "rsa_pss_rsae_sha256",
+            "rsa_pss_rsae_sha384",
+            "rsa_pss_rsae_sha512",
+            "rsa_pkcs1_sha256",
+            "rsa_pkcs1_sha384",
+            "rsa_pkcs1_sha512",
+            "ecdsa_sha224",
+            "rsa_pkcs1_sha224",
+            "dsa_sha224",
+            "dsa_sha256",
+            "dsa_sha384",
+            "dsa_sha512"
+          ],
+          "signature_algorithms_cert": [],
+          "signature_algorithms_cert_present": false,
+          "psk_key_exchange_modes": [],
+          "sni": "mail.test.local",
+          "alpn": [],
+          "early_data_offered": false,
+          "client_ip": "172.28.0.1",
+          "client_port": 38476
+        },
+        "server_negotiation": {
+          "raw_version": "0x0303",
+          "selected_tls_version": "TLS 1.2",
+          "selected_cipher": {
+            "hex": "0xc02c",
+            "name": "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+            "strength": "HIGH",
+            "forward_secrecy": true,
+            "kex_mechanism": "ECDHE"
+          },
+          "tls13_key_exchange_group": null,
+          "tls13_psk_selected": null,
+          "tls13_key_exchange_mode": null,
+          "hello_retry_request": false,
+          "is_hello_retry_request": false,
+          "tls12_server_key_exchange": {
+            "kex_type": "ECDHE",
+            "named_curve": "x25519",
+            "named_curve_hex": "0x001d",
+            "dh_prime_length_bits": null,
+            "wire_signature_algorithm": "ecdsa_secp256r1_sha256"
+          },
+          "downgrade_sentinel": {
+            "sentinel_detected": false,
+            "sentinel_type": null,
+            "sentinel_bytes": null,
+            "server_supports_tls13": false
+          },
+          "handshake_time_epoch": 1790368023.3322225
+        },
+        "flight": {
+          "messages": [
+            {
+              "frame": 4,
+              "type_id": 1,
+              "message": "ClientHello",
+              "reassembled_in": null
+            },
+            {
+              "frame": 6,
+              "type_id": 2,
+              "message": "ServerHello",
+              "reassembled_in": null
+            },
+            {
+              "frame": 6,
+              "type_id": 11,
+              "message": "Certificate",
+              "reassembled_in": null
+            },
+            {
+              "frame": 6,
+              "type_id": 12,
+              "message": "ServerKeyExchange",
+              "reassembled_in": null
+            },
+            {
+              "frame": 6,
+              "type_id": 14,
+              "message": "ServerHelloDone",
+              "reassembled_in": null
+            },
+            {
+              "frame": 8,
+              "type_id": 16,
+              "message": "ClientKeyExchange",
+              "reassembled_in": null
+            },
+            {
+              "frame": 9,
+              "type_id": 4,
+              "message": "NewSessionTicket",
+              "reassembled_in": null
+            }
+          ],
+          "finished_observed": false,
+          "application_data_observed": true,
+          "outer_record_23_observed": true,
+          "early_data_observed": false,
+          "alerts": [
+            {
+              "frame": 23,
+              "level": "UNKNOWN",
+              "description": "EncryptedAlert",
+              "raw_desc": null,
+              "src_ip": "172.28.0.10",
+              "src_port": 465,
+              "sender": "server"
+            }
+          ]
+        },
+        "forensic_analysis": {
+          "handshake_status": "COMPLETED_INFERRED",
+          "client_max_version": "TLS 1.2",
+          "negotiated_version": "TLS 1.2",
+          "version_downgrade": {
+            "downgrade_signal_detected": false,
+            "classification": "MATCH",
+            "details": "Negotiated version matches or is consistent with connection context."
+          },
+          "cipher_downgrade": {
+            "downgrade_signal_detected": false,
+            "details": "Negotiated cipher suite strength is HIGH."
+          }
+        }
+      },
+      "certificate": {
+        "stream": 0,
+        "chain_length": 3,
+        "is_self_signed": false,
+        "trust_status": "TRUSTED_CHAIN",
+        "trust_details": "Certificate chain cryptographically authentic, verified for SNI 'mail.test.local', and anchored to testbed trust store.",
+        "path_verification_error": null,
+        "active_trust_store": "testbed",
+        "active_trust_store_description": "testbed (/home/bigfoot/mailtest/testbed/active/trust_store.pem, 1 root(s))",
+        "anchored_in_active_store": true,
+        "claimed_sni": "mail.test.local",
+        "hostname_match": "MATCHED",
+        "revocation_status": "NOT_CHECKED (PASSIVE_OFFLINE_ANALYSIS)",
+        "resolved_path": [
+          {
+            "serial": "237533801540285430124293450612829142615919234798",
+            "serial_number": "237533801540285430124293450612829142615919234798",
+            "subject": "CN=mail.test.local",
+            "issuer": "CN=SecureMailScope Test Intermediate CA",
+            "sha256_fingerprint": "d10d67ab9174fe77eba25100d01bedc393bd4308ae79bc3459f9c1c221f3882a"
+          },
+          {
+            "serial": "2",
+            "serial_number": "2",
+            "subject": "CN=SecureMailScope Test Intermediate CA",
+            "issuer": "CN=SecureMailScope Test Root CA",
+            "sha256_fingerprint": "8fe8135742c106e9e8537eea9bde0a1108d2a4a8c3b72ab1ff1a1ba94e361842"
+          }
+        ],
+        "leaf_cert": {
+          "serial_number": "237533801540285430124293450612829142615919234798",
+          "issuer_dn": "CN=SecureMailScope Test Intermediate CA",
+          "subject_dn": "CN=mail.test.local",
+          "issuer_cn": "SecureMailScope Test Intermediate CA",
+          "subject_cn": "mail.test.local",
+          "san_dns": [
+            "mail.test.local"
+          ],
+          "san_ip": [],
+          "signature_algorithm_oid": "1.2.840.10045.4.3.2",
+          "signature_algorithm_name": "ecdsa-with-SHA256",
+          "signature_algorithm_parameters": "ECDSA",
+          "signature_hash_algorithm": "sha256",
+          "public_key_algorithm": "EC",
+          "public_key_size": 256,
+          "basic_constraints": {
+            "ca": false,
+            "path_length": null
+          },
+          "key_usage": {
+            "digital_signature": true,
+            "content_commitment": false,
+            "key_encipherment": true,
+            "data_encipherment": false,
+            "key_agreement": false,
+            "key_cert_sign": false,
+            "crl_sign": false,
+            "encipher_only": false,
+            "decipher_only": false
+          },
+          "extended_key_usage": [
+            "serverAuth"
+          ],
+          "extended_key_usage_present": true,
+          "has_extended_key_usage": true,
+          "subject_key_identifier": "bda97bd6ad487cd278c300482c0fdda772fabfa3",
+          "authority_key_identifier": "1166cbc11066bcef6d366cd786d9936d094b9e3a",
+          "critical_extensions": [
+            "2.5.29.19",
+            "2.5.29.15"
+          ],
+          "not_before": "2026-09-24 20:25:56+00:00",
+          "not_after": "2028-09-24 20:25:56+00:00",
+          "is_expired": false,
+          "not_yet_valid": false
+        },
+        "full_chain": [
+          {
+            "serial_number": "237533801540285430124293450612829142615919234798",
+            "issuer_dn": "CN=SecureMailScope Test Intermediate CA",
+            "subject_dn": "CN=mail.test.local",
+            "issuer_cn": "SecureMailScope Test Intermediate CA",
+            "subject_cn": "mail.test.local",
+            "san_dns": [
+              "mail.test.local"
+            ],
+            "san_ip": [],
+            "signature_algorithm_oid": "1.2.840.10045.4.3.2",
+            "signature_algorithm_name": "ecdsa-with-SHA256",
+            "signature_algorithm_parameters": "ECDSA",
+            "signature_hash_algorithm": "sha256",
+            "public_key_algorithm": "EC",
+            "public_key_size": 256,
+            "basic_constraints": {
+              "ca": false,
+              "path_length": null
+            },
+            "key_usage": {
+              "digital_signature": true,
+              "content_commitment": false,
+              "key_encipherment": true,
+              "data_encipherment": false,
+              "key_agreement": false,
+              "key_cert_sign": false,
+              "crl_sign": false,
+              "encipher_only": false,
+              "decipher_only": false
+            },
+            "extended_key_usage": [
+              "serverAuth"
+            ],
+            "extended_key_usage_present": true,
+            "has_extended_key_usage": true,
+            "subject_key_identifier": "bda97bd6ad487cd278c300482c0fdda772fabfa3",
+            "authority_key_identifier": "1166cbc11066bcef6d366cd786d9936d094b9e3a",
+            "critical_extensions": [
+              "2.5.29.19",
+              "2.5.29.15"
+            ],
+            "not_before": "2026-09-24 20:25:56+00:00",
+            "not_after": "2028-09-24 20:25:56+00:00",
+            "is_expired": false,
+            "not_yet_valid": false
+          },
+          {
+            "serial_number": "1",
+            "issuer_dn": "CN=Rogue CA (not trusted)",
+            "subject_dn": "CN=SecureMailScope Test Intermediate CA",
+            "issuer_cn": "Rogue CA (not trusted)",
+            "subject_cn": "SecureMailScope Test Intermediate CA",
+            "san_dns": [],
+            "san_ip": [],
+            "signature_algorithm_oid": "1.2.840.10045.4.3.2",
+            "signature_algorithm_name": "ecdsa-with-SHA256",
+            "signature_algorithm_parameters": "ECDSA",
+            "signature_hash_algorithm": "sha256",
+            "public_key_algorithm": "EC",
+            "public_key_size": 256,
+            "basic_constraints": {
+              "ca": true,
+              "path_length": 0
+            },
+            "key_usage": {
+              "digital_signature": true,
+              "content_commitment": false,
+              "key_encipherment": false,
+              "data_encipherment": false,
+              "key_agreement": false,
+              "key_cert_sign": true,
+              "crl_sign": true,
+              "encipher_only": false,
+              "decipher_only": false
+            },
+            "extended_key_usage": [],
+            "extended_key_usage_present": false,
+            "has_extended_key_usage": false,
+            "subject_key_identifier": "1166cbc11066bcef6d366cd786d9936d094b9e3a",
+            "authority_key_identifier": "d62a15bf1ad393ff456f4fb42a2a37f4043cadea",
+            "critical_extensions": [
+              "2.5.29.19",
+              "2.5.29.15"
+            ],
+            "not_before": "2026-09-24 20:25:56+00:00",
+            "not_after": "2028-09-24 20:25:56+00:00",
+            "is_expired": false,
+            "not_yet_valid": false
+          },
+          {
+            "serial_number": "2",
+            "issuer_dn": "CN=SecureMailScope Test Root CA",
+            "subject_dn": "CN=SecureMailScope Test Intermediate CA",
+            "issuer_cn": "SecureMailScope Test Root CA",
+            "subject_cn": "SecureMailScope Test Intermediate CA",
+            "san_dns": [],
+            "san_ip": [],
+            "signature_algorithm_oid": "1.2.840.10045.4.3.2",
+            "signature_algorithm_name": "ecdsa-with-SHA256",
+            "signature_algorithm_parameters": "ECDSA",
+            "signature_hash_algorithm": "sha256",
+            "public_key_algorithm": "EC",
+            "public_key_size": 256,
+            "basic_constraints": {
+              "ca": true,
+              "path_length": 0
+            },
+            "key_usage": {
+              "digital_signature": true,
+              "content_commitment": false,
+              "key_encipherment": false,
+              "data_encipherment": false,
+              "key_agreement": false,
+              "key_cert_sign": true,
+              "crl_sign": true,
+              "encipher_only": false,
+              "decipher_only": false
+            },
+            "extended_key_usage": [],
+            "extended_key_usage_present": false,
+            "has_extended_key_usage": false,
+            "subject_key_identifier": "1166cbc11066bcef6d366cd786d9936d094b9e3a",
+            "authority_key_identifier": "a813245c5684a3bbd42ba7d955a54466620991a6",
+            "critical_extensions": [
+              "2.5.29.19",
+              "2.5.29.15"
+            ],
+            "not_before": "2026-09-24 20:25:56+00:00",
+            "not_after": "2028-09-24 20:25:56+00:00",
+            "is_expired": false,
+            "not_yet_valid": false
+          }
+        ],
+        "parse_errors": []
+      }
+    }
+  }
+}

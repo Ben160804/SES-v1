@@ -648,6 +648,11 @@ class PKIFactory:
                 sig_algo, validity, san_type, chain_shape,
                 weak_key=weak_key, leaf_key_algo=leaf_key_algo, leaf_key_size=leaf_key_size
             )
+        elif chain_shape == "multi_issuer_dag":
+            return self._multi_issuer_dag_profile(
+                sig_algo, validity, san_type,
+                weak_key=weak_key, leaf_key_algo=leaf_key_algo, leaf_key_size=leaf_key_size
+            )
 
         # --- All other shapes: build intermediate + leaf -----------------
         issuer_key = _issuer_key_for(sig_algo, self._keys)
@@ -858,6 +863,130 @@ class PKIFactory:
             "chain_pem":        _pem(leaf_cert),   # no intermediate; send leaf only
             "trust_store_pem":  trust_store_pem,
             "intermediate_pem": None,
+        }
+
+    # ------------------------------------------------------------------
+    # Internal: RFC 4158 multi-issuer DAG profile
+    # ------------------------------------------------------------------
+
+    def _multi_issuer_dag_profile(
+        self,
+        sig_algo: str,
+        validity: str,
+        san_type: str,
+        weak_key: bool = False,
+        leaf_key_algo: Optional[str] = None,
+        leaf_key_size: Optional[int] = None,
+    ) -> dict:
+        """
+        Generate a multi-issuer DAG certificate profile for RFC 4158 backtracking.
+
+        Structure:
+          - Intermediate CA with a shared subject and key.
+          - Candidate A (Cross-Cert A): signed by rogue CA (untrusted), serial 1.
+          - Candidate B (Cross-Cert B): signed by root CA (trusted), serial 2.
+          - Leaf certificate: signed by Intermediate CA key.
+
+        The server sends chain [Leaf, Candidate A, Candidate B].
+        The client/analyzer's PKIX path resolver encounters Candidate A first (lower serial),
+        discovers it is untrusted, backtracks to Candidate B, and reaches Root CA,
+        yielding TRUSTED_CHAIN.
+        """
+        now = _NOW
+        inter_key = _issuer_key_for(sig_algo, self._keys)
+        inter_name = _subject_name("SecureMailScope Test Intermediate CA")
+
+        # Candidate A: signed by rogue_ca_cert using rogue_ca_key, serial 1
+        builder_a = (
+            x509.CertificateBuilder()
+            .subject_name(inter_name)
+            .issuer_name(self.rogue_ca_cert.subject)
+            .public_key(inter_key.public_key())
+            .serial_number(1)
+            .not_valid_before(now - datetime.timedelta(days=1))
+            .not_valid_after(now + datetime.timedelta(days=VALID_DAYS))
+            .add_extension(_basic_constraints(True, 0), critical=True)
+            .add_extension(
+                x509.KeyUsage(
+                    digital_signature=True,
+                    content_commitment=False,
+                    key_encipherment=False,
+                    key_agreement=False,
+                    data_encipherment=False,
+                    key_cert_sign=True,
+                    crl_sign=True,
+                    encipher_only=False,
+                    decipher_only=False,
+                ),
+                critical=True,
+            )
+            .add_extension(
+                x509.SubjectKeyIdentifier.from_public_key(inter_key.public_key()),
+                critical=False,
+            )
+            .add_extension(
+                x509.AuthorityKeyIdentifier.from_issuer_public_key(self.rogue_ca_cert.public_key()),
+                critical=False,
+            )
+        )
+        cross_a = _sign(builder_a, self.rogue_ca_key, "ecdsa")
+
+        # Candidate B: signed by root_ca_cert using root_ca_key, serial 2
+        builder_b = (
+            x509.CertificateBuilder()
+            .subject_name(inter_name)
+            .issuer_name(self.root_ca_cert.subject)
+            .public_key(inter_key.public_key())
+            .serial_number(2)
+            .not_valid_before(now - datetime.timedelta(days=1))
+            .not_valid_after(now + datetime.timedelta(days=VALID_DAYS))
+            .add_extension(_basic_constraints(True, 0), critical=True)
+            .add_extension(
+                x509.KeyUsage(
+                    digital_signature=True,
+                    content_commitment=False,
+                    key_encipherment=False,
+                    key_agreement=False,
+                    data_encipherment=False,
+                    key_cert_sign=True,
+                    crl_sign=True,
+                    encipher_only=False,
+                    decipher_only=False,
+                ),
+                critical=True,
+            )
+            .add_extension(
+                x509.SubjectKeyIdentifier.from_public_key(inter_key.public_key()),
+                critical=False,
+            )
+            .add_extension(
+                x509.AuthorityKeyIdentifier.from_issuer_public_key(self.root_ca_cert.public_key()),
+                critical=False,
+            )
+        )
+        cross_b = _sign(builder_b, self.root_ca_key, "ecdsa")
+
+        # Leaf certificate
+        leaf_key = _leaf_key_for(
+            leaf_key_algo=leaf_key_algo,
+            leaf_key_size=leaf_key_size,
+            cache=self._keys,
+            weak=weak_key,
+            sig_algo_fallback=sig_algo,
+        )
+        leaf_cert = _build_leaf_cert(
+            leaf_key, cross_b, inter_key, sig_algo, validity, san_type
+        )
+
+        chain_pem = _pem(leaf_cert) + _pem(cross_a) + _pem(cross_b)
+        trust_store_pem = _pem(self.root_ca_cert)
+
+        return {
+            "cert_pem":         _pem(leaf_cert),
+            "key_pem":          _pem(leaf_key),
+            "chain_pem":        chain_pem,
+            "trust_store_pem":  trust_store_pem,
+            "intermediate_pem": _pem(cross_a) + _pem(cross_b),
         }
 
 

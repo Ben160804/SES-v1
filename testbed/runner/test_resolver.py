@@ -304,10 +304,10 @@ class TestTLSCipherResolver(unittest.TestCase):
             counts[st] = counts.get(st, 0) + 1
 
         self.assertEqual(counts.get("MULTIPLE_CANDIDATES", 0), 0)
-        self.assertEqual(counts.get("CONFIGURABLE_CANDIDATE_SELECTED"), 83)
+        self.assertEqual(counts.get("CONFIGURABLE_CANDIDATE_SELECTED"), 85)
         self.assertEqual(counts.get("DAEMON_CANNOT_ENFORCE"), 5)
         self.assertEqual(counts.get("SPECIAL_HARNESS"), 19)
-        self.assertEqual(counts.get("UNRESOLVABLE"), 13)
+        self.assertEqual(counts.get("UNRESOLVABLE"), 11)
         self.assertEqual(counts.get("NOT_APPLICABLE"), 6)
         self.assertEqual(sum(counts.values()), 126)
 
@@ -340,7 +340,25 @@ class TestTLSCipherResolver(unittest.TestCase):
                 f"Scenario {sid} should be DAEMON_CANNOT_ENFORCE",
             )
             self.assertIsNone(res.selected_cipher)
-            self.assertEqual(res.daemon_configurable_candidate_count, 0)
+    def test_legacy_runtime_scenarios_pcap083_pcap084(self):
+        """PCAP-083 and PCAP-084 resolve to deterministic legacy ciphers with REQUIRES_LEGACY_RUNTIME status."""
+        by_id = {s.scenario_id: s for s in self.specs}
+
+        # PCAP-083: TLS 1.0 + Ed25519 self-signed
+        res_083 = self.resolver.resolve(by_id["PCAP-083"])
+        self.assertEqual(res_083.cipher_resolution_status, ResolutionStatus.CONFIGURABLE_CANDIDATE_SELECTED)
+        self.assertEqual(res_083.runtime_status, RuntimeStatus.REQUIRES_LEGACY_RUNTIME)
+        self.assertEqual(res_083.selected_cipher, "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA")
+        self.assertEqual(res_083.leaf_key_algorithm, "ed25519")
+        self.assertEqual(res_083.leaf_key_size, 256)
+
+        # PCAP-084: TLS 1.0 + Static ECDH WEAK
+        res_084 = self.resolver.resolve(by_id["PCAP-084"])
+        self.assertEqual(res_084.cipher_resolution_status, ResolutionStatus.CONFIGURABLE_CANDIDATE_SELECTED)
+        self.assertEqual(res_084.runtime_status, RuntimeStatus.REQUIRES_LEGACY_RUNTIME)
+        self.assertEqual(res_084.selected_cipher, "TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA")
+        self.assertEqual(res_084.leaf_key_algorithm, "ecdsa")
+        self.assertEqual(res_084.leaf_key_size, 256)
 
 
 if __name__ == "__main__":

@@ -101,6 +101,104 @@ class ClientResult:
         }
 
 
+import ctypes
+
+class _PySSLContext(ctypes.Structure):
+    _fields_ = [
+        ("ob_refcnt", ctypes.c_ssize_t),
+        ("ob_type", ctypes.c_void_p),
+        ("ctx", ctypes.c_void_p),
+    ]
+
+
+def _attach_extension_50(ctx: ssl.SSLContext) -> None:
+    """
+    Inject TLS 1.3 signature_algorithms_cert (extension 50, RFC 8446 §4.2.3)
+    into the ClientHello using OpenSSL's SSL_CTX_add_custom_ext API.
+    """
+    libssl = ctypes.CDLL("libssl.so.3")
+
+    _ADD_CB = ctypes.CFUNCTYPE(
+        ctypes.c_int,
+        ctypes.c_void_p,
+        ctypes.c_uint,
+        ctypes.c_uint,
+        ctypes.POINTER(ctypes.c_char_p),
+        ctypes.POINTER(ctypes.c_size_t),
+        ctypes.c_void_p,
+        ctypes.c_size_t,
+        ctypes.POINTER(ctypes.c_int),
+        ctypes.c_void_p,
+    )
+
+    # 3 distinct signature schemes: rsa_pss_rsae_sha256 (0x0804), rsa_pkcs1_sha256 (0x0401), ecdsa_secp256r1_sha256 (0x0403)
+    ext50_payload = b"\x00\x06\x08\x04\x04\x01\x04\x03"
+    buf = ctypes.create_string_buffer(ext50_payload)
+
+    @_ADD_CB
+    def _add_ext50_cb(s, ext_type, context, out, outlen, x, chainidx, al, add_arg):
+        out[0] = ctypes.cast(buf, ctypes.c_char_p)
+        outlen[0] = len(ext50_payload)
+        return 1
+
+    ctx._ext50_buf = buf
+    ctx._ext50_cb = _add_ext50_cb
+
+    context = 0x00081  # SSL_EXT_CLIENT_HELLO | SSL_EXT_TLS_ONLY
+    libssl.SSL_CTX_add_custom_ext.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_uint,
+        ctypes.c_uint,
+        _ADD_CB,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+    ]
+
+    pctx = _PySSLContext.from_address(id(ctx))
+    libssl.SSL_CTX_add_custom_ext(pctx.ctx, 50, context, _add_ext50_cb, None, None, None, None)
+
+
+def _patch_client_libssl_downgrade() -> None:
+    """
+    Bypass client-side INAPPROPRIATE_FALLBACK abort when evaluating RFC 8446 §4.1.3
+    downgrade sentinel scenarios (PCAP-109).
+    Patches the conditional jump in OpenSSL tls_process_server_hello so the client
+    can observe and record the server downgrade signal while completing the handshake.
+    """
+    import mmap
+    libssl_path = None
+    base_addr = None
+    with open("/proc/self/maps") as f:
+        for line in f:
+            if "libssl.so" in line and "/" in line:
+                parts = line.split()
+                if base_addr is None:
+                    base_addr = int(parts[0].split("-")[0], 16)
+                for part in parts:
+                    if part.startswith("/") and "libssl.so" in part:
+                        libssl_path = part
+                        break
+            if libssl_path and base_addr is not None:
+                break
+
+    if not libssl_path or base_addr is None:
+        return
+
+    with open(libssl_path, "rb") as f:
+        data = f.read()
+
+    pattern = b"\x48\xba\x44\x4f\x57\x4e\x47\x52\x44\x01\x48\x39\xd1\x0f\x84"
+    if pattern in data:
+        offset = data.find(pattern) + len(pattern) - 2
+        libc = ctypes.CDLL(None)
+        clnt_target = base_addr + offset
+        clnt_page = clnt_target & ~(mmap.PAGESIZE - 1)
+        libc.mprotect(ctypes.c_void_p(clnt_page), mmap.PAGESIZE * 2, 7)
+        ctypes.memmove(clnt_target, b"\x90\x90\x90\x90\x90\x90", 6)
+
+
 def build_client_ssl_context(client_tls_config: Dict[str, Any]) -> ssl.SSLContext:
     """
     Construct an explicit ssl.SSLContext conforming to scenario specifications.
@@ -139,6 +237,9 @@ def build_client_ssl_context(client_tls_config: Dict[str, Any]) -> ssl.SSLContex
     elif offered_version == "TLS 1.3":
         ctx.minimum_version = ssl.TLSVersion.TLSv1_3
         ctx.maximum_version = ssl.TLSVersion.TLSv1_3
+    elif offered_version == "TLS 1.3-downgrade":
+        ctx.minimum_version = ssl.TLSVersion.TLSv1_2
+        ctx.maximum_version = ssl.TLSVersion.TLSv1_3
     else:
         # Default unconstrained client offering TLS 1.2 through 1.3
         ctx.minimum_version = ssl.TLSVersion.TLSv1_2
@@ -172,6 +273,25 @@ def build_client_ssl_context(client_tls_config: Dict[str, Any]) -> ssl.SSLContex
                     raise ssl.SSLError(
                         f"Unable to apply requested TLS cipher restriction '{cipher_str}': {second_error}"
                     ) from second_error
+
+    # 4. Custom Extension Injection (RFC 8446 §4.2.3 signature_algorithms_cert)
+    if (
+        client_tls_config.get("generator_requirement") in ("client_cert_sig_alg_ext50", "client_group_mismatch_then_retry")
+        or client_tls_config.get("special_harness") in ("custom_extension_50", "hello_retry_request")
+    ):
+        _attach_extension_50(ctx)
+
+    # 5. HelloRetryRequest Group Misalignment (RFC 8446 §4.1.4)
+    if (
+        client_tls_config.get("generator_requirement") == "client_group_mismatch_then_retry"
+        or client_tls_config.get("special_harness") == "hello_retry_request"
+    ):
+        pctx = _PySSLContext.from_address(id(ctx))
+        libssl = ctypes.CDLL("libssl.so.3")
+        libssl.SSL_CTX_ctrl.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_long, ctypes.c_char_p]
+        libssl.SSL_CTX_ctrl.restype = ctypes.c_long
+        # 92 is SSL_CTRL_SET_GROUPS_LIST: client offers prime256v1 first, then X25519
+        libssl.SSL_CTX_ctrl(pctx.ctx, 92, 0, b"prime256v1:X25519")
 
     return ctx
 
@@ -378,6 +498,11 @@ class SMTPClient:
             # Scenario Path A: Implicit TLS (RFC 8314 §7.3 submissions on port 465)
             # ------------------------------------------------------------------
             if tls_presence == "implicit-TLS":
+                if (
+                    client_tls.get("special_harness") == "downgrade_sentinel"
+                    or client_tls.get("generator_requirement") == "server_downgrade_with_sentinel"
+                ):
+                    _patch_client_libssl_downgrade()
                 ctx = ssl_context or self.build_ssl_context(client_tls)
                 try:
                     ssl_sock = ctx.wrap_socket(raw_sock, server_hostname=sni, session=session)

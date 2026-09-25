@@ -70,8 +70,8 @@ def derive_client_tls_config(spec: ScenarioSpec) -> Dict[str, Any]:
     req = spec.generator_requirement
 
     # Client offered version
-    if req == "server_downgrade_with_sentinel":
-        client_version = "TLS 1.3"
+    if req in ("server_downgrade_with_sentinel", "server_downgrade_without_sentinel"):
+        client_version = "TLS 1.3-downgrade"
     elif req == "legacy_client_server_with_sentinel":
         client_version = "TLS 1.2"
     elif proto_ver == "1.0":
@@ -117,6 +117,8 @@ def derive_client_tls_config(spec: ScenarioSpec) -> Dict[str, Any]:
         "starttls_enforcement": spec.client.starttls_enforcement,
         "auth_outcome": spec.client.auth_outcome,
         "client_behavior": spec.client.client_behavior,
+        "generator_requirement": req,
+        "special_harness": resolver_res.special_harness,
         "resolver_result": resolver_res.to_dict(),
     }
 
@@ -190,9 +192,17 @@ class SMTPStager:
             lines.append("")
             lines.append("# Certificate Chain & Key Injection")
             lines.append("smtpd_tls_chain_files = /etc/mailtest/active/key.pem, /etc/mailtest/active/chain.pem")
+        elif spec.generator_requirement == "server_rejects_starttls" or (
+            spec.server.tls_presence != "none" and resolve_scenario(spec).special_harness == "server_rejects_starttls"
+        ):
+            lines.append("")
+            lines.append("# Deliberately unreadable certificate to trigger RFC 3207 454 temporary rejection")
+            lines.append("smtpd_tls_cert_file = /dev/null")
+            lines.append("smtpd_tls_key_file = /dev/null")
         elif (
             spec.client.mitm_action == "strip_starttls"
             or spec.generator_requirement in ("server_sends_fatal_alert", "psk_dhe_resumption_without_cert")
+            or (spec.server.tls_presence != "none" and resolve_scenario(spec).special_harness in ("mitm_starttls_strip", "psk_dhe_resumption", "legacy_client_sentinel"))
         ):
             lines.append("")
             lines.append("# Baseline Server Certificate")
@@ -249,6 +259,17 @@ class SMTPStager:
             elif resolver_res.special_harness == "mitm_starttls_strip" or spec.client.mitm_action == "strip_starttls":
                 lines.append("smtpd_tls_ciphers = high")
                 lines.append("smtpd_tls_mandatory_ciphers = high")
+            elif resolver_res.special_harness == "cert_rsa1024" or resolver_res.leaf_key_size == 1024:
+                lines.append("tls_high_cipherlist = ECDHE-RSA-AES256-GCM-SHA384:@SECLEVEL=0")
+                lines.append("smtpd_tls_ciphers = high")
+                lines.append("smtpd_tls_mandatory_ciphers = high")
+            elif resolver_res.special_harness in ("psk_dhe_resumption", "legacy_client_sentinel", "server_rejects_starttls", "sentinel_suppression", "dag_pki", "custom_extension_50", "downgrade_sentinel", "hello_retry_request", "early_data_0rtt", "psk_resumption"):
+                lines.append("smtpd_tls_ciphers = high")
+                lines.append("smtpd_tls_mandatory_ciphers = high")
+                if resolver_res.special_harness == "hello_retry_request":
+                    lines.append("tls_eecdh_auto_curves = X25519")
+            elif resolver_res.special_harness == "unadvertised_starttls" or spec.server.starttls_banner_response == "suppressed":
+                pass
             elif status == ResolutionStatus.SPECIAL_HARNESS:
                 raise UnresolvableScenarioError(
                     f"Scenario {spec.scenario_id} requires dedicated harness "
@@ -392,18 +413,41 @@ class SMTPStager:
                 staged_files["trust_store"] = pki_res["trust_store_file"]
                 staged_relative["trust_store.pem"] = str(pki_res["trust_store_file"].name)
 
-        # 2. Render and write main.cf
-        main_cf_content = self.render_main_cf(spec, has_pki=has_pki)
-        main_cf_path = target_dir / "main.cf"
-        main_cf_path.write_text(main_cf_content)
-        staged_files["main_cf"] = main_cf_path
-        staged_relative["main.cf"] = "main.cf"
+        # 2. Render and write daemon configuration
+        is_legacy = resolver_res and resolver_res.runtime_status == RuntimeStatus.REQUIRES_LEGACY_RUNTIME
+        if is_legacy:
+            legacy_dir = target_dir / "legacy" if target_dir.name != "legacy" else target_dir
+            legacy_dir.mkdir(parents=True, exist_ok=True)
+            if has_pki:
+                legacy_cert = legacy_dir / f"{spec.scenario_id}_cert.pem"
+                legacy_key = legacy_dir / f"{spec.scenario_id}_key.pem"
+                legacy_cert.write_text(chain_path.read_text())
+                legacy_key.write_text(key_path.read_text())
+                staged_files["legacy_cert"] = legacy_cert
+                staged_files["legacy_key"] = legacy_key
+                staged_relative[f"legacy/{spec.scenario_id}_cert.pem"] = f"legacy/{spec.scenario_id}_cert.pem"
+                staged_relative[f"legacy/{spec.scenario_id}_key.pem"] = f"legacy/{spec.scenario_id}_key.pem"
+                if "trust_store" in staged_files:
+                    legacy_trust = legacy_dir / f"{spec.scenario_id}_trust.pem"
+                    legacy_trust.write_text(staged_files["trust_store"].read_text())
+                    staged_files["legacy_trust"] = legacy_trust
+                    staged_relative[f"legacy/{spec.scenario_id}_trust.pem"] = f"legacy/{spec.scenario_id}_trust.pem"
+            staged_service = "legacy"
+        else:
+            main_cf_content = self.render_main_cf(spec, has_pki=has_pki)
+            main_cf_path = target_dir / "main.cf"
+            main_cf_path.write_text(main_cf_content)
+            staged_files["main_cf"] = main_cf_path
+            staged_relative["main.cf"] = "main.cf"
+            staged_service = "postfix"
 
         # 3. Render client TLS configuration
         client_config = self.render_client_tls_config(spec)
 
         # 4. Render and write manifest.json
         manifest_data = self.render_manifest(spec, staged_relative, client_config, resolver_res=resolver_res)
+        if is_legacy:
+            manifest_data["service"] = "legacy"
         manifest_path = target_dir / "manifest.json"
         manifest_path.write_text(json.dumps(manifest_data, indent=2))
         staged_files["manifest"] = manifest_path
@@ -412,9 +456,10 @@ class SMTPStager:
             scenario_id=spec.scenario_id,
             root_dir=target_dir,
             files=staged_files,
-            service="postfix",
+            service=staged_service,
             manifest=manifest_data,
             selected_cipher=resolver_res.selected_cipher if resolver_res else None,
+            trust_store_path=staged_files.get("trust_store"),
         )
 
 

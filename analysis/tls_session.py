@@ -305,16 +305,19 @@ def reconstruct_handshake(pcap_path):
         "-e", "tls.alert_message.desc",
         "-e", "tls.handshake.reassembled_in",
         "-e", "tls.record.opaque_type",      # RFC 8446 §5.2: TLSCiphertext outer type (TShark 4.x)
+        "-e", "ip.src",
+        "-e", "ipv6.src",
+        "-e", "tcp.srcport",
     ]
     res_flight = subprocess.run(cmd_flight, capture_output=True, text=True)
     flights = {}
     if res_flight.stdout.strip():
         for line in res_flight.stdout.strip().splitlines():
             parts = line.split('\t')
-            while len(parts) < 8:
+            while len(parts) < 11:
                 parts.append("")
-            # ponytail: unpack all 8 fields; opaque_ct_str is "" for TLS 1.2 frames
-            f_num, s_id, hs_type_str, rec_ct_str, al_lvl_str, al_dsc_str, reasm_str, opaque_ct_str = parts
+            # ponytail: unpack fields; opaque_ct_str is "" for TLS 1.2 frames
+            f_num, s_id, hs_type_str, rec_ct_str, al_lvl_str, al_dsc_str, reasm_str, opaque_ct_str, fl_ip, fl_ipv6, fl_port = parts[:11]
             if not s_id.isdigit():
                 continue
             sid = int(s_id)
@@ -377,11 +380,16 @@ def reconstruct_handshake(pcap_path):
             if al_lvl_str.strip() or al_dsc_str.strip() or "21" in rec_ct_str.split(','):
                 lvl_name = TLS_ALERT_LEVEL_MAP.get(al_lvl_str.strip(), "UNKNOWN")
                 dsc_name = TLS_ALERT_DESC_MAP.get(al_dsc_str.strip(), f"AlertDesc_{al_dsc_str.strip()}" if al_dsc_str.strip() else "EncryptedAlert")
+                a_ip = fl_ip.strip() or fl_ipv6.strip() or None
+                a_port = int(fl_port.strip()) if fl_port.strip().isdigit() else None
                 flights[sid]["alerts"].append({
                     "frame": frame,
                     "level": lvl_name,
                     "description": dsc_name,
-                    "raw_desc": al_dsc_str.strip() or None
+                    "raw_desc": al_dsc_str.strip() or None,
+                    "src_ip": a_ip,
+                    "src_port": a_port,
+                    "sender": "unknown",
                 })
 
     # ── PASS 2: ClientHello Capability Extraction ────────────────────────────────
@@ -415,15 +423,18 @@ def reconstruct_handshake(pcap_path):
         "-e", "tls.handshake.extensions_alpn_str",
         "-e", "tls.handshake.extension.type",
         "-e", "tcp.payload",
+        "-e", "ip.src",
+        "-e", "ipv6.src",
+        "-e", "tcp.srcport",
     ]
     res_ch = subprocess.run(cmd_ch, capture_output=True, text=True)
     client_hellos = {}
     if res_ch.stdout.strip():
         for line in res_ch.stdout.strip().splitlines():
             parts = line.split('\t')
-            while len(parts) < 12:
+            while len(parts) < 15:
                 parts.append("")
-            s_id, hs_ver, supp_vers, ciphers_str, groups_str, ks_str, sig_algs_str, psk_mode_str, sni_str, alpn_str, ext_types_str, tcp_payload = parts
+            s_id, hs_ver, supp_vers, ciphers_str, groups_str, ks_str, sig_algs_str, psk_mode_str, sni_str, alpn_str, ext_types_str, tcp_payload, ch_ip, ch_ipv6, ch_port_str = parts[:15]
             if not s_id.isdigit():
                 continue
             sid = int(s_id)
@@ -534,6 +545,8 @@ def reconstruct_handshake(pcap_path):
                 "sni": sni_str.strip() or None,
                 "alpn": [a.strip() for a in alpn_str.split(',') if a.strip()] if alpn_str.strip() else [],
                 "early_data_offered": (42 in ext_type_ids),
+                "client_ip": (ch_ip.strip() or ch_ipv6.strip() or None) if (ch_ip.strip() or ch_ipv6.strip()) else None,
+                "client_port": int(ch_port_str.strip()) if ch_port_str.strip().isdigit() else None,
             }
 
     # ── PASS 3: ServerHello Negotiation & Parameter Resolution ───────────────────
@@ -571,6 +584,7 @@ def reconstruct_handshake(pcap_path):
         "-e", "tls.handshake.extensions_key_share_selected_group",
         "-e", "tls.handshake.extensions.psk.identity.selected",
         "-e", "tls.handshake.random",
+        "-e", "frame.time_epoch",
     ]
     res_sh = subprocess.run(cmd_sh, capture_output=True, text=True)
     server_hellos = {}
@@ -579,15 +593,22 @@ def reconstruct_handshake(pcap_path):
     if res_sh.stdout.strip():
         for line in res_sh.stdout.strip().splitlines():
             parts = line.split('\t')
-            while len(parts) < 9:
+            while len(parts) < 10:
                 parts.append("")
-            f_num, s_id, hs_ver, supp_ver, ciphersuite, ks_grp, ks_sel_grp, psk_sel, random_hex = parts[:9]
+            f_num, s_id, hs_ver, supp_ver, ciphersuite, ks_grp, ks_sel_grp, psk_sel, random_hex, epoch_str = parts[:10]
             if not s_id.isdigit():
                 continue
             sid = int(s_id)
             frame_id = int(f_num) if f_num.isdigit() else None
             effective_ks = ks_grp.strip() or ks_sel_grp.strip()
             psk_sel_clean = psk_sel.strip()
+
+            time_epoch = None
+            if epoch_str.strip():
+                try:
+                    time_epoch = float(epoch_str.strip())
+                except ValueError:
+                    time_epoch = None
 
             # Handle TLS 1.3 middlebox lie: supported_versions takes precedence
             supp_ver_clean = supp_ver.split(',')[0].strip().lower() if supp_ver.strip() else ""
@@ -703,7 +724,8 @@ def reconstruct_handshake(pcap_path):
                 "hello_retry_request": (sid in hrr_streams or is_hrr),
                 "is_hello_retry_request": (sid in hrr_streams or is_hrr),  # internal backward-compatible alias
                 "tls12_server_key_exchange": None,
-                "downgrade_sentinel": downgrade_info
+                "downgrade_sentinel": downgrade_info,
+                "handshake_time_epoch": time_epoch,
             }
 
         # Post-loop guarantee: ensure that any stream where an HRR occurred retains hello_retry_request = True
@@ -880,8 +902,23 @@ def reconstruct_handshake(pcap_path):
         else:
             handshake_status = "INCOMPLETE"
 
+        # Directional TLS alert attribution:
+        ch_ip = ch.get("client_ip")
+        ch_port = ch.get("client_port")
+        for alert in fl.get("alerts", []):
+            a_ip = alert.get("src_ip")
+            a_port = alert.get("src_port")
+            if ch_port is not None and a_port is not None:
+                if a_port == ch_port and (ch_ip is None or a_ip is None or a_ip == ch_ip):
+                    alert["sender"] = "client"
+                else:
+                    alert["sender"] = "server"
+            else:
+                alert["sender"] = "unknown"
+
         reconstructed[sid] = {
             "stream": sid,
+            "handshake_time_epoch": sh.get("handshake_time_epoch"),
             "client_hello": ch,
             "server_negotiation": sh,
             "flight": {

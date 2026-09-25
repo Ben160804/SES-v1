@@ -18,6 +18,7 @@ Tests:
 12. Comprehensive batch report generation (batch_report.json and batch_report.md).
 """
 
+from dataclasses import replace
 from datetime import datetime, timezone
 import json
 from pathlib import Path
@@ -79,9 +80,9 @@ class TestBatchOrchestration(unittest.TestCase):
             if classification.category == BatchExecutionCategory.BLOCKED:
                 blocked_ids.append(spec.scenario_id)
 
-        self.assertEqual(counts[BatchExecutionCategory.EXECUTABLE_STANDARD], 89)
+        self.assertEqual(counts[BatchExecutionCategory.EXECUTABLE_STANDARD], 91)
         self.assertEqual(counts[BatchExecutionCategory.BLOCKED], 5)
-        self.assertEqual(counts[BatchExecutionCategory.UNRESOLVABLE], 13)
+        self.assertEqual(counts[BatchExecutionCategory.UNRESOLVABLE], 11)
         self.assertEqual(counts[BatchExecutionCategory.SPECIAL_HARNESS], 19)
         self.assertEqual(
             sorted(blocked_ids),
@@ -151,7 +152,7 @@ class TestBatchOrchestration(unittest.TestCase):
                 scenario_id="PCAP-004",
                 generation_mode=GenerationMode.DEDICATED_HARNESS,
                 cipher_mode=self.orchestrator.contracts["PCAP-004"].cipher_mode,
-                special_harness="mitm_proxy",
+                special_harness="mitm_starttls_strip",
                 harness_status="NOT_IMPLEMENTED",
             )
             contracts = {"PCAP-004": synthetic_contract}
@@ -528,6 +529,72 @@ class TestBatchOrchestration(unittest.TestCase):
                 self.assertIn("PCAP-009", md_text)
             finally:
                 self.orchestrator.captures_dir = orig_captures
+
+    def test_13_implemented_special_harness_dispatches_to_runner(self):
+        """
+        Scenarios classified as SPECIAL_HARNESS with harness_status='IMPLEMENTED'
+        must be dispatched to runner.run_scenario rather than skipped.
+        """
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp_path = Path(tmp_dir)
+            orig_captures = self.orchestrator.captures_dir
+            orig_runner = self.orchestrator.runner
+            self.orchestrator.captures_dir = tmp_path
+
+            mock_runner = MagicMock()
+            mock_result = MagicMock()
+            mock_result.execution_success = True
+            mock_result.comparison_status = "PASS"
+            mock_runner.run_scenario.return_value = mock_result
+            self.orchestrator.runner = mock_runner
+
+            try:
+                # Mock artifact verification to return True with valid dummy hashes
+                dummy_hashes = {
+                    "pcap": "sha256:aaa",
+                    "expected": "sha256:bbb",
+                    "observed": "sha256:ccc",
+                    "comparison": "sha256:ddd",
+                    "evidence": "sha256:eee",
+                }
+                with patch("testbed.runner.batch.verify_scenario_artifacts", return_value=(True, None, dummy_hashes)), \
+                     patch("testbed.runner.batch.check_preflight", return_value={"bridge_interface": "br-test", "active_containers": []}):
+
+                    report = self.orchestrator.run_batch(requested_ids=["PCAP-121"])
+                    self.assertEqual(report["summary"]["generated"], 1)
+                    mock_runner.run_scenario.assert_called_once()
+                    self.assertEqual(mock_runner.run_scenario.call_args[0][0].scenario_id, "PCAP-121")
+            finally:
+                self.orchestrator.captures_dir = orig_captures
+                self.orchestrator.runner = orig_runner
+
+    def test_14_unimplemented_special_harness_skips_execution(self):
+        """
+        Scenarios classified as SPECIAL_HARNESS with harness_status='NOT_IMPLEMENTED'
+        must be skipped and recorded as SPECIAL_HARNESS without invoking runner.
+        """
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp_path = Path(tmp_dir)
+            orig_captures = self.orchestrator.captures_dir
+            orig_runner = self.orchestrator.runner
+            self.orchestrator.captures_dir = tmp_path
+
+            mock_runner = MagicMock()
+            self.orchestrator.runner = mock_runner
+
+            try:
+                unimpl_contract = replace(self.orchestrator.contracts["PCAP-106"], harness_status="NOT_IMPLEMENTED")
+                with patch.dict(self.orchestrator.contracts, {"PCAP-106": unimpl_contract}):
+                    with patch("testbed.runner.batch.check_preflight", return_value={"bridge_interface": "br-test", "active_containers": []}):
+                        report = self.orchestrator.run_batch(requested_ids=["PCAP-106"])
+                        self.assertEqual(report["summary"]["special_harness"], 1)
+                        mock_runner.run_scenario.assert_not_called()
+                        rec = report["scenarios"][0]
+                        self.assertEqual(rec["execution_state"], ScenarioExecutionState.SPECIAL_HARNESS.value)
+                        self.assertIn("NOT_IMPLEMENTED", rec["error"])
+            finally:
+                self.orchestrator.captures_dir = orig_captures
+                self.orchestrator.runner = orig_runner
 
 
 if __name__ == "__main__":

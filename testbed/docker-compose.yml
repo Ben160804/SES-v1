@@ -54,3 +54,17 @@ services:
       - ./mitm:/mitm:ro
     command: ["python3", "-u", "/mitm/main.py"]
 
+  legacy:
+    image: mailtest-legacy:latest
+    build:
+      context: ./legacy
+    container_name: mailtest-legacy
+    networks:
+      mailtest_net:
+        ipv4_address: 172.28.0.40
+    volumes:
+      - ./legacy:/legacy
+      - ./pki/profiles:/etc/mailtest/pki:ro
+      - ./active:/etc/mailtest/active
+
+

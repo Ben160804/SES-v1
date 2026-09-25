@@ -1,0 +1,77 @@
+{
+  "run_id": "batch_20260925_201957_eb832cf6",
+  "status": "COMPLETED",
+  "started_at": "2026-09-25T20:19:57.276010+00:00",
+  "updated_at": "2026-09-25T20:20:07.538362+00:00",
+  "preflight": {
+    "timestamp": "2026-09-25T20:19:57.237124+00:00",
+    "required_services": [
+      "mailtest-postfix",
+      "mailtest-mitm"
+    ],
+    "active_containers": [
+      "mailtest-dovecot",
+      "mailtest-mitm",
+      "mailtest-postfix",
+      "openshorts-backend",
+      "openshorts-frontend",
+      "openshorts-renderer"
+    ],
+    "bridge_interface": "br-87a3125207be",
+    "tshark_path": "/usr/bin/tshark"
+  },
+  "scenarios": {
+    "PCAP-064": {
+      "scenario_id": "PCAP-064",
+      "protocol": "smtp",
+      "category": "SPECIAL_HARNESS",
+      "execution_state": "GENERATED",
+      "comparison_status": "PASS",
+      "selected_cipher": null,
+      "duration_seconds": 4.972,
+      "error": null,
+      "artifacts": {
+        "pcap": "/home/bigfoot/mailtest/testbed/captures/PCAP-064.pcap",
+        "expected": "/home/bigfoot/mailtest/testbed/captures/PCAP-064.expected.json",
+        "observed": "/home/bigfoot/mailtest/testbed/captures/PCAP-064.observed.json",
+        "comparison": "/home/bigfoot/mailtest/testbed/captures/PCAP-064.comparison.json",
+        "evidence": "/home/bigfoot/mailtest/testbed/captures/PCAP-064.evidence.json"
+      },
+      "artifact_hashes": {
+        "pcap": "sha256:67662002f2f0d0a2ee6e6e3ff64125936d498b1214eb72c62e555a7389bc30cd",
+        "expected": "sha256:e94d37670b0ee25d29bff5e906ceb8a08b955b9755446b632cc55a151eee6a6d",
+        "observed": "sha256:35487433f5adaa4216b6cbf8870939d7596213c168a3c61da7e0dc1b3edeca50",
+        "comparison": "sha256:82fd3cf1636e74a0dd02de1185655bec436cf28e3c8d10189e0c922dc30d6142",
+        "evidence": "sha256:c97701bc2bc8bed7c563a260f2aec35e732815391d715877872c228f2d0bd6d1"
+      },
+      "completed_at": "2026-09-25T20:20:02.252282+00:00",
+      "resumed": false
+    },
+    "PCAP-065": {
+      "scenario_id": "PCAP-065",
+      "protocol": "smtp",
+      "category": "SPECIAL_HARNESS",
+      "execution_state": "GENERATED",
+      "comparison_status": "PASS",
+      "selected_cipher": null,
+      "duration_seconds": 5.282,
+      "error": null,
+      "artifacts": {
+        "pcap": "/home/bigfoot/mailtest/testbed/captures/PCAP-065.pcap",
+        "expected": "/home/bigfoot/mailtest/testbed/captures/PCAP-065.expected.json",
+        "observed": "/home/bigfoot/mailtest/testbed/captures/PCAP-065.observed.json",
+        "comparison": "/home/bigfoot/mailtest/testbed/captures/PCAP-065.comparison.json",
+        "evidence": "/home/bigfoot/mailtest/testbed/captures/PCAP-065.evidence.json"
+      },
+      "artifact_hashes": {
+        "pcap": "sha256:c87e767e9a5218be72a56c51e87c9bfedbde9d78cdff1c2852a244320179f905",
+        "expected": "sha256:6d83c3b3474a875f513750a0380ebba10fe1c812a43e5bc9853956cee7434f2d",
+        "observed": "sha256:48dab73268a48c0c262a1c65324e603628fd4f698578e77a5057cafa5008b689",
+        "comparison": "sha256:74f071c3ca2c81c76bf0ea752679ef8ce613f27c595c1133e1785e61336c26ce",
+        "evidence": "sha256:c97701bc2bc8bed7c563a260f2aec35e732815391d715877872c228f2d0bd6d1"
+      },
+      "completed_at": "2026-09-25T20:20:07.538223+00:00",
+      "resumed": false
+    }
+  }
+}

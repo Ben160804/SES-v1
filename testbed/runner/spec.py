@@ -187,10 +187,21 @@ class ScenarioSpec:
         tls_ver = self.server.tls_version
         tls_ver_str = f"TLS {tls_ver}" if tls_ver not in ("N/A", "", None) else None
 
+        _no_tls_starttls_outcomes = frozenset({
+            "DOWNGRADE_OR_STRIPPED",
+            "STARTTLS_REJECTED",
+            "STARTTLS_WITHOUT_ADVERTISEMENT",
+        })
+        _effective_tls_presence = (
+            "none"
+            if self.oracle.expected_starttls_status in _no_tls_starttls_outcomes
+            else self.server.tls_presence
+        )
+
         raw_cert_obs = self.raw_row.get("certificate_observable", "").strip()
         if raw_cert_obs:
             cert_obs = raw_cert_obs
-        elif self.server.tls_presence == "none":
+        elif _effective_tls_presence == "none":
             cert_obs = "NOT_PRESENT"
         elif self.server.tls_version == "1.3":
             cert_obs = "ENCRYPTED"
@@ -200,7 +211,7 @@ class ScenarioSpec:
             cert_obs = "NOT_PRESENT"
 
         is_fatal_alert = (self.generator_requirement == "server_sends_fatal_alert")
-        is_tls = (self.server.tls_presence != "none") and not is_fatal_alert
+        is_tls = (_effective_tls_presence != "none") and not is_fatal_alert
         has_cert = (self.needs_pki or cert_obs in ("VISIBLE", "ENCRYPTED")) and not is_fatal_alert
         cert_observability = "conditional" if cert_obs == "ENCRYPTED" else ("always" if (cert_obs == "VISIBLE" and not is_fatal_alert) else "not_applicable")
 
@@ -218,7 +229,7 @@ class ScenarioSpec:
 
         expected_data: Dict[str, Any] = {
             "protocol": self.protocol.upper(),
-            "tls_presence": self.server.tls_presence,
+            "tls_presence": _effective_tls_presence,
             "starttls_integrity": self.raw_row.get("starttls_integrity", "N/A"),
             "tls_version": self.server.tls_version,
             "cipher_strength": self.server.cipher_strength,
@@ -231,12 +242,12 @@ class ScenarioSpec:
             "expected_trust_status": self.oracle.expected_trust_status,
             "tls13_kex_mode": self.raw_row.get("tls13_kex_mode", ""),
             "tls12_kex_type": self.raw_row.get("tls12_kex_type", ""),
-            "forward_secrecy": fwd_sec,
-            "hello_retry_request": hrr,
+            "forward_secrecy": fwd_sec if is_tls else None,
+            "hello_retry_request": hrr if is_tls else None,
             "downgrade_sentinel": self.raw_row.get("downgrade_sentinel", "none"),
             "starttls_outcome": self.raw_row.get("starttls_outcome", ""),
-            "sig_alg_cert_present": sig_alg_cert_present,
-            "cert_has_san": cert_has_san,
+            "sig_alg_cert_present": sig_alg_cert_present if is_tls else None,
+            "cert_has_san": cert_has_san if is_tls else None,
             "hostname_type": self.raw_row.get("hostname_type", ""),
             "path_selection": self.raw_row.get("path_selection", ""),
             "certificate_observable": cert_obs,
@@ -261,7 +272,7 @@ class ScenarioSpec:
                 "observability": "always" if not is_fatal_alert else "not_applicable",
             },
             "tls_presence": {
-                "expected": self.server.tls_presence,
+                "expected": _effective_tls_presence,
                 "required": True,
                 "observability": "always",
             },
@@ -286,7 +297,7 @@ class ScenarioSpec:
                 "observability": "always" if (is_tls and exact_cipher_val is not None) else "not_applicable",
             },
             "tls.forward_secrecy": {
-                "expected": fwd_sec if not is_fatal_alert else None,
+                "expected": (fwd_sec if is_tls else None) if not is_fatal_alert else None,
                 "required": is_tls and fwd_sec is not None,
                 "observability": "always" if is_tls else "not_applicable",
             },
@@ -366,6 +377,8 @@ def parse_scenario_row(row: Dict[str, str]) -> ScenarioSpec:
         sig_algo = SIG_ALGO_MAP[row["cert_sig_algo"]]
         validity = VALIDITY_MAP[row["cert_validity"]]
         chain_shape = CHAIN_SHAPE_MAP[row["cert_chain_shape"]]
+        if req == "custom_multi_issuer_pki":
+            chain_shape = "multi_issuer_dag"
         weak_key = "cert_rsa1024" in req
 
         # SAN & SNI resolution per RFC 6125 and matrix requirements
