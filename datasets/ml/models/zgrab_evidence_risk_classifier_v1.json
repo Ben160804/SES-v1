@@ -1,0 +1,393 @@
+{
+  "algorithm": "LogisticRegression",
+  "artifact_sha256": "04d3ac167a9802ef26a2c686fd0d75e30560b08484f2552ac25038271a5f027b",
+  "categorical_features": [
+    "protocol",
+    "starttls_status",
+    "tls_negotiated_version",
+    "cipher_suite",
+    "key_exchange",
+    "cipher_strength",
+    "cert_key_algorithm",
+    "cert_signature_algorithm",
+    "cert_trust_status",
+    "cert_hostname_match",
+    "cert_validity_state"
+  ],
+  "class_counts": {
+    "CRITICAL": 994,
+    "HIGH": 62,
+    "LOW_OR_MEDIUM": 468
+  },
+  "created_at_utc": "2026-09-29T04:39:11.993361+00:00",
+  "data_sha256": "8823158435fa490e8cb29241a72c4902f7a001095737c94e1b5568d6e6735fab",
+  "data_source": "zgrab_real",
+  "feature_count": 15,
+  "feature_schema_version": "zgrab_email_session_risk_v1",
+  "hyperparameter_search": {
+    "candidates": {
+      "LogisticRegression_C0.03_weight_balanced": {
+        "params": {
+          "C": 0.03,
+          "class_weight": "balanced"
+        },
+        "validation_macro_f1": 1.0
+      },
+      "LogisticRegression_C0.03_weight_none": {
+        "params": {
+          "C": 0.03,
+          "class_weight": null
+        },
+        "validation_macro_f1": 1.0
+      },
+      "LogisticRegression_C0.1_weight_balanced": {
+        "params": {
+          "C": 0.1,
+          "class_weight": "balanced"
+        },
+        "validation_macro_f1": 1.0
+      },
+      "LogisticRegression_C0.1_weight_none": {
+        "params": {
+          "C": 0.1,
+          "class_weight": null
+        },
+        "validation_macro_f1": 1.0
+      },
+      "LogisticRegression_C0.3_weight_balanced": {
+        "params": {
+          "C": 0.3,
+          "class_weight": "balanced"
+        },
+        "validation_macro_f1": 1.0
+      },
+      "LogisticRegression_C0.3_weight_none": {
+        "params": {
+          "C": 0.3,
+          "class_weight": null
+        },
+        "validation_macro_f1": 1.0
+      },
+      "LogisticRegression_C10_weight_balanced": {
+        "params": {
+          "C": 10.0,
+          "class_weight": "balanced"
+        },
+        "validation_macro_f1": 1.0
+      },
+      "LogisticRegression_C10_weight_none": {
+        "params": {
+          "C": 10.0,
+          "class_weight": null
+        },
+        "validation_macro_f1": 1.0
+      },
+      "LogisticRegression_C1_weight_balanced": {
+        "params": {
+          "C": 1.0,
+          "class_weight": "balanced"
+        },
+        "validation_macro_f1": 1.0
+      },
+      "LogisticRegression_C1_weight_none": {
+        "params": {
+          "C": 1.0,
+          "class_weight": null
+        },
+        "validation_macro_f1": 1.0
+      },
+      "LogisticRegression_C3_weight_balanced": {
+        "params": {
+          "C": 3.0,
+          "class_weight": "balanced"
+        },
+        "validation_macro_f1": 1.0
+      },
+      "LogisticRegression_C3_weight_none": {
+        "params": {
+          "C": 3.0,
+          "class_weight": null
+        },
+        "validation_macro_f1": 1.0
+      },
+      "RandomForest_n300_leaf1": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "min_samples_leaf": 1,
+          "n_estimators": 300
+        },
+        "validation_macro_f1": 1.0
+      },
+      "RandomForest_n300_leaf2": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "min_samples_leaf": 2,
+          "n_estimators": 300
+        },
+        "validation_macro_f1": 1.0
+      },
+      "RandomForest_n300_leaf5": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "min_samples_leaf": 5,
+          "n_estimators": 300
+        },
+        "validation_macro_f1": 1.0
+      },
+      "RandomForest_n500_leaf1": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "min_samples_leaf": 1,
+          "n_estimators": 500
+        },
+        "validation_macro_f1": 1.0
+      },
+      "RandomForest_n500_leaf2": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "min_samples_leaf": 2,
+          "n_estimators": 500
+        },
+        "validation_macro_f1": 1.0
+      },
+      "RandomForest_n500_leaf5": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "min_samples_leaf": 5,
+          "n_estimators": 500
+        },
+        "validation_macro_f1": 1.0
+      }
+    },
+    "method": "Exhaustive fixed grid on train countries; country-held-out validation selection by macro-F1; heldout test was not used for selection."
+  },
+  "limitations": [
+    "Labels are an explicit project rubric derived from observations, not independent human-reviewed real-world risk truth.",
+    "Evaluation measures prediction of this rubric on held-out countries; server/vendor/certificate-family independence is not guaranteed.",
+    "ZGrab is active SMTP scan data, not passive PCAP; runtime transfer to passive sessions is NOT_VALIDATED.",
+    "Uncalibrated classifier scores are not probabilities of compromise.",
+    "Rule Engine outcomes remain independent and authoritative."
+  ],
+  "model_id": "zgrab_evidence_risk_classifier_v1",
+  "model_version": "1.1",
+  "not_evaluable_observation_count": 76,
+  "numeric_features": [
+    "tls_extension_count",
+    "cert_key_size",
+    "cert_san_count",
+    "cert_chain_length"
+  ],
+  "runtime_feature_observability": {
+    "p05_training_fraction": 0.13333333333333333
+  },
+  "sample_count": 1524,
+  "seed": 20260929,
+  "selected_hyperparameters": {
+    "C": 0.03,
+    "class_weight": "balanced"
+  },
+  "selection_metric": "validation macro-F1",
+  "sklearn_version": "1.9.1",
+  "source_observation_count": 1600,
+  "split_class_counts": {
+    "test": {
+      "CRITICAL": 289,
+      "HIGH": 16,
+      "LOW_OR_MEDIUM": 78
+    },
+    "train": {
+      "CRITICAL": 551,
+      "HIGH": 33,
+      "LOW_OR_MEDIUM": 265
+    },
+    "validation": {
+      "CRITICAL": 154,
+      "HIGH": 13,
+      "LOW_OR_MEDIUM": 125
+    }
+  },
+  "split_countries": {
+    "test": [
+      "Canada",
+      "Italy",
+      "South_Korea",
+      "Spain"
+    ],
+    "train": [
+      "Brazil",
+      "France",
+      "Germany",
+      "Japan",
+      "Mexico",
+      "Netherlands",
+      "Singapore",
+      "UK",
+      "US"
+    ],
+    "validation": [
+      "Australia",
+      "India",
+      "Russia"
+    ]
+  },
+  "split_method": "Frozen country-grouped train/validation/test; no country appears in multiple splits.",
+  "split_sizes": {
+    "test": 383,
+    "train": 849,
+    "validation": 292
+  },
+  "target": "zgrab_observed_security_rubric_v1",
+  "target_rubric": {
+    "CRITICAL": "SMTP response observed but neither STARTTLS nor TLS observed, or a NULL/RC4/EXPORT cipher was negotiated.",
+    "HIGH": "TLS 1.0/1.1, static RSA key exchange, SHA-1 certificate signature, RSA key below 2048, invalid validity, self-signed/untrusted certificate, or no SAN.",
+    "LOW_OR_MEDIUM": "A completed TLS handshake with no high/critical rubric condition; due only one medium-only observation, CBC/no-forward-secrecy cases are merged into this coarsened class.",
+    "NOT_EVALUABLE": "SMTP response failure or attempted STARTTLS/TLS without completed handshake."
+  },
+  "target_semantics": "LOW/MEDIUM/HIGH/CRITICAL labels are derived from raw observed SMTP/TLS/certificate facts by a documented project rubric; Rule Engine findings, rule flags, and legacy proxy labels are never read.",
+  "task": "Supervised real-ZGrab SMTP evidence-rubric classification",
+  "test_metrics": {
+    "accuracy": 0.9895561357702349,
+    "confusion_matrix_labels": [
+      "LOW_OR_MEDIUM",
+      "HIGH",
+      "CRITICAL"
+    ],
+    "confusion_matrix_rows_actual": [
+      [
+        78,
+        0,
+        0
+      ],
+      [
+        4,
+        12,
+        0
+      ],
+      [
+        0,
+        0,
+        289
+      ]
+    ],
+    "macro_f1": 0.9440476190476191,
+    "majority_baseline_macro_f1": 0.28670634920634924,
+    "per_class": {
+      "CRITICAL": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "support": 289
+      },
+      "HIGH": {
+        "f1": 0.8571428571428571,
+        "precision": 1.0,
+        "recall": 0.75,
+        "support": 16
+      },
+      "LOW_OR_MEDIUM": {
+        "f1": 0.975,
+        "precision": 0.9512195121951219,
+        "recall": 1.0,
+        "support": 78
+      }
+    },
+    "sample_count": 383,
+    "training_size_after_refit": 1141
+  },
+  "validation_candidates": {
+    "LogisticRegression": {
+      "accuracy": 1.0,
+      "confusion_matrix_labels": [
+        "LOW_OR_MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ],
+      "confusion_matrix_rows_actual": [
+        [
+          125,
+          0,
+          0
+        ],
+        [
+          0,
+          13,
+          0
+        ],
+        [
+          0,
+          0,
+          154
+        ]
+      ],
+      "macro_f1": 1.0,
+      "per_class": {
+        "CRITICAL": {
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 154
+        },
+        "HIGH": {
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 13
+        },
+        "LOW_OR_MEDIUM": {
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 125
+        }
+      },
+      "sample_count": 292
+    },
+    "RandomForest": {
+      "accuracy": 1.0,
+      "confusion_matrix_labels": [
+        "LOW_OR_MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ],
+      "confusion_matrix_rows_actual": [
+        [
+          125,
+          0,
+          0
+        ],
+        [
+          0,
+          13,
+          0
+        ],
+        [
+          0,
+          0,
+          154
+        ]
+      ],
+      "macro_f1": 1.0,
+      "per_class": {
+        "CRITICAL": {
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 154
+        },
+        "HIGH": {
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 13
+        },
+        "LOW_OR_MEDIUM": {
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 125
+        }
+      },
+      "sample_count": 292
+    }
+  }
+}

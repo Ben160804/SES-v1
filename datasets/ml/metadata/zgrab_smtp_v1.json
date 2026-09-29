@@ -1,0 +1,229 @@
+{
+  "dataset_id": "zgrab_smtp_v1",
+  "schema_version": 1,
+  "data_source": "real-world active ZGrab2 SMTP observations",
+  "record_count": 1600,
+  "unique_ip_count_for_audit_only": 1600,
+  "feature_count_including_states_and_metadata": 94,
+  "input_files": {
+    "zgrab_587_Australia.json": {
+      "country": "Australia",
+      "records": 100,
+      "sha256": "9795b8d1cd0fb61b99844abbe9d6f10b652889f763b69058ab82293ab47f2cd4"
+    },
+    "zgrab_587_Brazil.json": {
+      "country": "Brazil",
+      "records": 100,
+      "sha256": "bac59c9c0e4ed23047b66f5bcdab948ee4cc75d5e1b07705110053f5478c60a5"
+    },
+    "zgrab_587_Canada.json": {
+      "country": "Canada",
+      "records": 100,
+      "sha256": "bc3059c7daa723159adadba98f3b5c36ac9bc2eaa342f781244b4418ac93d476"
+    },
+    "zgrab_587_Italy.json": {
+      "country": "Italy",
+      "records": 100,
+      "sha256": "047335aad2c5f7bf4bcbd71be152692698d92d2f3c6c60fa58bbd190c80f6663"
+    },
+    "zgrab_587_Japan.json": {
+      "country": "Japan",
+      "records": 100,
+      "sha256": "04e8a8023c1b9c379aff2d20734950c2c6616f0c4c92d179bfbd8850986b13b9"
+    },
+    "zgrab_587_Mexico.json": {
+      "country": "Mexico",
+      "records": 100,
+      "sha256": "d183fd9f64cfb2fb1292be1ab9ae091d95f09701e58b35f1a97d2c6af22fc858"
+    },
+    "zgrab_587_Singapore.json": {
+      "country": "Singapore",
+      "records": 100,
+      "sha256": "991027164b491b525a793283cff292084080e5ea94d92146284456721e1a9171"
+    },
+    "zgrab_587_South_Korea.json": {
+      "country": "South_Korea",
+      "records": 100,
+      "sha256": "871cd73cb830bfe948fe93724bd532d7154cd8318afd0cbc8ca94a1b96459dea"
+    },
+    "zgrab_587_Spain.json": {
+      "country": "Spain",
+      "records": 100,
+      "sha256": "d32f2e8d2f52739ea5754d8350f069a3b9462584c12f2d59801dff5dabe00d7d"
+    },
+    "zgrab_France_587.json": {
+      "country": "France",
+      "records": 100,
+      "sha256": "8a0f11f129674e432d122ba48123f31965ae04c1c28347e8d9392bbc73bc2622"
+    },
+    "zgrab_Germany_587.json": {
+      "country": "Germany",
+      "records": 100,
+      "sha256": "868537d990f3c23d304baa9b24a3c5d0081428f896bfa85d4c48a6a8d14e1bfe"
+    },
+    "zgrab_India_587.json": {
+      "country": "India",
+      "records": 100,
+      "sha256": "c49b54afc763e489f4f784a4a16a3cb5c40c9395ff73a9e6316949a4848b3b6b"
+    },
+    "zgrab_Netherlands_587.json": {
+      "country": "Netherlands",
+      "records": 100,
+      "sha256": "27898ced40e993481e13651ace8c6afa8e07843c58da034b95dfb9008b05a1ab"
+    },
+    "zgrab_Russia_587.json": {
+      "country": "Russia",
+      "records": 100,
+      "sha256": "16608f64f5eccb561f11610643089fd84d1036855e8bcaff48e9c9a886928166"
+    },
+    "zgrab_UK_587.json": {
+      "country": "UK",
+      "records": 100,
+      "sha256": "4b9ac1dab694a80d13b1d6dbb6d6d14ea6bfb662f0447a4df5589e37e7c3145d"
+    },
+    "zgrab_US_587.json": {
+      "country": "US",
+      "records": 100,
+      "sha256": "94ac56b14a83fd778e6f20f815f5361e25f9144782cc082b4ff7f9400e3c97a9"
+    }
+  },
+  "observation_state_counts": {
+    "smtp": {
+      "SMTP_PROBE_FAILED": 76,
+      "SMTP_RESPONSE_OBSERVED": 1524
+    },
+    "starttls": {
+      "STARTTLS_NOT_OBSERVED": 1069,
+      "STARTTLS_OBSERVED_NO_COMPLETED_TLS": 1,
+      "TLS_HANDSHAKE_SUCCEEDED": 530
+    },
+    "tls": {
+      "HANDSHAKE_SUCCEEDED": 530,
+      "TLS_NOT_OBSERVED": 1070
+    },
+    "certificate": {
+      "CERTIFICATE_NOT_OBSERVED_NO_TLS": 1070,
+      "CERTIFICATE_OBSERVED": 530
+    }
+  },
+  "handling": {
+    "raw_files_modified": false,
+    "removed_from_prepared_table": [
+      "ip",
+      "ja3s",
+      "scan_timestamp"
+    ],
+    "ip_values_retained": false,
+    "scan_timestamp_retained": false,
+    "ja3s_retained": false,
+    "missing_values": "Preserved as empty CSV cells; interpret with explicit observation-state columns.",
+    "rule_flags": "Renamed rule_flag_* and excluded from ML feature inputs by default.",
+    "grouping_and_provenance_fields": [
+      "record_id",
+      "data_source",
+      "source_file",
+      "source_row",
+      "country"
+    ],
+    "model_feature_policy": "Choose a task-specific feature allowlist. Exclude provenance/grouping fields and all rule_flag_* fields unless a deliberate ablation is being run.",
+    "risk_label": null,
+    "warning": "This dataset has no independent ground-truth risk labels. Do not treat rule flags as independent labels or model features."
+  },
+  "feature_fields": [
+    "record_id",
+    "data_source",
+    "source_file",
+    "source_row",
+    "country",
+    "smtp_observation_state",
+    "starttls_observation_state",
+    "tls_observation_state",
+    "certificate_observation_state",
+    "port",
+    "smtp_status",
+    "smtp_protocol",
+    "banner_present",
+    "ehlo_present",
+    "starttls_present",
+    "tls_observed",
+    "tls_handshake_success",
+    "tls_version",
+    "tls_selected_version",
+    "cipher_suite",
+    "key_exchange",
+    "tls_extension_count",
+    "tls_ext_43",
+    "tls_ext_51",
+    "tls_ext_65281",
+    "tls_ext_11",
+    "tls_ext_5",
+    "tls_ocsp_stapling",
+    "tls_ticket",
+    "tls_secure_renegotiation",
+    "tls_heartbeat",
+    "tls_extended_master_secret",
+    "tls_session_id_present",
+    "cipher_uses_aead",
+    "cipher_uses_cbc",
+    "cipher_uses_rsa_kex",
+    "cipher_uses_ecdhe",
+    "uses_forward_secrecy",
+    "is_tls10",
+    "is_tls11",
+    "is_tls12",
+    "is_tls13",
+    "is_legacy_tls",
+    "certificate_observed",
+    "browser_trusted",
+    "cert_key_algorithm",
+    "cert_rsa_key_size",
+    "cert_rsa_exponent",
+    "cert_ecdsa_key_size",
+    "cert_ecdsa_curve",
+    "cert_signature_algorithm",
+    "cert_sha1_signature",
+    "cert_sha256_signature",
+    "cert_sha384_signature",
+    "cert_sha512_signature",
+    "cert_validation_level",
+    "cert_self_signed",
+    "cert_san_count",
+    "cert_has_wildcard_san",
+    "cert_max_san_length",
+    "cert_unique_san_count",
+    "cert_is_ca",
+    "cert_server_auth",
+    "cert_client_auth",
+    "cert_digital_signature",
+    "cert_key_encipherment",
+    "cert_key_agreement",
+    "cert_key_usage_count",
+    "cert_extension_count",
+    "cert_validity_days",
+    "cert_days_remaining",
+    "cert_expired",
+    "cert_not_yet_valid",
+    "cert_chain_length",
+    "cert_ocsp_url_count",
+    "cert_issuer_url_count",
+    "cert_has_ocsp",
+    "cert_policy_count",
+    "cert_has_certificate_policy",
+    "cert_sct_count",
+    "cert_has_sct",
+    "cert_crl_url_count",
+    "cert_has_crl_distribution",
+    "cert_has_authority_key_id",
+    "cert_has_subject_key_id",
+    "rule_flag_legacy_tls",
+    "rule_flag_weak_cipher",
+    "rule_flag_rsa_key_exchange",
+    "rule_flag_cbc_cipher",
+    "rule_flag_sha1_certificate",
+    "rule_flag_weak_rsa_certificate",
+    "rule_flag_certificate_identity",
+    "smtp_no_starttls_or_tls_observed",
+    "smtp_starttls_tls_observed"
+  ],
+  "output_csv": "datasets/ml/processed/zgrab_smtp_v1.csv"
+}

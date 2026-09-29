@@ -14,6 +14,10 @@ from .schema import (
     ObservationResult,
 )
 from .input_builder import InputBuilder
+if __package__ == "rule_engine":
+    from posture import assess_posture
+else:
+    from ..posture import assess_posture
 from .rules import (
     NIST52r2Evaluator,
     NIST131aEvaluator,
@@ -34,6 +38,7 @@ class RuleEngine:
         self,
         mode: str = "gov_only",
         trust_store_manager: Optional[Any] = None,
+        enable_ml: bool = True,
     ):
         """
         mode: 'gov_only' or 'citizen_facing' (for NIST SP 800-52r2 TLS 1.0 scope).
@@ -41,6 +46,7 @@ class RuleEngine:
         """
         self.mode = mode
         self.trust_store_manager = trust_store_manager
+        self.enable_ml = enable_ml
 
         # Initialize independent policy pack evaluators
         self.nist_52r2 = NIST52r2Evaluator(mode=mode)
@@ -67,6 +73,19 @@ class RuleEngine:
             "MOZ-MODERN": moz_modern_res,
             "MOZ-INTERM": moz_interm_res,
         }
+        posture_assessment = assess_posture(policy_results, obs_res)
+
+        if self.enable_ml:
+            try:
+                from ..ml_runtime import analyze_ml_session
+                ml_results = analyze_ml_session(session)
+            except Exception as exc:
+                ml_results = {
+                    "status": "MODEL_ERROR",
+                    "reason": type(exc).__name__,
+                }
+        else:
+            ml_results = {"status": "DISABLED"}
 
         return StreamRuleReport(
             stream_id=r_in.get("stream_id", 0),
@@ -74,6 +93,8 @@ class RuleEngine:
             policy_results=policy_results,
             observations=obs_res,
             input_snapshot=r_in,
+            ml_results=ml_results,
+            posture_assessment=posture_assessment,
         )
 
     def evaluate_sessions(self, sessions: dict[int, dict[str, Any]]) -> SessionReport:

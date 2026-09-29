@@ -1,0 +1,1601 @@
+record_id,data_source,country_group,label_schema,label_status,risk_tier_proxy,active_finding_count,contributing_findings,tier_reason
+zgrab_587_Australia.json:1,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:2,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:3,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:4,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:5,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:6,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:7,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:8,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:9,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:10,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:11,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:12,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:13,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:14,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:15,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:16,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:17,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:18,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:19,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:20,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:21,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:22,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:23,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:24,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:25,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:26,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:27,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:28,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:29,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:30,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:31,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:32,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:33,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:34,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:35,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:36,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:37,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:38,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:39,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:40,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Australia.json:41,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:42,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:43,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:44,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:45,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:46,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:47,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:48,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:49,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:50,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:51,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:52,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:53,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:54,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:55,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Australia.json:56,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:57,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:58,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:59,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:60,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:61,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:62,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:63,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:64,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:65,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:66,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:67,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Australia.json:68,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Australia.json:69,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:70,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:71,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:72,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:73,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:74,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:75,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:76,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Australia.json:77,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:78,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:79,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Australia.json:80,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:81,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:82,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:83,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:84,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:85,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:86,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:87,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:88,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:89,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:90,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Australia.json:91,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:92,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:93,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:94,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:95,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:96,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:97,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:98,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:99,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Australia.json:100,zgrab_real,Australia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:1,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:2,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:3,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:4,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:5,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:6,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:7,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:8,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:9,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:10,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:11,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:12,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:13,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:14,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:15,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:16,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:17,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:18,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:19,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:20,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:21,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:22,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:23,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:24,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:25,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:26,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:27,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:28,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:29,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:30,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:31,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:32,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:33,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:34,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:35,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:36,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:37,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:38,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:39,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:40,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:41,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:42,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:43,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:44,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:45,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:46,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:47,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:48,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:49,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:50,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:51,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:52,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:53,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:54,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:55,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:56,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:57,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:58,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Brazil.json:59,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:60,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:61,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:62,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:63,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:64,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:65,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:66,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:67,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:68,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:69,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Brazil.json:70,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:71,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:72,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:73,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:74,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:75,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:76,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:77,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:78,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:79,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:80,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:81,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:82,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:83,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:84,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:85,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:86,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:87,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:88,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:89,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:90,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Brazil.json:91,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Brazil.json:92,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:93,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:94,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Brazil.json:95,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:96,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:97,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:98,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Brazil.json:99,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Brazil.json:100,zgrab_real,Brazil,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:1,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:2,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:3,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:4,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:5,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:6,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:7,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:8,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:9,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Canada.json:10,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:11,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:12,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:13,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:14,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:15,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:16,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:17,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:18,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:19,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Canada.json:20,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:21,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:22,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:23,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:24,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:25,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:26,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:27,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:28,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:29,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:30,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:31,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:32,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:33,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:34,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:35,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:36,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:37,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:38,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:39,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:40,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:41,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:42,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:43,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:44,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:45,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:46,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:47,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:48,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:49,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:50,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:51,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:52,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:53,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:54,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:55,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:56,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:57,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:58,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:59,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:60,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:61,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:62,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:63,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:64,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:65,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:66,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:67,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:68,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:69,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:70,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:71,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:72,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:73,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:74,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:75,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:76,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:77,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:78,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:79,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:80,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:81,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:82,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:83,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:84,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:85,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:86,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:87,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:88,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:89,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:90,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:91,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:92,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:93,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:94,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:95,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:96,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:97,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,2,rule_flag_weak_cipher;rule_flag_rsa_key_exchange,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_587_Canada.json:98,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Canada.json:99,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Canada.json:100,zgrab_real,Canada,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:1,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:2,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:3,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:4,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,4,rule_flag_weak_cipher;rule_flag_rsa_key_exchange;rule_flag_sha1_certificate;rule_flag_certificate_identity,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_587_Italy.json:5,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:6,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:7,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:8,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:9,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:10,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:11,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:12,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:13,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:14,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:15,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:16,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:17,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:18,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:19,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:20,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:21,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:22,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:23,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:24,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:25,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:26,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:27,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:28,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:29,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:30,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:31,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:32,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Italy.json:33,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:34,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:35,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:36,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Italy.json:37,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:38,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:39,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:40,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:41,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:42,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:43,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:44,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Italy.json:45,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Italy.json:46,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Italy.json:47,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:48,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:49,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:50,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,4,rule_flag_weak_cipher;rule_flag_rsa_key_exchange;rule_flag_sha1_certificate;rule_flag_certificate_identity,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_587_Italy.json:51,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:52,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:53,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:54,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:55,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:56,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:57,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:58,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:59,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:60,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:61,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:62,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:63,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:64,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:65,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:66,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Italy.json:67,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:68,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Italy.json:69,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,4,rule_flag_legacy_tls;rule_flag_weak_cipher;rule_flag_rsa_key_exchange;rule_flag_cbc_cipher,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_587_Italy.json:70,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Italy.json:71,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:72,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:73,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:74,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:75,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:76,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:77,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:78,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:79,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:80,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:81,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:82,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:83,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:84,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:85,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:86,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:87,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:88,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:89,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:90,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:91,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Italy.json:92,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:93,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:94,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:95,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:96,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:97,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:98,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:99,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Italy.json:100,zgrab_real,Italy,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:1,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:2,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:3,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:4,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:5,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:6,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:7,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:8,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:9,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:10,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:11,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:12,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:13,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:14,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:15,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Japan.json:16,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Japan.json:17,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:18,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:19,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:20,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:21,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:22,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:23,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:24,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:25,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:26,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:27,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:28,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:29,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:30,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:31,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:32,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:33,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:34,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:35,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:36,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:37,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:38,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:39,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:40,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:41,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:42,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:43,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:44,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:45,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:46,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:47,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:48,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:49,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:50,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:51,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:52,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:53,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:54,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:55,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:56,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:57,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:58,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:59,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:60,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:61,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:62,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:63,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:64,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:65,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:66,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:67,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:68,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:69,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:70,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:71,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:72,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:73,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:74,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:75,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:76,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:77,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:78,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:79,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:80,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:81,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:82,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:83,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:84,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:85,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:86,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:87,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:88,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:89,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:90,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:91,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:92,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:93,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:94,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:95,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:96,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:97,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:98,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:99,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Japan.json:100,zgrab_real,Japan,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:1,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:2,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Mexico.json:3,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Mexico.json:4,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:5,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:6,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:7,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:8,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Mexico.json:9,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:10,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:11,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:12,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:13,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:14,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:15,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:16,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:17,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:18,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:19,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:20,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:21,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:22,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:23,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:24,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:25,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:26,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:27,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:28,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,3,rule_flag_weak_cipher;rule_flag_cbc_cipher;rule_flag_certificate_identity,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_587_Mexico.json:29,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:30,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:31,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:32,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:33,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:34,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:35,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:36,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:37,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:38,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:39,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:40,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:41,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:42,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:43,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:44,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:45,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:46,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:47,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:48,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:49,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:50,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:51,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:52,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:53,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:54,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:55,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:56,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:57,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:58,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:59,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:60,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:61,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:62,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:63,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:64,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:65,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:66,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:67,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:68,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:69,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Mexico.json:70,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:71,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:72,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:73,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:74,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:75,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:76,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:77,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:78,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:79,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:80,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:81,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:82,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:83,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:84,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:85,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:86,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:87,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:88,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:89,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:90,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:91,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:92,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:93,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:94,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:95,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:96,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:97,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:98,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:99,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Mexico.json:100,zgrab_real,Mexico,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:1,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:2,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:3,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:4,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:5,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:6,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:7,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:8,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:9,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:10,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:11,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:12,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:13,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:14,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:15,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:16,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:17,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:18,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:19,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:20,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:21,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Singapore.json:22,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Singapore.json:23,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Singapore.json:24,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Singapore.json:25,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:26,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:27,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:28,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:29,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:30,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:31,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:32,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:33,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:34,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:35,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:36,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:37,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:38,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:39,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:40,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:41,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:42,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:43,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:44,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:45,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:46,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:47,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:48,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:49,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:50,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:51,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:52,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:53,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:54,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:55,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:56,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:57,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,3,rule_flag_weak_cipher;rule_flag_cbc_cipher;rule_flag_certificate_identity,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_587_Singapore.json:58,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:59,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Singapore.json:60,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:61,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:62,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Singapore.json:63,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:64,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:65,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:66,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:67,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:68,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:69,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:70,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:71,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:72,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:73,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:74,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:75,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:76,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:77,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:78,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:79,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:80,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:81,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:82,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:83,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:84,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:85,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:86,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:87,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:88,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:89,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:90,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:91,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:92,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:93,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:94,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:95,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:96,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:97,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Singapore.json:98,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:99,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Singapore.json:100,zgrab_real,Singapore,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_South_Korea.json:1,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:2,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:3,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:4,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:5,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:6,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:7,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:8,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:9,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:10,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_South_Korea.json:11,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:12,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:13,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:14,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:15,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:16,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:17,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:18,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:19,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:20,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:21,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:22,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:23,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:24,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:25,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:26,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:27,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:28,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:29,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:30,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:31,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:32,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:33,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:34,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:35,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:36,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:37,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:38,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:39,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:40,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:41,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:42,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:43,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:44,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:45,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:46,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:47,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:48,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:49,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:50,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:51,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:52,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:53,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:54,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:55,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:56,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:57,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:58,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:59,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:60,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:61,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:62,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:63,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:64,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:65,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:66,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:67,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:68,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:69,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:70,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:71,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:72,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:73,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:74,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:75,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:76,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:77,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:78,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:79,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:80,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:81,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:82,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:83,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:84,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:85,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:86,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:87,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:88,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:89,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:90,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,3,rule_flag_weak_cipher;rule_flag_rsa_key_exchange;rule_flag_certificate_identity,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_587_South_Korea.json:91,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,3,rule_flag_weak_cipher;rule_flag_rsa_key_exchange;rule_flag_certificate_identity,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_587_South_Korea.json:92,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,3,rule_flag_weak_cipher;rule_flag_rsa_key_exchange;rule_flag_certificate_identity,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_587_South_Korea.json:93,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:94,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:95,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,3,rule_flag_weak_cipher;rule_flag_rsa_key_exchange;rule_flag_certificate_identity,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_587_South_Korea.json:96,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,3,rule_flag_weak_cipher;rule_flag_rsa_key_exchange;rule_flag_certificate_identity,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_587_South_Korea.json:97,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:98,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_South_Korea.json:99,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_South_Korea.json:100,zgrab_real,South_Korea,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:1,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:2,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:3,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:4,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:5,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:6,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:7,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:8,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:9,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:10,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:11,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:12,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:13,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:14,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:15,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:16,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:17,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:18,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:19,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:20,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:21,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:22,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:23,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:24,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:25,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:26,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:27,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:28,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:29,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:30,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:31,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:32,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:33,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:34,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:35,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:36,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:37,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:38,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:39,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:40,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:41,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:42,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:43,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:44,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:45,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:46,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Spain.json:47,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:48,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:49,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:50,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:51,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:52,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:53,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:54,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:55,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:56,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:57,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:58,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:59,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:60,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:61,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:62,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:63,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:64,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:65,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,2,rule_flag_weak_cipher;rule_flag_rsa_key_exchange,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_587_Spain.json:66,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:67,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:68,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:69,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:70,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:71,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:72,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:73,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:74,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:75,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:76,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:77,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:78,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,4,rule_flag_legacy_tls;rule_flag_weak_cipher;rule_flag_rsa_key_exchange;rule_flag_cbc_cipher,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_587_Spain.json:79,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:80,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:81,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:82,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:83,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:84,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:85,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:86,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:87,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:88,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:89,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:90,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:91,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Spain.json:92,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_587_Spain.json:93,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:94,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:95,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:96,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:97,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:98,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_587_Spain.json:99,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_587_Spain.json:100,zgrab_real,Spain,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_France_587.json:1,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:2,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:3,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:4,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:5,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:6,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:7,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:8,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:9,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:10,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:11,zgrab_real,France,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_France_587.json:12,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:13,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:14,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:15,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:16,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:17,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:18,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:19,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:20,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:21,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:22,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:23,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:24,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:25,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:26,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:27,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:28,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:29,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:30,zgrab_real,France,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_France_587.json:31,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:32,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:33,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:34,zgrab_real,France,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_France_587.json:35,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:36,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:37,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:38,zgrab_real,France,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_France_587.json:39,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:40,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:41,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:42,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:43,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:44,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:45,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:46,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:47,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:48,zgrab_real,France,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_France_587.json:49,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:50,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:51,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:52,zgrab_real,France,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_France_587.json:53,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:54,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:55,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:56,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:57,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:58,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:59,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:60,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:61,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:62,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:63,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:64,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:65,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:66,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:67,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:68,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:69,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:70,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:71,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:72,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:73,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:74,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:75,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:76,zgrab_real,France,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_France_587.json:77,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:78,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:79,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:80,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:81,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:82,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:83,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:84,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:85,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:86,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:87,zgrab_real,France,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_France_587.json:88,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:89,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:90,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:91,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:92,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:93,zgrab_real,France,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_France_587.json:94,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:95,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:96,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:97,zgrab_real,France,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_France_587.json:98,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:99,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_France_587.json:100,zgrab_real,France,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:1,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:2,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_Germany_587.json:3,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:4,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:5,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:6,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:7,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:8,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:9,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:10,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:11,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:12,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:13,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:14,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:15,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:16,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Germany_587.json:17,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:18,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:19,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:20,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:21,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:22,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:23,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Germany_587.json:24,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:25,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:26,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:27,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:28,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:29,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:30,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:31,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Germany_587.json:32,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:33,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:34,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:35,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Germany_587.json:36,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:37,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:38,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:39,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:40,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:41,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:42,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:43,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:44,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:45,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_Germany_587.json:46,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:47,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:48,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:49,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:50,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_Germany_587.json:51,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:52,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:53,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:54,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:55,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:56,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:57,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:58,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:59,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:60,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:61,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:62,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:63,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:64,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:65,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:66,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:67,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:68,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:69,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:70,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:71,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:72,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:73,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:74,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:75,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_Germany_587.json:76,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Germany_587.json:77,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:78,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:79,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:80,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:81,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:82,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:83,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:84,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:85,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:86,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Germany_587.json:87,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:88,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:89,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:90,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:91,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:92,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:93,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:94,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:95,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:96,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:97,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:98,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:99,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Germany_587.json:100,zgrab_real,Germany,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:1,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:2,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:3,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:4,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:5,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:6,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:7,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:8,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:9,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:10,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:11,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:12,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,2,rule_flag_sha1_certificate;rule_flag_certificate_identity,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_India_587.json:13,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:14,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:15,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:16,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_India_587.json:17,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:18,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:19,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:20,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:21,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:22,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:23,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:24,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:25,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:26,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_India_587.json:27,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:28,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:29,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:30,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:31,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:32,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:33,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:34,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:35,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:36,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:37,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:38,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:39,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:40,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:41,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:42,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:43,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:44,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:45,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:46,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:47,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:48,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:49,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:50,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:51,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:52,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:53,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:54,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:55,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:56,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:57,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:58,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:59,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:60,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:61,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:62,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:63,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:64,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:65,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:66,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:67,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:68,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:69,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:70,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:71,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:72,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:73,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:74,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:75,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:76,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:77,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:78,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:79,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:80,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:81,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:82,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:83,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:84,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:85,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:86,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:87,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:88,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:89,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:90,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:91,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:92,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:93,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:94,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:95,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_India_587.json:96,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:97,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:98,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_India_587.json:99,zgrab_real,India,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_India_587.json:100,zgrab_real,India,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:1,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:2,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:3,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:4,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:5,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:6,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:7,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:8,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:9,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:10,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:11,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:12,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:13,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:14,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:15,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:16,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:17,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:18,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:19,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:20,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:21,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:22,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:23,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:24,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:25,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:26,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:27,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:28,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:29,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:30,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:31,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:32,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:33,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:34,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:35,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:36,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:37,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:38,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:39,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:40,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:41,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:42,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:43,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:44,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:45,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:46,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:47,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:48,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:49,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:50,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:51,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:52,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:53,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:54,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:55,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:56,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:57,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:58,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:59,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:60,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:61,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:62,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:63,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:64,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:65,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:66,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:67,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:68,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:69,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:70,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:71,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:72,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:73,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:74,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:75,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:76,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:77,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:78,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:79,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,3,rule_flag_weak_cipher;rule_flag_rsa_key_exchange;rule_flag_certificate_identity,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_Netherlands_587.json:80,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,3,rule_flag_weak_cipher;rule_flag_rsa_key_exchange;rule_flag_certificate_identity,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_Netherlands_587.json:81,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:82,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:83,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:84,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:85,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:86,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:87,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:88,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:89,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:90,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Netherlands_587.json:91,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:92,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:93,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:94,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:95,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:96,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:97,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:98,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:99,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Netherlands_587.json:100,zgrab_real,Netherlands,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:1,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:2,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_Russia_587.json:3,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:4,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:5,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:6,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:7,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:8,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:9,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:10,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:11,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:12,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:13,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:14,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:15,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:16,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:17,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:18,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,3,rule_flag_weak_cipher;rule_flag_cbc_cipher;rule_flag_sha1_certificate,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_Russia_587.json:19,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:20,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:21,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:22,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:23,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:24,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:25,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:26,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:27,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:28,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:29,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Russia_587.json:30,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:31,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:32,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:33,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:34,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:35,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:36,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:37,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:38,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:39,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:40,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:41,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:42,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:43,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:44,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:45,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:46,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:47,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_Russia_587.json:48,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:49,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:50,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:51,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:52,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:53,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:54,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:55,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:56,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:57,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Russia_587.json:58,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:59,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:60,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:61,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:62,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Russia_587.json:63,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:64,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:65,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:66,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:67,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:68,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:69,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:70,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Russia_587.json:71,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Russia_587.json:72,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:73,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Russia_587.json:74,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:75,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:76,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:77,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:78,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:79,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:80,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:81,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:82,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:83,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:84,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:85,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:86,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:87,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Russia_587.json:88,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:89,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:90,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:91,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:92,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:93,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:94,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:95,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_Russia_587.json:96,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:97,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:98,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:99,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_Russia_587.json:100,zgrab_real,Russia,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:1,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:2,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_UK_587.json:3,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,2,rule_flag_weak_cipher;rule_flag_cbc_cipher,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_UK_587.json:4,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:5,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:6,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:7,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:8,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:9,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:10,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:11,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:12,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:13,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:14,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:15,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_UK_587.json:16,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:17,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:18,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:19,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:20,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:21,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:22,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:23,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:24,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:25,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:26,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:27,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:28,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:29,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:30,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:31,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:32,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:33,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:34,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:35,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:36,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:37,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:38,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:39,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:40,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:41,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:42,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:43,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:44,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:45,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:46,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:47,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:48,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:49,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:50,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:51,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:52,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:53,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:54,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:55,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:56,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:57,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:58,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:59,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:60,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:61,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:62,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:63,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:64,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:65,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:66,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:67,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:68,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:69,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:70,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:71,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:72,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:73,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:74,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:75,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:76,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:77,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:78,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:79,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:80,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:81,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:82,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:83,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:84,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:85,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,5,rule_flag_weak_cipher;rule_flag_rsa_key_exchange;rule_flag_cbc_cipher;rule_flag_sha1_certificate;rule_flag_certificate_identity,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_UK_587.json:86,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:87,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:88,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,HIGH,2,rule_flag_sha1_certificate;rule_flag_certificate_identity,legacy_tls_or_multiple_distinct_rule_flags
+zgrab_UK_587.json:89,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:90,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:91,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:92,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:93,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:94,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:95,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:96,zgrab_real,UK,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_UK_587.json:97,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:98,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:99,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_UK_587.json:100,zgrab_real,UK,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:1,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:2,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:3,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:4,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:5,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:6,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:7,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:8,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:9,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:10,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:11,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:12,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:13,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:14,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:15,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:16,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:17,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:18,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:19,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:20,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:21,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_US_587.json:22,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:23,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:24,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:25,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:26,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:27,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:28,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:29,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:30,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:31,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:32,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:33,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:34,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:35,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:36,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:37,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_US_587.json:38,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:39,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:40,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:41,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:42,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:43,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:44,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:45,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:46,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:47,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:48,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:49,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:50,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:51,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:52,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:53,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:54,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:55,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:56,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:57,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:58,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:59,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:60,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:61,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_US_587.json:62,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:63,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:64,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:65,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:66,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:67,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:68,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:69,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:70,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:71,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:72,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:73,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:74,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:75,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:76,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:77,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:78,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:79,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:80,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:81,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:82,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:83,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:84,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:85,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:86,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:87,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:88,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:89,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:90,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:91,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,MEDIUM,1,rule_flag_certificate_identity,single_nonlegacy_rule_flag
+zgrab_US_587.json:92,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:93,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:94,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:95,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:96,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:97,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:98,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag
+zgrab_US_587.json:99,zgrab_real,US,zgrab_rule_rubric_tier_v1,NOT_EVALUABLE,,,,TLS handshake not observed
+zgrab_US_587.json:100,zgrab_real,US,zgrab_rule_rubric_tier_v1,LABELED_RULE_RUBRIC_PROXY,LOW,0,,no_current_rule_flag

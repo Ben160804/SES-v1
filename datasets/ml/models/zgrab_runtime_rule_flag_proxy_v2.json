@@ -1,0 +1,282 @@
+{
+  "accuracy": 0.9811320754716981,
+  "artifact_sha256": "f1c84f31d0a7f8085276d02a05e4517b186d3170501080328f887270640046aa",
+  "categorical_features": [
+    "tls_negotiated_version",
+    "cipher_suite",
+    "key_exchange",
+    "cert_key_algorithm",
+    "cert_ecdsa_curve",
+    "cert_signature_algorithm",
+    "cert_self_signed",
+    "cert_is_ca",
+    "cert_server_auth",
+    "cert_client_auth",
+    "cert_digital_signature",
+    "cert_key_encipherment",
+    "cert_key_agreement",
+    "cert_has_wildcard_san",
+    "cert_has_certificate_policy",
+    "cert_has_sct",
+    "cert_has_crl_distribution",
+    "cert_has_authority_key_id",
+    "cert_has_subject_key_id"
+  ],
+  "class_counts": {
+    "HAS_RULE_FLAGGED_ISSUE": 61,
+    "NO_CURRENT_RULE_FLAG": 469
+  },
+  "classes": {
+    "HAS_RULE_FLAGGED_ISSUE": {
+      "f1": 0.9166666666666666,
+      "precision": 0.9322033898305084,
+      "recall": 0.9016393442622951,
+      "support": 61
+    },
+    "NO_CURRENT_RULE_FLAG": {
+      "f1": 0.9893617021276596,
+      "precision": 0.9872611464968153,
+      "recall": 0.9914712153518124,
+      "support": 469
+    }
+  },
+  "confusion_matrix_labels": [
+    "NO_CURRENT_RULE_FLAG",
+    "HAS_RULE_FLAGGED_ISSUE"
+  ],
+  "confusion_matrix_rows_actual": [
+    [
+      465,
+      4
+    ],
+    [
+      6,
+      55
+    ]
+  ],
+  "created_at_utc": "2026-09-29T01:46:07.559327+00:00",
+  "dataset_id": "zgrab_smtp_v1",
+  "evaluation": "Leave-one-country-out cross-validation; country is grouping metadata, never a feature.",
+  "feature_fields": [
+    "tls_negotiated_version",
+    "cipher_suite",
+    "key_exchange",
+    "cert_key_algorithm",
+    "cert_ecdsa_curve",
+    "cert_signature_algorithm",
+    "cert_self_signed",
+    "cert_is_ca",
+    "cert_server_auth",
+    "cert_client_auth",
+    "cert_digital_signature",
+    "cert_key_encipherment",
+    "cert_key_agreement",
+    "cert_has_wildcard_san",
+    "cert_has_certificate_policy",
+    "cert_has_sct",
+    "cert_has_crl_distribution",
+    "cert_has_authority_key_id",
+    "cert_has_subject_key_id",
+    "cert_rsa_key_size",
+    "cert_rsa_exponent",
+    "cert_ecdsa_key_size",
+    "cert_san_count",
+    "cert_max_san_length",
+    "cert_unique_san_count",
+    "cert_key_usage_count",
+    "cert_extension_count",
+    "cert_validity_days",
+    "cert_chain_length",
+    "cert_ocsp_url_count",
+    "cert_issuer_url_count",
+    "cert_policy_count",
+    "cert_crl_url_count"
+  ],
+  "feature_schema_version": "zgrab_smtp_runtime_proxy_v2",
+  "folds": [
+    {
+      "held_out_country": "Australia",
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 6,
+        "NO_CURRENT_RULE_FLAG": 62
+      },
+      "test_rows": 68,
+      "train_rows": 462
+    },
+    {
+      "held_out_country": "Brazil",
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 5,
+        "NO_CURRENT_RULE_FLAG": 43
+      },
+      "test_rows": 48,
+      "train_rows": 482
+    },
+    {
+      "held_out_country": "Canada",
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 3,
+        "NO_CURRENT_RULE_FLAG": 41
+      },
+      "test_rows": 44,
+      "train_rows": 486
+    },
+    {
+      "held_out_country": "France",
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 1,
+        "NO_CURRENT_RULE_FLAG": 9
+      },
+      "test_rows": 10,
+      "train_rows": 520
+    },
+    {
+      "held_out_country": "Germany",
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 4,
+        "NO_CURRENT_RULE_FLAG": 6
+      },
+      "test_rows": 10,
+      "train_rows": 520
+    },
+    {
+      "held_out_country": "India",
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 4,
+        "NO_CURRENT_RULE_FLAG": 55
+      },
+      "test_rows": 59,
+      "train_rows": 471
+    },
+    {
+      "held_out_country": "Italy",
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 3,
+        "NO_CURRENT_RULE_FLAG": 9
+      },
+      "test_rows": 12,
+      "train_rows": 518
+    },
+    {
+      "held_out_country": "Japan",
+      "test_label_counts": {
+        "NO_CURRENT_RULE_FLAG": 2
+      },
+      "test_rows": 2,
+      "train_rows": 528
+    },
+    {
+      "held_out_country": "Mexico",
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 4,
+        "NO_CURRENT_RULE_FLAG": 45
+      },
+      "test_rows": 49,
+      "train_rows": 481
+    },
+    {
+      "held_out_country": "Netherlands",
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 2,
+        "NO_CURRENT_RULE_FLAG": 24
+      },
+      "test_rows": 26,
+      "train_rows": 504
+    },
+    {
+      "held_out_country": "Russia",
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 3,
+        "NO_CURRENT_RULE_FLAG": 8
+      },
+      "test_rows": 11,
+      "train_rows": 519
+    },
+    {
+      "held_out_country": "Singapore",
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 7,
+        "NO_CURRENT_RULE_FLAG": 54
+      },
+      "test_rows": 61,
+      "train_rows": 469
+    },
+    {
+      "held_out_country": "South_Korea",
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 5,
+        "NO_CURRENT_RULE_FLAG": 2
+      },
+      "test_rows": 7,
+      "train_rows": 523
+    },
+    {
+      "held_out_country": "Spain",
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 5,
+        "NO_CURRENT_RULE_FLAG": 26
+      },
+      "test_rows": 31,
+      "train_rows": 499
+    },
+    {
+      "held_out_country": "UK",
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 5,
+        "NO_CURRENT_RULE_FLAG": 32
+      },
+      "test_rows": 37,
+      "train_rows": 493
+    },
+    {
+      "held_out_country": "US",
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 4,
+        "NO_CURRENT_RULE_FLAG": 51
+      },
+      "test_rows": 55,
+      "train_rows": 475
+    }
+  ],
+  "input_sha256": "8823158435fa490e8cb29241a72c4902f7a001095737c94e1b5568d6e6735fab",
+  "limitations": [
+    "Metrics measure only agreement with deterministic rule-flag proxy labels.",
+    "No evidence supports breach likelihood, independent vulnerability classification, or four-tier risk classification.",
+    "Leave-country-out does not eliminate provider or certificate-family dependence.",
+    "Runtime use is limited to SMTP handshakes with observable negotiated TLS and leaf certificate evidence."
+  ],
+  "macro_f1": 0.9530141843971631,
+  "majority_baseline_macro_f1": 0.4694694694694695,
+  "model": "DictVectorizer + StandardScaler + class-weighted LogisticRegression",
+  "model_id": "zgrab_runtime_rule_flag_proxy_v2",
+  "model_version": "2.0",
+  "numeric_features": [
+    "cert_rsa_key_size",
+    "cert_rsa_exponent",
+    "cert_ecdsa_key_size",
+    "cert_san_count",
+    "cert_max_san_length",
+    "cert_unique_san_count",
+    "cert_key_usage_count",
+    "cert_extension_count",
+    "cert_validity_days",
+    "cert_chain_length",
+    "cert_ocsp_url_count",
+    "cert_issuer_url_count",
+    "cert_policy_count",
+    "cert_crl_url_count"
+  ],
+  "runtime_feature_observability": {
+    "candidate_feature_count": 33,
+    "maximum_training_fraction": 0.9090909090909091,
+    "median_training_fraction": 0.8787878787878788,
+    "minimum_training_fraction": 0.7272727272727273,
+    "p05_training_fraction": 0.8484848484848485,
+    "use": "A runtime input below p05 may abstain; this is an evidence-coverage floor, not a confidence threshold."
+  },
+  "sample_count": 530,
+  "seed": 20260929,
+  "sklearn_version": "1.9.1",
+  "target": "rule_flag_proxy_v1",
+  "target_semantics": "Agreement with the union of seven deterministic ZGrab rule flags; not independent risk ground truth."
+}

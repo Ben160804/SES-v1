@@ -1,0 +1,28 @@
+{
+  "name": "securemailscope-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "@vitejs/plugin-react": "6.1.1",
+    "@testing-library/jest-dom": "6.6.3",
+    "@testing-library/dom": "10.4.0",
+    "@testing-library/react": "16.0.1",
+    "jsdom": "25.0.1",
+    "typescript": "5.6.3",
+    "vite": "8.3.0",
+    "vitest": "5.0.1"
+  }
+}

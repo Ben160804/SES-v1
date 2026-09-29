@@ -98,6 +98,8 @@ class StreamRuleReport:
     policy_results: dict[str, list[PolicyResult]]  # policy_pack_name -> list[PolicyResult]
     observations: list[ObservationResult]
     input_snapshot: dict[str, Any]
+    ml_results: dict[str, Any] = field(default_factory=dict)
+    posture_assessment: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         def _serialize_val(v):
@@ -118,6 +120,8 @@ class StreamRuleReport:
             },
             "observations": [o.to_dict() for o in self.observations],
             "input_snapshot": _serialize_val(self.input_snapshot),
+            "ml_results": _serialize_val(self.ml_results),
+            "posture_assessment": _serialize_val(self.posture_assessment),
         }
 
 

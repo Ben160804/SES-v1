@@ -1,0 +1,70 @@
+# ── Python ────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# ── Node / Frontend ───────────────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/coverage/
+frontend/*.tsbuildinfo
+
+# ── Database / runtime state ──────────────────────────────────────────────
+/data/securemailscope.sqlite*
+
+# ── Large binary datasets ─────────────────────────────────────────────────
+# TLS corpus (~3.5 GB)
+datasets/ml/tls/mix.zip
+
+# MAWI traffic dumps
+datasets/external/mawi_*.dump
+datasets/external/mawi_*.dump.gz
+
+# EPSS scores (regenerated from source)
+datasets/threat-intelligence/epss/*.csv.gz
+
+# MTA-STS policy archive
+datasets/posture/mta-sts/policy.zip
+
+# NVD CVE feeds
+datasets/threat-intelligence/nvd/*.json.gz
+
+# KEV CSV (large, regenerated from source)
+datasets/threat-intelligence/kev/known_exploited_vulnerabilities.csv
+
+# OWASP / CWE / NIST raw downloads
+datasets/rag/owasp/CheatSheetSeries/
+datasets/rag/cwe/2000.xml.zip
+datasets/rag/nist/SP_800-53_v5_1_XML.xml
+
+# tlsfuzzer clone
+datasets/tools/tlsfuzzer/
+
+# ── OS / Editor junk ──────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# ── Secrets / Keys (never commit) ────────────────────────────────────────
+*.pem
+*.key
+testbed/pki/ca/
+testbed/active/key.pem
+testbed/mitm/key.pem
+testbed/mitm/chain.pem

@@ -1,0 +1,457 @@
+{
+  "benchmark_id": "controlled_novelty_benchmark_v1",
+  "seed": 260929,
+  "created_at_utc": "2026-09-29T05:17:10.209926+00:00",
+  "provenance": "Controls are real held-out observations. Positive rows are synthetic, deterministic feature injections. No injected row is represented as a real observation.",
+  "smtp_negotiation_support": {
+    "model_id": "zgrab_smtp_negotiation_anomaly_v1",
+    "source_cohort": "real ZGrab SMTP TLS reference tuples",
+    "reference_observations": 469,
+    "reference_tuple_count": 7,
+    "feature_count": 3,
+    "split_unit": "configuration tuple",
+    "mock_benchmark_definition": "An observed TLS-version/cipher/key-exchange tuple is a cohort control; a tuple with three explicit out-of-cohort tokens is injected unseen. This exactly tests support lookup semantics.",
+    "splits": {
+      "heldout_auxiliary": {
+        "source_reference_tuple_count": 4,
+        "class_distribution": {
+          "seen_control": 4,
+          "injected_unseen_tuple": 4
+        },
+        "accuracy": 1.0,
+        "precision_macro": 1.0,
+        "recall_macro": 1.0,
+        "f1_macro": 1.0,
+        "confusion_matrix_labels_0_1": [
+          [
+            4,
+            0
+          ],
+          [
+            0,
+            4
+          ]
+        ]
+      },
+      "validation": {
+        "source_reference_tuple_count": 1,
+        "class_distribution": {
+          "seen_control": 1,
+          "injected_unseen_tuple": 1
+        },
+        "accuracy": 1.0,
+        "precision_macro": 1.0,
+        "recall_macro": 1.0,
+        "f1_macro": 1.0,
+        "confusion_matrix_labels_0_1": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "test": {
+        "source_reference_tuple_count": 2,
+        "class_distribution": {
+          "seen_control": 2,
+          "injected_unseen_tuple": 2
+        },
+        "accuracy": 1.0,
+        "precision_macro": 1.0,
+        "recall_macro": 1.0,
+        "f1_macro": 1.0,
+        "confusion_matrix_labels_0_1": [
+          [
+            2,
+            0
+          ],
+          [
+            0,
+            2
+          ]
+        ]
+      }
+    },
+    "interpretation": "This deterministic support benchmark is tautological by construction and must not be presented as an independent anomaly detection accuracy estimate."
+  },
+  "certificate_novelty": {
+    "model_id": "mta_sts_cert_anomaly_v1",
+    "source_cohort": "held-out unique MTA-STS SMTP-related scan certificates (not complete SMTP TLS sessions)",
+    "source_observations": 1892,
+    "unique_source_groups": 1892,
+    "model_training_observations": 7567,
+    "model_training_groups": null,
+    "real_model_fit_split": "20% held out by unique certificate fingerprint before preprocessing/model fit.",
+    "evaluation_partition_note": "heldout_auxiliary is an evaluation partition only; the persisted model is already fit on the real training-reference population above",
+    "mock_benchmark_definition": "label 0 is an untouched held-out source observation; label 1 is the same observation with documented out-of-cohort category and numeric feature injections",
+    "split_unit": "certificate_group_id",
+    "split_group_counts": {
+      "heldout_auxiliary": 1135,
+      "validation": 378,
+      "test": 379
+    },
+    "feature_count": 22,
+    "input_sha256": "d853c3530fbc07a922b2e42b3991c5418a77d4b02ad7f41e0f5ee6cebeea6f95",
+    "artifact_sha256": "10545c2358b18c435b319120dd3d72a036bb9a177a3f716c1d93dd5873151d52",
+    "splits": {
+      "heldout_auxiliary": {
+        "source_observation_count": 1135,
+        "source_group_count": 1135,
+        "metrics": {
+          "sample_count": 2270,
+          "class_distribution": {
+            "cohort_control": 1135,
+            "injected_novelty": 1135
+          },
+          "threshold": 0.0,
+          "accuracy": 0.979295154185022,
+          "balanced_accuracy": 0.979295154185022,
+          "precision_macro": 0.9801184433164128,
+          "recall_macro": 0.979295154185022,
+          "f1_macro": 0.9792862744047353,
+          "roc_auc": 0.9960519319218304,
+          "confusion_matrix_labels_0_1": [
+            [
+              1088,
+              47
+            ],
+            [
+              0,
+              1135
+            ]
+          ],
+          "per_class": {
+            "cohort_control": {
+              "precision": 1.0,
+              "recall": 0.958590308370044,
+              "f1-score": 0.9788573999100315,
+              "support": 1135.0
+            },
+            "injected_novelty": {
+              "precision": 0.9602368866328257,
+              "recall": 1.0,
+              "f1-score": 0.9797151488994389,
+              "support": 1135.0
+            },
+            "accuracy": 0.979295154185022,
+            "macro avg": {
+              "precision": 0.9801184433164128,
+              "recall": 0.979295154185022,
+              "f1-score": 0.9792862744047353,
+              "support": 2270.0
+            },
+            "weighted avg": {
+              "precision": 0.980118443316413,
+              "recall": 0.979295154185022,
+              "f1-score": 0.9792862744047351,
+              "support": 2270.0
+            }
+          }
+        }
+      },
+      "validation": {
+        "source_observation_count": 378,
+        "source_group_count": 378,
+        "metrics": {
+          "sample_count": 756,
+          "class_distribution": {
+            "cohort_control": 378,
+            "injected_novelty": 378
+          },
+          "threshold": 0.0,
+          "accuracy": 0.9814814814814815,
+          "balanced_accuracy": 0.9814814814814814,
+          "precision_macro": 0.9821428571428572,
+          "recall_macro": 0.9814814814814814,
+          "f1_macro": 0.9814751286449399,
+          "roc_auc": 0.9978374065675654,
+          "confusion_matrix_labels_0_1": [
+            [
+              364,
+              14
+            ],
+            [
+              0,
+              378
+            ]
+          ],
+          "per_class": {
+            "cohort_control": {
+              "precision": 1.0,
+              "recall": 0.9629629629629629,
+              "f1-score": 0.9811320754716981,
+              "support": 378.0
+            },
+            "injected_novelty": {
+              "precision": 0.9642857142857143,
+              "recall": 1.0,
+              "f1-score": 0.9818181818181818,
+              "support": 378.0
+            },
+            "accuracy": 0.9814814814814815,
+            "macro avg": {
+              "precision": 0.9821428571428572,
+              "recall": 0.9814814814814814,
+              "f1-score": 0.9814751286449399,
+              "support": 756.0
+            },
+            "weighted avg": {
+              "precision": 0.9821428571428571,
+              "recall": 0.9814814814814815,
+              "f1-score": 0.9814751286449399,
+              "support": 756.0
+            }
+          }
+        }
+      },
+      "test": {
+        "source_observation_count": 379,
+        "source_group_count": 379,
+        "metrics": {
+          "sample_count": 758,
+          "class_distribution": {
+            "cohort_control": 379,
+            "injected_novelty": 379
+          },
+          "threshold": 0.0,
+          "accuracy": 0.978891820580475,
+          "balanced_accuracy": 0.9788918205804749,
+          "precision_macro": 0.979746835443038,
+          "recall_macro": 0.9788918205804749,
+          "f1_macro": 0.9788824115283088,
+          "roc_auc": 0.9947229551451187,
+          "confusion_matrix_labels_0_1": [
+            [
+              363,
+              16
+            ],
+            [
+              0,
+              379
+            ]
+          ],
+          "per_class": {
+            "cohort_control": {
+              "precision": 1.0,
+              "recall": 0.9577836411609498,
+              "f1-score": 0.9784366576819407,
+              "support": 379.0
+            },
+            "injected_novelty": {
+              "precision": 0.959493670886076,
+              "recall": 1.0,
+              "f1-score": 0.979328165374677,
+              "support": 379.0
+            },
+            "accuracy": 0.978891820580475,
+            "macro avg": {
+              "precision": 0.979746835443038,
+              "recall": 0.9788918205804749,
+              "f1-score": 0.9788824115283088,
+              "support": 758.0
+            },
+            "weighted avg": {
+              "precision": 0.979746835443038,
+              "recall": 0.978891820580475,
+              "f1-score": 0.9788824115283089,
+              "support": 758.0
+            }
+          }
+        }
+      }
+    },
+    "interpretation": "Metrics measure response to this controlled injection recipe only; they do not measure attacks, insecurity, certificate validity, or real-world false-positive rates."
+  },
+  "https_tls_anomaly": {
+    "model_id": "https_tls_anomaly_v1",
+    "source_cohort": "held-out real HTTPS TLS PCAP site groups; separate from email traffic",
+    "source_observations": 9045,
+    "unique_source_groups": 9,
+    "model_training_observations": 32160,
+    "model_training_groups": 32,
+    "real_model_fit_split": "20% held out by server/site group with GroupShuffleSplit before preprocessing/model fit.",
+    "evaluation_partition_note": "heldout_auxiliary is an evaluation partition only; the persisted model is already fit on the real training-reference population above",
+    "mock_benchmark_definition": "label 0 is an untouched held-out source observation; label 1 is the same observation with documented out-of-cohort category and numeric feature injections",
+    "split_unit": "server_group_id",
+    "split_group_counts": {
+      "heldout_auxiliary": 5,
+      "validation": 1,
+      "test": 3
+    },
+    "feature_count": 30,
+    "input_sha256": "af69349a1f41ecb951641567a587eccc27771fc3f4d2d474765a442c0cf5df40",
+    "artifact_sha256": "121988cd86c22b360d58fb87b4438f7d2eeca0939b7f19a06853618059d4fd71",
+    "splits": {
+      "heldout_auxiliary": {
+        "source_observation_count": 5025,
+        "source_group_count": 5,
+        "metrics": {
+          "sample_count": 10050,
+          "class_distribution": {
+            "cohort_control": 5025,
+            "injected_novelty": 5025
+          },
+          "threshold": 0.0,
+          "accuracy": 0.8812935323383084,
+          "balanced_accuracy": 0.8812935323383084,
+          "precision_macro": 0.9000838738760302,
+          "recall_macro": 0.8812935323383084,
+          "f1_macro": 0.8798831805285573,
+          "roc_auc": 0.9963515754560531,
+          "confusion_matrix_labels_0_1": [
+            [
+              4973,
+              52
+            ],
+            [
+              1141,
+              3884
+            ]
+          ],
+          "per_class": {
+            "cohort_control": {
+              "precision": 0.8133791298658816,
+              "recall": 0.9896517412935323,
+              "f1-score": 0.8928988239518808,
+              "support": 5025.0
+            },
+            "injected_novelty": {
+              "precision": 0.9867886178861789,
+              "recall": 0.7729353233830846,
+              "f1-score": 0.8668675371052338,
+              "support": 5025.0
+            },
+            "accuracy": 0.8812935323383084,
+            "macro avg": {
+              "precision": 0.9000838738760302,
+              "recall": 0.8812935323383084,
+              "f1-score": 0.8798831805285573,
+              "support": 10050.0
+            },
+            "weighted avg": {
+              "precision": 0.9000838738760302,
+              "recall": 0.8812935323383084,
+              "f1-score": 0.8798831805285572,
+              "support": 10050.0
+            }
+          }
+        }
+      },
+      "validation": {
+        "source_observation_count": 1005,
+        "source_group_count": 1,
+        "metrics": {
+          "sample_count": 2010,
+          "class_distribution": {
+            "cohort_control": 1005,
+            "injected_novelty": 1005
+          },
+          "threshold": 0.0,
+          "accuracy": 0.836318407960199,
+          "balanced_accuracy": 0.8363184079601991,
+          "precision_macro": 0.8766866566716642,
+          "recall_macro": 0.8363184079601991,
+          "f1_macro": 0.8318123818783939,
+          "roc_auc": 0.998538650033415,
+          "confusion_matrix_labels_0_1": [
+            [
+              1005,
+              0
+            ],
+            [
+              329,
+              676
+            ]
+          ],
+          "per_class": {
+            "cohort_control": {
+              "precision": 0.7533733133433284,
+              "recall": 1.0,
+              "f1-score": 0.8593415989739205,
+              "support": 1005.0
+            },
+            "injected_novelty": {
+              "precision": 1.0,
+              "recall": 0.672636815920398,
+              "f1-score": 0.8042831647828673,
+              "support": 1005.0
+            },
+            "accuracy": 0.836318407960199,
+            "macro avg": {
+              "precision": 0.8766866566716642,
+              "recall": 0.8363184079601991,
+              "f1-score": 0.8318123818783939,
+              "support": 2010.0
+            },
+            "weighted avg": {
+              "precision": 0.8766866566716641,
+              "recall": 0.836318407960199,
+              "f1-score": 0.8318123818783938,
+              "support": 2010.0
+            }
+          }
+        }
+      },
+      "test": {
+        "source_observation_count": 3015,
+        "source_group_count": 3,
+        "metrics": {
+          "sample_count": 6030,
+          "class_distribution": {
+            "cohort_control": 3015,
+            "injected_novelty": 3015
+          },
+          "threshold": 0.0,
+          "accuracy": 0.9210613598673301,
+          "balanced_accuracy": 0.9210613598673301,
+          "precision_macro": 0.9318246920653108,
+          "recall_macro": 0.9210613598673301,
+          "f1_macro": 0.9205663844714516,
+          "roc_auc": 0.9999391654221981,
+          "confusion_matrix_labels_0_1": [
+            [
+              3015,
+              0
+            ],
+            [
+              476,
+              2539
+            ]
+          ],
+          "per_class": {
+            "cohort_control": {
+              "precision": 0.8636493841306216,
+              "recall": 1.0,
+              "f1-score": 0.9268367660620965,
+              "support": 3015.0
+            },
+            "injected_novelty": {
+              "precision": 1.0,
+              "recall": 0.84212271973466,
+              "f1-score": 0.9142960028808066,
+              "support": 3015.0
+            },
+            "accuracy": 0.9210613598673301,
+            "macro avg": {
+              "precision": 0.9318246920653108,
+              "recall": 0.9210613598673301,
+              "f1-score": 0.9205663844714516,
+              "support": 6030.0
+            },
+            "weighted avg": {
+              "precision": 0.9318246920653108,
+              "recall": 0.9210613598673301,
+              "f1-score": 0.9205663844714514,
+              "support": 6030.0
+            }
+          }
+        }
+      }
+    },
+    "interpretation": "Metrics measure response to this controlled injection recipe only; they do not measure attacks, insecurity, certificate validity, or real-world false-positive rates."
+  }
+}

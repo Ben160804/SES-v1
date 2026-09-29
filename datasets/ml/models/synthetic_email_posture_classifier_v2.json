@@ -1,0 +1,479 @@
+{
+  "algorithm": "LogisticRegression",
+  "artifact_sha256": "65d9446762a92222dd946645ec8eae665e03629d820b5bb1b76a4d09d4a6a4d2",
+  "categorical_features": [
+    "protocol",
+    "starttls_status",
+    "tls_negotiated_version",
+    "cipher_suite",
+    "key_exchange",
+    "cipher_strength",
+    "cert_key_algorithm",
+    "cert_signature_algorithm",
+    "cert_trust_status",
+    "cert_hostname_match",
+    "cert_validity_state"
+  ],
+  "class_counts": {
+    "CRITICAL": 2500,
+    "HIGH": 2500,
+    "LOW": 2500,
+    "MEDIUM": 2500
+  },
+  "created_at_utc": "2026-09-29T04:40:06.617404+00:00",
+  "data_source": "synthetic_simulation",
+  "dataset_sha256": "9b893f59a23e79bea1e6b4e0729dddbeb53a50cb35fbacf2e12dc7f992f5faee",
+  "feature_count": 15,
+  "feature_schema_version": "synthetic_email_session_risk_v2",
+  "hyperparameter_search": {
+    "candidates": {
+      "LogisticRegression_C0.1_weight_balanced": {
+        "params": {
+          "C": 0.1,
+          "class_weight": "balanced"
+        },
+        "validation_macro_f1": 0.4895613821369816
+      },
+      "LogisticRegression_C0.1_weight_none": {
+        "params": {
+          "C": 0.1,
+          "class_weight": null
+        },
+        "validation_macro_f1": 0.48637536173667656
+      },
+      "LogisticRegression_C0.3_weight_balanced": {
+        "params": {
+          "C": 0.3,
+          "class_weight": "balanced"
+        },
+        "validation_macro_f1": 0.4895613821369816
+      },
+      "LogisticRegression_C0.3_weight_none": {
+        "params": {
+          "C": 0.3,
+          "class_weight": null
+        },
+        "validation_macro_f1": 0.48452273220962844
+      },
+      "LogisticRegression_C10_weight_balanced": {
+        "params": {
+          "C": 10.0,
+          "class_weight": "balanced"
+        },
+        "validation_macro_f1": 0.4895613821369816
+      },
+      "LogisticRegression_C10_weight_none": {
+        "params": {
+          "C": 10.0,
+          "class_weight": null
+        },
+        "validation_macro_f1": 0.48620966553619466
+      },
+      "LogisticRegression_C1_weight_balanced": {
+        "params": {
+          "C": 1.0,
+          "class_weight": "balanced"
+        },
+        "validation_macro_f1": 0.4895613821369816
+      },
+      "LogisticRegression_C1_weight_none": {
+        "params": {
+          "C": 1.0,
+          "class_weight": null
+        },
+        "validation_macro_f1": 0.48390333776980726
+      },
+      "LogisticRegression_C3_weight_balanced": {
+        "params": {
+          "C": 3.0,
+          "class_weight": "balanced"
+        },
+        "validation_macro_f1": 0.4895613821369816
+      },
+      "LogisticRegression_C3_weight_none": {
+        "params": {
+          "C": 3.0,
+          "class_weight": null
+        },
+        "validation_macro_f1": 0.48620966553619466
+      },
+      "RandomForest_n300_d16_leaf1": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "max_depth": 16,
+          "min_samples_leaf": 1,
+          "n_estimators": 300
+        },
+        "validation_macro_f1": 0.46475861988689315
+      },
+      "RandomForest_n300_d16_leaf3": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "max_depth": 16,
+          "min_samples_leaf": 3,
+          "n_estimators": 300
+        },
+        "validation_macro_f1": 0.47128051201558147
+      },
+      "RandomForest_n300_d16_leaf6": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "max_depth": 16,
+          "min_samples_leaf": 6,
+          "n_estimators": 300
+        },
+        "validation_macro_f1": 0.47314879012028527
+      },
+      "RandomForest_n300_dfull_leaf1": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "max_depth": null,
+          "min_samples_leaf": 1,
+          "n_estimators": 300
+        },
+        "validation_macro_f1": 0.46523430088688483
+      },
+      "RandomForest_n300_dfull_leaf3": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "max_depth": null,
+          "min_samples_leaf": 3,
+          "n_estimators": 300
+        },
+        "validation_macro_f1": 0.46990896346031674
+      },
+      "RandomForest_n300_dfull_leaf6": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "max_depth": null,
+          "min_samples_leaf": 6,
+          "n_estimators": 300
+        },
+        "validation_macro_f1": 0.4730126254326177
+      },
+      "RandomForest_n500_d16_leaf1": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "max_depth": 16,
+          "min_samples_leaf": 1,
+          "n_estimators": 500
+        },
+        "validation_macro_f1": 0.46523430088688483
+      },
+      "RandomForest_n500_d16_leaf3": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "max_depth": 16,
+          "min_samples_leaf": 3,
+          "n_estimators": 500
+        },
+        "validation_macro_f1": 0.4709322969800961
+      },
+      "RandomForest_n500_d16_leaf6": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "max_depth": 16,
+          "min_samples_leaf": 6,
+          "n_estimators": 500
+        },
+        "validation_macro_f1": 0.4708209269169584
+      },
+      "RandomForest_n500_dfull_leaf1": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "max_depth": null,
+          "min_samples_leaf": 1,
+          "n_estimators": 500
+        },
+        "validation_macro_f1": 0.46523430088688483
+      },
+      "RandomForest_n500_dfull_leaf3": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "max_depth": null,
+          "min_samples_leaf": 3,
+          "n_estimators": 500
+        },
+        "validation_macro_f1": 0.47017020466317294
+      },
+      "RandomForest_n500_dfull_leaf6": {
+        "params": {
+          "class_weight": "balanced_subsample",
+          "max_depth": null,
+          "min_samples_leaf": 6,
+          "n_estimators": 500
+        },
+        "validation_macro_f1": 0.47140450510158327
+      }
+    },
+    "method": "Exhaustive fixed grid on training data; selection by grouped validation macro-F1; heldout test not used for selection."
+  },
+  "limitations": [
+    "This is programmatically simulated feature-session data, not captured or observed network traffic and not generated by an LLM.",
+    "The endpoint-posture target is a project rubric over simulated full endpoint configurations, not externally reviewed or real-world security truth.",
+    "The generator covers a designed configuration space; unmodeled software behavior, negotiation edge cases, and real-world prevalence are not represented.",
+    "Performance on this cohort is controlled simulator performance and does not establish real SMTP/IMAP/POP3 effectiveness.",
+    "No IP, hostname, sample identifier, or raw profile-family name is in the predictive feature vector.",
+    "Metrics measure generalization within this programmatically designed simulator only, not real network accuracy.",
+    "The per-session feature schema does not expose the endpoint's full supported cipher/version configuration; label inference is deliberately partial."
+  ],
+  "model_id": "synthetic_email_posture_classifier_v2",
+  "model_version": "2.1",
+  "numeric_features": [
+    "tls_extension_count",
+    "cert_key_size",
+    "cert_san_count",
+    "cert_chain_length"
+  ],
+  "protocol_counts": {
+    "IMAP": 3336,
+    "POP3": 3332,
+    "SMTP": 3332
+  },
+  "real_observation_count": 0,
+  "runtime_feature_observability": {
+    "p05_training_fraction": 0.13333333333333333
+  },
+  "sample_count": 10000,
+  "seed": 20261001,
+  "selected_hyperparameters": {
+    "C": 0.1,
+    "class_weight": "balanced"
+  },
+  "selection_metric": "validation macro-F1",
+  "sklearn_version": "1.9.1",
+  "split_class_counts": {
+    "test": {
+      "CRITICAL": 310,
+      "HIGH": 520,
+      "LOW": 570,
+      "MEDIUM": 475
+    },
+    "train": {
+      "CRITICAL": 1950,
+      "HIGH": 1460,
+      "LOW": 1395,
+      "MEDIUM": 1585
+    },
+    "validation": {
+      "CRITICAL": 240,
+      "HIGH": 520,
+      "LOW": 535,
+      "MEDIUM": 440
+    }
+  },
+  "split_group_counts": {
+    "test": 103,
+    "train": 303,
+    "validation": 102
+  },
+  "split_method": "Grouped stratified 60/20/20 split by full generated endpoint configuration fingerprint; all five negotiations from each endpoint configuration stay together.",
+  "split_sizes": {
+    "test": 1875,
+    "train": 6390,
+    "validation": 1735
+  },
+  "synthetic_observation_count": 10000,
+  "target": "synthetic_full_endpoint_posture_rubric_v1",
+  "target_rubric": {
+    "CRITICAL": "TLS unavailable or endpoint permits NULL/RC4 suites.",
+    "HIGH": "Endpoint permits TLS below 1.2, static RSA key exchange, weak RSA key, untrusted/mismatched certificate, or SHA-1 signature.",
+    "LOW": "TLS 1.2 or newer; AEAD/ECDHE-capable suite set; strong, trusted, matching certificate; no higher-tier condition.",
+    "MEDIUM": "No higher-tier condition, but endpoint permits CBC or uses a certificate lifetime above 825 days."
+  },
+  "target_semantics": "LOW/MEDIUM/HIGH/CRITICAL describe a generated endpoint's full supported TLS configuration; input features describe only one simulated client negotiation. Labels do not use Rule Engine outputs.",
+  "task": "Supervised synthetic email endpoint-posture classification from one simulated negotiation",
+  "test_metrics": {
+    "accuracy": 0.5130666666666667,
+    "confusion_matrix_labels": [
+      "LOW",
+      "MEDIUM",
+      "HIGH",
+      "CRITICAL"
+    ],
+    "confusion_matrix_rows_actual": [
+      [
+        200,
+        61,
+        7,
+        302
+      ],
+      [
+        48,
+        241,
+        74,
+        112
+      ],
+      [
+        0,
+        140,
+        327,
+        53
+      ],
+      [
+        0,
+        40,
+        76,
+        194
+      ]
+    ],
+    "macro_f1": 0.5109093232884929,
+    "majority_baseline_macro_f1": 0.07093821510297482,
+    "per_class": {
+      "CRITICAL": {
+        "f1": 0.3995880535530381,
+        "precision": 0.2934947049924357,
+        "recall": 0.6258064516129033,
+        "support": 310
+      },
+      "HIGH": {
+        "f1": 0.651394422310757,
+        "precision": 0.6756198347107438,
+        "recall": 0.6288461538461538,
+        "support": 520
+      },
+      "LOW": {
+        "f1": 0.4889975550122249,
+        "precision": 0.8064516129032258,
+        "recall": 0.3508771929824561,
+        "support": 570
+      },
+      "MEDIUM": {
+        "f1": 0.5036572622779519,
+        "precision": 0.5,
+        "recall": 0.5073684210526316,
+        "support": 475
+      }
+    },
+    "sample_count": 1875,
+    "training_size_after_refit": 8125
+  },
+  "validation_candidates": {
+    "LogisticRegression": {
+      "accuracy": 0.4979827089337176,
+      "confusion_matrix_labels": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ],
+      "confusion_matrix_rows_actual": [
+        [
+          211,
+          46,
+          11,
+          267
+        ],
+        [
+          51,
+          220,
+          53,
+          116
+        ],
+        [
+          0,
+          96,
+          331,
+          93
+        ],
+        [
+          0,
+          81,
+          57,
+          102
+        ]
+      ],
+      "macro_f1": 0.4895613821369816,
+      "per_class": {
+        "CRITICAL": {
+          "f1": 0.24938875305623473,
+          "precision": 0.17647058823529413,
+          "recall": 0.425,
+          "support": 240
+        },
+        "HIGH": {
+          "f1": 0.6810699588477366,
+          "precision": 0.7323008849557522,
+          "recall": 0.6365384615384615,
+          "support": 520
+        },
+        "LOW": {
+          "f1": 0.5294855708908407,
+          "precision": 0.8053435114503816,
+          "recall": 0.394392523364486,
+          "support": 535
+        },
+        "MEDIUM": {
+          "f1": 0.4983012457531144,
+          "precision": 0.4966139954853273,
+          "recall": 0.5,
+          "support": 440
+        }
+      },
+      "sample_count": 1735
+    },
+    "RandomForest": {
+      "accuracy": 0.4806916426512968,
+      "confusion_matrix_labels": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ],
+      "confusion_matrix_rows_actual": [
+        [
+          195,
+          62,
+          10,
+          268
+        ],
+        [
+          48,
+          210,
+          61,
+          121
+        ],
+        [
+          4,
+          96,
+          323,
+          97
+        ],
+        [
+          4,
+          70,
+          60,
+          106
+        ]
+      ],
+      "macro_f1": 0.47314879012028527,
+      "per_class": {
+        "CRITICAL": {
+          "f1": 0.2548076923076923,
+          "precision": 0.17905405405405406,
+          "recall": 0.44166666666666665,
+          "support": 240
+        },
+        "HIGH": {
+          "f1": 0.6632443531827515,
+          "precision": 0.711453744493392,
+          "recall": 0.6211538461538462,
+          "support": 520
+        },
+        "LOW": {
+          "f1": 0.4961832061068702,
+          "precision": 0.7768924302788844,
+          "recall": 0.3644859813084112,
+          "support": 535
+        },
+        "MEDIUM": {
+          "f1": 0.4783599088838269,
+          "precision": 0.4794520547945205,
+          "recall": 0.4772727272727273,
+          "support": 440
+        }
+      },
+      "sample_count": 1735
+    }
+  }
+}

@@ -1,0 +1,6286 @@
+{
+  "timestamp": "2020-05-20T10:25:12.710034-07:00",
+  "expires": "2020-06-03T10:25:12.710055-07:00",
+  "version": "0.1",
+  "author": "Electronic Frontier Foundation https://eff.org",
+  "policy-aliases": {
+    "google": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "icloud": {
+      "mode": "testing",
+      "mxs": [
+        "mx1.mail.icloud.com",
+        "mx2.mail.icloud.com",
+        "mx3.mail.icloud.com",
+        "mx4.mail.icloud.com",
+        "mx5.mail.icloud.com",
+        "mx6.mail.icloud.com",
+        ".mail.icloud.com"
+      ]
+    },
+    "outlook": {
+      "mode": "testing",
+      "mxs": [
+        ".olc.protection.outlook.com",
+        ".mail.protection.outlook.com"
+      ]
+    },
+    "yahoo": {
+      "mode": "testing",
+      "mxs": [
+        ".am0.yahoodns.net",
+        "mta5.am0.yahoodns.net",
+        "mta6.am0.yahoodns.net",
+        "mta7.am0.yahoodns.net"
+      ]
+    }
+  },
+  "policies": {
+    "aol.com": {
+      "policy-alias": "yahoo"
+    },
+    "comcast.net": {
+      "mode": "enforce",
+      "mxs": [
+        "mx1.comcast.net",
+        "mx2.comcast.net"
+      ]
+    },
+    "eff.org": {
+      "mode": "testing",
+      "mxs": [
+        ".eff.org"
+      ]
+    },
+    "facebook.com": {
+      "mode": "testing",
+      "mxs": [
+        ".facebook.com"
+      ]
+    },
+    "gmail.com": {
+      "mode": "enforce",
+      "mxs": [
+        "gmail-smtp-in.l.google.com",
+        ".gmail-smtp-in.l.google.com"
+      ]
+    },
+    "hotmail.com": {
+      "policy-alias": "outlook"
+    },
+    "icloud.com": {
+      "policy-alias": "icloud"
+    },
+    "live.com": {
+      "policy-alias": "outlook"
+    },
+    "me.com": {
+      "policy-alias": "icloud"
+    },
+    "msn.com": {
+      "policy-alias": "outlook"
+    },
+    "outlook.com": {
+      "policy-alias": "outlook"
+    },
+    "qq.com": {
+      "mode": "testing",
+      "mxs": [
+        ".qq.com"
+      ]
+    },
+    "rocketmail.com": {
+      "policy-alias": "yahoo"
+    },
+    "salesforce.com": {
+      "policy-alias": "google"
+    },
+    "yahoo.com": {
+      "policy-alias": "yahoo"
+    },
+    "yahoogroups.com": {
+      "policy-alias": "yahoo"
+    },
+    "yandex.ru": {
+      "mode": "testing",
+      "mxs": [
+        ".yandex.ru"
+      ]
+    },
+    "ymail.com": {
+      "policy-alias": "yahoo"
+    },
+    "0xheap.org": {
+      "mode": "testing",
+      "mxs": [
+        "mail.0xheap.org"
+      ]
+    },
+    "alainwolf.ch": {
+      "mode": "enforce",
+      "mxs": [
+        "norris.urown.net",
+        "pace.urown.net",
+        "mail.urown.net"
+      ]
+    },
+    "alainwolf.net": {
+      "mode": "enforce",
+      "mxs": [
+        "norris.urown.net",
+        "pace.urown.net",
+        "mail.urown.net"
+      ]
+    },
+    "apbox.de": {
+      "mode": "testing",
+      "mxs": [
+        "srv.apbox.de"
+      ]
+    },
+    "avdagic.net": {
+      "mode": "testing",
+      "mxs": [
+        "avdagic.net"
+      ]
+    },
+    "bfg-10k.ru": {
+      "mode": "testing",
+      "mxs": [
+        "orion.bfg-10k.ru"
+      ]
+    },
+    "bitpath.de": {
+      "mode": "testing",
+      "mxs": [
+        "bitpath.de"
+      ]
+    },
+    "cfenns.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.cfenns.de"
+      ]
+    },
+    "chas.se": {
+      "mode": "testing",
+      "mxs": [
+        "mail.chas.se"
+      ]
+    },
+    "chatras.me": {
+      "mode": "testing",
+      "mxs": [
+        "smtp.chatras.me"
+      ]
+    },
+    "compucation.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.compucation.de"
+      ]
+    },
+    "crasline.de": {
+      "mode": "testing",
+      "mxs": [
+        "ina.pt-server.de"
+      ]
+    },
+    "dahoam.de": {
+      "mode": "testing",
+      "mxs": [
+        "cloud.eltrich.name",
+        "axon.gand.de"
+      ]
+    },
+    "davidkevork.me": {
+      "mode": "testing",
+      "mxs": [
+        "mx.zoho.com",
+        "mx2.zoho.com"
+      ]
+    },
+    "dayman.net": {
+      "mode": "testing",
+      "mxs": [
+        "dayman.net"
+      ]
+    },
+    "deepztream.com": {
+      "mode": "testing",
+      "mxs": [
+        "deepztream.com",
+        "mail.deepztream.com"
+      ]
+    },
+    "delfic.org": {
+      "mode": "testing",
+      "mxs": [
+        ".delfic.org"
+      ]
+    },
+    "dietrich.cx": {
+      "mode": "enforce",
+      "mxs": [
+        "mxext1.mailbox.org",
+        "mxext2.mailbox.org",
+        "mxext3.mailbox.org"
+      ]
+    },
+    "eltrich.name": {
+      "mode": "testing",
+      "mxs": [
+        "cloud.eltrich.name",
+        "axon.gand.de"
+      ]
+    },
+    "eruditium.org": {
+      "mode": "testing",
+      "mxs": [
+        "mail.eruditium.org"
+      ]
+    },
+    "expertisale.com": {
+      "mode": "testing",
+      "mxs": [
+        "smtpmx2.expertisale.com",
+        "smtpmx3.expertisale.com"
+      ]
+    },
+    "fabje.nl": {
+      "mode": "testing",
+      "mxs": [
+        "mail.fabje.nl",
+        "in.hes.trendmicro.eu"
+      ]
+    },
+    "familieblume.nl": {
+      "mode": "testing",
+      "mxs": [
+        "in.hes.trendmicro.eu",
+        "mail.fabje.nl"
+      ]
+    },
+    "fau.org": {
+      "mode": "testing",
+      "mxs": [
+        "mail.fau.org"
+      ]
+    },
+    "fayeline.nl": {
+      "mode": "testing",
+      "mxs": [
+        "mail.fabje.nl"
+      ]
+    },
+    "federation-interstellar.org": {
+      "mode": "enforce",
+      "mxs": [
+        "norris.urown.net",
+        "pace.urown.net",
+        "mail.urown.net"
+      ]
+    },
+    "fivl.it": {
+      "mode": "testing",
+      "mxs": [
+        ".fivl.it"
+      ]
+    },
+    "flawy.de": {
+      "mode": "enforce",
+      "mxs": [
+        "lx1.flawy.de"
+      ]
+    },
+    "friendlyfire.ca": {
+      "mode": "testing",
+      "mxs": [
+        "mail.friendlyfire.ca"
+      ]
+    },
+    "gaertner-im-internet.de": {
+      "mode": "testing",
+      "mxs": [
+        "mailtomailserver08.de"
+      ]
+    },
+    "grepular.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.grepular.com"
+      ]
+    },
+    "gwalarn.eu": {
+      "mode": "testing",
+      "mxs": [
+        "gwalarn.eu",
+        "saintlu.gwalarn.eu"
+      ]
+    },
+    "hypermeganet.uk": {
+      "mode": "testing",
+      "mxs": [
+        "mail.hypermeganet.uk",
+        "mail2.hypermeganet.uk"
+      ]
+    },
+    "iddya.com": {
+      "mode": "testing",
+      "mxs": [
+        ".iddya.com"
+      ]
+    },
+    "itzer.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.itzer.de"
+      ]
+    },
+    "joelmediatv.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.codethink.de"
+      ]
+    },
+    "kjkobes.com": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "knthost.com": {
+      "mode": "testing",
+      "mxs": [
+        "mx.knthost.com",
+        "secure-mx.knthost.com",
+        "inbound01.knthost.com",
+        "secure-inbound01.knthost.com",
+        "inbound02.knthost.com",
+        "secure-inbound02.knthost.com"
+      ]
+    },
+    "krapace.fr": {
+      "mode": "testing",
+      "mxs": [
+        "mail.krapace.fr"
+      ]
+    },
+    "latinist.net": {
+      "mode": "testing",
+      "mxs": [
+        "latinist.net",
+        "mail.latinist.net"
+      ]
+    },
+    "linecorp.com": {
+      "mode": "testing",
+      "mxs": [
+        "mx1.navercorp.com",
+        "mx2.navercorp.com"
+      ]
+    },
+    "linuxfirewall.no-ip.org": {
+      "mode": "testing",
+      "mxs": [
+        "linuxfirewall.no-ip.org"
+      ]
+    },
+    "livoris.net": {
+      "mode": "enforce",
+      "mxs": [
+        "livoris.net",
+        "chris-schuster.net"
+      ]
+    },
+    "locker.email": {
+      "mode": "testing",
+      "mxs": [
+        "locker.email"
+      ]
+    },
+    "luup.info": {
+      "mode": "testing",
+      "mxs": [
+        "adrastea.luup.info"
+      ]
+    },
+    "macaw.me": {
+      "mode": "testing",
+      "mxs": [
+        "mail.macaw.me"
+      ]
+    },
+    "maddes.net": {
+      "mode": "testing",
+      "mxs": [
+        "mail.maddes.net"
+      ]
+    },
+    "miggy.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.fysh.org"
+      ]
+    },
+    "misguide.de": {
+      "mode": "testing",
+      "mxs": [
+        "h18.ogga.de"
+      ]
+    },
+    "modum.by": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.office.modum.by"
+      ]
+    },
+    "mpcompany.ru": {
+      "mode": "testing",
+      "mxs": [
+        "mx.mpcompany.ru",
+        ".mpcompany.ru"
+      ]
+    },
+    "mycloudmail.ooo": {
+      "mode": "testing",
+      "mxs": [
+        "mail.mycloudmail.ooo"
+      ]
+    },
+    "myriapolis.net": {
+      "mode": "testing",
+      "mxs": [
+        ".myriapolis.net"
+      ]
+    },
+    "naver.com": {
+      "mode": "testing",
+      "mxs": [
+        ".naver.com"
+      ]
+    },
+    "navercorp.com": {
+      "mode": "testing",
+      "mxs": [
+        ".navercorp.com"
+      ]
+    },
+    "neffets.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.neffets.de"
+      ]
+    },
+    "node-nine.com": {
+      "mode": "testing",
+      "mxs": [
+        "mx2.node-nine.com"
+      ]
+    },
+    "nottori.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.nottori.com"
+      ]
+    },
+    "pharmbiotest.com.ua": {
+      "mode": "testing",
+      "mxs": [
+        "pharmbiotest.com.ua"
+      ]
+    },
+    "pt-server.de": {
+      "mode": "testing",
+      "mxs": [
+        "ina.pt-server.de"
+      ]
+    },
+    "rbbaader.de": {
+      "mode": "testing",
+      "mxs": [
+        "ina.pt-server.de"
+      ]
+    },
+    "rbr.info": {
+      "mode": "testing",
+      "mxs": [
+        "mail.eruditium.org"
+      ]
+    },
+    "reisebuero-baader.de": {
+      "mode": "testing",
+      "mxs": [
+        "ina.pt-server.de"
+      ]
+    },
+    "saccani.net": {
+      "mode": "testing",
+      "mxs": [
+        ".fivl.it"
+      ]
+    },
+    "sheogorath.shivering-isles.com": {
+      "mode": "testing",
+      "mxs": [
+        "srv02.shivering-isles.com"
+      ]
+    },
+    "shivering-isles.com": {
+      "mode": "testing",
+      "mxs": [
+        "srv02.shivering-isles.com"
+      ]
+    },
+    "spodhuis.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.spodhuis.org"
+      ]
+    },
+    "teichsurfer.de": {
+      "mode": "testing",
+      "mxs": [
+        "one.teichsurfer.de"
+      ]
+    },
+    "thelinuxtree.net": {
+      "mode": "testing",
+      "mxs": [
+        ".thelinuxtree.net"
+      ]
+    },
+    "tspu.edu.ru": {
+      "mode": "testing",
+      "mxs": [
+        "mail.tspu.edu.ru"
+      ]
+    },
+    "tspu.ru": {
+      "mode": "testing",
+      "mxs": [
+        "mail.tspu.edu.ru"
+      ]
+    },
+    "4zal.net": {
+      "mode": "enforce",
+      "mxs": [
+        ".4zal.net",
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "anongoth.pl": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.anongoth.pl"
+      ]
+    },
+    "arkadiyt.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "bingbong.epac.to": {
+      "mode": "testing",
+      "mxs": [
+        "bingbong.epac.to"
+      ]
+    },
+    "bjrn.io": {
+      "mode": "testing",
+      "mxs": [
+        "mail.bjrn.io"
+      ]
+    },
+    "boerner.click": {
+      "mode": "testing",
+      "mxs": [
+        ".boerner.click",
+        "hfyqtgmxim0iim3l.myfritz.net"
+      ]
+    },
+    "bolshaw.me.uk": {
+      "mode": "testing",
+      "mxs": [
+        "vm1.bolshaw.me.uk",
+        "vm2.bolshaw.me.uk"
+      ]
+    },
+    "c3w.at": {
+      "mode": "enforce",
+      "mxs": [
+        "dergeraet.c3w.at"
+      ]
+    },
+    "cert.br": {
+      "mode": "testing",
+      "mxs": [
+        "woq.cert.br"
+      ]
+    },
+    "chamberlain.net.au": {
+      "mode": "testing",
+      "mxs": [
+        "mail.chamberlain.net.au",
+        "mail2.chamberlain.net.au",
+        "mail3.chamberlain.net.au"
+      ]
+    },
+    "clearbus.fr": {
+      "mode": "testing",
+      "mxs": [
+        "zimbra.clearbus.fr"
+      ]
+    },
+    "conchaudron.net": {
+      "mode": "testing",
+      "mxs": [
+        "mail.conchaudron.net",
+        ".conchaudron.net"
+      ]
+    },
+    "corecha.in": {
+      "mode": "testing",
+      "mxs": [
+        "mx.corecha.in"
+      ]
+    },
+    "cosysco.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.mobydog.net"
+      ]
+    },
+    "crustytoothpaste.net": {
+      "mode": "testing",
+      "mxs": [
+        ".crustytoothpaste.net"
+      ]
+    },
+    "decimatechnologies.eu": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "desgrange.net": {
+      "mode": "testing",
+      "mxs": [
+        ".desgrange.net"
+      ]
+    },
+    "desu.ne.jp": {
+      "mode": "testing",
+      "mxs": [
+        "kanna.desu.ne.jp",
+        "mx.desu.ne.jp"
+      ]
+    },
+    "dismail.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mx1.dismail.de",
+        "mx2.dismail.de"
+      ]
+    },
+    "druwe.net": {
+      "mode": "enforce",
+      "mxs": [
+        "delores.druwe.net"
+      ]
+    },
+    "ergobyte.gr": {
+      "mode": "testing",
+      "mxs": [
+        ".ergobyte.gr"
+      ]
+    },
+    "f00f.org": {
+      "mode": "enforce",
+      "mxs": [
+        "proxima.stupidest.org"
+      ]
+    },
+    "familieverberne.nl": {
+      "mode": "testing",
+      "mxs": [
+        "smtp.verberne.nu"
+      ]
+    },
+    "fbreest.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.fbreest.de"
+      ]
+    },
+    "fireserve.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.fireserve.net",
+        "mx1.fireserve.net"
+      ]
+    },
+    "fireserve.net": {
+      "mode": "testing",
+      "mxs": [
+        "mail.fireserve.net",
+        "mx1.fireserve.net"
+      ]
+    },
+    "flarn.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.flarn.com"
+      ]
+    },
+    "fran.cr": {
+      "mode": "testing",
+      "mxs": [
+        ".fran.cr"
+      ]
+    },
+    "getappetite.tv": {
+      "mode": "testing",
+      "mxs": [
+        "mail.getappetite.tv"
+      ]
+    },
+    "ggp2.com": {
+      "mode": "enforce",
+      "mxs": [
+        "c.fsckd.com",
+        "d.fsckd.com"
+      ]
+    },
+    "gkd-el.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mailgw.gkd-el.de",
+        "filter.gkd-el.de"
+      ]
+    },
+    "guyromm.com": {
+      "mode": "testing",
+      "mxs": [
+        "mx.guyromm.com"
+      ]
+    },
+    "harrysmallbones.co.uk": {
+      "mode": "testing",
+      "mxs": [
+        "mail.harrysmallbones.co.uk",
+        "harrysmallbones.co.uk"
+      ]
+    },
+    "hesketh.net.au": {
+      "mode": "testing",
+      "mxs": [
+        "mail.hesketh.net.au"
+      ]
+    },
+    "incenp.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.incenp.org"
+      ]
+    },
+    "iq.pl": {
+      "mode": "testing",
+      "mxs": [
+        "mail.iq.pl"
+      ]
+    },
+    "jcea.es": {
+      "mode": "testing",
+      "mxs": [
+        "smtp.jcea.es"
+      ]
+    },
+    "jtg.business": {
+      "mode": "testing",
+      "mxs": [
+        "box.jtg.business"
+      ]
+    },
+    "jvb.ca": {
+      "mode": "testing",
+      "mxs": [
+        ".jvb.ca"
+      ]
+    },
+    "klausen.dk": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.klausen.dk"
+      ]
+    },
+    "klingele.me": {
+      "mode": "testing",
+      "mxs": [
+        "mail.leonklingele.de",
+        "alt1.mail.leonklingele.de",
+        "alt2.mail.leonklingele.de"
+      ]
+    },
+    "ko-sys.com": {
+      "mode": "enforce",
+      "mxs": [
+        "smtp.ko-sys.com"
+      ]
+    },
+    "kubica.ch": {
+      "mode": "enforce",
+      "mxs": [
+        ".burzum.ch"
+      ]
+    },
+    "levinus.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.levinus.de"
+      ]
+    },
+    "lifechurch.at": {
+      "mode": "testing",
+      "mxs": [
+        "mail.lifechurch.at"
+      ]
+    },
+    "maclemon.at": {
+      "mode": "enforce",
+      "mxs": [
+        "dungeon.maclemon.at"
+      ]
+    },
+    "menthiere.fr": {
+      "mode": "testing",
+      "mxs": [
+        ".mail.gandi.net"
+      ]
+    },
+    "michaelpjohnson.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.michaelpjohnson.com",
+        "michaelpjohnson.com"
+      ]
+    },
+    "mnium.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.mnium.de"
+      ]
+    },
+    "monopod.net": {
+      "mode": "testing",
+      "mxs": [
+        ".electricembers.net"
+      ]
+    },
+    "nic.br": {
+      "mode": "testing",
+      "mxs": [
+        "mail.nic.br",
+        "enqueuer.nic.br"
+      ]
+    },
+    "ninetailed.ninja": {
+      "mode": "testing",
+      "mxs": [
+        ".ninetailed.ninja"
+      ]
+    },
+    "ninov.de": {
+      "mode": "testing",
+      "mxs": [
+        "ofen.nv.gw"
+      ]
+    },
+    "nothing.net.nz": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com"
+      ]
+    },
+    "petersons.me": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch"
+      ]
+    },
+    "pf.id.au": {
+      "mode": "testing",
+      "mxs": [
+        ".pf.id.au",
+        ".ironicfate.com.au"
+      ]
+    },
+    "ppt.com": {
+      "mode": "testing",
+      "mxs": [
+        ".ppt.com"
+      ]
+    },
+    "privacyweek.at": {
+      "mode": "testing",
+      "mxs": [
+        "dergeraet.c3w.at"
+      ]
+    },
+    "raitisoja.com": {
+      "mode": "testing",
+      "mxs": [
+        "box.prvcy.email"
+      ]
+    },
+    "randolf.at": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.randolf.at"
+      ]
+    },
+    "registro.br": {
+      "mode": "testing",
+      "mxs": [
+        "clone.registro.br",
+        "clonev4.registro.br",
+        "fe.registro.br"
+      ]
+    },
+    "s-hertogenbosch.nl": {
+      "mode": "testing",
+      "mxs": [
+        "mx1.s-hertogenbosch.nl",
+        "mx2.s-hertogenbosch.nl"
+      ]
+    },
+    "sauerburger.io": {
+      "mode": "testing",
+      "mxs": [
+        "mail.sit-servers.net"
+      ]
+    },
+    "sbs.co.nz": {
+      "mode": "testing",
+      "mxs": [
+        "mail.sbs.co.nz"
+      ]
+    },
+    "schlarb.eu": {
+      "mode": "testing",
+      "mxs": [
+        ".ninetailed.ninja"
+      ]
+    },
+    "sdeziel.info": {
+      "mode": "enforce",
+      "mxs": [
+        "smtp.sdeziel.info"
+      ]
+    },
+    "sertelon.fr": {
+      "mode": "testing",
+      "mxs": [
+        "smtp.sertelon.fr"
+      ]
+    },
+    "sixpak.org": {
+      "mode": "enforce",
+      "mxs": [
+        "sixpak.sixpak.org",
+        ".sixpak.org",
+        "sixpak.org"
+      ]
+    },
+    "sufix.cz": {
+      "mode": "enforce",
+      "mxs": [
+        "sufix-cz.mail.protection.outlook.com"
+      ]
+    },
+    "sunsetdynamics.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.fireserve.net",
+        "mx1.fireserve.net"
+      ]
+    },
+    "sven.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.sven.de"
+      ]
+    },
+    "tala.dk": {
+      "mode": "testing",
+      "mxs": [
+        "mail.tala.dk",
+        "smtp.tala.dk",
+        "tala.dk"
+      ]
+    },
+    "tepas.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.tepas.de"
+      ]
+    },
+    "tgoss.de": {
+      "mode": "testing",
+      "mxs": [
+        "tgoss.de"
+      ]
+    },
+    "thenetw.org": {
+      "mode": "testing",
+      "mxs": [
+        "thenetw-org.mail.protection.outlook.com"
+      ]
+    },
+    "thewiesners.org": {
+      "mode": "testing",
+      "mxs": [
+        "box.thewiesners.org",
+        "thewiesners.org"
+      ]
+    },
+    "tifaware.com": {
+      "mode": "testing",
+      "mxs": [
+        "sal.tifaware.com",
+        "mail.tifaware.com"
+      ]
+    },
+    "tilde.team": {
+      "mode": "testing",
+      "mxs": [
+        ".tilde.team"
+      ]
+    },
+    "tynan.com": {
+      "mode": "testing",
+      "mxs": [
+        "cloud.tynan.com"
+      ]
+    },
+    "valorizmusic.com": {
+      "mode": "testing",
+      "mxs": [
+        ".ninetailed.ninja"
+      ]
+    },
+    "volitans-software.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.volitans-software.com"
+      ]
+    },
+    "vosky.fr": {
+      "mode": "testing",
+      "mxs": [
+        "aga.vosky.fr",
+        "scw.vosky.fr"
+      ]
+    },
+    "wakesecure.com": {
+      "mode": "testing",
+      "mxs": [
+        "wakesecure.com",
+        "marcabel.com"
+      ]
+    },
+    "webgma.co.il": {
+      "mode": "testing",
+      "mxs": [
+        "mx.webgma.co.il"
+      ]
+    },
+    "xel.nl": {
+      "mode": "testing",
+      "mxs": [
+        "mx1.xel.nl",
+        "mx2.xel.nl",
+        "mx3.xel.nl"
+      ]
+    },
+    "yoursafe.se": {
+      "mode": "testing",
+      "mxs": [
+        "mail.yoursafe.se"
+      ]
+    },
+    "zl1ab.nz": {
+      "mode": "testing",
+      "mxs": [
+        "zl1ab.nz"
+      ]
+    },
+    "babioch.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.babioch.de"
+      ]
+    },
+    "bpce.fr": {
+      "mode": "testing",
+      "mxs": [
+        "mail-in.bpce-it.fr"
+      ]
+    },
+    "curttech.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.curttech.net"
+      ]
+    },
+    "dhautefeuille.eu": {
+      "mode": "enforce",
+      "mxs": [
+        "arch-server.dhautefeuille.eu"
+      ]
+    },
+    "duesterhus.eu": {
+      "mode": "testing",
+      "mxs": [
+        ".xqk7.com"
+      ]
+    },
+    "durel.org": {
+      "mode": "enforce",
+      "mxs": [
+        "corrin.geekwu.org",
+        "arrakeen.geekwu.org"
+      ]
+    },
+    "eckhofer.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.tribut.de"
+      ]
+    },
+    "edam-volendam.nl": {
+      "mode": "testing",
+      "mxs": [
+        "gen1.edam-volendam.nl"
+      ]
+    },
+    "fladnag.net": {
+      "mode": "testing",
+      "mxs": [
+        "mail.fladnag.net",
+        "gateway.mail.fladnag.net"
+      ]
+    },
+    "hany.sk": {
+      "mode": "testing",
+      "mxs": [
+        ".hany.sk"
+      ]
+    },
+    "hewgill.net": {
+      "mode": "testing",
+      "mxs": [
+        "stratus.hewgill.net"
+      ]
+    },
+    "it4sure.nl": {
+      "mode": "testing",
+      "mxs": [
+        "mx1.it4sure.cloud",
+        "mx2.it4sure.cloud",
+        "mail.it4sure.cloud"
+      ]
+    },
+    "jndata.dk": {
+      "mode": "testing",
+      "mxs": [
+        "mailin01.jndata.dk",
+        "mailin02.jndata.dk",
+        "mailin03.jndata.dk"
+      ]
+    },
+    "knop.eu": {
+      "mode": "testing",
+      "mxs": [
+        "srv01.knop.info"
+      ]
+    },
+    "lancashirebeekeepers.org.uk": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "aspmx2.googlemail.com",
+        "aspmx3.googlemail.com"
+      ]
+    },
+    "ledovskis.lv": {
+      "mode": "enforce",
+      "mxs": [
+        "ariake.ledovskis.lv"
+      ]
+    },
+    "lmcm.io": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "mail.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mx01.mail.de",
+        "mx02.mail.de"
+      ]
+    },
+    "mattleidholm.com": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "mingjie.info": {
+      "mode": "testing",
+      "mxs": [
+        ".mingjie.info",
+        ".messagingengine.com"
+      ]
+    },
+    "netcompany.com": {
+      "mode": "testing",
+      "mxs": [
+        "netcompany-com.mail.protection.outlook.com"
+      ]
+    },
+    "netgalaxy.ca": {
+      "mode": "testing",
+      "mxs": [
+        "nyc.netgalaxy.ca"
+      ]
+    },
+    "ozark.be": {
+      "mode": "testing",
+      "mxs": [
+        "mail.hypnotized.org"
+      ]
+    },
+    "pa5am.nl": {
+      "mode": "enforce",
+      "mxs": [
+        "ipoac.nl"
+      ]
+    },
+    "sanker.by": {
+      "mode": "testing",
+      "mxs": [
+        "mail.sanker.by"
+      ]
+    },
+    "santoshpandit.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.tutanota.de"
+      ]
+    },
+    "saskpension.com": {
+      "mode": "testing",
+      "mxs": [
+        "saskpension-com.mail.protection.outlook.com"
+      ]
+    },
+    "seffner-schlesier.de": {
+      "mode": "testing",
+      "mxs": [
+        ".seffner-schlesier.de"
+      ]
+    },
+    "sovereign-order-of-saint-john.org": {
+      "mode": "testing",
+      "mxs": [
+        "mxext1.mailbox.org",
+        "mxext2.mailbox.org",
+        "mxext3.mailbox.org"
+      ]
+    },
+    "t-senger.de": {
+      "mode": "testing",
+      "mxs": [
+        ".t-senger.de"
+      ]
+    },
+    "taintedbit.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.taintedbit.com"
+      ]
+    },
+    "thisishugo.com": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "vixrapedia.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.vixrapedia.org"
+      ]
+    },
+    "vulnscan.org": {
+      "mode": "testing",
+      "mxs": [
+        "mail.vulnscan.org"
+      ]
+    },
+    "w4eg.de": {
+      "mode": "testing",
+      "mxs": [
+        "w4eg.de"
+      ]
+    },
+    "wiktel.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.wiktel.com"
+      ]
+    },
+    "xylon.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.xylon.de"
+      ]
+    },
+    "aegee.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.aegee.org",
+        "mxf-1.aegee.org",
+        "mxf-2.aegee.org"
+      ]
+    },
+    "anthonyvadala.me": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "artikel10.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mxext1.mailbox.org",
+        "mxext2.mailbox.org",
+        "mxext3.mailbox.org"
+      ]
+    },
+    "aztecface.email": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "backschues.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.backschues.net",
+        "mx0.backschues.net",
+        "mx00.backschues.net",
+        "mx01.backschues.net",
+        "mx1.backschues.net"
+      ]
+    },
+    "backschues.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.backschues.net",
+        "mx0.backschues.net",
+        "mx00.backschues.net",
+        "mx01.backschues.net",
+        "mx1.backschues.net"
+      ]
+    },
+    "backschues.net": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.backschues.net",
+        "mx0.backschues.net",
+        "mx00.backschues.net",
+        "mx01.backschues.net",
+        "mx1.backschues.net"
+      ]
+    },
+    "bearsunderland.com": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "aspmx2.googlemail.com",
+        "aspmx3.googlemail.com"
+      ]
+    },
+    "benjamin.computer": {
+      "mode": "testing",
+      "mxs": [
+        "mail.section9.london",
+        "post.section9.london"
+      ]
+    },
+    "billaud.eu.org": {
+      "mode": "enforce",
+      "mxs": [
+        "www2.billaud.eu.org",
+        "billaud.eu.org"
+      ]
+    },
+    "boenning.me": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "bolte.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.bolte.org"
+      ]
+    },
+    "bornwebserver.nl": {
+      "mode": "testing",
+      "mxs": [
+        "bornwebserver.nl",
+        "mail.bornwebserver.nl"
+      ]
+    },
+    "bugabinga.net": {
+      "mode": "testing",
+      "mxs": [
+        "box.bugabinga.net"
+      ]
+    },
+    "caletka.cz": {
+      "mode": "enforce",
+      "mxs": [
+        "flexi.oskarcz.net"
+      ]
+    },
+    "castlehoward.co.uk": {
+      "mode": "testing",
+      "mxs": [
+        "mail.castlehoward.co.uk"
+      ]
+    },
+    "cdom.de": {
+      "mode": "testing",
+      "mxs": [
+        "mailfilter2.cdom.de"
+      ]
+    },
+    "ck-energy.de": {
+      "mode": "enforce",
+      "mxs": [
+        "alpha.mail.ck-energy.info",
+        "beta.mail.ck-energy.info"
+      ]
+    },
+    "colincogle.name": {
+      "mode": "enforce",
+      "mxs": [
+        "rhymeswithmogul.com",
+        "colincogle.name",
+        "ec2.colincogle.name",
+        "greenpartyofnewmilford.org",
+        "mta-sts.rhymeswithmogul.com",
+        "mta-sts.colincogle.name",
+        "mta-sts.greenpartyofnewmilford.org"
+      ]
+    },
+    "connordav.is": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.zoho.com",
+        "mx2.zoho.com",
+        "mx3.zoho.com"
+      ]
+    },
+    "dancingsnails.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.dancingsnails.com"
+      ]
+    },
+    "ddimension.net": {
+      "mode": "enforce",
+      "mxs": [
+        "gamenet.ddimension.net"
+      ]
+    },
+    "divegearexpress.com": {
+      "mode": "enforce",
+      "mxs": [
+        "smtp.divegearexpress.com",
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com",
+        "smtp.postmarkapp.com",
+        ".messagingengine.com",
+        ".divegearexpress.com",
+        ".postmarkapp.com"
+      ]
+    },
+    "domblogger.net": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.domblogger.net"
+      ]
+    },
+    "donnerdoof.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.donnerdoof.de"
+      ]
+    },
+    "e9a.at": {
+      "mode": "testing",
+      "mxs": [
+        "mail.e9a.at"
+      ]
+    },
+    "email.ctrl.blog": {
+      "mode": "testing",
+      "mxs": [
+        "email.ctrl.blog"
+      ]
+    },
+    "french-interface.com": {
+      "mode": "testing",
+      "mxs": [
+        "french-interface.com"
+      ]
+    },
+    "fruweb.de": {
+      "mode": "testing",
+      "mxs": [
+        "hermes.fruweb.de",
+        ".mailbox.org"
+      ]
+    },
+    "gehrke.in": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.backschues.net",
+        "mx0.backschues.net",
+        "mx00.backschues.net",
+        "mx01.backschues.net",
+        "mx1.backschues.net"
+      ]
+    },
+    "giebel.it": {
+      "mode": "testing",
+      "mxs": [
+        "mailfilter2.cdom.de"
+      ]
+    },
+    "goppold.net": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.goppold.net",
+        "mail2.goppold.net"
+      ]
+    },
+    "halla.lv": {
+      "mode": "testing",
+      "mxs": [
+        "mail.halla.lv"
+      ]
+    },
+    "hengroenet.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.hengroenet.de"
+      ]
+    },
+    "honigdachse.de": {
+      "mode": "testing",
+      "mxs": [
+        ".honigdachse.de",
+        "mail.honigdachse.de"
+      ]
+    },
+    "iatmgu.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.iatmgu.com"
+      ]
+    },
+    "inethost.eu": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.inethost.eu"
+      ]
+    },
+    "it-zahner.de": {
+      "mode": "testing",
+      "mxs": [
+        "mx.it-zahner.net"
+      ]
+    },
+    "jonaswitmer.ch": {
+      "mode": "enforce",
+      "mxs": [
+        "jonaswitmer.ch"
+      ]
+    },
+    "js-webcoding.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.js-webcoding.de"
+      ]
+    },
+    "kc1hbk.com": {
+      "mode": "enforce",
+      "mxs": [
+        "ec2.colincogle.name",
+        "colincogle.name"
+      ]
+    },
+    "kimihia.org.nz": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "kmm.im": {
+      "mode": "testing",
+      "mxs": [
+        "mail.domob.eu"
+      ]
+    },
+    "koehn-consulting.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.koehn.com",
+        ".googlemail.com",
+        ".aspmx.l.google.com",
+        "aspmx.l.google.com"
+      ]
+    },
+    "koehn.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.koehn.com",
+        ".googlemail.com",
+        ".aspmx.l.google.com",
+        "aspmx.l.google.com"
+      ]
+    },
+    "kryptonresearch.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.tutanota.de"
+      ]
+    },
+    "laxu.de": {
+      "mode": "testing",
+      "mxs": [
+        "mx.nanubo.de"
+      ]
+    },
+    "lemon-kiwi.co": {
+      "mode": "testing",
+      "mxs": [
+        "alt4.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "aspmx.l.google.com",
+        "alt2.aspmx.l.google.com"
+      ]
+    },
+    "librelamp.com": {
+      "mode": "enforce",
+      "mxs": [
+        "librelamp.com"
+      ]
+    },
+    "m9r1s.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.m9r1s.com",
+        "m9r1s.com"
+      ]
+    },
+    "mach-politik.ch": {
+      "mode": "testing",
+      "mxs": [
+        "mach-politik.ch"
+      ]
+    },
+    "mahlendur.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.mahlendur.de"
+      ]
+    },
+    "mail.aegee.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.aegee.org",
+        "mxf-1.aegee.org",
+        "mxf-2.aegee.org"
+      ]
+    },
+    "mail.com": {
+      "mode": "testing",
+      "mxs": [
+        "mx00.mail.com",
+        "mx01.mail.com"
+      ]
+    },
+    "megane.it": {
+      "mode": "testing",
+      "mxs": [
+        "mail.megane.it",
+        "mail2.megane.it",
+        "mail3.megane.it"
+      ]
+    },
+    "meproduction.org": {
+      "mode": "testing",
+      "mxs": [
+        "meproduction.org",
+        ".meproduction.org",
+        "mail.meproduction.org"
+      ]
+    },
+    "mercedcapital.com": {
+      "mode": "enforce",
+      "mxs": [
+        "smtp1-mke.securence.com",
+        "smtp1-msp.securence.com"
+      ]
+    },
+    "mewp.pl": {
+      "mode": "testing",
+      "mxs": [
+        "mail.mewp.pl"
+      ]
+    },
+    "naundorf.it": {
+      "mode": "testing",
+      "mxs": [
+        "mail.bummelwelt.com"
+      ]
+    },
+    "netera.com": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "onex.de": {
+      "mode": "testing",
+      "mxs": [
+        "efa1.onexdienste.de",
+        "efa2.onexdienste.de"
+      ]
+    },
+    "pienpa.nl": {
+      "mode": "testing",
+      "mxs": [
+        "mail.pienpa.nl"
+      ]
+    },
+    "piratenpartei.at": {
+      "mode": "testing",
+      "mxs": [
+        "piratenpartei.at",
+        "pikachu.piratenpartei.at"
+      ]
+    },
+    "piratenpartei.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.piratenpartei.de",
+        "piratenpartei.de"
+      ]
+    },
+    "projectografico.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.projectografico.com"
+      ]
+    },
+    "protonmail.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "robwillis.org": {
+      "mode": "testing",
+      "mxs": [
+        "vade-in1.mail.dreamhost.com",
+        "vade-in2.mail.dreamhost.com"
+      ]
+    },
+    "rupostel.com": {
+      "mode": "testing",
+      "mxs": [
+        "mx.aububu.com"
+      ]
+    },
+    "s2net.ch": {
+      "mode": "testing",
+      "mxs": [
+        "smtp.s2net.ch"
+      ]
+    },
+    "salford.gov.uk": {
+      "mode": "testing",
+      "mxs": [
+        "mailmx.salford.gov.uk",
+        "mailout.ictservices.co.uk"
+      ]
+    },
+    "sandbornvoglfarms.com": {
+      "mode": "testing",
+      "mxs": [
+        "www.sandbornvoglfarms.com"
+      ]
+    },
+    "saulchristie.com": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "schleifenbaum.email": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.js-webcoding.de"
+      ]
+    },
+    "schleifenbaum.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.js-webcoding.de"
+      ]
+    },
+    "scotthsmith.com": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "secure.mailbox.org": {
+      "mode": "testing",
+      "mxs": [
+        "mxtls1.mailbox.org",
+        "mxtls2.mailbox.org"
+      ]
+    },
+    "seite3.net": {
+      "mode": "testing",
+      "mxs": [
+        "post.seite3.net"
+      ]
+    },
+    "semox.de": {
+      "mode": "enforce",
+      "mxs": [
+        "www.semox.de"
+      ]
+    },
+    "setemares.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.setemares.org",
+        ".setemares.org"
+      ]
+    },
+    "skynet-devices.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.tutanota.de"
+      ]
+    },
+    "snowpaws.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.snowpaws.de"
+      ]
+    },
+    "sodium.gr": {
+      "mode": "testing",
+      "mxs": [
+        "mail.sodium.gr"
+      ]
+    },
+    "srs-sys.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mx01a.srs-sys.de",
+        "mx01b.srs-sys.de",
+        "mx02a.srs-sys.de",
+        "mx02b.srs-sys.de"
+      ]
+    },
+    "svengo.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.svengo.net"
+      ]
+    },
+    "systemausfall.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mx1.systemausfall.org",
+        "mx2.systemausfall.org"
+      ]
+    },
+    "tbz-pariv.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.tbz-pariv.de",
+        "mail2.tbz-pariv.de"
+      ]
+    },
+    "technikumnukleoniczne.pl": {
+      "mode": "enforce",
+      "mxs": [
+        "TechnikumNukleoniczne-pl.mail.protection.outlook.com",
+        "mx1.comcast.net",
+        "mx2.comcast.net"
+      ]
+    },
+    "the.sexy": {
+      "mode": "testing",
+      "mxs": [
+        "mail.the.sexy"
+      ]
+    },
+    "thinking-bit.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.thinking-bit.com"
+      ]
+    },
+    "thinktank.co.nz": {
+      "mode": "testing",
+      "mxs": [
+        "thinktank.co.nz",
+        "mail.thinktank.co.nz",
+        "mail2.thinktank.co.nz",
+        "southern.thinktank.co.nz"
+      ]
+    },
+    "tresdouteux.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch"
+      ]
+    },
+    "treussart.com": {
+      "mode": "testing",
+      "mxs": [
+        ".treussart.com"
+      ]
+    },
+    "tutanota.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.tutanota.de"
+      ]
+    },
+    "vm-0.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.vm-0.com"
+      ]
+    },
+    "waldkindergarten-ausstattung.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.bummelwelt.com"
+      ]
+    },
+    "ybti.net": {
+      "mode": "enforce",
+      "mxs": [
+        "ybti.net"
+      ]
+    },
+    "zip-support.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.zip-support.de"
+      ]
+    },
+    "accessnetwork.ro": {
+      "mode": "testing",
+      "mxs": [
+        "zimbra.accessnetwork.ro"
+      ]
+    },
+    "acloud.one": {
+      "mode": "testing",
+      "mxs": [
+        "srv02.acloud.one",
+        "mail.acloud.one",
+        "autodiscover.acloud.one"
+      ]
+    },
+    "aipi.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.aipi.de"
+      ]
+    },
+    "airpost.pw": {
+      "mode": "enforce",
+      "mxs": [
+        "w.robotham.dev",
+        "mx2.robotham.dev"
+      ]
+    },
+    "allnetwork.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.allnetwork.de"
+      ]
+    },
+    "artemyev.com": {
+      "mode": "testing",
+      "mxs": [
+        "naksitrallid.com"
+      ]
+    },
+    "artemyev.net": {
+      "mode": "testing",
+      "mxs": [
+        "naksitrallid.com"
+      ]
+    },
+    "artemyev.org": {
+      "mode": "testing",
+      "mxs": [
+        "naksitrallid.com"
+      ]
+    },
+    "cgfreaks.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.cgfreaks.com"
+      ]
+    },
+    "cpexre.com": {
+      "mode": "testing",
+      "mxs": [
+        "cpexre-com.mail.protection.outlook.com"
+      ]
+    },
+    "cryptomilk.org": {
+      "mode": "testing",
+      "mxs": [
+        "milliways.cryptomilk.org"
+      ]
+    },
+    "dotmol.nl": {
+      "mode": "testing",
+      "mxs": [
+        "sigma.dotmol.nl"
+      ]
+    },
+    "emilstahl.dk": {
+      "mode": "enforce",
+      "mxs": [
+        "mx1.smtp.goog",
+        "mx2.smtp.goog",
+        "mx3.smtp.goog",
+        "mx4.smtp.goog"
+      ]
+    },
+    "klinikum-oldenburg.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.klinikum-oldenburg.de",
+        "mx.aipi.de"
+      ]
+    },
+    "ldwg.us": {
+      "mode": "testing",
+      "mxs": [
+        "mail.ldwg.us"
+      ]
+    },
+    "lists.aegee.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.aegee.org",
+        "mxf-1.aegee.org",
+        "mxf-2.aegee.org"
+      ]
+    },
+    "maelstrom.ninja": {
+      "mode": "testing",
+      "mxs": [
+        ".maelstrom.ninja"
+      ]
+    },
+    "mailbox.org": {
+      "mode": "testing",
+      "mxs": [
+        "mx1.mailbox.org",
+        "mx2.mailbox.org",
+        "mx3.mailbox.org",
+        "mxtls1.mailbox.org",
+        "mxtls2.mailbox.org"
+      ]
+    },
+    "php.watch": {
+      "mode": "testing",
+      "mxs": [
+        "mx.yandex.net"
+      ]
+    },
+    "railduction.eu": {
+      "mode": "testing",
+      "mxs": [
+        "mail.railduction.eu"
+      ]
+    },
+    "systemli.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.systemli.org"
+      ]
+    },
+    "touraineverte.com": {
+      "mode": "testing",
+      "mxs": [
+        "mxb.ovh.net",
+        "mx3.ovh.net",
+        "mx4.ovh.net"
+      ]
+    },
+    "wpd-group.com": {
+      "mode": "testing",
+      "mxs": [
+        "mta01.wpd.de",
+        "mta02.wpd.de"
+      ]
+    },
+    "wpd.de": {
+      "mode": "testing",
+      "mxs": [
+        "mta01.wpd.de",
+        "mta02.wpd.de"
+      ]
+    },
+    "wpd.fr": {
+      "mode": "testing",
+      "mxs": [
+        "mta01.wpd.de",
+        "mta02.wpd.de"
+      ]
+    },
+    "burzmali.com": {
+      "mode": "enforce",
+      "mxs": [
+        "ix.burzmali.com"
+      ]
+    },
+    "centerclick.org": {
+      "mode": "testing",
+      "mxs": [
+        "mail.centerclick.org"
+      ]
+    },
+    "davej.org": {
+      "mode": "testing",
+      "mxs": [
+        "mail.centerclick.org"
+      ]
+    },
+    "dombox.org": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "espci.fr": {
+      "mode": "testing",
+      "mxs": [
+        "mx3.espci.fr",
+        "mx4.espci.fr"
+      ]
+    },
+    "eurocontrol.int": {
+      "mode": "enforce",
+      "mxs": [
+        "esa1.eurocontrol.c3s2.iphmx.com",
+        "esa2.eurocontrol.c3s2.iphmx.com"
+      ]
+    },
+    "grupoicot.es": {
+      "mode": "testing",
+      "mxs": [
+        "correo.grupoicot.es"
+      ]
+    },
+    "hmdb.org": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "kwain.net": {
+      "mode": "testing",
+      "mxs": [
+        "smtp.kwain.net",
+        "spool.mail.gandi.net",
+        "fb.mail.gandi.net"
+      ]
+    },
+    "mnfgroup.limited": {
+      "mode": "testing",
+      "mxs": [
+        "mail.mnfgroup.limited",
+        "mail2.mnfgroup.limited"
+      ]
+    },
+    "rhymeswithmogul.com": {
+      "mode": "testing",
+      "mxs": [
+        "ec2.colincogle.name",
+        "colincogle.name"
+      ]
+    },
+    "rogerkunz.ch": {
+      "mode": "testing",
+      "mxs": [
+        "mail.rogerkunz.ch",
+        "rogerkunz.ch"
+      ]
+    },
+    "scarf.org.uk": {
+      "mode": "testing",
+      "mxs": [
+        ".scarf.org.uk"
+      ]
+    },
+    "sequitur.tech": {
+      "mode": "testing",
+      "mxs": [
+        "santos.coffee.co.uk",
+        "colombia.coffee.co.uk"
+      ]
+    },
+    "spendy.org": {
+      "mode": "testing",
+      "mxs": [
+        "toasty.spendy.org"
+      ]
+    },
+    "synergynh.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.centerclick.org"
+      ]
+    },
+    "vectro.co": {
+      "mode": "testing",
+      "mxs": [
+        ".mail.protection.outlook.com"
+      ]
+    },
+    "alfa-system.pl": {
+      "mode": "testing",
+      "mxs": [
+        "smtp.alfa-system.pl",
+        "mx-backup.alfa-system.pl"
+      ]
+    },
+    "allombradelpero.it": {
+      "mode": "testing",
+      "mxs": [
+        "as01.secureme.it",
+        "as02.secureme.it"
+      ]
+    },
+    "blackhats.org": {
+      "mode": "testing",
+      "mxs": [
+        "mx.blackhats.org"
+      ]
+    },
+    "boothlabs.me": {
+      "mode": "testing",
+      "mxs": [
+        "Jolteon.boothlabs.me",
+        "boothlabs.me"
+      ]
+    },
+    "cahagne.fr": {
+      "mode": "testing",
+      "mxs": [
+        "mail.cahagne.fr"
+      ]
+    },
+    "camsleygrangerda.org.uk": {
+      "mode": "testing",
+      "mxs": [
+        "linsrv104.linuxcontrolpanel.co.uk"
+      ]
+    },
+    "cardiff.gov.uk": {
+      "mode": "testing",
+      "mxs": [
+        "mail2.cardiff.gov.uk",
+        "mail3.cardiff.gov.uk",
+        "mail4.cardiff.gov.uk"
+      ]
+    },
+    "carolineeball.com": {
+      "mode": "enforce",
+      "mxs": [
+        ".johndball.com",
+        ".carolineeball.com",
+        ".carolineball.com",
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "cca-bank.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.cca-bank.com"
+      ]
+    },
+    "chicagocomputers.com.ar": {
+      "mode": "enforce",
+      "mxs": [
+        "vade-in1.mail.dreamhost.com",
+        "vade-in2.mail.dreamhost.com"
+      ]
+    },
+    "clinique-velpeau.com": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "aspmx3.googlemail.com",
+        "aspmx2.googlemail.com"
+      ]
+    },
+    "cloudadministrator.com.au": {
+      "mode": "testing",
+      "mxs": [
+        "forecast.rain.email"
+      ]
+    },
+    "code5.ca": {
+      "mode": "testing",
+      "mxs": [
+        "mail.code5.ca"
+      ]
+    },
+    "compukix.net": {
+      "mode": "testing",
+      "mxs": [
+        "smtp.compukix.net",
+        "mail.compukix.net",
+        ".compukix.net",
+        "bumblebee.vn2.compukix.net"
+      ]
+    },
+    "coreboot.org": {
+      "mode": "testing",
+      "mxs": [
+        "mail.coreboot.org"
+      ]
+    },
+    "corpocar.com": {
+      "mode": "testing",
+      "mxs": [
+        "corpocar.com",
+        "smtp.corpocar.com"
+      ]
+    },
+    "countyhall.london": {
+      "mode": "testing",
+      "mxs": [
+        "linsrv104.linuxcontrolpanel.co.uk"
+      ]
+    },
+    "cybercrew.cc": {
+      "mode": "testing",
+      "mxs": [
+        "slartibartfass.ursa-minor-beta.org",
+        "humma-kavula.ursa-minor-beta.org"
+      ]
+    },
+    "denaehula.com": {
+      "mode": "testing",
+      "mxs": [
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com",
+        "aspmx.l.google.com"
+      ]
+    },
+    "desfontain.es": {
+      "mode": "testing",
+      "mxs": [
+        "desfontain.es",
+        "damien.desfontain.es",
+        "smtp.desfontain.es",
+        "www.desfontain.es"
+      ]
+    },
+    "dssr.ch": {
+      "mode": "testing",
+      "mxs": [
+        "mail.dssr.ch"
+      ]
+    },
+    "eagleview.it": {
+      "mode": "testing",
+      "mxs": [
+        "us-smtp-inbound-1.mimecast.com",
+        "us-smtp-inbound-2.mimecast.com"
+      ]
+    },
+    "ecki-netz.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.ecki-netz.de"
+      ]
+    },
+    "fivegenerationshomestead.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "frauenarzt-niendorf.de": {
+      "mode": "testing",
+      "mxs": [
+        "srv01.knop.info"
+      ]
+    },
+    "freehold.countyhall.london": {
+      "mode": "testing",
+      "mxs": [
+        "linsrv104.linuxcontrolpanel.co.uk"
+      ]
+    },
+    "fripost.org": {
+      "mode": "testing",
+      "mxs": [
+        "mx1.fripost.org",
+        "mx2.fripost.org"
+      ]
+    },
+    "gauthier.dk": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.wjg.dk"
+      ]
+    },
+    "giesen.me": {
+      "mode": "testing",
+      "mxs": [
+        "mx.giesen.me",
+        "mx2.giesen.me",
+        "smtp.giesen.me",
+        "ego.giesen.me",
+        "psyche.giesen.me"
+      ]
+    },
+    "graeber.dev": {
+      "mode": "enforce",
+      "mxs": [
+        "c.fsckd.com",
+        "d.fsckd.com"
+      ]
+    },
+    "hacktivis.me": {
+      "mode": "testing",
+      "mxs": [
+        ".the-delta.net.eu.org"
+      ]
+    },
+    "halmex.com.mx": {
+      "mode": "testing",
+      "mxs": [
+        "mail.halmex.com.mx"
+      ]
+    },
+    "handorf.org": {
+      "mode": "testing",
+      "mxs": [
+        "mail.handorf.org"
+      ]
+    },
+    "hase-online.eu": {
+      "mode": "testing",
+      "mxs": [
+        "mail.hase-online.eu"
+      ]
+    },
+    "hermod.arnested.dk": {
+      "mode": "testing",
+      "mxs": [
+        "hermod.arnested.dk"
+      ]
+    },
+    "hiya.be": {
+      "mode": "testing",
+      "mxs": [
+        "mail.hiya.be"
+      ]
+    },
+    "ing.unlp.edu.ar": {
+      "mode": "testing",
+      "mxs": [
+        "ampere.ing.unlp.edu.ar",
+        "joule.ing.unlp.edu.ar",
+        "smtp.ing.unlp.edu.ar"
+      ]
+    },
+    "intelliflo.com": {
+      "mode": "testing",
+      "mxs": [
+        "intelliflo-com.mail.protection.outlook.com"
+      ]
+    },
+    "iris.mystia.org": {
+      "mode": "testing",
+      "mxs": [
+        "lyra.margatroid.com"
+      ]
+    },
+    "it-inside.ch": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.it-inside.ch"
+      ]
+    },
+    "jacksball.com": {
+      "mode": "enforce",
+      "mxs": [
+        ".johndball.com",
+        ".jacksball.com",
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "jamesevans.is": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "jenzi.com": {
+      "mode": "testing",
+      "mxs": [
+        "webmail.jenzi.com"
+      ]
+    },
+    "jenzi.de": {
+      "mode": "testing",
+      "mxs": [
+        "webmail.jenzi.com"
+      ]
+    },
+    "jltctech.com": {
+      "mode": "enforce",
+      "mxs": [
+        ".johndball.com",
+        ".jltctech.com",
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "johndball.com": {
+      "mode": "enforce",
+      "mxs": [
+        ".johndball.com",
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "juggle.fr": {
+      "mode": "testing",
+      "mxs": [
+        "mail.juggle.fr"
+      ]
+    },
+    "kalatzis.net": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "knockaert.nl": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.knockaert.nl"
+      ]
+    },
+    "kresta.no": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "krvtz.net": {
+      "mode": "testing",
+      "mxs": [
+        "webcookies.org"
+      ]
+    },
+    "landegge.nl": {
+      "mode": "testing",
+      "mxs": [
+        "landegge-nl.mail.protection.outlook.com"
+      ]
+    },
+    "lanodan.eu": {
+      "mode": "testing",
+      "mxs": [
+        ".the-delta.net.eu.org"
+      ]
+    },
+    "laurencball.com": {
+      "mode": "enforce",
+      "mxs": [
+        ".johndball.com",
+        ".laurencball.com",
+        ".laurenball.com",
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "lindemann.space": {
+      "mode": "testing",
+      "mxs": [
+        ".lindemann.space"
+      ]
+    },
+    "lohmeyer-it.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.lohmeyer-it.de"
+      ]
+    },
+    "lohmeyer.cc": {
+      "mode": "testing",
+      "mxs": [
+        "mail.srv05.de"
+      ]
+    },
+    "lumicon.co.uk": {
+      "mode": "testing",
+      "mxs": [
+        "linsrv104.linuxcontrolpanel.co.uk"
+      ]
+    },
+    "margatroid.com": {
+      "mode": "testing",
+      "mxs": [
+        "lyra.margatroid.com"
+      ]
+    },
+    "martinploug.dk": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "marwan.ma": {
+      "mode": "testing",
+      "mxs": [
+        "mx.marwan.ma"
+      ]
+    },
+    "mblmail.net": {
+      "mode": "testing",
+      "mxs": [
+        "mblmail.net"
+      ]
+    },
+    "mdewendt.de": {
+      "mode": "enforce",
+      "mxs": [
+        "ben.mdewendt.de",
+        "tim.mdewendt.de"
+      ]
+    },
+    "megacash.com.ve": {
+      "mode": "testing",
+      "mxs": [
+        "mx.megacash.com.ve"
+      ]
+    },
+    "midlothian.gov.uk": {
+      "mode": "testing",
+      "mxs": [
+        "cust13649-1-in.mailcontrol.com",
+        "cust13649-2-in.mailcontrol.com"
+      ]
+    },
+    "mmn.on.ca": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "mohlek.net": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.mohlek.net"
+      ]
+    },
+    "mystia.org": {
+      "mode": "testing",
+      "mxs": [
+        "lyra.margatroid.com"
+      ]
+    },
+    "mza.com": {
+      "mode": "testing",
+      "mxs": [
+        "dns1.mza.com",
+        "dns2.mza.com",
+        "dns3.mza.com"
+      ]
+    },
+    "nerdheim.se": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.nerdheim.se"
+      ]
+    },
+    "nydig.com": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "aspmx2.googlemail.com",
+        "aspmx3.googlemail.com"
+      ]
+    },
+    "nztechie.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch"
+      ]
+    },
+    "osemka.biz": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "aspmx2.googlemail.com",
+        "aspmx3.googlemail.com",
+        "aspmx4.googlemail.com",
+        "aspmx5.googlemail.com"
+      ]
+    },
+    "owl-ict.nl": {
+      "mode": "testing",
+      "mxs": [
+        "smtp.emailadmin.nl",
+        ".emailadmin.nl",
+        ".owl-ict.nl"
+      ]
+    },
+    "pmf.uns.ac.rs": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.pmf.uns.ac.rs"
+      ]
+    },
+    "podolak.net": {
+      "mode": "testing",
+      "mxs": [
+        "webmail.podolak.net"
+      ]
+    },
+    "pokeinthe.io": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "polak.email": {
+      "mode": "enforce",
+      "mxs": [
+        "npmail.at",
+        "it.np-edv.at"
+      ]
+    },
+    "professionaldigitalservices.ltd.uk": {
+      "mode": "testing",
+      "mxs": [
+        "linsrv104.linuxcontrolpanel.co.uk"
+      ]
+    },
+    "psharp.net": {
+      "mode": "testing",
+      "mxs": [
+        "linsrv104.linuxcontrolpanel.co.uk"
+      ]
+    },
+    "r42.ch": {
+      "mode": "testing",
+      "mxs": [
+        "mail.r42.ch"
+      ]
+    },
+    "rain.email": {
+      "mode": "testing",
+      "mxs": [
+        "sa.rain.email"
+      ]
+    },
+    "rin.rs": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.rin.rs"
+      ]
+    },
+    "section9.co.uk": {
+      "mode": "testing",
+      "mxs": [
+        "mail.section9.london",
+        "post.section9.london"
+      ]
+    },
+    "secumail.nl": {
+      "mode": "testing",
+      "mxs": [
+        "inbound-smtp.eu-west-1.amazonaws.com",
+        "mail.secumail.nl"
+      ]
+    },
+    "secureme.it": {
+      "mode": "enforce",
+      "mxs": [
+        "as01.secureme.it",
+        "as02.secureme.it"
+      ]
+    },
+    "shoelace.org": {
+      "mode": "testing",
+      "mxs": [
+        "shoelace.org"
+      ]
+    },
+    "spekadyon.org": {
+      "mode": "testing",
+      "mxs": [
+        "rainbow-mail.spekadyon.org",
+        "smtp.spekadyon.org",
+        "mail.spekadyon.org",
+        "imap.spekadyon.org"
+      ]
+    },
+    "startmail.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mx1.startmail.com",
+        "mx2.startmail.com",
+        ".smtp.startmail.com"
+      ]
+    },
+    "stonefirefarms.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "tech-ninja.de": {
+      "mode": "enforce",
+      "mxs": [
+        "alderaan.tech-ninja.de"
+      ]
+    },
+    "trampel.org": {
+      "mode": "testing",
+      "mxs": [
+        "mail.trampel.org"
+      ]
+    },
+    "trindonball.com": {
+      "mode": "enforce",
+      "mxs": [
+        ".johndball.com",
+        ".trindonball.com",
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "twelveletter.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.twelveletter.com"
+      ]
+    },
+    "twolife.be": {
+      "mode": "enforce",
+      "mxs": [
+        "loki.twolife.be",
+        "hp.twolife.be"
+      ]
+    },
+    "use.startmail.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mx1.startmail.com",
+        "mx2.startmail.com",
+        ".smtp.startmail.com"
+      ]
+    },
+    "valasens.io": {
+      "mode": "testing",
+      "mxs": [
+        "mx.zoho.com",
+        "mx2.zoho.com",
+        "mx3.zoho.com"
+      ]
+    },
+    "webcookies.org": {
+      "mode": "enforce",
+      "mxs": [
+        "webcookies.org"
+      ]
+    },
+    "2718282.net": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.2718282.net"
+      ]
+    },
+    "2straws.com.au": {
+      "mode": "testing",
+      "mxs": [
+        "2straws-com-au.mail.protection.outlook.com"
+      ]
+    },
+    "3733366.xyz": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.nixnet.email"
+      ]
+    },
+    "3b.pm": {
+      "mode": "enforce",
+      "mxs": [
+        "3b.pm"
+      ]
+    },
+    "4wrd.cc": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.anonaddy.me"
+      ]
+    },
+    "647630.xyz": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.nixnet.email"
+      ]
+    },
+    "7748229.xyz": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.nixnet.email"
+      ]
+    },
+    "aati.be": {
+      "mode": "testing",
+      "mxs": [
+        "server.aati.be",
+        "mail.aati.be"
+      ]
+    },
+    "accretus.com": {
+      "mode": "testing",
+      "mxs": [
+        "accretus-com.mail.protection.outlook.com"
+      ]
+    },
+    "accretus.nl": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "acsemb.org": {
+      "mode": "enforce",
+      "mxs": [
+        "arch-server.dhautefeuille.eu"
+      ]
+    },
+    "adagia.eu": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.adagia.eu",
+        "adagia.eu"
+      ]
+    },
+    "addk.ru": {
+      "mode": "testing",
+      "mxs": [
+        "mail.addk.ru"
+      ]
+    },
+    "aehe.us": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "affinityvision.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.affinityvision.com",
+        "mail.affinityvision.com.au"
+      ]
+    },
+    "affinityvision.com.au": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.affinityvision.com",
+        "mail.affinityvision.com.au"
+      ]
+    },
+    "aircraftnoisemodel.org": {
+      "mode": "testing",
+      "mxs": [
+        "esa1.eurocontrol.c3s2.iphmx.com",
+        "esa2.eurocontrol.c3s2.iphmx.com"
+      ]
+    },
+    "aivd.lol": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.soverin.net"
+      ]
+    },
+    "aixm.aero": {
+      "mode": "testing",
+      "mxs": [
+        "esa1.eurocontrol.c3s2.iphmx.com",
+        "esa2.eurocontrol.c3s2.iphmx.com"
+      ]
+    },
+    "ak-krasavia.ru": {
+      "mode": "enforce",
+      "mxs": [
+        "gaston.ak-krasavia.ru",
+        ".ak-krasavia.ru",
+        "pam.ak-krasavia.ru"
+      ]
+    },
+    "alanwest.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail2.alanwest.com",
+        "mail2.sheridanwest.com"
+      ]
+    },
+    "albourne.com": {
+      "mode": "testing",
+      "mxs": [
+        "despam-fra-0.albourne.com",
+        "despam-fra-1.albourne.com",
+        "despam-hpn-0.albourne.com",
+        "despam-hpn-1.albourne.com",
+        "despam-sin-0.albourne.com",
+        "despam-sin-1.albourne.com"
+      ]
+    },
+    "alesund.kommune.no": {
+      "mode": "testing",
+      "mxs": [
+        "ns1.esunnmore.no",
+        "ns2.esunnmore.no"
+      ]
+    },
+    "alexyang.me": {
+      "mode": "enforce",
+      "mxs": [
+        "alexyang-me.mail.protection.outlook.com"
+      ]
+    },
+    "alio.fr": {
+      "mode": "testing",
+      "mxs": [
+        "spool.mail.gandi.net",
+        "fb.mail.gandi.net"
+      ]
+    },
+    "alphachat.net": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.alphachat.net"
+      ]
+    },
+    "amegrund.com": {
+      "mode": "enforce",
+      "mxs": [
+        ".us-core.com"
+      ]
+    },
+    "amolindo.com": {
+      "mode": "testing",
+      "mxs": [
+        "mx.yandex.net"
+      ]
+    },
+    "andreasrohner.net": {
+      "mode": "testing",
+      "mxs": [
+        "spool.mail.gandi.net",
+        "fb.mail.gandi.net"
+      ]
+    },
+    "anguta.net": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.anguta.net"
+      ]
+    },
+    "anonaddy.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.tutanota.de"
+      ]
+    },
+    "anonaddy.me": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.anonaddy.me"
+      ]
+    },
+    "anubisnetworks.com": {
+      "mode": "testing",
+      "mxs": [
+        ".eu.mpssec.net"
+      ]
+    },
+    "apex.ac": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.apex.ac"
+      ]
+    },
+    "arcana.jp": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "arch-libertas.net": {
+      "mode": "enforce",
+      "mxs": [
+        "bouquetin.arch-libertas.net",
+        "mail.arch-libertas.net"
+      ]
+    },
+    "asdzxc.eu": {
+      "mode": "testing",
+      "mxs": [
+        "lexi.xxblackburnxx.nl"
+      ]
+    },
+    "aurorafest.org": {
+      "mode": "enforce",
+      "mxs": [
+        ".aurorafest.org"
+      ]
+    },
+    "babysittor.fr": {
+      "mode": "enforce",
+      "mxs": [
+        "arch-server.dhautefeuille.eu"
+      ]
+    },
+    "backstrom.me": {
+      "mode": "enforce",
+      "mxs": [
+        "postal.pebe.net"
+      ]
+    },
+    "bad-wurzach.de": {
+      "mode": "testing",
+      "mxs": [
+        "mx1.rz-kiru.de",
+        "mx2.rz-kiru.de"
+      ]
+    },
+    "barneshay.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.zoho.com",
+        "mx2.zoho.com",
+        "mx3.zoho.com"
+      ]
+    },
+    "baucum.me": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.baucum.me",
+        "baucum.me"
+      ]
+    },
+    "bayerstefan.de": {
+      "mode": "enforce",
+      "mxs": [
+        "ncars.douzer.de",
+        "lcars.douzer.de"
+      ]
+    },
+    "bbtmv.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.bbtmv.de"
+      ]
+    },
+    "beckorg.com": {
+      "mode": "enforce",
+      "mxs": [
+        "box.beckemail.net"
+      ]
+    },
+    "belgraver.email": {
+      "mode": "testing",
+      "mxs": [
+        "mx.soverin.net"
+      ]
+    },
+    "belgraver.eu": {
+      "mode": "testing",
+      "mxs": [
+        "mx.soverin.net"
+      ]
+    },
+    "belgraver.xyz": {
+      "mode": "testing",
+      "mxs": [
+        "mx.soverin.net"
+      ]
+    },
+    "belmaachi.com": {
+      "mode": "testing",
+      "mxs": [
+        "mx1.belmaachi.com",
+        "mx2.belmaachi.com"
+      ]
+    },
+    "blackscape.de": {
+      "mode": "testing",
+      "mxs": [
+        ".mailbox.org",
+        "mxext1.mailbox.org",
+        "mxext2.mailbox.org",
+        "mxext3.mailbox.org"
+      ]
+    },
+    "blitiri.com.ar": {
+      "mode": "enforce",
+      "mxs": [
+        "cdt.blitiri.com.ar",
+        "alerce.blitiri.com.ar"
+      ]
+    },
+    "bodis.nl": {
+      "mode": "testing",
+      "mxs": [
+        "mx01.bodis.nl",
+        "mx99.bodis.nl"
+      ]
+    },
+    "c0x0.com": {
+      "mode": "enforce",
+      "mxs": [
+        "io.onefellow.com",
+        "shield.c0x0.com"
+      ]
+    },
+    "c3pb.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.services.c3pb.de"
+      ]
+    },
+    "calvertk9search.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.calvertk9search.org"
+      ]
+    },
+    "calypsohost.net": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.calypsohost.net"
+      ]
+    },
+    "camshah.com": {
+      "mode": "testing",
+      "mxs": [
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "aspmx2.googlemail.com",
+        "aspmx3.googlemail.com",
+        "aspmx4.googlemail.com",
+        "aspmx5.googlemail.com",
+        "aspmx.l.google.com"
+      ]
+    },
+    "carobme.de": {
+      "mode": "enforce",
+      "mxs": [
+        ".carobme.de"
+      ]
+    },
+    "carolineball.com": {
+      "mode": "enforce",
+      "mxs": [
+        ".johndball.com",
+        ".carolineeball.com",
+        ".carolineball.com",
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "castaing.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mta-gw.infomaniak.ch",
+        "mta-gw.scubadata.net"
+      ]
+    },
+    "castlepointanime.com": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        ".aspmx.l.google.com",
+        ".googlemail.com",
+        "smtp-relay.gmail.com",
+        "smtp.gmail.com",
+        ".castlepointanime.com"
+      ]
+    },
+    "catram.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.catram.org"
+      ]
+    },
+    "cavew.com": {
+      "mode": "testing",
+      "mxs": [
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "aspmx2.googlemail.com",
+        "aspmx3.googlemail.com",
+        "aspmx.l.google.com"
+      ]
+    },
+    "cendata.co.uk": {
+      "mode": "enforce",
+      "mxs": [
+        "a.mx.cendata.co.uk"
+      ]
+    },
+    "centurion-consulting.net": {
+      "mode": "enforce",
+      "mxs": [
+        "centurion-consulting.tech"
+      ]
+    },
+    "cfv.biz": {
+      "mode": "enforce",
+      "mxs": [
+        ".dcfv.com",
+        ".itrust.com.tw",
+        ".ibon.ws",
+        ".cfv.biz"
+      ]
+    },
+    "cgsecurity.org": {
+      "mode": "testing",
+      "mxs": [
+        ".global-sp.net"
+      ]
+    },
+    "chris-schuster.net": {
+      "mode": "enforce",
+      "mxs": [
+        "chris-schuster.net"
+      ]
+    },
+    "cock.li": {
+      "mode": "testing",
+      "mxs": [
+        "mx1.cock.li"
+      ]
+    },
+    "coincoin.eu.org": {
+      "mode": "testing",
+      "mxs": [
+        "coincoin.eu.org"
+      ]
+    },
+    "coldmail.cc": {
+      "mode": "testing",
+      "mxs": [
+        "main.coldmail.cc",
+        "mail.coldmail.cc",
+        "smtp.coldmail.cc"
+      ]
+    },
+    "cool110.xyz": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.cool110.xyz"
+      ]
+    },
+    "core.md": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "covingtondoan.com": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "covisp.net": {
+      "mode": "testing",
+      "mxs": [
+        "Mail.covisp.net"
+      ]
+    },
+    "creativesandbox.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.creativesandbox.de"
+      ]
+    },
+    "ctemplar.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.ctemplar.com"
+      ]
+    },
+    "currentc.capital": {
+      "mode": "enforce",
+      "mxs": [
+        "arch-server.dhautefeuille.eu"
+      ]
+    },
+    "cyber-core.co.uk": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.cyber-core.co.uk"
+      ]
+    },
+    "cyberdynesecuritysystems.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.anonaddy.me"
+      ]
+    },
+    "cyberpathogen.me": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "cygnaltech.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.cygnaltech.com",
+        ".cygnaltech.com"
+      ]
+    },
+    "cygnitec.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mx0.cygnitec.com"
+      ]
+    },
+    "dalliard.ch": {
+      "mode": "testing",
+      "mxs": [
+        "mail.dalliard.ch"
+      ]
+    },
+    "dano.bzh": {
+      "mode": "testing",
+      "mxs": [
+        "smtp.dano.bzh",
+        "mx.zoho.eu"
+      ]
+    },
+    "darknetlive.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "datahoarder.dev": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.datahoarder.dev"
+      ]
+    },
+    "datamerica.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail-1.datamerica.com"
+      ]
+    },
+    "dcfv.com": {
+      "mode": "enforce",
+      "mxs": [
+        ".dcfv.com",
+        ".itrust.com.tw",
+        ".ibon.ws",
+        ".cfv.biz"
+      ]
+    },
+    "debien.fr": {
+      "mode": "enforce",
+      "mxs": [
+        "smtp.namaste.ovh"
+      ]
+    },
+    "deboca.net": {
+      "mode": "testing",
+      "mxs": [
+        "bocanium.deboca.net",
+        "bocanium.soleus.nu"
+      ]
+    },
+    "deesse.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.deesse.com"
+      ]
+    },
+    "deigner.eu": {
+      "mode": "testing",
+      "mxs": [
+        "box.deigner.eu"
+      ]
+    },
+    "demoulin.mobi": {
+      "mode": "testing",
+      "mxs": [
+        "mx1.mail.ovh.net"
+      ]
+    },
+    "deprecate.de": {
+      "mode": "enforce",
+      "mxs": [
+        ".deprecate.de"
+      ]
+    },
+    "dinepont.fr": {
+      "mode": "enforce",
+      "mxs": [
+        "arch-server.dhautefeuille.eu"
+      ]
+    },
+    "ding.net": {
+      "mode": "enforce",
+      "mxs": [
+        "server9.comtrends.net"
+      ]
+    },
+    "dips.no": {
+      "mode": "enforce",
+      "mxs": [
+        "mx1.dips.no"
+      ]
+    },
+    "disroot.org": {
+      "mode": "enforce",
+      "mxs": [
+        "disroot.org",
+        "mx01.disroot.org"
+      ]
+    },
+    "dnns.no": {
+      "mode": "testing",
+      "mxs": [
+        "smtp.dnns.no"
+      ]
+    },
+    "dnsprivado.com.es": {
+      "mode": "enforce",
+      "mxs": [
+        "server.dnsprivado.com.es"
+      ]
+    },
+    "domu.cat": {
+      "mode": "testing",
+      "mxs": [
+        "secpi.domu.cat"
+      ]
+    },
+    "downey.net": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "dragas.it": {
+      "mode": "testing",
+      "mxs": [
+        "zimbra.dragashosting.com",
+        "zimbra.dragas.it"
+      ]
+    },
+    "drcheap.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.drcheap.com",
+        "drcheap.com"
+      ]
+    },
+    "drewhess.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mxa.drewhess.com",
+        "mxb.drewhess.com"
+      ]
+    },
+    "durel.eu": {
+      "mode": "enforce",
+      "mxs": [
+        "corrin.geekwu.org",
+        "arrakeen.geekwu.org"
+      ]
+    },
+    "dwap.fr": {
+      "mode": "testing",
+      "mxs": [
+        "mx1.mail.ovh.net",
+        "mx2.mail.ovh.net",
+        "mx3.mail.ovh.net"
+      ]
+    },
+    "e-doctor.com.ua": {
+      "mode": "enforce",
+      "mxs": [
+        "mx01.pnnsoft.com"
+      ]
+    },
+    "ebrey-it.com": {
+      "mode": "testing",
+      "mxs": [
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "aspmx2.googlemail.com",
+        "aspmx3.googlemail.com",
+        "aspmx4.googlemail.com",
+        "aspmx5.googlemail.com",
+        "aspmx.l.google.com"
+      ]
+    },
+    "eerie.garden": {
+      "mode": "enforce",
+      "mxs": [
+        "eerie.garden"
+      ]
+    },
+    "ekvastra.in": {
+      "mode": "enforce",
+      "mxs": [
+        "server50.hostingraja.org",
+        "mx.zoho.in"
+      ]
+    },
+    "el-solutionstech.com": {
+      "mode": "testing",
+      "mxs": [
+        "jane.the-kingdom.net",
+        "trent.the-kingdom.net"
+      ]
+    },
+    "eleith.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.eleith.com"
+      ]
+    },
+    "elizabethbeck.net": {
+      "mode": "enforce",
+      "mxs": [
+        "box.beckemail.net"
+      ]
+    },
+    "elvey.com": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "elvey.sent.com": {
+      "mode": "testing",
+      "mxs": [
+        ".messagingengine.com"
+      ]
+    },
+    "email.peterjin.org": {
+      "mode": "enforce",
+      "mxs": [
+        ".aspmx.l.google.com",
+        "aspmx.l.google.com",
+        "apps-vm1.srv.peterjin.org",
+        "apps-vm3.srv.peterjin.org"
+      ]
+    },
+    "email.teratorium.hu": {
+      "mode": "testing",
+      "mxs": [
+        "email.teratorium.hu"
+      ]
+    },
+    "emilstahl.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mx1.smtp.goog",
+        "mx2.smtp.goog",
+        "mx3.smtp.goog",
+        "mx4.smtp.goog"
+      ]
+    },
+    "emisto.com.ua": {
+      "mode": "enforce",
+      "mxs": [
+        "mx01.pnnsoft.com"
+      ]
+    },
+    "empost.eu": {
+      "mode": "enforce",
+      "mxs": [
+        "empost.eu"
+      ]
+    },
+    "ennis.no": {
+      "mode": "testing",
+      "mxs": [
+        "smtp.dnns.no"
+      ]
+    },
+    "escatech.fr": {
+      "mode": "testing",
+      "mxs": [
+        "escatech-fr.mail.protection.outlook.com"
+      ]
+    },
+    "etyd.org": {
+      "mode": "enforce",
+      "mxs": [
+        "torgny.etyd.org"
+      ]
+    },
+    "ewanto.de": {
+      "mode": "enforce",
+      "mxs": [
+        ".lauterus.com"
+      ]
+    },
+    "exon.name": {
+      "mode": "enforce",
+      "mxs": [
+        "exon.name"
+      ]
+    },
+    "exploited.cz": {
+      "mode": "testing",
+      "mxs": [
+        "mx1.smtp.goog",
+        "mx2.smtp.goog",
+        "mx3.smtp.goog",
+        "mx4.smtp.goog"
+      ]
+    },
+    "fabiankaindl.de": {
+      "mode": "testing",
+      "mxs": [
+        ".fabiankaindl.de"
+      ]
+    },
+    "fam-biewald.de": {
+      "mode": "testing",
+      "mxs": [
+        ".fam-biewald.de",
+        ".patfab.net",
+        ".patfab.network",
+        ".sbiewald.de"
+      ]
+    },
+    "fam-verhagen.nl": {
+      "mode": "testing",
+      "mxs": [
+        "fam-verhagen.nl"
+      ]
+    },
+    "family-martens.com": {
+      "mode": "testing",
+      "mxs": [
+        "familymartens-com01e.mail.protection.outlook.com"
+      ]
+    },
+    "fantasmx.fr": {
+      "mode": "testing",
+      "mxs": [
+        "mail.fantasmx.fr"
+      ]
+    },
+    "farmserv.org": {
+      "mode": "testing",
+      "mxs": [
+        "farmserv.org"
+      ]
+    },
+    "florianstroeger.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.florianstroeger.com"
+      ]
+    },
+    "fnds.gov.mz": {
+      "mode": "testing",
+      "mxs": [
+        "mail.fnds.gov.mz",
+        "mta.dotcom.co.mz"
+      ]
+    },
+    "foixet.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.snargol.com"
+      ]
+    },
+    "freedom.nl": {
+      "mode": "testing",
+      "mxs": [
+        "mx.soverin.net"
+      ]
+    },
+    "frenchsmart.net": {
+      "mode": "testing",
+      "mxs": [
+        "mail.frenchsmart.net"
+      ]
+    },
+    "frogeye.fr": {
+      "mode": "enforce",
+      "mxs": [
+        "rana.frogeye.fr"
+      ]
+    },
+    "frols.com": {
+      "mode": "testing",
+      "mxs": [
+        ".frols.com"
+      ]
+    },
+    "fsri.uni-due.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.fsri.uni-due.de"
+      ]
+    },
+    "fvid.tk": {
+      "mode": "testing",
+      "mxs": [
+        "mx.yandex.net"
+      ]
+    },
+    "fxdiler.com": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "aspmx2.googlemail.com",
+        "aspmx3.googlemail.com",
+        "aspmx4.googlemail.com",
+        "aspmx5.googlemail.com"
+      ]
+    },
+    "gauthier.tel": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.wjg.dk"
+      ]
+    },
+    "gbif.es": {
+      "mode": "testing",
+      "mxs": [
+        "mail.gbif.es"
+      ]
+    },
+    "gchq.lol": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.soverin.net"
+      ]
+    },
+    "geekwu.org": {
+      "mode": "enforce",
+      "mxs": [
+        "corrin.geekwu.org",
+        "arrakeen.geekwu.org"
+      ]
+    },
+    "gekemoti.fr": {
+      "mode": "enforce",
+      "mxs": [
+        "gekemoti.fr"
+      ]
+    },
+    "gennerator.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.yandex.net"
+      ]
+    },
+    "gentoo.org": {
+      "mode": "testing",
+      "mxs": [
+        "dev.gentoo.org",
+        "mail.gentoo.org",
+        "smtp.gentoo.org",
+        "woodpecker.gentoo.org",
+        "lists.gentoo.org"
+      ]
+    },
+    "globalsp.com": {
+      "mode": "testing",
+      "mxs": [
+        ".global-sp.net"
+      ]
+    },
+    "google.com": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        ".aspmx.l.google.com"
+      ]
+    },
+    "gsd-software.com": {
+      "mode": "enforce",
+      "mxs": [
+        ".antispameurope.com"
+      ]
+    },
+    "gsuite.tonytan.io": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "gtaxl.net": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.gtaxl.net"
+      ]
+    },
+    "gwaza.co.uk": {
+      "mode": "testing",
+      "mxs": [
+        "gwaza-co-uk.mail.protection.outlook.com"
+      ]
+    },
+    "hackworthltd.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mxa.mail.hackworth-corp.com"
+      ]
+    },
+    "hadrons.org": {
+      "mode": "enforce",
+      "mxs": [
+        ".hadrons.org"
+      ]
+    },
+    "hamiltoncoin.io": {
+      "mode": "enforce",
+      "mxs": [
+        "arch-server.dhautefeuille.eu"
+      ]
+    },
+    "hase.dev": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.hase.dev"
+      ]
+    },
+    "hboeck.de": {
+      "mode": "enforce",
+      "mxs": [
+        "zucker.schokokeks.org"
+      ]
+    },
+    "heijmans.blog": {
+      "mode": "testing",
+      "mxs": [
+        "mx.soverin.net",
+        ".soverin.net"
+      ]
+    },
+    "heijmans.cloud": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "heijmans.email": {
+      "mode": "enforce",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com",
+        ".messagingengine.com"
+      ]
+    },
+    "heijmans.io": {
+      "mode": "enforce",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com",
+        ".messagingengine.com"
+      ]
+    },
+    "heijmans.xyz": {
+      "mode": "enforce",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com",
+        ".messagingengine.com"
+      ]
+    },
+    "hermitant.fr": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.rust.pm"
+      ]
+    },
+    "heutger.net": {
+      "mode": "enforce",
+      "mxs": [
+        ".heutger.net"
+      ]
+    },
+    "hewgill.com": {
+      "mode": "testing",
+      "mxs": [
+        "stratus.hewgill.net"
+      ]
+    },
+    "hklbgd.org": {
+      "mode": "testing",
+      "mxs": [
+        "hklbgd.org"
+      ]
+    },
+    "hkmap.co": {
+      "mode": "testing",
+      "mxs": [
+        "mailsec.protonmail.ch",
+        "mail.protonmail.ch"
+      ]
+    },
+    "hkmap.com": {
+      "mode": "testing",
+      "mxs": [
+        "mailsec.protonmail.ch",
+        "mail.protonmail.ch"
+      ]
+    },
+    "hkmap.live": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "hkmap.net": {
+      "mode": "testing",
+      "mxs": [
+        "mailsec.protonmail.ch",
+        "mail.protonmail.ch"
+      ]
+    },
+    "hlfh.space": {
+      "mode": "enforce",
+      "mxs": [
+        "arch-server.dhautefeuille.eu"
+      ]
+    },
+    "homunyan.com": {
+      "mode": "testing",
+      "mxs": [
+        "homunyan.com"
+      ]
+    },
+    "hquest.pro.br": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.hquest.pro.br"
+      ]
+    },
+    "humblebee.eu": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        ".aspmx.l.google.com"
+      ]
+    },
+    "humblebee.ie": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        ".aspmx.l.google.com"
+      ]
+    },
+    "ibon.ws": {
+      "mode": "enforce",
+      "mxs": [
+        ".dcfv.com",
+        ".itrust.com.tw",
+        ".ibon.ws",
+        ".cfv.biz"
+      ]
+    },
+    "id3.eu": {
+      "mode": "testing",
+      "mxs": [
+        "ext234.id3.eu"
+      ]
+    },
+    "ievlev.email": {
+      "mode": "enforce",
+      "mxs": [
+        "ievlev.email"
+      ]
+    },
+    "ifocus-consulting.com": {
+      "mode": "testing",
+      "mxs": [
+        "ifocusmail.com"
+      ]
+    },
+    "iii.mm.st": {
+      "mode": "testing",
+      "mxs": [
+        ".messagingengine.com"
+      ]
+    },
+    "imds.nl": {
+      "mode": "testing",
+      "mxs": [
+        "mail.imds.nl"
+      ]
+    },
+    "incardoc.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mx01.pnnsoft.com"
+      ]
+    },
+    "info-sec.ca": {
+      "mode": "testing",
+      "mxs": [
+        "mail.info-sec.ca"
+      ]
+    },
+    "inittab.org": {
+      "mode": "testing",
+      "mxs": [
+        "hermes.inittab.org"
+      ]
+    },
+    "innovametro.com": {
+      "mode": "enforce",
+      "mxs": [
+        ".us-core.com"
+      ]
+    },
+    "intermedia.mx": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "intermediacontrol.com": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "intr0.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "intrax.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.intrax.com"
+      ]
+    },
+    "ipv6-adresse.dk": {
+      "mode": "enforce",
+      "mxs": [
+        "mx1.smtp.goog",
+        "mx2.smtp.goog",
+        "mx3.smtp.goog",
+        "mx4.smtp.goog"
+      ]
+    },
+    "itcreative.ro": {
+      "mode": "testing",
+      "mxs": [
+        "itcreative.ro",
+        "mail.itcreative.ro"
+      ]
+    },
+    "itrust.com.tw": {
+      "mode": "enforce",
+      "mxs": [
+        ".dcfv.com",
+        ".itrust.com.tw",
+        ".ibon.ws",
+        ".cfv.biz"
+      ]
+    },
+    "itsystemsteam.co.uk": {
+      "mode": "enforce",
+      "mxs": [
+        "a.mx.cendata.co.uk"
+      ]
+    },
+    "jamieweb.net": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com",
+        "mxa.mailgun.org",
+        "mxb.mailgun.org"
+      ]
+    },
+    "jarus-rpas.org": {
+      "mode": "testing",
+      "mxs": [
+        "esa1.eurocontrol.c3s2.iphmx.com",
+        "esa2.eurocontrol.c3s2.iphmx.com"
+      ]
+    },
+    "jgoldman.net": {
+      "mode": "testing",
+      "mxs": [
+        "jgoldman-net.mail.protection.outlook.com"
+      ]
+    },
+    "jgoldmanlp.com": {
+      "mode": "testing",
+      "mxs": [
+        "jgoldmanlp-com.mail.protection.outlook.com"
+      ]
+    },
+    "jilworldwide.org": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "jkdhn.me": {
+      "mode": "testing",
+      "mxs": [
+        "mail.jkdhn.me"
+      ]
+    },
+    "jordibelgraver.email": {
+      "mode": "testing",
+      "mxs": [
+        "mx.soverin.net",
+        ".soverin.net"
+      ]
+    },
+    "jordibelgraver.eu": {
+      "mode": "testing",
+      "mxs": [
+        "mx.soverin.net",
+        ".soverin.net"
+      ]
+    },
+    "jordibelgraver.xyz": {
+      "mode": "testing",
+      "mxs": [
+        "mx.soverin.net",
+        ".soverin.net"
+      ]
+    },
+    "joshuacasey.net": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "joshuar.id.au": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "joshuarobertson.id.au": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "jurnal.md": {
+      "mode": "testing",
+      "mxs": [
+        "mailgate.jurnaltv.md"
+      ]
+    },
+    "jurnalfm.md": {
+      "mode": "testing",
+      "mxs": [
+        "mailgate.jurnaltv.md"
+      ]
+    },
+    "jurnaltv.md": {
+      "mode": "testing",
+      "mxs": [
+        "mailgate.jurnaltv.md"
+      ]
+    },
+    "k-telecom.org": {
+      "mode": "enforce",
+      "mxs": [
+        "relay.k-telecom.org"
+      ]
+    },
+    "keemail.me": {
+      "mode": "testing",
+      "mxs": [
+        "mail.tutanota.de"
+      ]
+    },
+    "keys.openpgp.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.keys.openpgp.org"
+      ]
+    },
+    "kgtv.tk": {
+      "mode": "testing",
+      "mxs": [
+        "mx.yandex.net"
+      ]
+    },
+    "knrt.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.kuhnerts.eu"
+      ]
+    },
+    "koenrouwhorst.nl": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "kokomo.xyz": {
+      "mode": "testing",
+      "mxs": [
+        "mail.kokomo.xyz"
+      ]
+    },
+    "konnected.vn": {
+      "mode": "testing",
+      "mxs": [
+        "mail.konnected.vn"
+      ]
+    },
+    "kpopsource.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.kpopsource.com"
+      ]
+    },
+    "ksoft.si": {
+      "mode": "testing",
+      "mxs": [
+        "mx.postal.ksoft.si"
+      ]
+    },
+    "kydara.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.kydara.com"
+      ]
+    },
+    "laatikainen.net": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.1nt3r.net"
+      ]
+    },
+    "lacordillere.com": {
+      "mode": "enforce",
+      "mxs": [
+        "arch-server.dhautefeuille.eu"
+      ]
+    },
+    "lapidak.is": {
+      "mode": "testing",
+      "mxs": [
+        ".messagingengine.com"
+      ]
+    },
+    "laposte.net": {
+      "mode": "testing",
+      "mxs": [
+        "smtpz4.laposte.net"
+      ]
+    },
+    "larrybeck.net": {
+      "mode": "enforce",
+      "mxs": [
+        "box.beckemail.net"
+      ]
+    },
+    "laurenball.com": {
+      "mode": "enforce",
+      "mxs": [
+        ".johndball.com",
+        ".laurencball.com",
+        ".laurenball.com",
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "lease-up.com": {
+      "mode": "enforce",
+      "mxs": [
+        ".us-core.com"
+      ]
+    },
+    "lebihan.pl": {
+      "mode": "testing",
+      "mxs": [
+        "lebihan.pl"
+      ]
+    },
+    "leidinger.net": {
+      "mode": "enforce",
+      "mxs": [
+        "mailgate.leidinger.net"
+      ]
+    },
+    "leonschwarze.com": {
+      "mode": "testing",
+      "mxs": [
+        "leonschwarze.com",
+        "smtpin.rzone.de"
+      ]
+    },
+    "linux.pizza": {
+      "mode": "testing",
+      "mxs": [
+        "kebab.linux.pizza"
+      ]
+    },
+    "litepost.no": {
+      "mode": "testing",
+      "mxs": [
+        "smtp.dnns.no"
+      ]
+    },
+    "litepost.org": {
+      "mode": "testing",
+      "mxs": [
+        "smtp.dnns.no"
+      ]
+    },
+    "liu-family.eu": {
+      "mode": "enforce",
+      "mxs": [
+        "random.randomcrap.eu",
+        "mini.randomcrap.eu"
+      ]
+    },
+    "logsnitch.com": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "luqsus.pl": {
+      "mode": "testing",
+      "mxs": [
+        "srv.luqsus.pl"
+      ]
+    },
+    "m01.info": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.m01.info"
+      ]
+    },
+    "m2.peterjin.org": {
+      "mode": "enforce",
+      "mxs": [
+        "apps-vm1.srv.peterjin.org",
+        "apps-vm3.srv.peterjin.org"
+      ]
+    },
+    "mail.danielhinterlechner.eu": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "mail.logsnitch.com": {
+      "mode": "enforce",
+      "mxs": [
+        "feedback-smtp.us-east-1.amazonses.com"
+      ]
+    },
+    "mail.m01.info": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.m01.info"
+      ]
+    },
+    "mail.mkpe.com": {
+      "mode": "testing",
+      "mxs": [
+        "host.mkpe.com"
+      ]
+    },
+    "mailfence.com": {
+      "mode": "enforce",
+      "mxs": [
+        "smtp1.mailfence.com",
+        "smtp2.mailfence.com"
+      ]
+    },
+    "mailhardener.com": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "aspmx2.googlemail.com",
+        "aspmx3.googlemail.com"
+      ]
+    },
+    "malsec.com.au": {
+      "mode": "testing",
+      "mxs": [
+        "mail.malsec.com.au"
+      ]
+    },
+    "maneraperez.com.ar": {
+      "mode": "enforce",
+      "mxs": [
+        "vade-in1.mail.dreamhost.com",
+        "vade-in2.mail.dreamhost.com"
+      ]
+    },
+    "marcodoehring.com": {
+      "mode": "testing",
+      "mxs": [
+        "mxext1.mailbox.org",
+        "mxext2.mailbox.org",
+        "mxext3.mailbox.org"
+      ]
+    },
+    "marywalesloomis.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.richw.org",
+        "drizzle.richw.org",
+        "fogbank.richw.org",
+        "express.richw.org"
+      ]
+    },
+    "matejgroma.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.matejgroma.com"
+      ]
+    },
+    "matrixwissen.de": {
+      "mode": "enforce",
+      "mxs": [
+        "alpha.meta-matrix.de",
+        "gamma.meta-matrix.de",
+        "omega.meta-matrix.de",
+        "delta.meta-matrix.de"
+      ]
+    },
+    "matthew.elvey.com": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com",
+        ".messagingengine.com"
+      ]
+    },
+    "medway.gov.uk": {
+      "mode": "enforce",
+      "mxs": [
+        "mx0.medway.gov.uk"
+      ]
+    },
+    "mega-turf.fr": {
+      "mode": "testing",
+      "mxs": [
+        "mx.selven.fr"
+      ]
+    },
+    "megasoft.com.ve": {
+      "mode": "testing",
+      "mxs": [
+        "engine.megasoft.com.ve",
+        "engine1.megasoft.com.ve"
+      ]
+    },
+    "meiliboxi.fi": {
+      "mode": "enforce",
+      "mxs": [
+        "meiliboxi.fi"
+      ]
+    },
+    "meta-matrix.de": {
+      "mode": "enforce",
+      "mxs": [
+        "alpha.meta-matrix.de",
+        "gamma.meta-matrix.de",
+        "omega.meta-matrix.de",
+        "delta.meta-matrix.de"
+      ]
+    },
+    "mfen.de": {
+      "mode": "enforce",
+      "mxs": [
+        "al.mfen.de"
+      ]
+    },
+    "michaeljdean.com": {
+      "mode": "testing",
+      "mxs": [
+        "mx.upcbusiness.at"
+      ]
+    },
+    "michalspacek.cz": {
+      "mode": "testing",
+      "mxs": [
+        "mx1.smtp.goog",
+        "mx2.smtp.goog",
+        "mx3.smtp.goog",
+        "mx4.smtp.goog"
+      ]
+    },
+    "mihgroup.net": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.mihgroup.net"
+      ]
+    },
+    "minipli.net": {
+      "mode": "testing",
+      "mxs": [
+        "mail.r00tworld.net"
+      ]
+    },
+    "mm.st": {
+      "mode": "testing",
+      "mxs": [
+        ".messagingengine.com"
+      ]
+    },
+    "mobilityworks.eu": {
+      "mode": "testing",
+      "mxs": [
+        "mobilityworks-eu.mail.protection.outlook.com"
+      ]
+    },
+    "moutchic.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.moutchic.com",
+        "moutchic.com"
+      ]
+    },
+    "mrwacky.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.mrwacky.com"
+      ]
+    },
+    "mthode.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mx1.mthode.org"
+      ]
+    },
+    "myface.ph": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.myface.ph"
+      ]
+    },
+    "nadovich.com": {
+      "mode": "enforce",
+      "mxs": [
+        "hwsrv.nadovich.com"
+      ]
+    },
+    "nadovich.net": {
+      "mode": "enforce",
+      "mxs": [
+        "hwsrv.nadovich.com"
+      ]
+    },
+    "nadovich.org": {
+      "mode": "enforce",
+      "mxs": [
+        "hwsrv.nadovich.com"
+      ]
+    },
+    "namaste.ovh": {
+      "mode": "enforce",
+      "mxs": [
+        "smtp.namaste.ovh"
+      ]
+    },
+    "navigate-it-services.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.nroute.de",
+        "mta01.nroute.de",
+        "mta02.nroute.de",
+        "mta03.nroute.de"
+      ]
+    },
+    "nearon.nl": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "nebrius.org": {
+      "mode": "testing",
+      "mxs": [
+        "mx.zoho.com",
+        "mx2.zoho.com",
+        "mx3.zoho.com"
+      ]
+    },
+    "neon.peterjin.org": {
+      "mode": "enforce",
+      "mxs": [
+        "apps-vm1.srv.peterjin.org",
+        "apps-vm3.srv.peterjin.org",
+        "aspmx.l.google.com",
+        ".aspmx.l.google.com"
+      ]
+    },
+    "netcourrier.com": {
+      "mode": "testing",
+      "mxs": [
+        ".netcourrier.com"
+      ]
+    },
+    "nico.la": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "nixnetmail.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.nixnet.email"
+      ]
+    },
+    "nokt.is": {
+      "mode": "testing",
+      "mxs": [
+        "www.nokt.is"
+      ]
+    },
+    "noveldatasolutions.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.noveldatasolutions.com"
+      ]
+    },
+    "nsrc.nz": {
+      "mode": "testing",
+      "mxs": [
+        "zl1ab.nz",
+        "nsrc.nz",
+        "arec.nz",
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "nurnbergconsulting.com": {
+      "mode": "testing",
+      "mxs": [
+        "alt2.aspmx.l.google.com",
+        "aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com",
+        "alt1.aspmx.l.google.com"
+      ]
+    },
+    "o9z.de": {
+      "mode": "testing",
+      "mxs": [
+        "mx.systemfreund.com"
+      ]
+    },
+    "obd-car-doctor.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mx01.pnnsoft.com"
+      ]
+    },
+    "obdcardoc.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mx01.pnnsoft.com"
+      ]
+    },
+    "olbat.net": {
+      "mode": "testing",
+      "mxs": [
+        ".messagingengine.com"
+      ]
+    },
+    "onefellow.com": {
+      "mode": "enforce",
+      "mxs": [
+        "io.onefellow.com",
+        "shield.c0x0.com"
+      ]
+    },
+    "oneweb.hu": {
+      "mode": "enforce",
+      "mxs": [
+        "filter.mx-eu-01.oneweb.hu"
+      ]
+    },
+    "openmpt.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.openmpt.org",
+        ".openmpt.org",
+        "openmpt.org"
+      ]
+    },
+    "orbglobal.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mx0.orbglobal.com"
+      ]
+    },
+    "osthome.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.osthome.de",
+        ".osthome.de"
+      ]
+    },
+    "ournet.cloud": {
+      "mode": "enforce",
+      "mxs": [
+        "box.ournet.cloud"
+      ]
+    },
+    "pagmaro.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.pagmaro.com"
+      ]
+    },
+    "paranoidpenguin.net": {
+      "mode": "enforce",
+      "mxs": [
+        "server3.paranoidpenguin.net",
+        ".paranoidpenguin.net"
+      ]
+    },
+    "parinov.fr": {
+      "mode": "enforce",
+      "mxs": [
+        "arch-server.dhautefeuille.eu"
+      ]
+    },
+    "paytogain.it": {
+      "mode": "testing",
+      "mxs": [
+        "paytogain.it"
+      ]
+    },
+    "pebe.net": {
+      "mode": "enforce",
+      "mxs": [
+        "postal.pebe.net"
+      ]
+    },
+    "peterjin.org": {
+      "mode": "enforce",
+      "mxs": [
+        ".aspmx.l.google.com",
+        "aspmx.l.google.com",
+        "apps-vm1.srv.peterjin.org",
+        "apps-vm3.srv.peterjin.org"
+      ]
+    },
+    "pjin.org": {
+      "mode": "enforce",
+      "mxs": [
+        ".aspmx.l.google.com",
+        "aspmx.l.google.com",
+        "apps-vm1.srv.peterjin.org",
+        "apps-vm3.srv.peterjin.org"
+      ]
+    },
+    "plastic-spoon.de": {
+      "mode": "testing",
+      "mxs": [
+        "rocket.plastic-spoon.de"
+      ]
+    },
+    "pnn.com.ua": {
+      "mode": "enforce",
+      "mxs": [
+        "mx01.pnnsoft.com"
+      ]
+    },
+    "pnn.in.ua": {
+      "mode": "enforce",
+      "mxs": [
+        "mx01.pnnsoft.com"
+      ]
+    },
+    "pnn.org.ua": {
+      "mode": "enforce",
+      "mxs": [
+        "mx01.pnnsoft.com"
+      ]
+    },
+    "pnnsoft.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mx01.pnnsoft.com"
+      ]
+    },
+    "pntz.us": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "politie.nl": {
+      "mode": "testing",
+      "mxs": [
+        "mail1.politie.nl",
+        "mail2.politie.nl"
+      ]
+    },
+    "pollendine.co.uk": {
+      "mode": "enforce",
+      "mxs": [
+        "a.mx.cendata.co.uk"
+      ]
+    },
+    "praxis-garnhaenki.ch": {
+      "mode": "enforce",
+      "mxs": [
+        "mailcow.praxis-garnhaenki.ch"
+      ]
+    },
+    "printon.pro": {
+      "mode": "testing",
+      "mxs": [
+        "mail.printon.pro"
+      ]
+    },
+    "privacytools.io": {
+      "mode": "testing",
+      "mxs": [
+        "mail.privacytools.io"
+      ]
+    },
+    "propublica.org": {
+      "mode": "testing",
+      "mxs": [
+        "propublica-org.mail.protection.outlook.com"
+      ]
+    },
+    "psyma.com": {
+      "mode": "testing",
+      "mxs": [
+        "mx.psyma.com"
+      ]
+    },
+    "ptrk.io": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.ptrk.io"
+      ]
+    },
+    "pwned.life": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.nixnet.email"
+      ]
+    },
+    "quatulo.net": {
+      "mode": "testing",
+      "mxs": [
+        "mail.calypsohost.net"
+      ]
+    },
+    "quoratetechnology.com": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        "aspmx2.googlemail.com",
+        "aspmx3.googlemail.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com"
+      ]
+    },
+    "r13t.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.r13t.de"
+      ]
+    },
+    "r14t.de": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.r13t.de"
+      ]
+    },
+    "rafaelalmeida.pt": {
+      "mode": "testing",
+      "mxs": [
+        "mx.zoho.eu",
+        "mx2.zoho.eu",
+        "mx3.zoho.eu"
+      ]
+    },
+    "railto.com": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "randomcrap.eu": {
+      "mode": "enforce",
+      "mxs": [
+        "random.randomcrap.eu",
+        "mini.randomcrap.eu"
+      ]
+    },
+    "rbin.nl": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "rdcdesign.com": {
+      "mode": "testing",
+      "mxs": [
+        ".rdcdesign.com"
+      ]
+    },
+    "rheijmans.eu": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "rheijmans.nl": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "rhopi.io": {
+      "mode": "testing",
+      "mxs": [
+        "rhopi.io"
+      ]
+    },
+    "richie.one": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "richieheijmans.cloud": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "richieheijmans.com": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "richieheijmans.email": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "richieheijmans.eu": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "richieheijmans.xyz": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "richw.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.richw.org",
+        "drizzle.richw.org",
+        "fogbank.richw.org",
+        "express.richw.org"
+      ]
+    },
+    "ricwein.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.ricwein.com"
+      ]
+    },
+    "riechsteiner.tech": {
+      "mode": "testing",
+      "mxs": [
+        "mail.riechsteiner.tech"
+      ]
+    },
+    "rije.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.rije.de"
+      ]
+    },
+    "riseup.net": {
+      "mode": "enforce",
+      "mxs": [
+        "riseup.net",
+        ".riseup.net"
+      ]
+    },
+    "roboroscope-turf.fr": {
+      "mode": "testing",
+      "mxs": [
+        "mx.selven.fr"
+      ]
+    },
+    "rodier.me": {
+      "mode": "enforce",
+      "mxs": [
+        "smtp.rodier.me",
+        "spool.mail.gandi.net",
+        "fb.mail.gandi.net"
+      ]
+    },
+    "roseitsolutions.co.uk": {
+      "mode": "enforce",
+      "mxs": [
+        "384b6aa7.21.ik2.com",
+        "384b6aa7.22.ik2.io",
+        "384b6aa7.23.ik2.eu"
+      ]
+    },
+    "roualland.net": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.anguta.net"
+      ]
+    },
+    "rte.ie": {
+      "mode": "testing",
+      "mxs": [
+        "rte-ie.mail.protection.outlook.com"
+      ]
+    },
+    "rtf.org.uk": {
+      "mode": "testing",
+      "mxs": [
+        "simplex.rtf.org.uk"
+      ]
+    },
+    "rust.pm": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.rust.pm"
+      ]
+    },
+    "rwhrst.nl": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "sabbottlabs.com": {
+      "mode": "enforce",
+      "mxs": [
+        "sabbottlabs.com"
+      ]
+    },
+    "sammdu.com": {
+      "mode": "testing",
+      "mxs": [
+        "sammdu.com",
+        "mail.sammdu.com"
+      ]
+    },
+    "sapience.com": {
+      "mode": "enforce",
+      "mxs": [
+        "sapience.com",
+        ".sapience.com",
+        ".ecohler.com",
+        ".ecohler.net"
+      ]
+    },
+    "saturne.cc": {
+      "mode": "testing",
+      "mxs": [
+        "casimir.saturne.cc"
+      ]
+    },
+    "sbuddhe.net": {
+      "mode": "testing",
+      "mxs": [
+        "mx.sbuddhe.net",
+        "kal-el.sbuddhe.net",
+        "sameer.sbuddhe.net",
+        "mahesh.sbuddhe.net"
+      ]
+    },
+    "scanmailx.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mxdk01.scanmailx.com",
+        "mxdk02.scanmailx.com",
+        ".scanmailx.com"
+      ]
+    },
+    "schaltstube.de": {
+      "mode": "testing",
+      "mxs": [
+        "mx.schaltstube.de"
+      ]
+    },
+    "scharlewsky.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.ud19.udmedia.de"
+      ]
+    },
+    "schultz.re": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.schultz.re",
+        ".schultz.re",
+        "schultz.re"
+      ]
+    },
+    "scribnerd.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "sdennie.net": {
+      "mode": "testing",
+      "mxs": [
+        "mail.sdennie.net",
+        "vpn.sdennie.net"
+      ]
+    },
+    "sean.taipei": {
+      "mode": "enforce",
+      "mxs": [
+        "sean.taipei",
+        "mail.sean.taipei"
+      ]
+    },
+    "secnd.me": {
+      "mode": "testing",
+      "mxs": [
+        "mail.secnd.me"
+      ]
+    },
+    "securedlegion.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.anonaddy.me"
+      ]
+    },
+    "sermesa.es": {
+      "mode": "enforce",
+      "mxs": [
+        "server.dnsprivado.com.es"
+      ]
+    },
+    "sethvargo.com": {
+      "mode": "enforce",
+      "mxs": [
+        "sethvargo.com",
+        "sethvargo.dev",
+        "sethvargo.me",
+        "vargo.dev",
+        "aspmx.l.google.com",
+        ".aspmx.l.google.com"
+      ]
+    },
+    "shadowcp.eu": {
+      "mode": "testing",
+      "mxs": [
+        "mx.shadowcp.eu",
+        "dc.shadowcp.eu"
+      ]
+    },
+    "shat.net": {
+      "mode": "enforce",
+      "mxs": [
+        "mailman.shaunc.com",
+        "mail.shaunc.com"
+      ]
+    },
+    "shaunc.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mailman.shaunc.com",
+        "mail.shaunc.com"
+      ]
+    },
+    "sheridanwest.net": {
+      "mode": "testing",
+      "mxs": [
+        "mail2.sheridanwest.net",
+        "mail2.sheridanwest.com"
+      ]
+    },
+    "shintag.com": {
+      "mode": "testing",
+      "mxs": [
+        "ASPMX.L.GOOGLE.COM",
+        "ALT1.ASPMX.L.GOOGLE.COM",
+        "ALT2.ASPMX.L.GOOGLE.COM",
+        "ALT3.ASPMX.L.GOOGLE.COM",
+        "ALT4.ASPMX.L.GOOGLE.COM"
+      ]
+    },
+    "sigmalux.ca": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        ".aspmx.l.google.com"
+      ]
+    },
+    "sigmalux.co.nz": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        ".aspmx.l.google.com"
+      ]
+    },
+    "sigmalux.co.uk": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        ".aspmx.l.google.com"
+      ]
+    },
+    "sigmalux.com.au": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        ".aspmx.l.google.com"
+      ]
+    },
+    "sigmalux.es": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        ".aspmx.l.google.com"
+      ]
+    },
+    "sigmalux.llc": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        ".aspmx.l.google.com"
+      ]
+    },
+    "sigmalux.nz": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        ".aspmx.l.google.com"
+      ]
+    },
+    "sigmalux.sarl": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        ".aspmx.l.google.com"
+      ]
+    },
+    "sigmalux.uk": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        ".aspmx.l.google.com"
+      ]
+    },
+    "sigmalux.us": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        ".aspmx.l.google.com"
+      ]
+    },
+    "sit-test.dk": {
+      "mode": "enforce",
+      "mxs": [
+        "mx1.sit-test.dk",
+        "mx2.sit-test.dk"
+      ]
+    },
+    "sldev.ovh": {
+      "mode": "testing",
+      "mxs": [
+        "mx1.sldev.ovh"
+      ]
+    },
+    "smart-dm.de": {
+      "mode": "enforce",
+      "mxs": [
+        "sdm.smart-dm.de",
+        ".smart-dm.de"
+      ]
+    },
+    "sniffton.com": {
+      "mode": "enforce",
+      "mxs": [
+        ".sniffton.com",
+        "mail.sniffton.com"
+      ]
+    },
+    "snopyta.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.snopyta.org"
+      ]
+    },
+    "socketlabs.com": {
+      "mode": "enforce",
+      "mxs": [
+        "socketlabs-com.mail.protection.outlook.com"
+      ]
+    },
+    "southsidebarbershop.fr": {
+      "mode": "enforce",
+      "mxs": [
+        "arch-server.dhautefeuille.eu"
+      ]
+    },
+    "soverin.net": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.soverin.net",
+        ".soverin.net"
+      ]
+    },
+    "steadmon.net": {
+      "mode": "testing",
+      "mxs": [
+        "steadmon.net"
+      ]
+    },
+    "stefanheil.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.stefanheil.com"
+      ]
+    },
+    "storedsafe.com": {
+      "mode": "enforce",
+      "mxs": [
+        "smtp.xpd.se"
+      ]
+    },
+    "stuartbell.uk": {
+      "mode": "enforce",
+      "mxs": [
+        ".messagingengine.com"
+      ]
+    },
+    "sufliarsky.sk": {
+      "mode": "enforce",
+      "mxs": [
+        "vps.sufliarsky.sk"
+      ]
+    },
+    "swim.aero": {
+      "mode": "testing",
+      "mxs": [
+        "esa1.eurocontrol.c3s2.iphmx.com",
+        "esa2.eurocontrol.c3s2.iphmx.com"
+      ]
+    },
+    "sylca.fr": {
+      "mode": "testing",
+      "mxs": [
+        "spool.mail.gandi.net",
+        "fb.mail.gandi.net"
+      ]
+    },
+    "sylvan.io": {
+      "mode": "testing",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "tcy.com": {
+      "mode": "enforce",
+      "mxs": [
+        ".tcy.com",
+        ".tcy.com.tw",
+        ".tcy.tw",
+        ".tcy.cn"
+      ]
+    },
+    "tcy.com.tw": {
+      "mode": "enforce",
+      "mxs": [
+        ".tcy.com",
+        ".tcy.com.tw",
+        ".tcy.tw",
+        ".tcy.cn"
+      ]
+    },
+    "tcy.tw": {
+      "mode": "enforce",
+      "mxs": [
+        ".tcy.com",
+        ".tcy.com.tw",
+        ".tcy.tw",
+        ".tcy.cn"
+      ]
+    },
+    "techlevel.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.techlevel.org"
+      ]
+    },
+    "technodro.me": {
+      "mode": "testing",
+      "mxs": [
+        ".technodro.me"
+      ]
+    },
+    "tecle.net": {
+      "mode": "testing",
+      "mxs": [
+        "mail.tecle.net"
+      ]
+    },
+    "tecpron.com": {
+      "mode": "testing",
+      "mxs": [
+        "mx-01-us-west-2.prod.hydra.sophos.com",
+        "mx-02-us-west-2.prod.hydra.sophos.com"
+      ]
+    },
+    "tedra.nz": {
+      "mode": "testing",
+      "mxs": [
+        "jane.the-kingdom.net",
+        "trent.the-kingdom.net"
+      ]
+    },
+    "tegitur.com": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.tegitur.com"
+      ]
+    },
+    "teichroeb.net": {
+      "mode": "enforce",
+      "mxs": [
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "aspmx.l.google.com",
+        "aspmx2.googlemail.com",
+        "aspmx3.googlemail.com"
+      ]
+    },
+    "tetsistemi.tech": {
+      "mode": "testing",
+      "mxs": [
+        "mail.tetsistemi.tech",
+        "inbound-smtp.us-east-1.amazonaws.com"
+      ]
+    },
+    "the-kingdom.net": {
+      "mode": "testing",
+      "mxs": [
+        "jane.the-kingdom.net",
+        "trent.the-kingdom.net"
+      ]
+    },
+    "thejonsey.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "thetorri.net": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "thomaskoscheck.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.thomaskoscheck.de",
+        "mx.zoho.eu"
+      ]
+    },
+    "tigreraye.org": {
+      "mode": "enforce",
+      "mxs": [
+        "tigreraye.org"
+      ]
+    },
+    "tilburg.nl": {
+      "mode": "testing",
+      "mxs": [
+        "mail1.tilburg.nl",
+        "mail2.tilburg.nl"
+      ]
+    },
+    "timkoop.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.timkoop.de"
+      ]
+    },
+    "tityrus.be": {
+      "mode": "testing",
+      "mxs": [
+        "r1.tityrus.be"
+      ]
+    },
+    "tmthrgd.dev": {
+      "mode": "enforce",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "tomasmoberg.org": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.protonmail.ch",
+        "mailsec.protonmail.ch"
+      ]
+    },
+    "tomthorogood.co.uk": {
+      "mode": "enforce",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "tomthorogood.uk": {
+      "mode": "enforce",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "tonytan.io": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.protonmail.ch"
+      ]
+    },
+    "townofmineral.net": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "tritiumdisposal.com": {
+      "mode": "enforce",
+      "mxs": [
+        "tritiumdisposal.com"
+      ]
+    },
+    "trolldi.eu.org": {
+      "mode": "enforce",
+      "mxs": [
+        "trolldi.eu.org"
+      ]
+    },
+    "trousers.co.uk": {
+      "mode": "enforce",
+      "mxs": [
+        "a.mx.cendata.co.uk"
+      ]
+    },
+    "truong.fi": {
+      "mode": "enforce",
+      "mxs": [
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "tst.nhs.uk": {
+      "mode": "testing",
+      "mxs": [
+        ".tst.nhs.uk"
+      ]
+    },
+    "tuta.io": {
+      "mode": "testing",
+      "mxs": [
+        "mail.tutanota.de"
+      ]
+    },
+    "tutamail.com": {
+      "mode": "testing",
+      "mxs": [
+        "mail.tutanota.de"
+      ]
+    },
+    "tutanota.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.tutanota.de"
+      ]
+    },
+    "twancoenraad.nl": {
+      "mode": "enforce",
+      "mxs": [
+        "in1-smtp.messagingengine.com",
+        "in2-smtp.messagingengine.com"
+      ]
+    },
+    "uleiko.lv": {
+      "mode": "testing",
+      "mxs": [
+        "pasts.uleiko.lv"
+      ]
+    },
+    "ulys.ch": {
+      "mode": "enforce",
+      "mxs": [
+        "mta-gw.infomaniak.ch"
+      ]
+    },
+    "umontpellier.fr": {
+      "mode": "testing",
+      "mxs": [
+        ".umontpellier.fr"
+      ]
+    },
+    "urbaninnovations.com": {
+      "mode": "testing",
+      "mxs": [
+        "mailcleaner.urbaninnovations.com"
+      ]
+    },
+    "uriports.com": {
+      "mode": "enforce",
+      "mxs": [
+        "uriports.com"
+      ]
+    },
+    "urti-k.fr": {
+      "mode": "enforce",
+      "mxs": [
+        "arch-server.dhautefeuille.eu"
+      ]
+    },
+    "urtik.fr": {
+      "mode": "enforce",
+      "mxs": [
+        "arch-server.dhautefeuille.eu"
+      ]
+    },
+    "us-core.com": {
+      "mode": "enforce",
+      "mxs": [
+        ".us-core.com"
+      ]
+    },
+    "vconesa.es": {
+      "mode": "enforce",
+      "mxs": [
+        "mx.flipmail.es"
+      ]
+    },
+    "venev.name": {
+      "mode": "testing",
+      "mxs": [
+        "pmx1.venev.name",
+        "smx1.venev.name",
+        "smx2.venev.name"
+      ]
+    },
+    "verzinkerei-rentrop.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.verzinkerei-rentrop.de"
+      ]
+    },
+    "vestibtech.com": {
+      "mode": "enforce",
+      "mxs": [
+        "host-klax-c.vestibtech.com",
+        "host-kewr-e.vestibtech.com"
+      ]
+    },
+    "vfdworld.com": {
+      "mode": "testing",
+      "mxs": [
+        "vfdworld.com",
+        "aws.vfdworld.com"
+      ]
+    },
+    "vigilante.one": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ]
+    },
+    "virtualfreedom.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.virtualfreedom.de"
+      ]
+    },
+    "volk.kiev.ua": {
+      "mode": "enforce",
+      "mxs": [
+        "mx01.pnnsoft.com"
+      ]
+    },
+    "w5gfe.org": {
+      "mode": "testing",
+      "mxs": [
+        "ns.w5gfe.org"
+      ]
+    },
+    "walkingandcycling.org.uk": {
+      "mode": "enforce",
+      "mxs": [
+        "6ae66d92.21.ik2.com",
+        "6ae66d92.22.ik2.io",
+        "6ae66d92.23.ik2.eu"
+      ]
+    },
+    "wallisch.pro": {
+      "mode": "testing",
+      "mxs": [
+        ".mailbox.org",
+        "mxext1.mailbox.org",
+        "mxext2.mailbox.org",
+        "mxext3.mailbox.org"
+      ]
+    },
+    "walmsley.gen.nz": {
+      "mode": "testing",
+      "mxs": [
+        "home.walmsley.gen.nz"
+      ]
+    },
+    "wapgc.com": {
+      "mode": "testing",
+      "mxs": [
+        "aspmx5.googlemail.com",
+        "aspmx2.googlemail.com",
+        "aspmx.l.google.com",
+        "aspmx3.googlemail.com",
+        "alt2.aspmx.l.google.com",
+        "aspmx4.googlemail.com",
+        "alt1.aspmx.l.google.com"
+      ]
+    },
+    "wassa.io": {
+      "mode": "testing",
+      "mxs": [
+        "mail.wassa.io"
+      ]
+    },
+    "williamjohngauthier.net": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.wjg.dk"
+      ]
+    },
+    "wjg.ca": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.wjg.dk"
+      ]
+    },
+    "wjg.dk": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.wjg.dk"
+      ]
+    },
+    "wjg.se": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.wjg.dk"
+      ]
+    },
+    "woofercare.uk": {
+      "mode": "enforce",
+      "mxs": [
+        "unaszplodrmann.plus.com"
+      ]
+    },
+    "workroomhost.com": {
+      "mode": "testing",
+      "mxs": [
+        "mx.workroomhost.com"
+      ]
+    },
+    "wto.economy.gov.ru": {
+      "mode": "testing",
+      "mxs": [
+        "mx.wto.economy.gov.ru"
+      ]
+    },
+    "wurzelchaos.de": {
+      "mode": "testing",
+      "mxs": [
+        "mail.wurzelchaos.de",
+        "goldmund.wurzelchaos.de"
+      ]
+    },
+    "ximex.at": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.ximex.at",
+        "mxext1.mailbox.org",
+        "mxext2.mailbox.org",
+        "mxext3.mailbox.org"
+      ]
+    },
+    "xmission.com": {
+      "mode": "testing",
+      "mxs": [
+        "mx.xmission.com"
+      ]
+    },
+    "xpd.se": {
+      "mode": "enforce",
+      "mxs": [
+        "smtp.xpd.se"
+      ]
+    },
+    "xsen.de": {
+      "mode": "enforce",
+      "mxs": [
+        ".xsen.de"
+      ]
+    },
+    "xserveshack.com": {
+      "mode": "testing",
+      "mxs": [
+        "jane.the-kingdom.net",
+        "trent.the-kingdom.net"
+      ]
+    },
+    "xxblackburnxx.nl": {
+      "mode": "testing",
+      "mxs": [
+        ".xxblackburnxx.nl",
+        "lexi.xxblackburnxx.nl"
+      ]
+    },
+    "yafd.de": {
+      "mode": "testing",
+      "mxs": [
+        "mxext1.mailbox.org",
+        "mxext2.mailbox.org",
+        "mxext3.mailbox.org"
+      ]
+    },
+    "ydh.nhs.uk": {
+      "mode": "testing",
+      "mxs": [
+        ".ydh.nhs.uk"
+      ]
+    },
+    "yq5.de": {
+      "mode": "testing",
+      "mxs": [
+        "yq5.de"
+      ]
+    },
+    "zeroanarchy.com": {
+      "mode": "enforce",
+      "mxs": [
+        "zeroanarchy.com"
+      ]
+    },
+    "zerobase.jp": {
+      "mode": "enforce",
+      "mxs": [
+        "aspmx.l.google.com",
+        "aspmx2.googlemail.com",
+        "aspmx3.googlemail.com",
+        "aspmx4.googlemail.com",
+        "aspmx5.googlemail.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com"
+      ]
+    },
+    "zerties.org": {
+      "mode": "testing",
+      "mxs": [
+        "mailgate.zerties.org"
+      ]
+    },
+    "zli.ch": {
+      "mode": "enforce",
+      "mxs": [
+        "relay.zli.ch"
+      ]
+    },
+    "zumbi.com.ar": {
+      "mode": "testing",
+      "mxs": [
+        "mail.zumbi.com.ar"
+      ]
+    },
+    "zumbi.xyz": {
+      "mode": "enforce",
+      "mxs": [
+        "mail.zumbi.xyz"
+      ]
+    }
+  }
+}

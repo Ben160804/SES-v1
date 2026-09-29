@@ -1193,6 +1193,55 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
                 except x509.ExtensionNotFound:
                     aki = None
 
+                # Stable, privacy-preserving certificate facts used by downstream
+                # feature analysis. No names, serials, or certificate bytes are added.
+                authority_info = None
+                try:
+                    authority_info = cert.extensions.get_extension_for_oid(
+                        x509.ExtensionOID.AUTHORITY_INFORMATION_ACCESS
+                    ).value
+                except x509.ExtensionNotFound:
+                    pass
+                ocsp_url_count = 0
+                issuer_url_count = 0
+                if authority_info is not None:
+                    for access in authority_info:
+                        method = access.access_method.dotted_string
+                        if method == "1.3.6.1.5.5.7.48.1":
+                            ocsp_url_count += 1
+                        elif method == "1.3.6.1.5.5.7.48.2":
+                            issuer_url_count += 1
+
+                policy_count = 0
+                try:
+                    policy_count = len(cert.extensions.get_extension_for_oid(
+                        x509.ExtensionOID.CERTIFICATE_POLICIES
+                    ).value)
+                except x509.ExtensionNotFound:
+                    pass
+                crl_url_count = 0
+                try:
+                    crl_points = cert.extensions.get_extension_for_oid(
+                        x509.ExtensionOID.CRL_DISTRIBUTION_POINTS
+                    ).value
+                    crl_url_count = sum(
+                        1 for point in crl_points for name in (point.full_name or [])
+                        if isinstance(name, x509.UniformResourceIdentifier)
+                    )
+                except x509.ExtensionNotFound:
+                    pass
+                sct_count = int(any(
+                    ext.oid.dotted_string == "1.3.6.1.4.1.11129.2.4.2"
+                    for ext in cert.extensions
+                ))
+
+                rsa_exponent = None
+                ecdsa_curve = None
+                if pk_algo == "RSA":
+                    rsa_exponent = pub_key.public_numbers().e
+                elif pk_algo == "EC":
+                    ecdsa_curve = pub_key.curve.name
+
                 # ── 9. CRITICAL EXTENSIONS TRACKING (RFC 5280 §4.2) ──────────────────
                 # A critical extension that a verifier does not recognise means the cert
                 # MUST be rejected (RFC 5280 §4.2 ¶4). We surface all critical OIDs so
@@ -1223,6 +1272,19 @@ def extract_certificates(pcap_path, trust_store_manager=None, trust_store_type="
                     "signature_hash_algorithm":     sig_hash,
                     "public_key_algorithm":         pk_algo,
                     "public_key_size":              key_size,
+                    "public_key_exponent":          rsa_exponent,
+                    "ecdsa_curve":                  ecdsa_curve,
+                    "extension_count":              len(cert.extensions),
+                    "ocsp_url_count":               ocsp_url_count,
+                    "issuer_url_count":             issuer_url_count,
+                    "policy_count":                 policy_count,
+                    "has_certificate_policy":       policy_count > 0,
+                    "sct_count":                    sct_count,
+                    "has_sct":                      sct_count > 0,
+                    "crl_url_count":                crl_url_count,
+                    "has_crl_distribution":         crl_url_count > 0,
+                    "has_authority_key_id":         aki is not None,
+                    "has_subject_key_id":           ski is not None,
                     "basic_constraints":            basic_constraints,
                     "key_usage":                    key_usage,
                     "extended_key_usage":           extended_key_usage,

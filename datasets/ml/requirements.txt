@@ -1,0 +1,4 @@
+scikit-learn>=1.5
+scapy>=2.6
+cryptography>=42
+dpkt>=1.9.8

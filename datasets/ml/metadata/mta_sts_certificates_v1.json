@@ -1,0 +1,41 @@
+{
+  "dataset_id": "mta_sts_certificates_v1",
+  "description": "Certificate-only features from SMTP/MTA-STS related scans; not full SMTP TLS handshake records.",
+  "source_path": "datasets/posture/mta-sts/stls_scans.zip",
+  "source_member": "stls_scans.txt",
+  "source_sha256": "03acd51b8fffb0c4ce5c9e8338c6db15e41874a09b30a809ced849ed3dc2fa16",
+  "counts": {
+    "source_records": 122917,
+    "rows_written": 120939,
+    "scan_success": 21490,
+    "certificate_parsed": 21490,
+    "certificate_parse_failed": 0,
+    "malformed_rows_skipped": 1978,
+    "missing_certificate": 0,
+    "non_success_scan_rows": 99449,
+    "bad_timestamp": 0
+  },
+  "certificate_parse_error_types": {},
+  "model_feature_exclusions": [
+    "record_id",
+    "certificate_group_id",
+    "data_source",
+    "source_file",
+    "source_row",
+    "scan_timestamp_utc",
+    "scan_status",
+    "scan_port",
+    "chain_length_reported",
+    "certificate_observed",
+    "parse_status"
+  ],
+  "limitations": [
+    "The source contains SMTP-related scan certificates, not complete negotiated SMTP TLS sessions.",
+    "Certificate parsing is not chain/path validation and does not establish endpoint identity correctness.",
+    "Scan records and certificates may be repeated; group by certificate_group_id before train/test splitting.",
+    "Expired status is evaluated at the recorded scan time, not the present date.",
+    "Anomaly scores over this cohort indicate rarity only, not vulnerability or maliciousness."
+  ],
+  "output_path": "datasets/ml/processed/mta_sts_certificates_v1.csv",
+  "schema_version": "1.0"
+}

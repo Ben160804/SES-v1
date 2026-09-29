@@ -1,0 +1,244 @@
+{
+  "dataset_id": "zgrab_smtp_v1",
+  "model_id": "zgrab_rule_flag_proxy_v1",
+  "model_version": "1.0",
+  "feature_schema_version": "zgrab_smtp_v1",
+  "target": "rule_flag_proxy_v1",
+  "target_semantics": "Agreement with the union of seven deterministic rule flags; not independent risk ground truth.",
+  "evaluation": "Leave-one-country-out cross-validation; the country is grouping metadata and is not a feature.",
+  "sample_count": 530,
+  "class_counts": {
+    "NO_CURRENT_RULE_FLAG": 469,
+    "HAS_RULE_FLAGGED_ISSUE": 61
+  },
+  "model": "DictVectorizer + StandardScaler + class-weighted LogisticRegression",
+  "model_score_calibration": "Uncalibrated class scores; do not present as probabilities.",
+  "macro_f1": 0.9907371806075012,
+  "accuracy": 0.9962264150943396,
+  "majority_baseline_macro_f1": 0.4694694694694695,
+  "classes": {
+    "NO_CURRENT_RULE_FLAG": {
+      "precision": 0.997867803837953,
+      "recall": 0.997867803837953,
+      "f1": 0.997867803837953,
+      "support": 469
+    },
+    "HAS_RULE_FLAGGED_ISSUE": {
+      "precision": 0.9836065573770492,
+      "recall": 0.9836065573770492,
+      "f1": 0.9836065573770492,
+      "support": 61
+    }
+  },
+  "folds": [
+    {
+      "held_out_country": "Australia",
+      "train_rows": 462,
+      "test_rows": 68,
+      "test_label_counts": {
+        "NO_CURRENT_RULE_FLAG": 62,
+        "HAS_RULE_FLAGGED_ISSUE": 6
+      }
+    },
+    {
+      "held_out_country": "Brazil",
+      "train_rows": 482,
+      "test_rows": 48,
+      "test_label_counts": {
+        "NO_CURRENT_RULE_FLAG": 43,
+        "HAS_RULE_FLAGGED_ISSUE": 5
+      }
+    },
+    {
+      "held_out_country": "Canada",
+      "train_rows": 486,
+      "test_rows": 44,
+      "test_label_counts": {
+        "NO_CURRENT_RULE_FLAG": 41,
+        "HAS_RULE_FLAGGED_ISSUE": 3
+      }
+    },
+    {
+      "held_out_country": "France",
+      "train_rows": 520,
+      "test_rows": 10,
+      "test_label_counts": {
+        "NO_CURRENT_RULE_FLAG": 9,
+        "HAS_RULE_FLAGGED_ISSUE": 1
+      }
+    },
+    {
+      "held_out_country": "Germany",
+      "train_rows": 520,
+      "test_rows": 10,
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 4,
+        "NO_CURRENT_RULE_FLAG": 6
+      }
+    },
+    {
+      "held_out_country": "India",
+      "train_rows": 471,
+      "test_rows": 59,
+      "test_label_counts": {
+        "NO_CURRENT_RULE_FLAG": 55,
+        "HAS_RULE_FLAGGED_ISSUE": 4
+      }
+    },
+    {
+      "held_out_country": "Italy",
+      "train_rows": 518,
+      "test_rows": 12,
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 3,
+        "NO_CURRENT_RULE_FLAG": 9
+      }
+    },
+    {
+      "held_out_country": "Japan",
+      "train_rows": 528,
+      "test_rows": 2,
+      "test_label_counts": {
+        "NO_CURRENT_RULE_FLAG": 2
+      }
+    },
+    {
+      "held_out_country": "Mexico",
+      "train_rows": 481,
+      "test_rows": 49,
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 4,
+        "NO_CURRENT_RULE_FLAG": 45
+      }
+    },
+    {
+      "held_out_country": "Netherlands",
+      "train_rows": 504,
+      "test_rows": 26,
+      "test_label_counts": {
+        "NO_CURRENT_RULE_FLAG": 24,
+        "HAS_RULE_FLAGGED_ISSUE": 2
+      }
+    },
+    {
+      "held_out_country": "Russia",
+      "train_rows": 519,
+      "test_rows": 11,
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 3,
+        "NO_CURRENT_RULE_FLAG": 8
+      }
+    },
+    {
+      "held_out_country": "Singapore",
+      "train_rows": 469,
+      "test_rows": 61,
+      "test_label_counts": {
+        "NO_CURRENT_RULE_FLAG": 54,
+        "HAS_RULE_FLAGGED_ISSUE": 7
+      }
+    },
+    {
+      "held_out_country": "South_Korea",
+      "train_rows": 523,
+      "test_rows": 7,
+      "test_label_counts": {
+        "NO_CURRENT_RULE_FLAG": 2,
+        "HAS_RULE_FLAGGED_ISSUE": 5
+      }
+    },
+    {
+      "held_out_country": "Spain",
+      "train_rows": 499,
+      "test_rows": 31,
+      "test_label_counts": {
+        "NO_CURRENT_RULE_FLAG": 26,
+        "HAS_RULE_FLAGGED_ISSUE": 5
+      }
+    },
+    {
+      "held_out_country": "UK",
+      "train_rows": 493,
+      "test_rows": 37,
+      "test_label_counts": {
+        "HAS_RULE_FLAGGED_ISSUE": 5,
+        "NO_CURRENT_RULE_FLAG": 32
+      }
+    },
+    {
+      "held_out_country": "US",
+      "train_rows": 475,
+      "test_rows": 55,
+      "test_label_counts": {
+        "NO_CURRENT_RULE_FLAG": 51,
+        "HAS_RULE_FLAGGED_ISSUE": 4
+      }
+    }
+  ],
+  "limitations": [
+    "Target is derived from deterministic rule flags; this measures proxy agreement, not independent detection accuracy.",
+    "Only 61 of 530 handshakes have at least one current rule flag; individual findings are rarer.",
+    "Real-world representativeness is limited to the collected SMTP submission scan cohort.",
+    "No TLS-less observation was labeled as low or safe.",
+    "Metrics use one scan per endpoint; broader provider/certificate-family leakage may remain."
+  ],
+  "seed": 20260929,
+  "sklearn_version": "1.9.1",
+  "created_at_utc": "2026-09-28T22:27:39.753155+00:00",
+  "input_sha256": "8823158435fa490e8cb29241a72c4902f7a001095737c94e1b5568d6e6735fab",
+  "feature_fields": [
+    "tls_version",
+    "tls_selected_version",
+    "cipher_suite",
+    "key_exchange",
+    "tls_ext_43",
+    "tls_ext_51",
+    "tls_ext_65281",
+    "tls_ext_11",
+    "tls_ext_5",
+    "tls_ocsp_stapling",
+    "tls_ticket",
+    "tls_secure_renegotiation",
+    "tls_heartbeat",
+    "tls_extended_master_secret",
+    "tls_session_id_present",
+    "cert_key_algorithm",
+    "cert_ecdsa_curve",
+    "cert_signature_algorithm",
+    "cert_validation_level",
+    "cert_self_signed",
+    "cert_is_ca",
+    "cert_server_auth",
+    "cert_client_auth",
+    "cert_digital_signature",
+    "cert_key_encipherment",
+    "cert_key_agreement",
+    "cert_expired",
+    "cert_not_yet_valid",
+    "cert_has_wildcard_san",
+    "cert_has_ocsp",
+    "cert_has_certificate_policy",
+    "cert_has_sct",
+    "cert_has_crl_distribution",
+    "cert_has_authority_key_id",
+    "cert_has_subject_key_id",
+    "tls_extension_count",
+    "cert_rsa_key_size",
+    "cert_rsa_exponent",
+    "cert_ecdsa_key_size",
+    "cert_san_count",
+    "cert_max_san_length",
+    "cert_unique_san_count",
+    "cert_key_usage_count",
+    "cert_extension_count",
+    "cert_validity_days",
+    "cert_days_remaining",
+    "cert_chain_length",
+    "cert_ocsp_url_count",
+    "cert_issuer_url_count",
+    "cert_policy_count",
+    "cert_sct_count",
+    "cert_crl_url_count"
+  ],
+  "artifact_sha256": "c665cb20171b2746ae99faca72df05d1a97f7ab5d884b8cef83e0e306052ba7e"
+}

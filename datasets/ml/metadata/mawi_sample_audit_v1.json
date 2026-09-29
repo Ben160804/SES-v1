@@ -1,0 +1,67 @@
+{
+  "audit_type": "bounded_mawi_packet_sample",
+  "results": [
+    {
+      "compressed_bytes": 9935953909,
+      "email_port_bidirectional_flow_candidates": {
+        "IMAP": 91,
+        "POP3": 14,
+        "SMTP": 83
+      },
+      "email_port_packet_counts": {
+        "IMAP": 655,
+        "POP3": 51,
+        "SMTP": 796
+      },
+      "limitations": [
+        "This is a first-N-packet sample, not a complete capture analysis or prevalence estimate.",
+        "Port-based flow candidates are not confirmed SMTP/IMAP/POP3 sessions.",
+        "TLS prefix counts are packet-level heuristics and do not reconstruct TLS handshakes.",
+        "Low snap length can truncate application payloads and prevent protocol/handshake reconstruction."
+      ],
+      "packets_at_or_above_snaplen_without_decoded_tcp": 16227,
+      "pcap_linktype": 1,
+      "pcap_snaplen": 96,
+      "sample_first_timestamp": 1750309200.483923,
+      "sample_last_timestamp": 1750309201.229301,
+      "sample_packet_limit": 250000,
+      "sample_packets_read": 250000,
+      "source_file": "202506191400.pcap.gz",
+      "tcp_packets": 170725,
+      "tls_record_prefix_packet_counts_on_email_ports": {},
+      "uncompressed_bytes_read": 19522920,
+      "visible_email_command_occurrences": {}
+    },
+    {
+      "compressed_bytes": 3913936424,
+      "email_port_bidirectional_flow_candidates": {
+        "IMAP": 268,
+        "POP3": 219,
+        "SMTP": 180
+      },
+      "email_port_packet_counts": {
+        "IMAP": 1033,
+        "POP3": 445,
+        "SMTP": 952
+      },
+      "limitations": [
+        "This is a first-N-packet sample, not a complete capture analysis or prevalence estimate.",
+        "Port-based flow candidates are not confirmed SMTP/IMAP/POP3 sessions.",
+        "TLS prefix counts are packet-level heuristics and do not reconstruct TLS handshakes.",
+        "Low snap length can truncate application payloads and prevent protocol/handshake reconstruction."
+      ],
+      "packets_at_or_above_snaplen_without_decoded_tcp": 10522,
+      "pcap_linktype": 1,
+      "pcap_snaplen": 96,
+      "sample_first_timestamp": 1735707600.158986,
+      "sample_last_timestamp": 1735707601.923616,
+      "sample_packet_limit": 250000,
+      "sample_packets_read": 250000,
+      "source_file": "202501011400.pcap.gz",
+      "tcp_packets": 110007,
+      "tls_record_prefix_packet_counts_on_email_ports": {},
+      "uncompressed_bytes_read": 18429284,
+      "visible_email_command_occurrences": {}
+    }
+  ]
+}

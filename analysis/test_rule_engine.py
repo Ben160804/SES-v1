@@ -435,5 +435,38 @@ class TestRuleEngineLivePCAPs(unittest.TestCase):
         self.assertTrue(obs_auth.detected)
 
 
+class TestRuleEngineMLSeparation(unittest.TestCase):
+    def test_ml_context_is_separate_and_never_changes_policy_verdicts(self):
+        session = {
+            "stream_id": 77,
+            "protocol": "SMTP",
+            "tls": {
+                "raw_version": "0x0301",
+                "tls_version": "TLS 1.0",
+                "cipher_name": "TLS_RSA_WITH_AES_128_CBC_SHA",
+                "key_exchange": "RSA",
+            },
+            "starttls": {"status": "UPGRADED", "tls_active": True},
+        }
+        enabled = RuleEngine(enable_ml=True).evaluate_stream(session)
+        disabled = RuleEngine(enable_ml=False).evaluate_stream(session)
+
+        verdicts_enabled = {
+            name: [(item.rule_id, item.verdict) for item in results]
+            for name, results in enabled.policy_results.items()
+        }
+        verdicts_disabled = {
+            name: [(item.rule_id, item.verdict) for item in results]
+            for name, results in disabled.policy_results.items()
+        }
+        self.assertEqual(verdicts_enabled, verdicts_disabled)
+        self.assertEqual(disabled.ml_results, {"status": "DISABLED"})
+        self.assertEqual(enabled.ml_results["classifier"]["status"], "NOT_EVALUABLE")
+        self.assertIn("smtp_configuration_anomaly", enabled.ml_results)
+        self.assertIn("ml_results", enabled.to_dict())
+        self.assertEqual(enabled.posture_assessment, disabled.posture_assessment)
+        self.assertIn("posture_assessment", enabled.to_dict())
+
+
 if __name__ == "__main__":
     unittest.main()

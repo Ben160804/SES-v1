@@ -1,0 +1,12 @@
+# SecureMailScope — unified dependencies
+# API / runtime
+fastapi>=0.115
+uvicorn>=0.30
+
+# Packet parsing & cryptography
+cryptography>=42
+scapy>=2.6
+dpkt>=1.9.8
+
+# ML training & inference
+scikit-learn>=1.5

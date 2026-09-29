@@ -1,0 +1,295 @@
+{
+  "algorithm": "RandomForest",
+  "artifact_sha256": "8dcbb108bcc2da35e361258c362dc071e18ec61a36537560f588b0778d3a55a2",
+  "categorical_features": [
+    "protocol",
+    "starttls_status",
+    "tls_negotiated_version",
+    "cipher_suite",
+    "key_exchange",
+    "cipher_strength",
+    "cert_key_algorithm",
+    "cert_signature_algorithm",
+    "cert_trust_status",
+    "cert_hostname_match",
+    "cert_validity_state"
+  ],
+  "class_counts": {
+    "CRITICAL": 22,
+    "HIGH": 36,
+    "LOW": 44,
+    "MEDIUM": 8
+  },
+  "created_at_utc": "2026-09-29T03:01:01.139244+00:00",
+  "data_hashes": {
+    "expected_scenarios_sha256": "d47b36468681c068b85c42fd31d88ada30c55c6b0709d1c359409ed5d0166b37",
+    "family_manifest_sha256": "07046322bd270c16673f37fd2f7e5fb28dc481c2ea8628024621910da51ceaee",
+    "observed_scenarios_sha256": "fbbbd17a1a63110d2411454be6c89f994cec657d77459a0e1e23fa7adcffb9d9"
+  },
+  "data_source": "synthetic_testbed",
+  "feature_count": 15,
+  "feature_schema_version": "synthetic_email_session_risk_v1",
+  "limitations": [
+    "All training/evaluation samples are controlled synthetic testbed scenarios; no real SMTP/IMAP/POP3 observations were used for this classifier.",
+    "The labels are an explicit project rubric applied to scenario expected facts, not independent human-reviewed real-world security ground truth.",
+    "Family-disjoint holdout measures generalization across known synthetic scenario families only; transfer to real networks is NOT_VALIDATED.",
+    "This estimates the scenario rubric from partial PCAP-visible facts. A high score is not a calibrated probability of compromise.",
+    "Rule Engine findings and rule outputs are not inputs or labels; Rule Engine remains authoritative."
+  ],
+  "model_id": "synthetic_email_risk_classifier_v1",
+  "model_version": "1.0",
+  "numeric_features": [
+    "tls_extension_count",
+    "cert_key_size",
+    "cert_san_count",
+    "cert_chain_length"
+  ],
+  "protocol_counts": {
+    "IMAP": 22,
+    "POP3": 22,
+    "SMTP": 66
+  },
+  "real_observation_count": 0,
+  "runtime_feature_observability": {
+    "p05_training_fraction": 0.13333333333333333
+  },
+  "sample_count": 110,
+  "seed": 20260929,
+  "selection_metric": "validation macro-F1",
+  "sklearn_version": "1.9.1",
+  "split_class_counts": {
+    "test": {
+      "CRITICAL": 4,
+      "HIGH": 5,
+      "LOW": 9,
+      "MEDIUM": 2
+    },
+    "train": {
+      "CRITICAL": 15,
+      "HIGH": 25,
+      "LOW": 27,
+      "MEDIUM": 4
+    },
+    "validation": {
+      "CRITICAL": 3,
+      "HIGH": 6,
+      "LOW": 8,
+      "MEDIUM": 2
+    }
+  },
+  "split_group_component_counts": {
+    "test": 10,
+    "train": 32,
+    "validation": 14
+  },
+  "split_group_policy": "No scenario_family_id or certificate_identity_group_id may occur in more than one split.",
+  "split_method": "StratifiedGroupKFold over transitive components linking scenario families and observed certificate identity groups; selected only when each split contains every class.",
+  "split_sizes": {
+    "test": 20,
+    "train": 71,
+    "validation": 19
+  },
+  "synthetic_observation_count": 110,
+  "target": "independent_scenario_security_rubric_v1",
+  "target_rubric": {
+    "CRITICAL": "No TLS, STARTTLS stripping/downgrade, or BROKEN cipher.",
+    "HIGH": "TLS 1.0/1.1, WEAK cipher, invalid/expired certificate, identity/trust failure, malformed chain, or absent forward secrecy.",
+    "LOW": "No higher-severity rubric condition observed in the expected scenario contract.",
+    "MEDIUM": "MEDIUM cipher or explicitly incomplete/unknown certificate trust state."
+  },
+  "target_semantics": "LOW/MEDIUM/HIGH/CRITICAL derived from expected scenario fields (TLS presence/integrity, version, cipher strength, certificate validity/trust/identity, and forward secrecy); Rule Engine outputs are never read.",
+  "task": "Supervised synthetic email-session cryptographic risk classification",
+  "test_metrics": {
+    "accuracy": 0.45,
+    "confusion_matrix_labels": [
+      "LOW",
+      "MEDIUM",
+      "HIGH",
+      "CRITICAL"
+    ],
+    "confusion_matrix_rows_actual": [
+      [
+        0,
+        0,
+        9,
+        0
+      ],
+      [
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        5,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        4
+      ]
+    ],
+    "macro_f1": 0.375,
+    "majority_baseline_macro_f1": 0.15517241379310345,
+    "per_class": {
+      "CRITICAL": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "support": 4
+      },
+      "HIGH": {
+        "f1": 0.5,
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "support": 5
+      },
+      "LOW": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "support": 9
+      },
+      "MEDIUM": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "support": 2
+      }
+    },
+    "sample_count": 20,
+    "training_size_after_refit": 90
+  },
+  "validation_candidates": {
+    "LogisticRegression": {
+      "accuracy": 0.2631578947368421,
+      "confusion_matrix_labels": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ],
+      "confusion_matrix_rows_actual": [
+        [
+          0,
+          1,
+          6,
+          1
+        ],
+        [
+          0,
+          0,
+          2,
+          0
+        ],
+        [
+          1,
+          3,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          3
+        ]
+      ],
+      "macro_f1": 0.2767857142857143,
+      "per_class": {
+        "CRITICAL": {
+          "f1": 0.8571428571428571,
+          "precision": 0.75,
+          "recall": 1.0,
+          "support": 3
+        },
+        "HIGH": {
+          "f1": 0.25,
+          "precision": 0.2,
+          "recall": 0.3333333333333333,
+          "support": 6
+        },
+        "LOW": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 8
+        },
+        "MEDIUM": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 2
+        }
+      },
+      "sample_count": 19
+    },
+    "RandomForest": {
+      "accuracy": 0.3157894736842105,
+      "confusion_matrix_labels": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ],
+      "confusion_matrix_rows_actual": [
+        [
+          1,
+          0,
+          6,
+          1
+        ],
+        [
+          0,
+          0,
+          2,
+          0
+        ],
+        [
+          4,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          3
+        ]
+      ],
+      "macro_f1": 0.31524725274725274,
+      "per_class": {
+        "CRITICAL": {
+          "f1": 0.8571428571428571,
+          "precision": 0.75,
+          "recall": 1.0,
+          "support": 3
+        },
+        "HIGH": {
+          "f1": 0.25,
+          "precision": 0.2,
+          "recall": 0.3333333333333333,
+          "support": 6
+        },
+        "LOW": {
+          "f1": 0.15384615384615385,
+          "precision": 0.2,
+          "recall": 0.125,
+          "support": 8
+        },
+        "MEDIUM": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 2
+        }
+      },
+      "sample_count": 19
+    }
+  }
+}

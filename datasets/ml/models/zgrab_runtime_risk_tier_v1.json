@@ -1,0 +1,317 @@
+{
+  "algorithm": "logistic_regression",
+  "artifact_sha256": "9d9ed5288048023230ad85a5970b4f3a1fc346a219ed1272aadf7da1c852d711",
+  "categorical_features": [
+    "tls_negotiated_version",
+    "cipher_suite",
+    "key_exchange",
+    "cert_key_algorithm",
+    "cert_ecdsa_curve",
+    "cert_signature_algorithm",
+    "cert_self_signed",
+    "cert_is_ca",
+    "cert_server_auth",
+    "cert_client_auth",
+    "cert_digital_signature",
+    "cert_key_encipherment",
+    "cert_key_agreement",
+    "cert_has_wildcard_san",
+    "cert_has_certificate_policy",
+    "cert_has_sct",
+    "cert_has_crl_distribution",
+    "cert_has_authority_key_id",
+    "cert_has_subject_key_id"
+  ],
+  "class_counts": {
+    "test": {
+      "HIGH": 11,
+      "LOW": 78,
+      "MEDIUM": 5
+    },
+    "train": {
+      "HIGH": 7,
+      "LOW": 266,
+      "MEDIUM": 25
+    },
+    "validation": {
+      "HIGH": 2,
+      "LOW": 125,
+      "MEDIUM": 11
+    }
+  },
+  "created_at_utc": "2026-09-29T01:22:35.731591+00:00",
+  "data_source": "zgrab_real",
+  "feature_count": 33,
+  "feature_schema_fields": [
+    "tls_negotiated_version",
+    "cipher_suite",
+    "key_exchange",
+    "cert_key_algorithm",
+    "cert_ecdsa_curve",
+    "cert_signature_algorithm",
+    "cert_self_signed",
+    "cert_is_ca",
+    "cert_server_auth",
+    "cert_client_auth",
+    "cert_digital_signature",
+    "cert_key_encipherment",
+    "cert_key_agreement",
+    "cert_has_wildcard_san",
+    "cert_has_certificate_policy",
+    "cert_has_sct",
+    "cert_has_crl_distribution",
+    "cert_has_authority_key_id",
+    "cert_has_subject_key_id",
+    "cert_rsa_key_size",
+    "cert_rsa_exponent",
+    "cert_ecdsa_key_size",
+    "cert_san_count",
+    "cert_max_san_length",
+    "cert_unique_san_count",
+    "cert_key_usage_count",
+    "cert_extension_count",
+    "cert_validity_days",
+    "cert_chain_length",
+    "cert_ocsp_url_count",
+    "cert_issuer_url_count",
+    "cert_policy_count",
+    "cert_crl_url_count"
+  ],
+  "feature_schema_version": "zgrab_smtp_runtime_risk_tier_v1",
+  "label_inputs_excluded_from_features": [
+    "rule_flag_*",
+    "active_finding_count",
+    "contributing_findings",
+    "country_group",
+    "country",
+    "ip",
+    "scan_timestamp",
+    "record_id",
+    "source_file",
+    "source_row",
+    "data_source"
+  ],
+  "label_sha256": "f4b4a3ae86748781f034e9c419de4549b1197b4500e5372a72d5aeebba99e290",
+  "limitations": [
+    "Tiers are a deterministic rule-severity proxy, not independently labeled risk or compromise.",
+    "Country grouping reduces geographic leakage but does not ensure server-vendor, certificate-family, or organization independence.",
+    "The class counts are small and imbalanced, especially HIGH; test metrics have substantial uncertainty.",
+    "The active-scan ZGrab cohort differs from passive PCAP sessions; transfer remains unvalidated.",
+    "Class scores are uncalibrated and are not probabilities.",
+    "The deterministic rule engine remains authoritative; this estimate cannot override its findings."
+  ],
+  "missingness": "Categorical missing values use an explicit token; numeric missingness has a separate indicator and zero is only the imputed numeric placeholder.",
+  "model_id": "zgrab_runtime_risk_tier_v1",
+  "model_version": "1.0",
+  "numeric_features": [
+    "cert_rsa_key_size",
+    "cert_rsa_exponent",
+    "cert_ecdsa_key_size",
+    "cert_san_count",
+    "cert_max_san_length",
+    "cert_unique_san_count",
+    "cert_key_usage_count",
+    "cert_extension_count",
+    "cert_validity_days",
+    "cert_chain_length",
+    "cert_ocsp_url_count",
+    "cert_issuer_url_count",
+    "cert_policy_count",
+    "cert_crl_url_count"
+  ],
+  "runtime_feature_observability": {
+    "candidate_feature_count": 33,
+    "p05_training_fraction": 0.8484848484848485,
+    "use": "Runtime may abstain below the training cohort p05; this is evidence coverage, not confidence."
+  },
+  "sample_count": 530,
+  "seed": 20260929,
+  "selected_validation_macro_f1": 0.964021164021164,
+  "selection_metric": "validation_macro_f1",
+  "sklearn_version": "1.9.1",
+  "source_sha256": "8823158435fa490e8cb29241a72c4902f7a001095737c94e1b5568d6e6735fab",
+  "split_countries": {
+    "test": [
+      "Canada",
+      "South_Korea",
+      "Spain",
+      "Italy"
+    ],
+    "train": [
+      "Brazil",
+      "France",
+      "Germany",
+      "Japan",
+      "Mexico",
+      "Netherlands",
+      "Singapore",
+      "UK",
+      "US"
+    ],
+    "validation": [
+      "Australia",
+      "India",
+      "Russia"
+    ]
+  },
+  "split_manifest_path": "datasets/ml/splits/zgrab_risk_tier_split_v1.csv",
+  "split_method": "Frozen country-grouped train/validation/test; no country appears in more than one partition.",
+  "split_sizes": {
+    "test": 94,
+    "train": 298,
+    "validation": 138
+  },
+  "target": "zgrab_rule_rubric_tier_v1",
+  "target_semantics": "Project-defined deterministic severity proxy from seven existing rule flags; not independent human or breach-risk ground truth.",
+  "test_metrics": {
+    "accuracy": 0.9361702127659575,
+    "confusion_matrix_labels": [
+      "LOW",
+      "MEDIUM",
+      "HIGH"
+    ],
+    "confusion_matrix_rows_actual": [
+      [
+        76,
+        2,
+        0
+      ],
+      [
+        1,
+        3,
+        1
+      ],
+      [
+        2,
+        0,
+        9
+      ]
+    ],
+    "macro_f1": 0.8084319077949651,
+    "majority_baseline_macro_f1": 0.3023255813953488,
+    "per_class": {
+      "HIGH": {
+        "f1": 0.8571428571428571,
+        "precision": 0.9,
+        "recall": 0.8181818181818182,
+        "support": 11
+      },
+      "LOW": {
+        "f1": 0.9681528662420382,
+        "precision": 0.9620253164556962,
+        "recall": 0.9743589743589743,
+        "support": 78
+      },
+      "MEDIUM": {
+        "f1": 0.6,
+        "precision": 0.6,
+        "recall": 0.6,
+        "support": 5
+      }
+    },
+    "sample_count": 94
+  },
+  "test_predictions_path": "datasets/ml/models/zgrab_runtime_risk_tier_v1_test_predictions.csv",
+  "tier_definition": {
+    "CRITICAL": "Not modeled separately: only two TLS 1.0 observations; insufficient support for a stable class.",
+    "HIGH": "TLS 1.0/1.1 flag set or at least two distinct rule flags set.",
+    "LOW": "TLS handshake observed; none of the seven rule flags set.",
+    "MEDIUM": "Exactly one non-legacy rule flag set."
+  },
+  "validation_candidate_metrics": {
+    "logistic_regression": {
+      "accuracy": 0.9855072463768116,
+      "confusion_matrix_labels": [
+        "LOW",
+        "MEDIUM",
+        "HIGH"
+      ],
+      "confusion_matrix_rows_actual": [
+        [
+          125,
+          0,
+          0
+        ],
+        [
+          2,
+          9,
+          0
+        ],
+        [
+          0,
+          0,
+          2
+        ]
+      ],
+      "macro_f1": 0.964021164021164,
+      "per_class": {
+        "HIGH": {
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 2
+        },
+        "LOW": {
+          "f1": 0.9920634920634921,
+          "precision": 0.984251968503937,
+          "recall": 1.0,
+          "support": 125
+        },
+        "MEDIUM": {
+          "f1": 0.9,
+          "precision": 1.0,
+          "recall": 0.8181818181818182,
+          "support": 11
+        }
+      },
+      "sample_count": 138
+    },
+    "random_forest": {
+      "accuracy": 0.6666666666666666,
+      "confusion_matrix_labels": [
+        "LOW",
+        "MEDIUM",
+        "HIGH"
+      ],
+      "confusion_matrix_rows_actual": [
+        [
+          83,
+          0,
+          42
+        ],
+        [
+          2,
+          8,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ]
+      ],
+      "macro_f1": 0.5574377939491216,
+      "per_class": {
+        "HIGH": {
+          "f1": 0.043478260869565216,
+          "precision": 0.022727272727272728,
+          "recall": 0.5,
+          "support": 2
+        },
+        "LOW": {
+          "f1": 0.7867298578199052,
+          "precision": 0.9651162790697675,
+          "recall": 0.664,
+          "support": 125
+        },
+        "MEDIUM": {
+          "f1": 0.8421052631578947,
+          "precision": 1.0,
+          "recall": 0.7272727272727273,
+          "support": 11
+        }
+      },
+      "sample_count": 138
+    }
+  }
+}
