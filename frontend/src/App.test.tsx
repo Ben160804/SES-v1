@@ -7,7 +7,6 @@ const apiMock = vi.hoisted(() => ({
   listAnalyses: vi.fn(),
   getOverview: vi.fn(),
   getAnalysis: vi.fn(),
-  getModels: vi.fn(),
   prioritize: vi.fn(),
   uploadAnalysis: vi.fn(),
 }))
@@ -17,13 +16,6 @@ vi.mock('./lib/api', () => ({
   uploadAnalysis: apiMock.uploadAnalysis,
 }))
 
-const catalog = {
-  model_count: 10,
-  ready_count: 10,
-  authority_note: 'ML outputs are advisory.',
-  models: [],
-}
-
 describe('forensic web application', () => {
   beforeEach(() => {
     vi.clearAllMocks()
@@ -31,7 +23,6 @@ describe('forensic web application', () => {
     apiMock.listAnalyses.mockResolvedValue({ items: [], count: 0 })
     apiMock.getOverview.mockResolvedValue({ capture_count: 0, stream_count: 0, captures_by_day: {}, protocol_counts: {}, tls_version_counts: {}, certificate_counts: {}, rule_verdicts: {}, rule_severities: {}, ml_statuses: {}, posture_tiers: {} })
     apiMock.getAnalysis.mockReset()
-    apiMock.getModels.mockResolvedValue(catalog)
     apiMock.uploadAnalysis.mockReset()
   })
 
@@ -68,7 +59,7 @@ describe('forensic web application', () => {
     expect(screen.queryByText(/92% secure/i)).not.toBeInTheDocument()
   })
 
-  it('uses a case-centered navigation and exposes the two assistant entry points honestly', async () => {
+  it('uses case-centered navigation and keeps the reports page focused on forensic exports', async () => {
     window.history.replaceState({}, '', '/workspace')
     render(<App />)
     expect(await screen.findByRole('heading', { name: 'Investigation overview' })).toBeInTheDocument()
@@ -76,11 +67,10 @@ describe('forensic web application', () => {
     fireEvent.click(screen.getByRole('button', { name: /investigation/i }))
     expect(await screen.findByRole('tab', { name: /findings/i })).toBeInTheDocument()
     expect(screen.getByRole('tab', { name: /sessions/i })).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: /reports & assistant/i }))
-    fireEvent.click(await screen.findByRole('tab', { name: /ai assistant/i }))
-    expect(await screen.findByRole('heading', { name: /ask the evidence/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /generate analyst brief/i })).toBeDisabled()
-    expect(screen.getByRole('button', { name: /query local archive/i })).toBeDisabled()
+    fireEvent.click(screen.getByRole('button', { name: /^reports$/i }))
+    expect(await screen.findByRole('heading', { name: 'Forensic reports' })).toBeInTheDocument()
+    expect(screen.getByText(/use the searchable current capture control/i)).toBeInTheDocument()
+    expect(screen.queryByText(/assistant/i)).not.toBeInTheDocument()
   })
 
   it('switches cases from the persistent header and surfaces per-model outputs on overview', async () => {
@@ -99,12 +89,14 @@ describe('forensic web application', () => {
     } } } }))
     window.history.replaceState({}, '', '/workspace')
     render(<App />)
-    const switcher = await screen.findByRole('combobox', { name: /switch current capture/i })
-    expect(screen.getByText('SMTP risk classification')).toBeInTheDocument()
+    const switcher = await screen.findByRole('textbox', { name: /search captures/i })
+    expect(screen.getByText('SMTP risk estimate')).toBeInTheDocument()
     expect(screen.getByText(/HIGH · 1/i)).toBeInTheDocument()
-    fireEvent.change(switcher, { target: { value: 'case-b' } })
+    fireEvent.focus(switcher)
+    fireEvent.change(switcher, { target: { value: 'beta' } })
+    fireEvent.click(await screen.findByRole('option', { name: /beta\.pcap/i }))
     expect(await screen.findByRole('heading', { name: 'beta.pcap' })).toBeInTheDocument()
-    expect(switcher).toHaveValue('case-b')
+    expect(switcher).toHaveValue('beta.pcap')
   })
 
   it('opens the upload workspace from the overview action', async () => {

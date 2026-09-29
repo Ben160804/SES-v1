@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import math
 import sqlite3
 import uuid
 from contextlib import contextmanager
@@ -131,7 +132,7 @@ class ReportStore:
                     "capture_count": 0, "stream_count": 0, "captures_by_day": {},
                     "protocol_counts": {}, "tls_version_counts": {}, "certificate_counts": {},
                     "rule_verdicts": {}, "rule_severities": {}, "ml_statuses": {},
-                    "posture_tiers": {},
+                    "posture_tiers": {}, "ml_model_summary": {},
                 }
             streams = db.execute(
                 """SELECT protocol, rule_results_json, input_snapshot_json,
@@ -153,6 +154,7 @@ class ReportStore:
         rule_verdicts: dict[str, int] = {}
         rule_severities: dict[str, int] = {}
         ml_statuses: dict[str, int] = {}
+        ml_model_summary: dict[str, dict[str, Any]] = {}
         posture_tiers: dict[str, int] = {}
         for row in streams:
             count(protocol_counts, row["protocol"])
@@ -183,14 +185,51 @@ class ReportStore:
 
             ml = json.loads(row["ml_results_json"])
             if isinstance(ml, dict):
-                for result in ml.values():
-                    if isinstance(result, dict):
-                        count(ml_statuses, str(result.get("status") or "UNKNOWN").upper())
+                for model_key, result in ml.items():
+                    if not isinstance(result, dict):
+                        continue
+                    status = str(result.get("status") or "UNKNOWN").upper()
+                    count(ml_statuses, status)
+                    summary = ml_model_summary.setdefault(model_key, {
+                        "observed_outputs": 0,
+                        "completed_outputs": 0,
+                        "status_counts": {},
+                        "prediction_counts": {},
+                        "feature_coverage_sum": 0.0,
+                        "feature_coverage_count": 0,
+                    })
+                    summary["observed_outputs"] += 1
+                    count(summary["status_counts"], status)
+                    if status.startswith("COMPLETED"):
+                        summary["completed_outputs"] += 1
+                        coverage = result.get("feature_coverage")
+                        if isinstance(coverage, (int, float)) and math.isfinite(coverage):
+                            summary["feature_coverage_sum"] += float(coverage)
+                            summary["feature_coverage_count"] += 1
+                        prediction = next(
+                            (result.get(name) for name in (
+                                "prediction", "risk_tier", "classification", "label",
+                                "novelty_flag", "predicted_risk_tier", "predicted_tier_proxy",
+                                "predicted_class",
+                            ) if result.get(name) is not None),
+                            None,
+                        )
+                        if prediction is not None:
+                            display = ("NOVEL" if prediction else "KNOWN") if isinstance(prediction, bool) else str(prediction).upper()
+                            count(summary["prediction_counts"], display)
             posture = json.loads(row["posture_assessment_json"])
             if isinstance(posture, dict):
                 tier = posture.get("tier") or posture.get("risk_tier") or posture.get("band")
                 if tier:
                     count(posture_tiers, str(tier).upper())
+
+        for summary in ml_model_summary.values():
+            coverage_count = summary.pop("feature_coverage_count")
+            coverage_sum = summary.pop("feature_coverage_sum")
+            summary["mean_feature_coverage"] = (
+                coverage_sum / coverage_count if coverage_count else None
+            )
+            summary["coverage_sample_count"] = coverage_count
 
         return {
             "capture_count": len(runs), "stream_count": len(streams),
@@ -198,7 +237,7 @@ class ReportStore:
             "protocol_counts": protocol_counts, "tls_version_counts": tls_version_counts,
             "certificate_counts": certificate_counts, "rule_verdicts": rule_verdicts,
             "rule_severities": rule_severities, "ml_statuses": ml_statuses,
-            "posture_tiers": posture_tiers,
+            "posture_tiers": posture_tiers, "ml_model_summary": ml_model_summary,
         }
 
     def get_run(self, run_id: str) -> dict[str, Any] | None:

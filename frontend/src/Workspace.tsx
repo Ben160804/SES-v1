@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ComponentType, type DragEvent, type ReactNode, type RefObject } from 'react'
-import { api, uploadAnalysis, type AnalysisDetail, type AnalysisReport, type AnalysisSummary, type DashboardSummary, type PolicyResult, type StreamReport, type ThreatResponse } from './lib/api'
+import { api, uploadAnalysis, type AnalysisDetail, type AnalysisReport, type AnalysisSummary, type DashboardSummary, type PolicyResult, type StreamReport, type ThreatPrioritization } from './lib/api'
 
 type Props = { Brand: ComponentType<{ compact?: boolean }> }
 type Tab = 'overview' | 'captures' | 'investigation' | 'intelligence' | 'reports'
@@ -13,7 +13,7 @@ const NAV: Array<{ id: Tab; label: string; glyph: string }> = [
   { id: 'captures', label: 'Capture intake', glyph: '⇧' },
   { id: 'investigation', label: 'Investigation', glyph: '⌕' },
   { id: 'intelligence', label: 'Threat context', glyph: '⌁' },
-  { id: 'reports', label: 'Reports & assistant', glyph: '↗' },
+  { id: 'reports', label: 'Reports', glyph: '↗' },
 ]
 
 const isObject = (value: unknown): value is Record<string, unknown> => Boolean(value && typeof value === 'object' && !Array.isArray(value))
@@ -25,6 +25,19 @@ const pretty = (value: unknown) => JSON.stringify(value, null, 2)
 function flattenStreams(report: AnalysisReport | null): StreamReport[] {
   if (!report?.stream_reports) return []
   return Object.entries(report.stream_reports).map(([key, value]) => ({ ...value, stream_id: Number(key) }))
+}
+function reportWithoutModelCodenames(report: AnalysisReport): AnalysisReport {
+  const cleanValue = (value: unknown): unknown => {
+    if (Array.isArray(value)) return value.map(cleanValue)
+    if (!isObject(value)) return value
+    return Object.fromEntries(Object.entries(value).filter(([key]) => key !== "model_id").map(([key, nested]) => [key, cleanValue(nested)]))
+  }
+  const streamReports = Object.fromEntries(Object.entries(report.stream_reports).map(([id, stream]) => {
+    const results = stream.ml_results ?? {}
+    const friendlyResults = Object.fromEntries(Object.entries(results).map(([key, value]) => [ML_DISPLAY_NAMES[key] ?? "Additional ML signal", cleanValue(value)]))
+    return [id, { ...stream, ml_results: friendlyResults }]
+  }))
+  return { ...report, stream_reports: streamReports }
 }
 function failedRules(stream: StreamReport): PolicyResult[] {
   return Object.values(stream.policy_results ?? {}).flat().filter((item) => item.verdict === 'FAIL')
@@ -48,6 +61,46 @@ function semanticTone(value: unknown) {
   if (/OBSERVED|INFO|APPLICABLE|ADVISORY/.test(textValue)) return 'badge-blue'
   return 'badge-muted'
 }
+function mlStatusLabel(value: unknown) {
+  const status = String(value ?? '').toUpperCase()
+  if (status.startsWith('COMPLETED_ADVISORY')) return 'Available · advisory estimate'
+  if (status.startsWith('COMPLETED_EXPLORATORY_PROXY')) return 'Available · exploratory proxy'
+  if (status.startsWith('COMPLETED_EXPLORATORY')) return 'Available · exploratory'
+  if (status.startsWith('COMPLETED_EXPERIMENTAL')) return 'Available · experimental, not validated'
+  if (status === 'ADVISORY_REAL_ZGRAB_RUBRIC_AVAILABLE') return 'Advisory results available'
+  if (status === 'EXPERIMENTAL_SYNTHETIC_RISK_AVAILABLE') return 'Simulated-data estimate available · experimental'
+  if (status === 'NOT_EVALUABLE' || status.startsWith('NOT_EVALUABLE_')) return 'Not enough observable data'
+  if (status === 'NOT_APPLICABLE') return 'Not applicable to this protocol'
+  if (status === 'MODEL_UNAVAILABLE') return 'Model unavailable'
+  if (status === 'MODEL_ERROR') return 'Could not produce a result'
+  if (status === 'DISABLED') return 'Not run'
+  if (!status) return 'No result'
+  return status.replaceAll('_', ' ').toLowerCase().replace(/^./, (letter) => letter.toUpperCase())
+}
+function mlStatusTone(value: unknown) {
+  const status = String(value ?? '').toUpperCase()
+  if (status === 'MODEL_ERROR' || status === 'MODEL_UNAVAILABLE') return 'badge-red'
+  if (status.startsWith('COMPLETED') || status.includes('AVAILABLE')) return 'badge-blue'
+  if (status.startsWith('NOT_EVALUABLE')) return 'badge-amber'
+  return 'badge-muted'
+}
+function mlPredictionLabel(value: unknown) {
+  if (typeof value === 'boolean') return value ? 'Unusual configuration' : 'Seen configuration'
+  const prediction = String(value ?? '').toUpperCase()
+  const labels: Record<string, string> = {
+    WITHIN_REFERENCE: 'Typical in reference data',
+    SEEN_CONFIGURATION: 'Seen in reference data',
+    UNSEEN_CONFIGURATION: 'Not seen in reference data',
+    NOVEL_RELATIVE_TO_COHORT: 'Unusual versus reference data',
+    NOVEL_CONFIGURATION: 'Unseen SMTP configuration',
+    HAS_RULE_FLAGGED_ISSUE: 'Resembles rule-flagged examples',
+    NO_RULE_FLAGGED_ISSUE: 'No rule-flag pattern estimated',
+    KNOWN: 'Seen configuration',
+    NOVEL: 'Unusual configuration',
+    LOW_OR_MEDIUM: 'Low or medium estimate',
+  }
+  return labels[prediction] ?? (prediction ? prediction.replaceAll('_', ' ').toLowerCase().replace(/\b\w/g, (letter) => letter.toUpperCase()) : 'Result unavailable')
+}
 function SectionTitle({ eyebrow, title, detail, action }: { eyebrow?: string; title: string; detail?: string; action?: ReactNode }) {
   return <div className="section-title"><div>{eyebrow && <p className="eyebrow">{eyebrow}</p>}<h1>{title}</h1>{detail && <p className="muted">{detail}</p>}</div>{action}</div>
 }
@@ -56,7 +109,7 @@ function Metric({ label, value, sub }: { label: string; value: string | number; 
 
 function ExportActions({ summary, detail }: { summary: AnalysisSummary; detail: AnalysisDetail }) {
   const json = () => {
-    const envelope = { report_metadata: { run_id: summary.run_id, source_name: summary.source_name, created_at: summary.created_at, total_streams: summary.total_streams }, report: detail.report }
+    const envelope = { report_metadata: { run_id: summary.run_id, source_name: summary.source_name, created_at: summary.created_at, total_streams: summary.total_streams }, report: reportWithoutModelCodenames(detail.report) }
     const blob = new Blob([JSON.stringify(envelope, null, 2)], { type: 'application/json' })
     downloadBlob(blob, `${safeName(summary.source_name)}-${summary.run_id.slice(0, 8)}.json`)
   }
@@ -85,16 +138,77 @@ function downloadBlob(blob: Blob, filename: string) {
   window.setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 function esc(value: unknown) { return String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!) }
+function htmlBarChart(title: string, values: Record<string, number>) {
+  const rows = Object.entries(values).sort((a, b) => b[1] - a[1])
+  const max = Math.max(1, ...rows.map(([, count]) => count))
+  const total = rows.reduce((sum, [, count]) => sum + count, 0)
+  if (!rows.length) return `<section class="chart"><h3>${esc(title)}</h3><p>No observations recorded.</p></section>`
+  const bars = rows.map(([label, count]) => `<div class="bar-row"><span>${esc(label)}</span><div class="track" aria-hidden="true"><i style="width:${count / max * 100}%"></i></div><b>${count}</b></div>`).join('')
+  const table = `<table class="chart-data"><caption>${esc(title)} · ${total} observations</caption><thead><tr><th scope="col">Category</th><th scope="col">Count</th></tr></thead><tbody>${rows.map(([label, count]) => `<tr><th scope="row">${esc(label)}</th><td>${count}</td></tr>`).join('')}</tbody></table>`
+  return `<figure class="chart" aria-label="${esc(title)}. ${rows.map(([label, count]) => `${esc(label)}: ${count}`).join(', ')}"><figcaption>${esc(title)}</figcaption><div class="bars">${bars}</div>${table}</figure>`
+}
 function buildHtmlReport(summary: AnalysisSummary, report: AnalysisReport, print = false) {
   const streams = flattenStreams(report)
-  const rows = streams.map((stream) => {
+  const policyCounts: Record<string, number> = {}
+  const protocolCounts: Record<string, number> = {}
+  const tlsCounts: Record<string, number> = {}
+  const mlCounts: Record<string, number> = {}
+  let certificateCount = 0
+  let failureCount = 0
+  let detectedCount = 0
+  for (const stream of streams) {
+    protocolCounts[stream.protocol] = (protocolCounts[stream.protocol] ?? 0) + 1
     const snapshot = stream.input_snapshot ?? {}
     const tls = isObject(snapshot.tls) ? snapshot.tls : snapshot
-    const rules = failedRules(stream)
-    return `<tr><td>${stream.stream_id}</td><td>${esc(stream.protocol)}</td><td>${esc((tls as Record<string, unknown>).tls_version ?? (tls as Record<string, unknown>).version)}</td><td>${esc((tls as Record<string, unknown>).cipher_name ?? (tls as Record<string, unknown>).cipher_suite)}</td><td>${rules.length}</td><td>${esc(stream.posture_assessment?.score ?? '—')}</td></tr>`
+    const version = tls.tls_version ?? tls.tls_selected_version ?? tls.version
+    const tlsLabel = version === undefined || version === null || version === '' ? 'TLS not observed' : String(version)
+    tlsCounts[tlsLabel] = (tlsCounts[tlsLabel] ?? 0) + 1
+    const certificate = isObject(snapshot.certificate) ? snapshot.certificate : snapshot
+    if (certificate.observable === true || certificate.certificate_observed === true || isObject(certificate.leaf_cert)) certificateCount++
+    for (const items of Object.values(stream.policy_results ?? {})) for (const item of items) {
+      const verdict = String(item.verdict ?? 'UNKNOWN')
+      policyCounts[verdict] = (policyCounts[verdict] ?? 0) + 1
+      if (verdict === 'FAIL') failureCount++
+    }
+    detectedCount += (stream.observations ?? []).filter((observation) => observation.detected).length
+    for (const [key, result] of Object.entries(stream.ml_results ?? {})) {
+      if (!isObject(result) || key === 'ml_assessment') continue
+      const status = mlStatusLabel(result.status)
+      mlCounts[status] = (mlCounts[status] ?? 0) + 1
+    }
+  }
+  const observationCount = streams.reduce((sum, stream) => sum + (stream.observations ?? []).length, 0)
+  const sessionRows = streams.map((stream) => {
+    const snapshot = stream.input_snapshot ?? {}
+    const tls = isObject(snapshot.tls) ? snapshot.tls : snapshot
+    const certificate = isObject(snapshot.certificate) ? snapshot.certificate : snapshot
+    const leaf = isObject(certificate.leaf_cert) ? certificate.leaf_cert : certificate
+    const posture = stream.posture_assessment ?? {}
+    const policies = Object.entries(stream.policy_results ?? {}).flatMap(([pack, items]) => items.map((item) => ({ pack, item })))
+    const policyRows = policies.map(({ pack, item }) => `<tr><td>${esc(item.name ?? item.rule_id ?? 'Policy check')}</td><td>${esc(policyPackLabel(pack))}</td><td>${esc(item.verdict ?? 'UNKNOWN')}</td><td>${esc(item.finding ?? '—')}</td></tr>`).join('')
+    const observations = (stream.observations ?? []).map((item) => `<tr><td>${item.detected ? 'Detected' : 'Not detected'}</td><td>${esc(item.name ?? 'Observation')}</td><td>${esc(item.description ?? '—')}</td></tr>`).join('')
+    const mlRows = Object.entries(stream.ml_results ?? {}).filter(([key, value]) => key !== 'ml_assessment' && isObject(value)).map(([key, rawResult]) => {
+      const result = rawResult as Record<string, unknown>
+      const output = result.prediction ?? result.predicted_risk_tier ?? result.predicted_tier_proxy ?? result.predicted_class ?? result.risk_tier ?? result.classification ?? result.label ?? result.novelty_flag
+      const score = result.anomaly_score ?? result.novelty_score ?? result.certificate_novelty_score ?? result.confidence_score_uncalibrated
+      const coverage = typeof result.feature_coverage === 'number' ? `${Math.round(result.feature_coverage * 100)}%` : '—'
+      const confidence = typeof result.confidence_score_uncalibrated === 'number' ? `${Math.round(result.confidence_score_uncalibrated * 100)}% (uncalibrated)` : '—'
+      const notes = [result.reason, result.interpretation_note, result.score_semantics, Array.isArray(result.limitations) ? result.limitations[0] : null].filter((part) => typeof part === 'string').join(' ')
+      return `<tr><th scope="row">${esc(ML_DISPLAY_NAMES[key] ?? 'Additional ML signal')}</th><td>${esc(String(result.status ?? 'UNKNOWN').startsWith('COMPLETED') && output !== undefined ? mlPredictionLabel(output) : '—')}</td><td>${esc(mlStatusLabel(result.status))}</td><td>${coverage}</td><td>${score === undefined ? '—' : esc(String(Number(score).toPrecision(4)))}${confidence !== '—' ? `<small>${esc(confidence)}</small>` : ''}</td><td>${esc(notes || '—')}</td></tr>`
+    }).join('')
+    const recs = Array.isArray(posture.findings) ? posture.findings.filter(isObject).filter((item) => typeof item.recommendation === 'string') : []
+    const recommendations = recs.length ? `<ul>${recs.map((item) => `<li><b>${esc(item.family)}</b> · ${esc(item.recommendation)}</li>`).join('')}</ul>` : '<p>No evidence-linked mitigation guidance was produced for this session.</p>'
+    const tlsFacts: Array<[string, unknown]> = [['Version', tls.tls_version ?? tls.tls_selected_version ?? tls.version], ['Cipher', tls.cipher_name ?? tls.cipher_suite], ['Key exchange', tls.key_exchange ?? tls.tls13_key_exchange_group ?? tls.kex], ['Forward secrecy', tls.forward_secrecy ?? tls.uses_forward_secrecy], ['Encryption transition', tls.starttls_status ?? tls.starttls_outcome ?? tls.status]]
+    const certFacts: Array<[string, unknown]> = [['Observed', certificate.observable ?? certificate.certificate_observed], ['Hostname match', certificate.hostname_match], ['Public-key algorithm', leaf.public_key_algorithm ?? leaf.key_algorithm], ['Key size', leaf.public_key_size ?? leaf.key_size_bits], ['Signature algorithm', leaf.signature_algorithm], ['Valid until', leaf.not_after], ['Chain length', certificate.chain_length], ['Revocation', certificate.revocation_status]]
+    const factRows = (facts: Array<[string, unknown]>) => facts.map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value === undefined || value === null || value === '' ? '—' : sessionValue(label, value))}</dd></div>`).join('')
+    return `<section class="session-report"><header><span class="stream-tag">SESSION ${String(stream.stream_id).padStart(3, '0')}</span><h3>${esc(stream.protocol)} communication</h3><p>${policies.filter(({ item }) => item.verdict === 'FAIL').length} policy failures · ${(stream.observations ?? []).filter((item) => item.detected).length} detected observations</p></header><h4>Negotiated transport</h4><dl class="fact-list">${factRows(tlsFacts)}</dl><h4>Certificate and trust evidence</h4><dl class="fact-list">${factRows(certFacts)}</dl><h4>Deterministic posture</h4><p><b>${esc(posture.score ?? '—')} / 100 · ${esc(posture.tier ?? 'Not evaluated')}</b> <span>Rule-based heuristic, not an ML probability.</span></p><h4>Policy checks (${policies.length})</h4><div class="table-wrap"><table><thead><tr><th>Check</th><th>Standard</th><th>Result</th><th>Finding</th></tr></thead><tbody>${policyRows || '<tr><td colspan="4">No policy checks recorded.</td></tr>'}</tbody></table></div><h4>Forensic observations (${(stream.observations ?? []).length})</h4><div class="table-wrap"><table><thead><tr><th>Status</th><th>Observation</th><th>Evidence summary</th></tr></thead><tbody>${observations || '<tr><td colspan="3">No observations recorded.</td></tr>'}</tbody></table></div><h4>Machine-learning signals · advisory</h4><div class="table-wrap"><table><thead><tr><th>Signal</th><th>Estimate</th><th>Availability</th><th>Feature coverage</th><th>Scores</th><th>Interpretation and limitations</th></tr></thead><tbody>${mlRows || '<tr><td colspan="6">No ML outputs were recorded for this session.</td></tr>'}</tbody></table></div><h4>Mitigation guidance</h4>${recommendations}</section>`
   }).join('')
-  const findings = streams.flatMap((stream) => failedRules(stream).map((item) => `<li><b>${esc(item.name ?? item.rule_id)}</b> · stream ${stream.stream_id}<br>${esc(item.finding ?? '')}</li>`)).join('')
-  return `<!doctype html><html lang="en"><meta charset="utf-8"><title>Forensic report — ${esc(summary.source_name)}</title><style>body{font:15px/1.6 system-ui,sans-serif;color:#19191b;max-width:1000px;margin:50px auto;padding:0 24px}h1{font-size:34px}h2{margin-top:40px;border-bottom:1px solid #ddd;padding-bottom:8px}.meta{color:#555}table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;padding:9px;border-bottom:1px solid #ddd}th{background:#f5eeee}li{margin:12px 0}.note{padding:14px;background:#f6f1f1;border-left:3px solid #ae5559}.print{${print ? 'display:none' : ''}}@media print{body{margin:0 auto}.print{display:none}}</style><body><p class="meta">PASSIVE EMAIL FORENSICS</p><h1>Analysis report</h1><p class="meta">Capture: ${esc(summary.source_name)} · Analysed: ${esc(runTime(summary.created_at))} · Streams: ${streams.length}</p><div class="note">Rule-engine findings are deterministic policy results. Machine-learning outputs and posture summaries are separate advisory results. Unknown or unavailable evidence is not interpreted as safe.</div><h2>Stream summary</h2><table><thead><tr><th>Stream</th><th>Protocol</th><th>TLS version</th><th>Cipher</th><th>Rule findings</th><th>Posture heuristic</th></tr></thead><tbody>${rows || '<tr><td colspan="6">No reconstructed streams</td></tr>'}</tbody></table><h2>Deterministic findings</h2><ul>${findings || '<li>No policy failures were recorded in this analysis.</li>'}</ul><h2>Machine-readable record</h2><pre>${esc(JSON.stringify(report, null, 2))}</pre><button class="print" onclick="window.print()">Print / Save as PDF</button><p class="meta">Generated locally. This report reflects observable capture evidence and stated analysis limitations.</p></body></html>`
+  const findings = streams.flatMap((stream) => failedRules(stream).map((item) => `<article class="finding"><span>STREAM ${String(stream.stream_id).padStart(3, '0')} · ${esc(item.source_id ?? item.policy ?? 'DETERMINISTIC POLICY')}</span><h3>${esc(item.name ?? item.rule_id ?? 'Policy finding')}</h3><p>${esc(item.finding ?? 'A deterministic policy check failed.')}</p>${item.evidence?.length ? `<pre>${esc(pretty(item.evidence))}</pre>` : ''}</article>`)).join('')
+  const charts = [htmlBarChart('Reconstructed protocols', protocolCounts), htmlBarChart('Observed TLS versions', tlsCounts), htmlBarChart('Deterministic policy outcomes', policyCounts), htmlBarChart('ML runtime availability', mlCounts)].join('')
+  const metrics = `<div class="kpis"><div><small>SESSIONS</small><b>${streams.length}</b></div><div><small>POLICY FAILURES</small><b>${failureCount}</b></div><div><small>DETECTED OBSERVATIONS</small><b>${detectedCount} / ${observationCount}</b></div><div><small>CERTIFICATES OBSERVED</small><b>${certificateCount}</b></div></div>`
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Forensic assessment — ${esc(summary.source_name)}</title><style>
+    :root{color-scheme:light;--ink:#202327;--muted:#616873;--line:#d8dce1;--paper:#fff;--accent:#b52131;--soft:#f3f5f7}*{box-sizing:border-box}body{margin:0;background:#eef0f2;color:var(--ink);font:13px/1.55 Inter,Arial,sans-serif}.report{max-width:1080px;margin:28px auto;background:var(--paper);padding:52px 62px 64px;box-shadow:0 4px 30px #17202a12}.masthead{display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:2px solid var(--ink);font-size:9px;letter-spacing:.13em;text-transform:uppercase}.masthead b{color:var(--accent)}.cover{padding:48px 0 28px;border-bottom:1px solid var(--line)}.cover .kicker,.eyebrow{color:var(--accent);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.cover h1{max-width:760px;margin:12px 0;font:500 42px/1.08 Georgia,serif;letter-spacing:-.035em}.cover .subhead{max-width:760px;color:var(--muted);font-size:15px}.meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 24px;margin-top:28px}.meta-grid div{border-top:1px solid var(--line);padding-top:8px}.meta-grid dt{color:var(--muted);font-size:8px;letter-spacing:.1em;text-transform:uppercase}.meta-grid dd{margin:3px 0 0;font-size:11px;overflow-wrap:anywhere}.notice{margin:18px 0;padding:13px 15px;border-left:3px solid var(--accent);background:var(--soft);color:#38404a;font-size:10px}.section{padding:23px 0;border-bottom:1px solid var(--line)}.section h2{margin:0 0 6px;font:500 24px Georgia,serif;letter-spacing:-.02em}.section .lead{max-width:820px;color:var(--muted);font-size:10px}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:16px 0}.kpis>div{padding:9px 15px;border-left:1px solid var(--line)}.kpis>div:first-child{border-left:0;padding-left:0}.kpis small{display:block;color:var(--muted);font-size:8px;letter-spacing:.08em}.kpis b{display:block;margin-top:3px;font:500 26px Georgia,serif}.chart-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.chart{min-width:0;margin:0;padding:13px 14px;border:1px solid var(--line);background:#fff;break-inside:avoid}.chart figcaption,.chart h3{margin:0 0 10px;font-size:11px;font-weight:700}.bars{display:grid;gap:7px}.bar-row{display:grid;grid-template-columns:minmax(90px,1fr) minmax(80px,1.6fr) 25px;align-items:center;gap:8px;font-size:9px}.bar-row>span{overflow-wrap:anywhere}.bar-row>b{text-align:right;font-variant-numeric:tabular-nums}.track{height:7px;background:#e9ecef}.track i{display:block;height:100%;min-width:2px;background:#66717c}.bar-row:first-child .track i{background:var(--accent)}.chart-data{margin-top:10px;font-size:8px}.chart-data caption{text-align:left;color:var(--muted);padding-bottom:4px}.chart-data th,.chart-data td{padding:3px 5px;border:0;border-top:1px solid #eef0f2;background:none}.chart-data td{text-align:right;font-variant-numeric:tabular-nums}.table-wrap{width:100%;overflow:visible}table{width:100%;border-collapse:collapse;font-size:9px}thead{display:table-header-group}th,td{text-align:left;vertical-align:top;padding:7px 8px;border-bottom:1px solid var(--line)}th{background:#f3f5f7;font-size:8px;letter-spacing:.045em}td small{display:block;color:var(--muted);margin-top:3px}tr{break-inside:avoid}.finding{margin:10px 0;padding:12px 14px;border-left:2px solid var(--accent);background:#faf7f7;break-inside:avoid}.finding>span,.stream-tag{color:var(--accent);font-size:8px;font-weight:700;letter-spacing:.09em}.finding h3{margin:4px 0;font-size:13px}.finding p{margin:0;color:#434a53;font-size:10px}.finding pre{white-space:pre-wrap;font-size:8px;background:#f1f2f4;padding:8px}.session-report{padding:20px 0;border-bottom:1px solid var(--line);break-inside:auto}.session-report>header{padding:0 0 10px;border-bottom:1px solid var(--line)}.session-report>header h3{margin:3px 0;font:500 18px Georgia,serif}.session-report>header p{margin:0;color:var(--muted);font-size:9px}.session-report h4{margin:15px 0 6px;font-size:9px;letter-spacing:.06em;text-transform:uppercase}.fact-list{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0}.fact-list>div{padding:6px 8px;background:var(--soft)}.fact-list dt{color:var(--muted);font-size:7px;text-transform:uppercase}.fact-list dd{margin:2px 0 0;font-size:9px;overflow-wrap:anywhere}.session-report p{font-size:9px}.session-report ul{font-size:9px}.foot{padding-top:16px;color:var(--muted);font-size:8px}.print-button{display:${print ? 'none' : 'inline-block'};margin-top:20px;padding:9px 14px;border:0;background:var(--ink);color:#fff;font-size:10px;cursor:pointer}@page{size:A4;margin:15mm}@media print{body{background:#fff}.report{max-width:none;margin:0;padding:0;box-shadow:none}.cover{padding-top:30px}.section{break-inside:avoid}.session-report{break-before:page}.print-button{display:none}.chart-grid{gap:7px}.chart{padding:9px}.foot{position:static}}@media(max-width:700px){.report{margin:0;padding:25px 18px}.cover h1{font-size:34px}.meta-grid,.chart-grid,.fact-list{grid-template-columns:repeat(2,1fr)}.kpis{grid-template-columns:repeat(2,1fr)}.kpis>div:nth-child(3){border-left:0}.table-wrap{overflow-x:auto}.table-wrap table{min-width:700px}}
+    </style></head><body><main class="report"><div class="masthead"><b>SecureMailScope</b><span>Passive email cryptographic forensics</span><span>Forensic assessment</span></div><header class="cover"><p class="kicker">Case report · ${esc(summary.run_id.slice(0, 12))}</p><h1>Cryptographic posture assessment</h1><p class="subhead">Evidence-led review of reconstructed email sessions, negotiated TLS, certificate visibility, deterministic policy checks, and advisory machine-learning signals.</p><dl class="meta-grid"><div><dt>Capture</dt><dd>${esc(summary.source_name)}</dd></div><div><dt>Analysis time</dt><dd>${esc(runTime(summary.created_at))}</dd></div><div><dt>Case identifier</dt><dd>${esc(summary.run_id)}</dd></div><div><dt>Analysis mode</dt><dd>Passive PCAP inspection</dd></div><div><dt>Reconstructed streams</dt><dd>${streams.length}</dd></div><div><dt>Report scope</dt><dd>Observed packet evidence only</dd></div></dl></header><div class="notice"><b>Interpretation:</b> Rule-engine results are deterministic checks against the configured standards. The posture score is a heuristic, not an ML probability. ML classification and cohort novelty are advisory; an unusual configuration is not, by itself, proof of insecurity. Unobserved certificate or handshake fields remain unknown.</div><section class="section"><p class="eyebrow">01 · Executive summary</p><h2>At a glance</h2>${metrics}<p class="lead">This report describes ${streams.length} reconstructed stream${streams.length === 1 ? '' : 's'} from <b>${esc(summary.source_name)}</b>. It recorded ${failureCount} deterministic policy failure${failureCount === 1 ? '' : 's'}, ${detectedCount} detected forensic observation${detectedCount === 1 ? '' : 's'}, and ${certificateCount} stream${certificateCount === 1 ? '' : 's'} with a certificate visible to passive inspection.</p></section><section class="section"><p class="eyebrow">02 · Observed data</p><h2>Traffic and policy profile</h2><p class="lead">Counts below summarize only the reconstructed streams and checks contained in this report. Each chart also includes a text table for exact values.</p><div class="chart-grid">${charts}</div></section><section class="section"><p class="eyebrow">03 · Findings</p><h2>Deterministic policy findings</h2>${findings || '<p>No deterministic policy failures were recorded. Missing evidence is not interpreted as a pass.</p>'}</section><section class="section"><p class="eyebrow">04 · Session evidence</p><h2>Stream-by-stream record</h2><p class="lead">Transport facts, certificate visibility, every policy result, observations, ML outputs, and available mitigation guidance are separated by reconstructed stream.</p>${sessionRows || '<p>No TCP streams were reconstructed from this capture.</p>'}</section><section class="section"><p class="eyebrow">05 · Method and limitations</p><h2>How to interpret this report</h2><ul><li>Parser and session fields describe evidence available in the supplied capture. Passive capture can omit packets or lack the secrets required to decrypt TLS 1.3 handshake messages.</li><li>Certificate fields are reported only when a certificate was visible and extracted. “Not observed” does not establish that the server has no certificate.</li><li>Policy outcomes are deterministic checks; applicability and observability are reported separately from pass or fail.</li><li>Classifier tiers follow their documented training labels. Uncalibrated confidence is not a probability of compromise or vulnerability.</li><li>Anomaly and certificate novelty compare observed features with a reference cohort. Novelty is not equivalent to maliciousness or insecurity.</li><li>Threat-intelligence enrichment is limited to CVE identifiers explicitly linked to evidence. No vulnerability is inferred from a TLS version, cipher, or certificate property alone.</li></ul><p>Machine-readable structured results are available through the separate JSON export.</p></section><footer class="foot">Generated locally by SecureMailScope · ${esc(summary.run_id)} · Values reflect the saved analysis report and its stated evidence limits.</footer><button class="print-button" onclick="window.print()">Print or save as PDF</button></main></body></html>`
 }
 
 export function Workspace({ Brand }: Props) {
@@ -114,7 +228,8 @@ export function Workspace({ Brand }: Props) {
   const [filter, setFilter] = useState('')
   const [selectedStream, setSelectedStream] = useState<number | null>(null)
   const [investigationView, setInvestigationView] = useState<InvestigationView>('findings')
-  const [reportView, setReportView] = useState<'exports' | 'assistant'>('exports')
+  const [captureSearch, setCaptureSearch] = useState('')
+  const [captureSearchOpen, setCaptureSearchOpen] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState<AnalysisSummary | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const dragDepth = useRef(0)
@@ -162,7 +277,9 @@ export function Workspace({ Brand }: Props) {
   }, [selected, details, apiState])
 
   const activeSummary = analyses.find((item) => item.run_id === selected) ?? null
+  const captureMatches = analyses.filter((item) => `${item.source_name} ${item.run_id}`.toLowerCase().includes(captureSearch.trim().toLowerCase())).slice(0, 30)
   const activeDetail = selected ? details[selected] ?? null : null
+  useEffect(() => { if (!captureSearchOpen) setCaptureSearch(activeSummary?.source_name ?? '') }, [activeSummary?.source_name, captureSearchOpen])
   const streams = useMemo(() => flattenStreams(activeDetail?.report ?? null), [activeDetail])
   const findingRows = useMemo(() => allFindings(activeDetail?.report ?? null), [activeDetail])
   useEffect(() => {
@@ -235,14 +352,16 @@ export function Workspace({ Brand }: Props) {
       <div className="rail-bottom"><a href="/technical-report">Technical report <span>↗</span></a><div className="api-health"><i className={apiState === 'online' ? 'online' : apiState === 'offline' ? 'offline' : ''} /> API {apiState === 'checking' ? 'CHECKING' : apiState.toUpperCase()}</div><small>LOCAL ANALYSIS INSTANCE</small></div>
     </aside>
     <main className="workspace-main" onDragEnter={(event) => { event.preventDefault(); dragDepth.current += 1; setDragging(true) }} onDragLeave={(event) => { event.preventDefault(); dragDepth.current -= 1; if (dragDepth.current <= 0) setDragging(false) }} onDragOver={(event) => event.preventDefault()} onDrop={acceptDrop}>
-      <header className="workspace-top"><div className="breadcrumbs"><a href="/">WORKSPACE</a><span>/</span><span>{NAV.find((item) => item.id === tab)?.label.toUpperCase()}</span></div><div className="workspace-tools"><label className="capture-switcher"><span>CURRENT CAPTURE</span><select aria-label="Switch current capture" value={selected ?? ''} onChange={(event) => setSelected(event.target.value || null)} disabled={!analyses.length}><option value="">{analyses.length ? 'Choose a capture' : 'No captures analyzed'}</option>{analyses.map((item) => <option value={item.run_id} key={item.run_id}>{item.source_name} · {item.total_streams} flows</option>)}</select></label><span className={`connection ${apiState}`} title={apiState === 'online' ? 'Forensic API is available' : 'Forensic API state'}>{apiState === 'online' ? 'ONLINE' : apiState === 'checking' ? 'CHECKING' : 'OFFLINE'}</span><button className="icon-refresh" aria-label="Refresh analyses" onClick={() => void refresh()} disabled={loading}>↻</button></div></header>
+      <header className="workspace-top"><div className="breadcrumbs"><a href="/">WORKSPACE</a><span>/</span><span>{NAV.find((item) => item.id === tab)?.label.toUpperCase()}</span></div><div className="workspace-tools"><div className="capture-picker"><label className="capture-switcher"><span>CURRENT CAPTURE</span><input aria-label="Search captures" aria-expanded={captureSearchOpen} aria-controls="capture-search-results" placeholder={activeSummary?.source_name ?? (analyses.length ? 'Search PCAPs…' : 'No captures analyzed')} value={captureSearch} onFocus={() => { setCaptureSearch(''); setCaptureSearchOpen(true) }} onChange={(event) => { setCaptureSearch(event.target.value); setCaptureSearchOpen(true) }} onBlur={() => window.setTimeout(() => { setCaptureSearchOpen(false); setCaptureSearch(activeSummary?.source_name ?? '') }, 120)} onKeyDown={(event) => { if (event.key === 'Escape') setCaptureSearchOpen(false); if (event.key === 'Enter' && captureMatches.length === 1) { setSelected(captureMatches[0].run_id); setCaptureSearch(captureMatches[0].source_name); setCaptureSearchOpen(false) } }} disabled={!analyses.length}/></label>{captureSearchOpen && analyses.length > 0 && <div className="capture-search-results" id="capture-search-results" role="listbox" aria-label="Matching captures">{captureMatches.length ? captureMatches.map((item) => <button key={item.run_id} type="button" role="option" aria-selected={item.run_id === selected} onMouseDown={(event) => event.preventDefault()} onClick={() => { setSelected(item.run_id); setCaptureSearch(item.source_name); setCaptureSearchOpen(false) }}><b>{item.source_name}</b><small>{item.total_streams} streams · {runTime(item.created_at)} · {item.run_id.slice(0, 8)}</small></button>) : <p>No matching PCAPs</p>}</div>}</div></div></header>
       {pageError && <div role="alert" className="alert alert-error"><span>{pageError}</span><button onClick={() => void refresh()}>Retry</button></div>}
       {apiState === 'offline' && <div className="offline-panel"><span className="offline-mark">!</span><div><b>Analysis service is not reachable.</b><p>Start the local API at <code>127.0.0.1:8000</code>, then retry. The workspace will not show fabricated reports or metrics.</p></div><button className="button button-small" onClick={() => void refresh()}>Retry connection</button></div>}
-      {tab === 'overview' && <OverviewPage analyses={analyses} activeSummary={activeSummary} streams={streams} findings={findingRows} postureAverage={postureAverage} dashboard={dashboard} loading={loading} onGo={navTo} onSelect={setSelected} />}
-      {tab === 'captures' && <CapturesPage analyses={visibleAnalyses} allCount={dashboard?.capture_count ?? analyses.length} filter={filter} setFilter={setFilter} inputRef={inputRef} queue={queue} addFiles={addFiles} processQueue={processQueue} queueBusy={queueBusy} hasQueued={hasQueued} trustStore={trustStore} setTrustStore={setTrustStore} aborters={aborters.current} retryItem={retryItem} removeItem={removeItem} clearCompleted={clearCompleted} onSelect={setSelected} onDelete={setDeleteTarget} onTab={navTo} />}
-      {tab === 'investigation' && <InvestigationPage view={investigationView} setView={setInvestigationView} findings={findingRows} streams={streams} summary={activeSummary} selectedStream={selectedStream} setSelectedStream={setSelectedStream} onGo={() => navTo('captures')} />}
-      {tab === 'intelligence' && <ThreatPage />}
-      {tab === 'reports' && <ReportsPage analyses={visibleAnalyses} filter={filter} setFilter={setFilter} activeSummary={activeSummary} activeDetail={activeDetail} selected={selected} onSelect={setSelected} loading={loading} view={reportView} setView={setReportView} />}
+      <div className="workspace-page-frame" key={tab}>
+        {tab === 'overview' && <OverviewPage analyses={analyses} activeSummary={activeSummary} streams={streams} findings={findingRows} postureAverage={postureAverage} dashboard={dashboard} loading={loading} onGo={navTo} onSelect={setSelected} />}
+        {tab === 'captures' && <CapturesPage analyses={visibleAnalyses} allCount={dashboard?.capture_count ?? analyses.length} filter={filter} setFilter={setFilter} inputRef={inputRef} queue={queue} addFiles={addFiles} processQueue={processQueue} queueBusy={queueBusy} hasQueued={hasQueued} trustStore={trustStore} setTrustStore={setTrustStore} aborters={aborters.current} retryItem={retryItem} removeItem={removeItem} clearCompleted={clearCompleted} onSelect={setSelected} onDelete={setDeleteTarget} onTab={navTo} />}
+        {tab === 'investigation' && <InvestigationPage view={investigationView} setView={setInvestigationView} findings={findingRows} streams={streams} summary={activeSummary} selectedStream={selectedStream} setSelectedStream={setSelectedStream} onGo={() => navTo('captures')} />}
+        {tab === 'intelligence' && <ThreatPage summary={activeSummary} />}
+        {tab === 'reports' && <ReportsPage activeSummary={activeSummary} activeDetail={activeDetail} />}
+      </div>
       {deleteTarget && <div className="confirm-scrim" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setDeleteTarget(null) }}><section className="confirm-dialog" role="alertdialog" aria-modal="true" aria-labelledby="delete-title" aria-describedby="delete-description"><span className="eyebrow">LOCAL ARCHIVE</span><h2 id="delete-title">Delete this analysis?</h2><p id="delete-description"><b>{deleteTarget.source_name}</b> and its saved report and stream evidence will be removed from the local database. Uploaded PCAP files are not retained after analysis.</p><div className="confirm-actions"><button className="button" onClick={() => setDeleteTarget(null)}>Cancel</button><button className="button button-danger" onClick={() => void deleteAnalysis(deleteTarget)}>Delete analysis</button></div></section></div>}
       {dragging && <div className="drop-overlay" role="presentation"><div><span>↓</span><b>Drop captures to add them to the analysis queue</b><small>PCAP and PCAPNG · up to 512 MiB per file</small></div></div>}
     </main>
@@ -252,10 +371,9 @@ export function Workspace({ Brand }: Props) {
 function OverviewPage({ analyses, activeSummary, streams, findings, postureAverage, dashboard, loading, onGo, onSelect }: { analyses: AnalysisSummary[]; activeSummary: AnalysisSummary | null; streams: StreamReport[]; findings: ReturnType<typeof allFindings>; postureAverage: number | null; dashboard: DashboardSummary | null; loading: boolean; onGo: (tab: Tab) => void; onSelect: (id: string) => void }) {
   const counts = streams.reduce<Record<string, number>>((result, stream) => { result[stream.protocol] = (result[stream.protocol] ?? 0) + 1; return result }, {})
   const topAnalyses = analyses.slice(0, 6)
-  return <div className="page-content page-enter">
+  return <div className="page-content">
     <SectionTitle eyebrow="MAIL SECURITY FORENSICS" title="Investigation overview" detail="Capture activity, protocol reconstruction, deterministic posture, and model output for the selected case." action={<button className="button button-primary" onClick={() => onGo('captures')}>Add capture <span>↗</span></button>} />
     {!analyses.length && !loading ? <EmptyState title="No analyses in the archive" copy="Upload a PCAP or PCAPNG capture to begin. Analysis runs are saved by the local backend." action={<button className="button button-primary" onClick={() => onGo('captures')}>Open PCAP analysis</button>} /> : <>
-      <div className="metric-grid overview-metrics"><Metric label="CAPTURES IN ARCHIVE" value={dashboard?.capture_count ?? analyses.length} sub="Local analysis records"/><Metric label="RECONSTRUCTED FLOWS" value={activeSummary ? streams.length : '—'} sub={activeSummary ? activeSummary.source_name : 'Select a case above'}/><Metric label="RULE FINDINGS" value={activeSummary ? findings.filter((item) => item.kind === 'POLICY').length : '—'} sub="Deterministic policy failures"/><Metric label="POSTURE SCORE" value={postureAverage === null ? '—' : `${postureAverage}`} sub="Heuristic · out of 100 · not ML"/></div>
       <ArchiveAnalytics data={dashboard}/>
       <div className="content-grid overview-grid">
         <section className="panel case-overview"><div className="panel-head"><div><span className="eyebrow">ACTIVE CASE</span><h2>{activeSummary?.source_name ?? 'Choose a report'}</h2></div>{activeSummary && <Badge>{activeSummary.run_id.slice(0, 10)}</Badge>}</div>
@@ -265,8 +383,9 @@ function OverviewPage({ analyses, activeSummary, streams, findings, postureAvera
           {topAnalyses.length ? <div className="archive-list">{topAnalyses.map((item) => <button key={item.run_id} className={`archive-row ${item.run_id === activeSummary?.run_id ? 'selected' : ''}`} onClick={() => onSelect(item.run_id)}><span className="file-mark">PC</span><span className="archive-name"><b>{item.source_name}</b><small>{runTime(item.created_at)}</small></span><span className="archive-streams">{item.total_streams} streams</span><span className="arrow">↗</span></button>)}</div> : <p className="muted">{loading ? 'Loading analyses…' : 'No saved analyses yet.'}</p>}
         </section>
       </div>
+      <div className="metric-grid overview-metrics"><Metric label="CAPTURES IN ARCHIVE" value={dashboard?.capture_count ?? analyses.length} sub="Local analysis records"/><Metric label="RECONSTRUCTED FLOWS" value={activeSummary ? streams.length : '—'} sub={activeSummary ? activeSummary.source_name : 'Select a case above'}/><Metric label="RULE FINDINGS" value={activeSummary ? findings.filter((item) => item.kind === 'POLICY').length : '—'} sub="Deterministic policy failures"/><Metric label="POSTURE SCORE" value={postureAverage === null ? '—' : `${postureAverage}`} sub="Heuristic · out of 100 · not ML"/></div>
       <CaptureCharts streams={streams}/>
-      <section className="panel intelligence-overview"><div className="panel-heading"><div><span className="eyebrow">LEARNED SIGNALS</span><h2>ML outputs across this capture</h2><p>Per-session model results, separated by purpose. Cohort novelty is not a security verdict.</p></div><button className="text-button" onClick={() => onGo('investigation')}>Open session evidence <span>→</span></button></div><OverviewML streams={streams}/></section>
+      <section className="panel intelligence-overview"><div className="panel-heading"><div><span className="eyebrow">LEARNED SIGNALS</span><h2>ML outputs across this capture</h2><p>See which signals ran, what they estimated, and how much input was available. These are advisory signals, not policy verdicts.</p></div><button className="text-button" onClick={() => onGo('investigation')}>Open session evidence <span>→</span></button></div><OverviewML streams={streams}/></section>
       <section className="panel recent-findings"><div className="panel-head"><div><span className="eyebrow">SELECTED REPORT</span><h2>Findings at a glance</h2></div><button className="text-button" onClick={() => onGo('investigation')}>Inspect findings →</button></div>{findings.length ? <div className="finding-preview">{findings.slice(0, 5).map((finding, index) => <div key={`${finding.id}-${finding.stream.stream_id}-${index}`} className="finding-preview-row"><Badge tone={finding.kind === 'POLICY' ? 'badge-red' : 'badge-blue'}>{finding.kind}</Badge><span><b>{finding.title}</b><small>Stream {finding.stream.stream_id} · {finding.id}</small></span><span className="finding-kind">{finding.severity}</span></div>)}</div> : <p className="muted">{activeSummary ? 'No failed policy checks or detected observations were recorded.' : 'Select an analysis to inspect findings.'}</p>}</section>
     </>}
   </div>
@@ -309,7 +428,7 @@ function ArchiveBarChart({ title, label, values, kind }: { title: string; label:
     if ((kind === 'severity' && value === 'MEDIUM') || (kind === 'posture' && value === 'MEDIUM')) return 'bar-watch'
     return 'bar-neutral'
   }
-  return <article className={`archive-chart chart-${kind}`}><div className="archive-chart-heading"><span className="eyebrow">{label}</span><h3>{title}</h3></div>{rows.length ? <div className="archive-chart-rows">{rows.map(([name, count]) => <div className="archive-chart-row" key={name}><span title={name}>{name.replaceAll('_', ' ').toLowerCase()}</span><div><i className={tone(name)} style={{ width: `${count / maximum * 100}%` }}/></div><b>{count}</b></div>)}</div> : <p className="chart-unavailable">No observations recorded</p>}</article>
+  return <article className={`archive-chart chart-${kind}`}><div className="archive-chart-heading"><span className="eyebrow">{label}</span><h3>{title}</h3></div>{rows.length ? <div className="archive-chart-rows">{rows.map(([name, count]) => <div className="archive-chart-row" key={name}><span title={name}>{kind === 'ml' ? mlStatusLabel(name) : name.replaceAll('_', ' ').toLowerCase()}</span><div><i className={tone(name)} style={{ width: `${count / maximum * 100}%` }}/></div><b>{count}</b></div>)}</div> : <p className="chart-unavailable">No observations recorded</p>}</article>
 }
 
 function CaptureCharts({ streams }: { streams: StreamReport[] }) {
@@ -340,14 +459,25 @@ function TelemetryBars({ title, eyebrow, values, total, kind }: { title: string;
 }
 
 const MODEL_ROWS = [
-  ['zgrab_evidence_risk_classifier', 'SMTP risk classification', 'Real ZGrab SMTP · rubric-derived'],
-  ['synthetic_email_risk_classifier', 'IMAP / POP3 risk classification', 'Programmatic email simulation'],
-  ['classifier_risk_tier', 'SMTP tier proxy', 'Real ZGrab SMTP · rule-derived target'],
-  ['classifier', 'SMTP rule-flag proxy', 'Real ZGrab SMTP · rule-label proxy'],
-  ['smtp_configuration_anomaly', 'SMTP configuration novelty', 'Real ZGrab SMTP TLS cohort'],
-  ['smtp_configuration_rarity', 'SMTP tuple rarity', 'Real ZGrab SMTP TLS cohort'],
-  ['certificate_novelty', 'Certificate novelty', 'SMTP-related scan certificate corpus'],
+  ['zgrab_evidence_risk_classifier', 'SMTP risk estimate', 'Based on real SMTP scan observations; advisory labels'],
+  ['synthetic_email_risk_classifier', 'IMAP / POP3 risk estimate', 'Based on simulated email scenarios; experimental'],
+  ['classifier_risk_tier', 'SMTP risk tier estimate', 'Labels derived from existing policy checks'],
+  ['classifier', 'SMTP policy-pattern estimate', 'Learns patterns in existing policy-check labels'],
+  ['smtp_configuration_anomaly', 'SMTP configuration unusualness', 'Compared with observed real SMTP TLS configurations'],
+  ['smtp_configuration_rarity', 'SMTP configuration frequency', 'Compared with observed real SMTP TLS configurations'],
+  ['certificate_novelty', 'Certificate unusualness', 'Compared with SMTP-related certificate observations'],
 ] as const
+
+const ML_DISPLAY_NAMES: Record<string, string> = {
+  ml_assessment: "Overall ML summary",
+  synthetic_email_risk_classifier: "Simulated mail risk estimate",
+  zgrab_evidence_risk_classifier: "SMTP risk estimate",
+  classifier_risk_tier: "SMTP risk tier estimate",
+  classifier: "SMTP policy-pattern estimate",
+  smtp_configuration_anomaly: "SMTP configuration unusualness",
+  smtp_configuration_rarity: "SMTP configuration frequency",
+  certificate_novelty: "Certificate unusualness",
+}
 
 function OverviewML({ streams }: { streams: StreamReport[] }) {
   if (!streams.length) return <div className="ml-overview-empty"><span>ML</span><p>Model outputs will appear here after analyzing a capture. Applicability and feature coverage are shown per session.</p></div>
@@ -363,7 +493,7 @@ function OverviewML({ streams }: { streams: StreamReport[] }) {
     const coverage = evaluable.map(({ value }) => value.feature_coverage).filter((value): value is number => typeof value === 'number')
     const average = coverage.length ? `${Math.round(coverage.reduce((a, b) => a + b, 0) / coverage.length * 100)}%` : '—'
     const state = rows.length ? evaluable.length ? `${evaluable.length} / ${streams.length} evaluable` : `${rows.length} / ${streams.length} assessed` : 'No runtime output'
-    const output = Object.entries(counts).map(([name, count]) => `${name.replaceAll('_', ' ')} · ${count}`).join('   /   ')
+    const output = Object.entries(counts).map(([name, count]) => `${mlPredictionLabel(name)} · ${count}`).join('   /   ')
     return <div className="model-table-row" key={key}><div className="model-name"><b>{label}</b><small>{cohort}</small></div><span className="model-coverage">{state}</span><span className="model-output">{output || statusSummary(rows.map(({ value }) => String(value.status ?? 'UNKNOWN')))}</span><span className="model-feature-coverage">{average}</span></div>
   })}</div>
 }
@@ -371,7 +501,7 @@ function OverviewML({ streams }: { streams: StreamReport[] }) {
 function statusSummary(statuses: string[]) {
   if (!statuses.length) return '—'
   const tally = statuses.reduce<Record<string, number>>((acc, status) => { acc[status] = (acc[status] ?? 0) + 1; return acc }, {})
-  return Object.entries(tally).map(([status, count]) => `${status.replaceAll('_', ' ').toLowerCase()} · ${count}`).join(' / ')
+  return Object.entries(tally).map(([status, count]) => `${mlStatusLabel(status)} · ${count}`).join(' / ')
 }
 
 function CapturesPage(props: {
@@ -421,7 +551,7 @@ function FindingsPage({ findings, summary, onGo }: { findings: ReturnType<typeof
 function SessionsPage({ streams, selectedStream, setSelectedStream, summary }: { streams: StreamReport[]; selectedStream: number | null; setSelectedStream: (value: number | null) => void; summary: AnalysisSummary | null }) {
   const active = streams.find((stream) => stream.stream_id === selectedStream) ?? null
   if (!summary) return <div className="page-content investigation-content"><SectionTitle eyebrow="STREAM RECONSTRUCTION" title="Sessions & evidence" detail="Select an analysis from the archive."/><EmptyState title="No report selected" copy="Choose a saved analysis to inspect reconstructed streams." /></div>
-  return <div className="page-content investigation-content">{streams.length ? <div className="sessions-layout"><section className="panel stream-list-panel"><div className="panel-head"><div><span className="eyebrow">RECONSTRUCTED FLOWS</span><h2>Sessions</h2></div><span className="count-pill">{streams.length}</span></div>{streams.map((stream) => <button key={stream.stream_id} className={`stream-row ${selectedStream === stream.stream_id ? 'selected' : ''}`} onClick={() => setSelectedStream(stream.stream_id)}><span className="stream-id">{String(stream.stream_id).padStart(3, '0')}</span><span className="stream-main"><b>{stream.protocol}</b><small>{findingsCount(stream)} recorded finding{findingsCount(stream) === 1 ? '' : 's'}</small></span><span className="arrow">→</span></button>)}</section><section className="panel stream-detail-panel">{active ? <StreamEvidence stream={active} /> : <EmptyState title="Select a stream" copy="Choose a stream to review TLS, certificate, rule-engine, posture, and ML evidence."/>}</section></div> : <EmptyState title="No streams reconstructed" copy="The capture may contain no analyzable TCP streams. Review report limitations and capture integrity."/>}</div>
+  return <div className="page-content investigation-content">{streams.length ? <><section className="panel flow-ribbon"><div className="flow-ribbon-heading"><div><span className="eyebrow">RECONSTRUCTED FLOWS</span><h2>Sessions</h2></div><span className="count-pill">{streams.length} flows</span></div><div className="flow-ribbon-list" role="tablist" aria-label="Reconstructed sessions">{streams.map((stream) => <button key={stream.stream_id} role="tab" aria-selected={selectedStream === stream.stream_id} className={`flow-ribbon-item ${selectedStream === stream.stream_id ? 'selected' : ''}`} onClick={() => setSelectedStream(stream.stream_id)}><span className="flow-ribbon-id">{String(stream.stream_id).padStart(3, '0')}</span><span className="flow-ribbon-protocol">{stream.protocol}</span><span className="flow-ribbon-findings">{findingsCount(stream)} finding{findingsCount(stream) === 1 ? '' : 's'}</span></button>)}</div></section>{active ? <StreamEvidence stream={active} /> : <EmptyState title="Select a stream" copy="Choose a session above to review transport, certificate, policy, and ML evidence."/>}</> : <EmptyState title="No streams reconstructed" copy="The capture may contain no analyzable TCP streams. Review report limitations and capture integrity."/>}</div>
 }
 
 function StreamEvidence({ stream }: { stream: StreamReport }) {
@@ -439,22 +569,78 @@ function StreamEvidence({ stream }: { stream: StreamReport }) {
   }
   const starttls = isObject(snapshot.starttls) ? snapshot.starttls : snapshot
   const rules = Object.entries(stream.policy_results ?? {}).flatMap(([pack, items]) => items.map((item) => ({ pack, item })))
-  const facts: Array<[string, unknown]> = [['TLS version', tls.tls_version ?? tls.version], ['Cipher suite', tls.cipher_name ?? tls.cipher_suite], ['Key exchange', tls.key_exchange ?? tls.tls13_key_exchange_group ?? tls.kex], ['Forward secrecy', tls.forward_secrecy ?? tls.uses_forward_secrecy ?? heuristics.h_forward_secrecy], ['STARTTLS state', starttls.status ?? starttls.outcome ?? (starttls.starttls_status || (starttls.starttls_accepted ? 'UPGRADE_ACCEPTED' : null))], ['Handshake', tls.handshake_status ?? tls.status]]
-  return <div className="stream-evidence"><div className="stream-detail-head"><div><span className="eyebrow">STREAM {String(stream.stream_id).padStart(3, '0')}</span><h2>{stream.protocol}</h2></div><Badge>{findingsCount(stream)} findings / observations</Badge></div>
-    <h3>Negotiated transport</h3><div className="fact-grid">{facts.map(([label, value]) => <div className="fact" key={label}><small>{label}</small><b>{text(value)}</b></div>)}</div>
-    <h3>Security posture <span className="subtle-tag">DETERMINISTIC · NOT ML</span></h3><PostureSummary posture={stream.posture_assessment ?? {}} />
-    <h3>ML outputs <span className="subtle-tag">ADVISORY</span></h3><MLResults value={stream.ml_results ?? {}} />
-    <h3>Certificate & trust</h3><CertificateSummary certificate={certificate} />
-    <h3>Deterministic policy checks</h3><div className="rule-list">{rules.map(({ pack, item }, index) => <details className="rule-row rule-detail" key={`${pack}-${item.rule_id}-${index}`}><span className={`verdict-dot verdict-${(item.verdict ?? '').toLowerCase()}`} /><summary><b>{item.name ?? item.rule_id}</b><small>{pack} · {item.rule_id} · {item.applicability_scope ?? 'scope unavailable'}</small></summary><Badge tone={item.verdict === 'FAIL' ? 'badge-red' : ''}>{item.verdict ?? 'UNKNOWN'}</Badge>{item.finding && <p>{item.finding}</p>}<div className="rule-evidence"><p><b>Standard:</b> {item.source_id ?? 'Unavailable'} § {item.source_section ?? '—'} · {item.normative_term ?? 'term unavailable'}</p>{item.source_text && <p>{item.source_text}</p>}{item.evidence?.length ? <pre className="data-block">{pretty(item.evidence)}</pre> : <p>No evidence atoms were recorded for this result.</p>}</div></details>)}</div>
-    <h3>Forensic observations</h3><div className="observation-list">{(stream.observations ?? []).length ? stream.observations?.map((item, index) => <div className="observation-row" key={`${item.obs_id}-${index}`}><Badge tone={item.detected ? 'badge-red' : 'badge-muted'}>{item.detected ? 'DETECTED' : 'NOT DETECTED'}</Badge><div><b>{item.name ?? item.obs_id}</b><p>{item.description ?? 'No additional description.'}</p></div></div>) : <p className="muted">No observation records.</p>}</div>
-    <h3>Mitigation guidance <span className="subtle-tag">EVIDENCE-LINKED</span></h3><Recommendations posture={stream.posture_assessment ?? {}} />
+  const failed = rules.filter(({ item }) => item.verdict === 'FAIL')
+  const facts: Array<[string, unknown]> = [['TLS version', tls.tls_version ?? tls.version], ['Cipher suite', tls.cipher_name ?? tls.cipher_suite], ['Key exchange', tls.key_exchange ?? tls.tls13_key_exchange_group ?? tls.kex], ['Forward secrecy', tls.forward_secrecy ?? tls.uses_forward_secrecy ?? heuristics.h_forward_secrecy], ['Encryption start', starttls.status ?? starttls.outcome ?? (starttls.starttls_status || (starttls.starttls_accepted ? 'UPGRADE_ACCEPTED' : null))], ['Handshake', tls.handshake_status ?? tls.status]]
+  const policyGroups = Object.entries(rules.reduce<Record<string, Array<{ pack: string; item: PolicyResult }>>>((groups, entry) => { (groups[entry.pack] ??= []).push(entry); return groups }, {}))
+  const observations = stream.observations ?? []
+  return <div className="stream-evidence"><div className="stream-detail-head"><div><span className="eyebrow">ACTIVE SESSION · {String(stream.stream_id).padStart(3, '0')}</span><h2>{stream.protocol}</h2></div><Badge>{findingsCount(stream)} findings / observations</Badge></div>
+    <div className="session-evidence-grid">
+      <section className="session-card session-transport"><SessionCardHeading eyebrow="OBSERVED CONNECTION" title="Negotiated transport" detail="Values come from this reconstructed session."/><div className="fact-grid">{facts.map(([label, value]) => <div className="fact" key={label}><small>{label}</small><b>{sessionValue(label, value)}</b></div>)}</div></section>
+      <section className="session-card"><SessionCardHeading eyebrow="DETERMINISTIC · NOT ML" title="Security posture"/><PostureSummary posture={stream.posture_assessment ?? {}} /></section>
+      <section className="session-card"><SessionCardHeading eyebrow="CERTIFICATE EVIDENCE" title="Certificate & trust"/><CertificateSummary certificate={certificate} /></section>
+      <section className="session-card session-ml-card"><SessionCardHeading eyebrow="ADVISORY SIGNALS" title="Machine-learning results" detail="Each signal shows its result or why it could not produce one. These estimates do not replace policy checks."/><MLResults value={stream.ml_results ?? {}} protocol={stream.protocol}/></section>
+      <section className="session-card session-policy-card"><SessionCardHeading eyebrow="DETERMINISTIC CHECKS" title="Policy coverage" detail={`${failed.length} failed · ${rules.length} checks evaluated`}/><PolicyOutcomeChart rules={rules}/>{policyGroups.length ? <div className="policy-pack-grid">{policyGroups.map(([pack, entries]) => <div className="policy-pack" key={pack}><header><b>{policyPackLabel(pack)}</b><span>{entries.filter(({ item }) => item.verdict === 'FAIL').length} failed · {entries.length} checks</span></header><div className="policy-compact-list">{entries.map(({ item }, index) => <PolicyCheck key={`${pack}-${item.rule_id}-${index}`} item={item} />)}</div></div>)}</div> : <p className="muted">No deterministic policy checks were recorded.</p>}{failed.length === 0 && rules.length > 0 && <p className="policy-clear-note">No policy failures were found in the checks that ran. This does not resolve unavailable evidence.</p>}</section>
+      <section className="session-card"><SessionCardHeading eyebrow="PACKET ANALYSIS" title="Forensic observations"/>{observations.length ? <div className="observation-list">{observations.map((item, index) => <div className="observation-row" key={`${item.obs_id}-${index}`}><Badge tone={item.detected ? 'badge-red' : 'badge-muted'}>{item.detected ? 'Detected' : 'Not detected'}</Badge><div><b>{item.name ?? 'Observation'}</b><p>{item.description ?? 'No additional description.'}</p></div></div>)}</div> : <p className="muted">No observation records.</p>}</section>
+      <section className="session-card"><SessionCardHeading eyebrow="EVIDENCE-LINKED" title="Mitigation guidance"/>{<Recommendations posture={stream.posture_assessment ?? {}} />}</section>
+    </div>
   </div>
+}
+
+function SessionCardHeading({ eyebrow, title, detail }: { eyebrow: string; title: string; detail?: string }) {
+  return <header className="session-card-heading"><div><span className="eyebrow">{eyebrow}</span><h3>{title}</h3>{detail && <p>{detail}</p>}</div></header>
+}
+
+function sessionValue(label: string, value: unknown) {
+  if (value === undefined || value === null || value === '') return '—'
+  if (typeof value === 'boolean') return value ? 'Yes' : 'No'
+  const display: Record<string, string> = {
+    IMPLICIT_TLS: 'TLS active from connection start',
+    UPGRADE_ACCEPTED: 'STARTTLS accepted',
+    HANDSHAKE_STATUS_UNRESOLVED: 'Could not determine from captured handshake',
+    SKIPPED_NO_SNI: 'Not checked · server name unavailable',
+    NOT_CHECKED: 'Not checked',
+    NOT_CHECKED_PASSIVE_OFFLINE_ANALYSIS: 'Not checked · offline capture',
+  }
+  const raw = String(value)
+  if (display[raw]) return display[raw]
+  if (label === 'Revocation' && raw.includes('PASSIVE_OFFLINE_ANALYSIS')) return 'Not checked · offline capture'
+  return raw.replaceAll('_', ' ')
+}
+
+function policyPackLabel(pack: string) {
+  const normalized = pack.toUpperCase()
+  if (normalized.includes('MOZ') && normalized.includes('INTERM')) return 'Mozilla · Intermediate'
+  if (normalized.includes('MOZ') && normalized.includes('MODERN')) return 'Mozilla · Modern'
+  if (normalized.includes('NIST') || normalized.includes('131A')) return 'NIST cryptographic guidance'
+  return pack.replaceAll('_', ' ').replaceAll('-', ' ')
+}
+
+function PolicyOutcomeChart({ rules }: { rules: Array<{ pack: string; item: PolicyResult }> }) {
+  const groups = [
+    { label: 'Passed', count: rules.filter(({ item }) => item.verdict === 'PASS').length, tone: 'policy-bar-pass' },
+    { label: 'Failed', count: rules.filter(({ item }) => item.verdict === 'FAIL').length, tone: 'policy-bar-fail' },
+    { label: 'Not applicable', count: rules.filter(({ item }) => item.verdict === 'NOT_APPLICABLE').length, tone: 'policy-bar-na' },
+    { label: 'Not observable', count: rules.filter(({ item }) => item.verdict === 'NOT_OBSERVABLE').length, tone: 'policy-bar-unknown' },
+  ].filter((group) => group.count > 0)
+  const otherCount = rules.length - groups.reduce((sum, group) => sum + group.count, 0)
+  if (otherCount > 0) groups.push({ label: 'Other outcome', count: otherCount, tone: 'policy-bar-unknown' })
+  const total = groups.reduce((sum, group) => sum + group.count, 0)
+  if (!total) return null
+  return <div className="policy-outcome-chart" aria-label={`${groups.map((group) => `${group.label}: ${group.count}`).join(', ')} policy checks`}><div className="policy-outcome-bar">{groups.map((group) => <i key={group.label} className={group.tone} style={{ width: `${group.count / total * 100}%` }} title={`${group.label}: ${group.count}`} />)}</div><div className="policy-outcome-legend">{groups.map((group) => <span key={group.label}><i className={group.tone}/>{group.label} <b>{group.count}</b></span>)}</div></div>
+}
+
+function PolicyCheck({ item }: { item: PolicyResult }) {
+  const verdict = String(item.verdict ?? 'UNKNOWN').toUpperCase()
+  const verdictLabels: Record<string, string> = { FAIL: 'Failed', PASS: 'Passed', NOT_APPLICABLE: 'Not applicable', NOT_OBSERVABLE: 'Not observable', NOT_EVALUABLE: 'Not evaluated' }
+  const evidenceText = item.evidence?.slice(0, 2).map((evidence) => [evidence.field, evidence.value].filter((part) => part !== undefined && part !== null).map(String).join(': ')).filter(Boolean).join(' · ')
+  const verdictLabel = verdictLabels[verdict] ?? verdict.replaceAll('_', ' ').toLowerCase().replace(/^./, (letter) => letter.toUpperCase())
+  return <div className={`policy-check-row ${verdict === 'FAIL' ? 'policy-check-fail' : ''}`}><span className="policy-check-name">{item.name ?? 'Policy check'}{verdict === 'FAIL' && item.finding && <small>{item.finding}</small>}{verdict === 'FAIL' && evidenceText && <small>Evidence: {evidenceText}</small>}</span><Badge tone={verdict === 'FAIL' ? 'badge-red' : verdict === 'PASS' ? 'badge-green' : 'badge-muted'}>{verdictLabel}</Badge></div>
 }
 
 function CertificateSummary({ certificate }: { certificate: Record<string, unknown> }) {
   const leaf = isObject(certificate.leaf_cert) ? certificate.leaf_cert : certificate
   const candidates: Array<[string, unknown]> = [
-    ['Observation', certificate.observable ?? certificate.certificate_observed],
+    ['Observation', certificate.observable === false || certificate.certificate_observed === false ? 'Not observed in capture' : certificate.observable ?? certificate.certificate_observed],
     ['Trust status', certificate.trust_status ?? leaf.trust_status],
     ['Hostname match', certificate.hostname_match ?? leaf.hostname_match],
     ['Key algorithm', leaf.public_key_algorithm ?? leaf.key_algorithm],
@@ -462,16 +648,16 @@ function CertificateSummary({ certificate }: { certificate: Record<string, unkno
     ['Signature', leaf.signature_algorithm],
     ['Valid from', leaf.not_before],
     ['Valid until', leaf.not_after],
-    ['Expired', leaf.is_expired ?? leaf.expired],
-    ['Self-signed', leaf.is_self_signed ?? leaf.self_signed],
+    ['Expired', leaf.is_expired === undefined && leaf.expired === undefined ? undefined : (leaf.is_expired ?? leaf.expired) ? 'Yes' : 'No'],
+    ['Self-signed', leaf.is_self_signed === undefined && leaf.self_signed === undefined ? undefined : (leaf.is_self_signed ?? leaf.self_signed) ? 'Yes' : 'No'],
     ['SAN entries', leaf.san_count],
     ['Chain length', certificate.chain_length],
-    ['Revocation', certificate.revocation_status],
+    ['Revocation', sessionValue('Revocation', certificate.revocation_status)],
   ]
   const fields = candidates.filter(([, value]) => value !== undefined && value !== null && value !== '')
-  if (!Object.keys(certificate).length) return <p className="muted">Certificate fields were not present in this stream report.</p>
+  if (!fields.length) return <p className="muted">— No certificate details were observable in this session.</p>
   const notObserved = certificate.observable === false || certificate.certificate_observed === false
-  return <><div className="fact-grid certificate-grid">{fields.map(([label, value]) => <div className="fact" key={label}><small>{label}</small><b>{text(value)}</b></div>)}</div>{notObserved && <p className="muted small-copy">The certificate was not observable in this capture. This does not mean that the endpoint has no certificate.</p>}<details className="evidence-raw"><summary>Full parsed certificate evidence</summary><pre className="data-block">{pretty(certificate)}</pre></details></>
+  return <><div className="fact-grid certificate-grid">{fields.map(([label, value]) => <div className="fact" key={label}><small>{label}</small><b>{sessionValue(label, value)}</b></div>)}</div>{notObserved && <p className="muted small-copy">No certificate was captured for this session. It may still exist on the server; passive traffic did not expose it here.</p>}</>
 }
 
 function PostureSummary({ posture }: { posture: Record<string, unknown> }) {
@@ -479,7 +665,7 @@ function PostureSummary({ posture }: { posture: Record<string, unknown> }) {
   const score = typeof posture.score === 'number' ? posture.score : null
   const tier = text(posture.tier, text(posture.status, 'NOT EVALUABLE'))
   const findings = Array.isArray(posture.findings) ? posture.findings.filter(isObject) : []
-  return <><div className="posture-card"><div className="posture-score"><span>{score === null ? '—' : score}</span><small>{score === null ? 'SCORE' : '/ 100'}</small></div><div><Badge tone={semanticTone(tier)}>{tier}</Badge><p>{text(posture.score_type, 'Deterministic heuristic, not an ML probability')}</p></div></div>{findings.length > 0 && <div className="posture-findings">{findings.map((finding, index) => <div key={`${String(finding.family)}-${index}`}><Badge tone={semanticTone(finding.severity)}>{text(finding.severity)}</Badge><span><b>{text(finding.family)}</b><small>{Array.isArray(finding.evidence) ? finding.evidence.length : 0} linked evidence items</small></span></div>)}</div>}<details className="evidence-raw"><summary>Scoring method & limitations</summary><pre className="data-block">{pretty({ scoring_method: posture.scoring_method, limitations: posture.limitations, rubric_version: posture.rubric_version })}</pre></details></>
+  return <><div className="posture-card"><div className="posture-score"><span>{score === null ? '—' : score}</span><small>{score === null ? 'SCORE' : '/ 100'}</small></div><div><Badge tone={semanticTone(tier)}>{tier}</Badge><p>Deterministic estimate, not an ML probability.</p></div></div>{findings.length > 0 && <div className="posture-findings">{findings.map((finding, index) => <div key={`${String(finding.family)}-${index}`}><Badge tone={semanticTone(finding.severity)}>{text(finding.severity)}</Badge><span><b>{text(finding.family)}</b><small>{Array.isArray(finding.evidence) ? finding.evidence.length : 0} linked evidence items</small></span></div>)}</div>}</>
 }
 
 function Recommendations({ posture }: { posture: Record<string, unknown> }) {
@@ -504,61 +690,112 @@ function TimelinePage({ streams, summary }: { streams: StreamReport[]; summary: 
   return <div className="page-content investigation-content">{!summary ? <EmptyState title="No report selected" copy="Choose a saved analysis first."/> : events.length ? <section className="panel timeline-panel"><div className="panel-head"><div><span className="eyebrow">PACKET-PROVENANCE VIEW</span><h2>Evidence timeline · {events.length} references</h2><p className="muted">Only packet references present in the analysis report are shown.</p></div><Badge tone="badge-blue">Ordered by frame when available</Badge></div><div className="timeline-list">{events.map((event,index)=><article key={`${event.streamId}-${event.frame}-${event.field}-${index}`} className="timeline-event"><span className="timeline-pin"/><div className="timeline-time">{event.frame === null ? 'FRAME —' : `FRAME ${event.frame}`}<small>STREAM {event.streamId} · {event.protocol}</small></div><div className="timeline-copy"><b>{event.field}</b><code>{text(event.value)}</code><small>{event.source}</small></div><Badge tone={event.frame === null ? 'badge-muted' : 'badge-green'}>{event.status}</Badge></article>)}</div><p className="muted small-copy">A frame number is shown only when the parser linked evidence to one. Entries without a frame are not assigned a synthetic timestamp or packet order.</p></section> : <EmptyState title="No packet-linked evidence entries" copy="This report contains no evidence atoms with timeline details."/>}</div>
 }
 
-function MLResults({ value }: { value: Record<string, unknown> }) {
-  if (typeof value.status === 'string' && ['MODEL_ERROR', 'MODEL_UNAVAILABLE'].includes(value.status)) return <div className="ml-error-state"><Badge tone="badge-red">{value.status}</Badge><p>{text(value.reason, 'The ML runtime could not complete for this session.')}</p></div>
-  const entries = Object.entries(value)
-  if (!entries.length) return <p className="muted">The ML pipeline returned no outputs for this session. See case status for execution errors.</p>
-  return <div className="ml-result-list">{entries.map(([name, result]) => {
-    const row = isObject(result) ? result : { value: result }
-    const version = row.model_version
-    const status = row.status
-    const prediction = row.prediction ?? row.risk_tier ?? row.classification ?? row.label ?? row.novelty_flag
-    const predictionLabel = prediction === true ? 'NOVEL' : prediction === false ? 'KNOWN' : prediction
-    const coverage = typeof row.feature_coverage === 'number' ? `${Math.round(row.feature_coverage * 100)}% feature coverage` : ''
-    const score = row.anomaly_score ?? row.novelty_score ?? row.score
-    return <details className="ml-result" key={name}>
-      <summary><span className="ml-result-title"><b>{name.replaceAll('_', ' ')}</b><small>{text(row.model_id, 'Model')} {version ? `· v${version}` : ''}</small></span><span className="ml-result-status">{prediction !== undefined ? <Badge tone={semanticTone(predictionLabel)}>{String(predictionLabel)}</Badge> : null}<Badge tone={semanticTone(status)}>{text(status, 'RESULT')}</Badge></span></summary>
-      <div className="ml-result-body">{coverage ? <span>{coverage}</span> : null}{score !== undefined ? <span>Score <b>{text(score)}</b></span> : null}{row.confidence !== undefined ? <span>Confidence <b>{text(row.confidence)}</b></span> : null}{row.cohort !== undefined ? <span>Cohort <b>{text(row.cohort)}</b></span> : null}{row.reason !== undefined ? <p>{text(row.reason)}</p> : null}</div>
-      <details className="ml-raw"><summary>Model provenance & evidence</summary><pre className="data-block">{pretty(row)}</pre></details>
-    </details>
-  })}</div>
+function MLResults({ value, protocol }: { value: Record<string, unknown>; protocol: string }) {
+  const modelKeys = Object.keys(ML_DISPLAY_NAMES).filter((key) => key !== 'ml_assessment')
+  const extraKeys = Object.keys(value).filter((key) => key !== 'status' && key !== 'ml_assessment' && !modelKeys.includes(key))
+  const keys = [...modelKeys, ...extraKeys]
+  const assessment = isObject(value.ml_assessment) ? value.ml_assessment : {}
+  const cohortLabels: Record<string, string> = { zgrab_real_smtp_tls: 'real SMTP TLS observations', mta_sts_smtp_related_scan_certificates: 'SMTP-related certificate observations', synthetic_email_scenarios: 'simulated email scenarios' }
+  if (!keys.length && !Object.keys(assessment).length) return <p className="muted">No machine-learning outputs were recorded for this session.</p>
+  return <div className="ml-results-area">
+    <div className="ml-advisory-note"><b>Advisory only</b><span>Machine-learning estimates add context. Deterministic policy checks remain authoritative. No combined ML risk score is produced.</span></div>
+    <div className="ml-table-scroll"><table className="ml-evidence-table"><thead><tr><th>Signal</th><th>Estimated result</th><th>Availability</th><th>Input coverage</th><th>Score & context</th></tr></thead><tbody>{keys.map((name) => {
+      const row = isObject(value[name]) ? value[name] as Record<string, unknown> : {}
+      const applicable = name === 'synthetic_email_risk_classifier' ? /IMAP|POP3/i.test(protocol) : name !== 'certificate_novelty' || row.status !== 'NOT_APPLICABLE'
+      const status = String(row.status ?? (value[name] == null ? 'NO_OUTPUT' : 'UNKNOWN'))
+      const prediction = row.prediction ?? row.predicted_risk_tier ?? row.predicted_tier_proxy ?? row.predicted_class ?? row.risk_tier ?? row.classification ?? row.label ?? row.novelty_flag ?? row.anomaly_flag
+      const predictionLabel = prediction === undefined ? '—' : mlPredictionLabel(prediction)
+      const completed = status.startsWith('COMPLETED')
+      const coverage = typeof row.feature_coverage === 'number' ? Math.max(0, Math.min(1, row.feature_coverage)) : null
+      const confidenceValue = row.confidence ?? row.confidence_score_uncalibrated
+      const scoreValue = row.anomaly_score ?? row.novelty_score ?? row.certificate_novelty_score ?? row.proxy_issue_score ?? row.empirical_frequency
+        ?? row.configuration_rarity_bits ?? row.isolation_forest_score
+      const scoreLabel = row.anomaly_score !== undefined || row.isolation_forest_score !== undefined ? 'Anomaly score' : row.novelty_score !== undefined || row.certificate_novelty_score !== undefined ? 'Novelty score' : row.proxy_issue_score !== undefined ? 'Pattern score' : row.empirical_frequency !== undefined ? 'Observed frequency' : 'Configuration rarity score'
+      const reason = row.reason ?? row.interpretation_note ?? row.feature_observability_note
+      const cues = Array.isArray(row.novelty_cues) ? row.novelty_cues.filter((cue): cue is string => typeof cue === 'string') : []
+      const limitations = Array.isArray(row.limitations) ? row.limitations.filter((item): item is string => typeof item === 'string') : []
+      const classScores = isObject(row.class_scores_uncalibrated) ? Object.entries(row.class_scores_uncalibrated) : []
+      const featureInfo = isObject(row.feature_observability) ? row.feature_observability : {}
+      const observedFields = typeof featureInfo.observed_fields === 'number' && typeof featureInfo.candidate_fields === 'number' ? `${featureInfo.observed_fields} of ${featureInfo.candidate_fields} inputs observed` : ''
+      const referenceCount = row.reference_sample_count ?? row.reference_count
+      const trainingCount = row.training_sample_count
+      const sourceName = String(row.data_source ?? '')
+      const sourceLabel = sourceName.includes('synthetic') ? 'Simulated email scenarios' : sourceName.includes('certificate') ? 'SMTP-related certificate scans' : sourceName.includes('zgrab') ? 'Real SMTP scan observations' : ''
+      const notApplicable = status === 'NOT_APPLICABLE' || (!applicable && value[name] === undefined)
+      const displayStatus = notApplicable ? 'NOT_APPLICABLE' : status
+      const emptyReason = row.reason ? String(row.reason) : status.startsWith('NOT_EVALUABLE') ? 'Required session features were missing or too incomplete.' : notApplicable ? `This signal does not apply to ${protocol} sessions.` : status === 'NO_OUTPUT' ? 'No result was recorded for this signal.' : ''
+      const context = [
+        scoreValue !== undefined ? `${scoreLabel}: ${typeof scoreValue === 'number' ? Number(scoreValue.toPrecision(4)).toString() : String(scoreValue)}` : '',
+        confidenceValue !== undefined && confidenceValue !== null ? `Confidence: ${typeof confidenceValue === 'number' ? `${Math.round(confidenceValue * 100)}% · uncalibrated` : String(confidenceValue)}` : '',
+        referenceCount !== undefined ? `Reference cohort: ${referenceCount}` : '',
+        trainingCount !== undefined ? `Training observations: ${trainingCount}` : '',
+        row.configuration_count !== undefined ? `${row.configuration_count} matching configurations` : '',
+        row.cohort !== undefined ? `Compared with ${cohortLabels[String(row.cohort)] ?? mlPredictionLabel(row.cohort)}` : '',
+        sourceLabel ? `Source: ${sourceLabel}` : '',
+      ].filter(Boolean).join(' · ')
+      const explanation = [reason, cues.length ? `Signals considered: ${cues.join('; ')}` : '', classScores.length ? `Uncalibrated class scores: ${classScores.map(([label, score]) => `${mlPredictionLabel(label)} ${typeof score === 'number' ? `${Math.round(score * 100)}%` : score}`).join(' · ')}` : '', row.score_semantics ?? limitations[0]].filter((part) => typeof part === 'string' && part.length > 0).join(' ')
+      return <tr key={name}><th scope="row"><b>{ML_DISPLAY_NAMES[name] ?? 'Additional ML signal'}</b>{sourceLabel && <small>{sourceLabel}</small>}</th><td><span className={completed ? 'ml-table-result' : 'ml-table-no-result'}>{completed ? predictionLabel : '—'}</span></td><td><Badge tone={mlStatusTone(displayStatus)}>{mlStatusLabel(displayStatus)}</Badge>{!completed && <small className="ml-table-explanation">{emptyReason || 'No output available for this session.'}</small>}</td><td>{coverage === null ? '—' : <div className="ml-table-coverage"><span>{Math.round(coverage * 100)}%</span><i><b style={{ width: `${coverage * 100}%` }}/></i>{observedFields && <small>{observedFields}</small>}</div>}</td><td>{context && <span className="ml-table-context">{context}</span>}{explanation && <small className="ml-table-explanation">{explanation}</small>}</td></tr>
+    })}</tbody></table></div>
+    {Object.keys(assessment).length > 0 && <div className="ml-assessment-summary"><div><small>COMBINED ML RISK</small><b>{assessment.combined_risk_score === null || assessment.combined_risk_score === undefined ? '—' : String(assessment.combined_risk_score)}</b><span>{assessment.predicted_tier_proxy ? mlPredictionLabel(assessment.predicted_tier_proxy) : 'No combined risk tier is produced'}</span></div><p>{text(assessment.authority_note, 'These advisory outputs are separate from the deterministic Rule Engine.')}</p></div>}
+  </div>
 }
 
-function ThreatPage() {
-  const [ids, setIds] = useState('')
-  const [result, setResult] = useState<ThreatResponse | null>(null)
-  const [error, setError] = useState('')
+function ThreatPage({ summary }: { summary: AnalysisSummary | null }) {
+  const [report, setReport] = useState<ThreatPrioritization | null>(null)
+  const [error, setError] = useState("")
   const [busy, setBusy] = useState(false)
-  const prioritize = async () => {
-    const values = [...new Set(ids.split(/[\s,;]+/).map((id) => id.trim()).filter(Boolean))]
-    setError(''); setResult(null)
-    if (!values.length) { setError('Enter one or more CVE identifiers that are explicitly supported by your evidence.'); return }
-    setBusy(true)
-    try { setResult(await api.prioritize(values)) } catch (cause) { setError(cause instanceof Error ? cause.message : 'Enrichment failed.') } finally { setBusy(false) }
-  }
-  const items = Array.isArray(result?.items) ? result.items as Array<Record<string, unknown>> : []
-  return <div className="page-content"><SectionTitle eyebrow="THREAT CONTEXT · EVIDENCE-GATED" title="Threat prioritization" detail="Enrich only CVEs that have already been defensibly linked to an observed product or finding. The system does not infer CVEs from a cipher suite or TLS version." />
-    <section className="panel threat-form"><label htmlFor="cve-ids">Evidence-supported CVE identifiers</label><textarea id="cve-ids" rows={3} value={ids} onChange={(event) => setIds(event.target.value)} placeholder="CVE-2024-12345, CVE-2023-00000"/><div className="threat-form-foot"><p className="muted">Priority is based on CISA KEV membership and the available EPSS snapshot. This is deterministic enrichment, not an ML prediction.</p><button className="button button-primary" onClick={() => void prioritize()} disabled={busy}>{busy ? 'Checking sources…' : 'Enrich CVEs'}</button></div>{error && <div role="alert" className="alert alert-error">{error}</div>}</section>
-    {result && <section className="panel threat-results"><div className="panel-head"><div><span className="eyebrow">ENRICHMENT RESULT</span><h2>{text(result.status)}</h2></div></div>{items.length ? <div className="archive-table-wrap"><table className="archive-table"><thead><tr><th>CVE</th><th>Priority</th><th>KEV</th><th>EPSS</th><th>Source</th></tr></thead><tbody>{items.map((item) => { const kev = isObject(item.kev) ? item.kev : {}; const epss = isObject(item.epss) ? item.epss : {}; return <tr key={String(item.cve_id)}><td className="mono">{String(item.cve_id)}</td><td><Badge tone="badge-red">{String(item.priority)}</Badge></td><td>{kev.listed ? 'CISA KEV' : 'Not listed'}</td><td>{typeof epss.probability === 'number' ? `${(epss.probability * 100).toFixed(2)}%` : 'Unavailable'}</td><td>{String(epss.snapshot ?? 'KEV dataset')}</td></tr> })}</tbody></table></div> : <p className="muted">{text(result.note, 'No enrichment records returned.')}</p>}</section>}
+  const [reload, setReload] = useState(0)
+  const runId = summary?.run_id ?? null
+  useEffect(() => {
+    if (!runId) { setReport(null); setError(""); setBusy(false); return }
+    let active = true
+    setBusy(true); setError(""); setReport(null)
+    api.getThreatPrioritization(runId)
+      .then((value) => { if (active) setReport(value) })
+      .catch((cause: unknown) => { if (active) setError(cause instanceof Error ? cause.message : "Could not prioritize this analysis.") })
+      .finally(() => { if (active) setBusy(false) })
+    return () => { active = false }
+  }, [runId, reload])
+
+  const priorityTone = (priority: string) => priority === "P1" || priority === "P2" ? "badge-red" : priority === "P3" ? "badge-amber" : "badge-muted"
+  const items = report?.items ?? []
+  const kevCount = items.reduce((count, item) => count + item.cve_enrichment.filter((entry) => isObject(entry.kev) && entry.kev.listed === true).length, 0)
+  const cveCount = items.reduce((count, item) => count + item.cve_enrichment.length, 0)
+  return <div className="page-content">
+    <SectionTitle eyebrow="THREAT CONTEXT · AUTOMATIC · EVIDENCE-LINKED" title="Threat prioritization" detail="Priorities are generated from deterministic findings in the selected PCAP. KEV and EPSS are added only when the evidence contains an explicit CVE link." />
+    {!summary ? <section className="panel threat-empty"><span className="eyebrow">NO ACTIVE CAPTURE</span><h2>Select a PCAP to prioritize</h2><p>Use the current capture selector in the top bar. Findings and recommendations load automatically.</p></section> : <>
+      <section className="panel threat-scope"><div><span className="eyebrow">SELECTED ANALYSIS</span><h2>{summary.source_name}</h2><p>{summary.total_streams} reconstructed streams · priorities update automatically when you switch captures</p></div></section>
+      {error && <div role="alert" className="alert alert-error"><span>{error}</span><button onClick={() => setReload((value) => value + 1)}>Retry</button></div>}
+      {busy && !report ? <section className="panel threat-empty"><span className="eyebrow">ANALYSIS</span><h2>Prioritizing observed findings…</h2></section> : report && <>
+        <div className="threat-kpis">
+          <div><small>PRIORITIZED FINDING TYPES</small><b>{items.length}</b></div>
+          <div><small>STREAMS WITH FINDINGS</small><b>{report.streams_with_findings}<i> / {report.total_streams}</i></b></div>
+          <div><small>KEV-LINKED</small><b>{kevCount}</b></div>
+          <div><small>CVE ENRICHMENTS</small><b>{cveCount}</b></div>
+        </div>
+        {items.length ? <section className="threat-priority-list" aria-label="Prioritized security findings">
+          {items.map((item) => <article className="panel threat-priority-card" key={item.family}>
+            <header><span className="threat-rank">{String(item.rank).padStart(2, "0")}</span><div className="threat-priority-title"><span className="eyebrow">{item.priority} · {item.priority_label} PRIORITY</span><h2>{item.title}</h2></div><Badge tone={priorityTone(item.priority)}>{item.severity}</Badge></header>
+            <div className="threat-impact"><span>{item.affected_stream_count} affected {item.affected_stream_count === 1 ? "stream" : "streams"} · {item.evidence_count} evidence record{item.evidence_count === 1 ? "" : "s"}</span><span>Streams {item.affected_streams.join(", ")}</span></div>
+            <div className="threat-recommendation"><small>RECOMMENDED ACTION</small><p>{item.recommendation}</p></div>
+            <p className="threat-priority-basis">{item.priority_basis}</p>
+            <details className="threat-evidence"><summary>View supporting evidence</summary><pre className="data-block">{pretty(item.evidence)}</pre></details>
+            {item.cve_enrichment.length > 0 && <div className="threat-linked-cves"><small>LINKED VULNERABILITY CONTEXT</small>{item.cve_enrichment.map((entry) => {
+              const kev = isObject(entry.kev) ? entry.kev : {}
+              const epss = isObject(entry.epss) ? entry.epss : {}
+              const probability = typeof epss.probability === "number" ? (epss.probability * 100).toFixed(2) + "%" : "Unavailable"
+              return <p key={String(entry.cve_id)}><b>{String(entry.cve_id)}</b><Badge tone={priorityTone(String(entry.priority))}>{String(entry.priority)}</Badge><span>{kev.listed ? "CISA KEV" : "Not in KEV"} · EPSS {probability}</span></p>
+            })}</div>}
+          </article>)}
+        </section> : <section className="panel threat-empty"><span className="eyebrow">NO PRIORITIZED FINDINGS</span><h2>No deterministic priority findings recorded</h2><p>{text(report.note, "This does not establish that unobservable traffic or unavailable evidence is safe.")}</p></section>}
+        <section className="panel threat-cve-note"><div><span className="eyebrow">CVE ENRICHMENT · KEV + EPSS</span><h2>{cveCount ? "Evidence-linked CVEs enriched" : "No evidence-linked CVEs in this capture"}</h2><p>{report.cve_link_policy}</p></div>{cveCount === 0 && <Badge tone="badge-muted">NOT MAPPED</Badge>}</section>
+      </>}
+    </>}
   </div>
 }
-
-function ReportsPage({ analyses, filter, setFilter, activeSummary, activeDetail, selected, onSelect, loading, view, setView }: { analyses: AnalysisSummary[]; filter: string; setFilter: (value: string) => void; activeSummary: AnalysisSummary | null; activeDetail: AnalysisDetail | null; selected: string | null; onSelect: (id: string) => void; loading: boolean; view: 'exports' | 'assistant'; setView: (view: 'exports' | 'assistant') => void }) {
-  return <div className="page-content"><SectionTitle eyebrow="CASE OUTPUTS" title="Reports & assistant" detail="Export evidence as a forensic artifact, or prepare an analyst question for the optional language-model layer." />
-    <div className="segmented-tabs report-tabs" role="tablist" aria-label="Report tools"><button role="tab" aria-selected={view === 'exports'} className={view === 'exports' ? 'active' : ''} onClick={() => setView('exports')}>Forensic exports</button><button role="tab" aria-selected={view === 'assistant'} className={view === 'assistant' ? 'active' : ''} onClick={() => setView('assistant')}>AI assistant <span className="pending-pill">Integration pending</span></button></div>
-    {view === 'exports' ? <div className="reports-layout"><section className="panel report-picker"><div className="panel-head"><div><span className="eyebrow">LOCAL CASE ARCHIVE</span><h2>Saved analyses</h2></div><input className="search-input" value={filter} onChange={(event) => setFilter(event.target.value)} placeholder="Filter captures" aria-label="Filter saved analyses" /></div>{analyses.map((item) => <button key={item.run_id} className={`report-select ${selected === item.run_id ? 'selected' : ''}`} onClick={() => onSelect(item.run_id)}><span className="file-mark">PC</span><span><b>{item.source_name}</b><small>{runTime(item.created_at)} · {item.total_streams} streams</small></span></button>)}{!analyses.length && <p className="muted">{loading ? 'Loading archive…' : 'No reports saved yet.'}</p>}</section>
-      <section className="panel report-preview">{activeSummary && activeDetail ? <><div className="report-preview-top"><div><span className="eyebrow">EVIDENCE REPORT</span><h2>{activeSummary.source_name}</h2><p className="muted">{runTime(activeSummary.created_at)} · {activeDetail.report.total_streams} TCP streams · case {activeSummary.run_id.slice(0, 12)}</p></div><ExportActions summary={activeSummary} detail={activeDetail} /></div><ReportPreview report={activeDetail.report} /></> : <EmptyState title="Select a saved analysis" copy="Choose a capture to review findings and export JSON, HTML, or a print-ready PDF."/>}</section></div> : <AssistantWorkspace summary={activeSummary} />}
-  </div>
-}
-
-function AssistantWorkspace({ summary }: { summary: AnalysisSummary | null }) {
-  return <div className="assistant-layout">
-    <section className="assistant-intro"><div className="assistant-kicker"><span className="assistant-spark">✳</span><span>ANALYST ASSISTANCE · OUTSIDE DETECTION PATH</span></div><h2>Ask the evidence.<br/><em>Keep the source visible.</em></h2><p>Language-model features will explain stored analysis and search the local case archive. They will not change parser output, policy findings, or ML inference.</p><div className="assistant-status"><span className="status-dot"/><span><b>Connection point prepared</b><small>LLM provider is not configured in this build.</small></span></div></section>
-    <div className="assistant-tools">
-      <article className="panel assistant-card"><div className="assistant-card-head"><span className="tool-number">01</span><Badge>REPORT EXPLANATION</Badge></div><h3>Explain this capture</h3><p>Generate a readable incident brief from the selected capture's observed sessions, rule evidence, posture, and advisory ML outputs.</p><label>Selected case</label><div className="assistant-case">{summary ? <><b>{summary.source_name}</b><small>{summary.total_streams} streams · {summary.run_id.slice(0, 10)}</small></> : <span>Select a saved analysis first</span>}</div><textarea disabled rows={3} placeholder="Optional focus: summarize STARTTLS downgrade evidence…"/><button className="button" disabled>Generate analyst brief <span>↗</span></button><small className="footnote">Unavailable until an LLM service is configured. Exports remain available above.</small></article>
-      <article className="panel assistant-card"><div className="assistant-card-head"><span className="tool-number">02</span><Badge>ARCHIVE QUERY</Badge></div><h3>Search the analysis archive</h3><p>Ask questions across saved sessions and findings, then inspect the structured filter and matching evidence.</p><label htmlFor="archive-question">Question</label><textarea id="archive-question" disabled rows={3} placeholder="Show sessions that negotiated TLS 1.0 or used CBC suites"/><button className="button" disabled>Query local archive <span>⌕</span></button><small className="footnote">A future query is constrained to read-only structured database operations.</small></article>
-    </div>
-    <div className="assistant-integrity"><span>ⓘ</span><p><b>Analysis remains authoritative.</b> Assistant responses will be generated from persisted evidence and must cite the relevant capture, stream, rule, or ML result. No answer will be presented as a new detection.</p></div>
+function ReportsPage({ activeSummary, activeDetail }: { activeSummary: AnalysisSummary | null; activeDetail: AnalysisDetail | null }) {
+  return <div className="page-content"><SectionTitle eyebrow="CASE OUTPUTS" title="Forensic reports" detail="Review and export the selected capture as a structured forensic artifact." />
+    <section className="panel report-preview report-preview-full">{activeSummary && activeDetail ? <><div className="report-preview-top"><div><span className="eyebrow">EVIDENCE REPORT</span><h2>{activeSummary.source_name}</h2><p className="muted">{runTime(activeSummary.created_at)} · {activeDetail.report.total_streams} TCP streams · case {activeSummary.run_id.slice(0, 12)}</p></div><ExportActions summary={activeSummary} detail={activeDetail} /></div><ReportPreview report={activeDetail.report} /></> : activeSummary ? <EmptyState title="Loading saved report" copy="The selected capture is being loaded."/> : <EmptyState title="Select a capture" copy="Use the searchable Current Capture control above to choose a PCAP, then review or export its forensic report."/>}</section>
   </div>
 }
 
@@ -566,5 +803,44 @@ function ReportPreview({ report }: { report: AnalysisReport }) {
   const streams = flattenStreams(report)
   const failures = streams.flatMap((stream) => failedRules(stream))
   const observed = streams.flatMap((stream) => stream.observations ?? []).filter((item) => item.detected)
-  return <><div className="preview-metrics"><Metric label="TOTAL STREAMS" value={streams.length}/><Metric label="POLICY FAILURES" value={failures.length}/><Metric label="DETECTED OBSERVATIONS" value={observed.length}/></div><div className="report-stream-table"><table className="archive-table"><thead><tr><th>Stream</th><th>Protocol</th><th>Policy fail</th><th>Posture score</th></tr></thead><tbody>{streams.map((stream) => <tr key={stream.stream_id}><td>{String(stream.stream_id).padStart(3, '0')}</td><td>{stream.protocol}</td><td>{failedRules(stream).length}</td><td>{text(stream.posture_assessment?.score, 'Not evaluable')}</td></tr>)}</tbody></table></div><p className="footnote">ML output, when present, remains a separate advisory field in the JSON and HTML export. The posture score is a deterministic heuristic, not an ML probability.</p></>
+  const protocols: Record<string, number> = {}
+  const tlsVersions: Record<string, number> = {}
+  const ruleOutcomes: Record<string, number> = {}
+  const mlAvailability: Record<string, number> = {}
+  const postureTiers: Record<string, number> = {}
+  let observedCertificates = 0
+  for (const stream of streams) {
+    protocols[stream.protocol] = (protocols[stream.protocol] ?? 0) + 1
+    const snapshot = stream.input_snapshot ?? {}
+    const tls = isObject(snapshot.tls) ? snapshot.tls : snapshot
+    const version = tls.tls_version ?? tls.tls_selected_version ?? tls.version
+    const tlsLabel = version === undefined || version === null || version === '' ? 'TLS not observed' : String(version)
+    tlsVersions[tlsLabel] = (tlsVersions[tlsLabel] ?? 0) + 1
+    const certificate = isObject(snapshot.certificate) ? snapshot.certificate : snapshot
+    if (certificate.observable === true || certificate.certificate_observed === true || isObject(certificate.leaf_cert)) observedCertificates++
+    for (const items of Object.values(stream.policy_results ?? {})) for (const item of items) {
+      const verdict = String(item.verdict ?? 'UNKNOWN').replaceAll('_', ' ')
+      ruleOutcomes[verdict] = (ruleOutcomes[verdict] ?? 0) + 1
+    }
+    for (const result of Object.values(stream.ml_results ?? {})) if (isObject(result) && result.status !== 'ADVISORY_REAL_ZGRAB_RUBRIC_AVAILABLE') {
+      const state = result.status === 'NOT_APPLICABLE' ? 'Not applicable' : String(result.status ?? 'UNKNOWN').startsWith('COMPLETED') ? 'Result available' : mlStatusLabel(result.status)
+      mlAvailability[state] = (mlAvailability[state] ?? 0) + 1
+    }
+    const tier = String(stream.posture_assessment?.tier ?? 'Not evaluated')
+    postureTiers[tier] = (postureTiers[tier] ?? 0) + 1
+  }
+  return <div className="forensic-report-preview">
+    <header className="report-cover-preview"><span className="eyebrow">PASSIVE EMAIL FORENSICS · CASE REPORT</span><h2>Cryptographic posture assessment</h2><p>Evidence-led summary of reconstructed streams, negotiated TLS, certificate visibility, deterministic policy outcomes, and advisory ML results.</p></header>
+    <div className="preview-metrics"><Metric label="RECONSTRUCTED STREAMS" value={streams.length}/><Metric label="POLICY FAILURES" value={failures.length}/><Metric label="DETECTED OBSERVATIONS" value={observed.length}/><Metric label="CERTIFICATES OBSERVED" value={observedCertificates}/></div>
+    <section className="report-preview-section"><div className="report-section-title"><span className="eyebrow">01 · OBSERVED PROFILE</span><h3>Traffic and policy overview</h3><p>Charts use counts from this saved report. Missing evidence is shown separately from policy passes.</p></div><div className="report-preview-charts"><ReportBarChart title="Mail protocols" values={protocols}/><ReportBarChart title="Observed TLS versions" values={tlsVersions}/><ReportBarChart title="Policy outcomes" values={ruleOutcomes}/><ReportBarChart title="ML output availability" values={mlAvailability}/><ReportBarChart title="Deterministic posture tiers" values={postureTiers}/></div></section>
+    <section className="report-preview-section"><div className="report-section-title"><span className="eyebrow">02 · DETERMINISTIC FINDINGS</span><h3>{failures.length ? `${failures.length} policy failures` : 'No policy failures recorded'}</h3><p>The Rule Engine provides deterministic standards checks. These remain authoritative when interpreting advisory ML output.</p></div>{failures.length ? <div className="report-finding-list">{streams.flatMap((stream) => failedRules(stream).map((item, index) => <article key={`${stream.stream_id}-${item.rule_id}-${index}`}><span>SESSION {String(stream.stream_id).padStart(3, '0')} · {item.source_id ?? item.policy ?? 'POLICY CHECK'}</span><h4>{item.name ?? item.rule_id ?? 'Policy failure'}</h4><p>{item.finding ?? 'A deterministic policy check failed.'}</p>{item.evidence?.length ? <small>{item.evidence.slice(0, 2).map((evidence) => `${text(evidence.field, 'Evidence')}: ${text(evidence.value)}`).join(' · ')}</small> : null}</article>))}</div> : <p className="report-no-failures">No deterministic failures were recorded. This does not mean missing or unobservable evidence is safe.</p>}</section>
+    <section className="report-preview-section"><div className="report-section-title"><span className="eyebrow">03 · SESSION RECORDS</span><h3>Stream-by-stream evidence</h3><p>Includes available transport, posture, certificate, policy, observation, recommendation, and ML information.</p></div><div className="report-session-list">{streams.map((stream) => <article key={stream.stream_id} className="report-session-preview"><StreamEvidence stream={stream}/></article>)}</div></section>
+    <section className="report-preview-limit"><b>Interpretation and limits</b><p>Posture scores are deterministic heuristics, not ML probabilities. ML confidence values are uncalibrated. Novelty means unusual relative to a reference cohort; it does not mean insecure or malicious. Certificate or TLS fields absent from a passive capture are reported as unobserved, not as safe.</p></section>
+  </div>
+}
+
+function ReportBarChart({ title, values }: { title: string; values: Record<string, number> }) {
+  const entries = Object.entries(values).sort((a, b) => b[1] - a[1])
+  const maximum = Math.max(1, ...entries.map(([, count]) => count))
+  return <figure className="report-bar-chart" aria-label={`${title}: ${entries.map(([label, count]) => `${label} ${count}`).join(', ') || 'no observations'}`}><figcaption>{title}</figcaption>{entries.length ? <div>{entries.map(([label, count]) => <div className="report-bar-row" key={label}><span>{label}</span><i><b style={{ width: `${count / maximum * 100}%` }}/></i><strong>{count}</strong></div>)}</div> : <p>No observations.</p>}</figure>
 }

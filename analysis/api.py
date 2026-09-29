@@ -15,7 +15,7 @@ from pydantic import BaseModel, Field
 
 from .rule_engine.engine import RuleEngine
 from .report_store import ReportStore
-from .threat_intel import prioritize_cves
+from .threat_intel import prioritize_cves, prioritize_report
 from .ml_artifacts import model_catalog
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -113,6 +113,17 @@ def create_app(store: ReportStore | None = None) -> FastAPI:
         if report is None:
             raise HTTPException(status_code=404, detail="Analysis not found")
         return {"run_id": run_id, "report": report}
+
+    @app.get("/api/v1/analyses/{run_id}/threat-prioritization")
+    def prioritize_analysis(run_id: str) -> dict[str, Any]:
+        report = report_store.get_run(run_id)
+        if report is None:
+            raise HTTPException(status_code=404, detail="Analysis not found")
+        metadata = next(
+            (item for item in report_store.list_runs(500) if item["run_id"] == run_id),
+            {},
+        )
+        return prioritize_report(report, str(metadata.get("source_name") or ""))
 
     @app.delete("/api/v1/analyses/{run_id}", status_code=204)
     def delete_analysis(run_id: str) -> None:

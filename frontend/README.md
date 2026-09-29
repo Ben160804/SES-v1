@@ -52,9 +52,6 @@ exposed directly to a network.
   print-ready report and invokes the browser print dialog.
 - Enrich explicitly supplied CVE IDs with the local KEV/EPSS data. The UI does
   not infer CVEs from TLS settings.
-- The Assistant area has entry points for report explanations and natural-
-  language archive queries. They remain disabled until an LLM backend is
-  connected; neither feature is represented as active analysis today.
 
 Raw PCAP retention follows the backend's configured lifecycle; report exports
 contain the analysis record, not the original packet payloads. ML output is

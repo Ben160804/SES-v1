@@ -69,6 +69,34 @@ export interface ThreatResponse {
   note?: string
 }
 
+export interface ThreatPriorityItem {
+  rank: number
+  priority: string
+  priority_label: string
+  severity: string
+  family: string
+  title: string
+  affected_streams: number[]
+  affected_stream_count: number
+  evidence_count: number
+  evidence: Array<Record<string, unknown>>
+  recommendation: string
+  cve_ids: string[]
+  cve_enrichment: Array<Record<string, unknown>>
+  priority_basis: string
+}
+
+export interface ThreatPrioritization {
+  status: string
+  source_name: string
+  total_streams: number
+  streams_with_findings: number
+  items: ThreatPriorityItem[]
+  cve_enrichment: ThreatResponse
+  cve_link_policy: string
+  note?: string | null
+}
+
 export interface DashboardSummary {
   capture_count: number
   stream_count: number
@@ -80,6 +108,14 @@ export interface DashboardSummary {
   rule_severities: Record<string, number>
   ml_statuses: Record<string, number>
   posture_tiers: Record<string, number>
+  ml_model_summary?: Record<string, {
+    observed_outputs: number
+    completed_outputs: number
+    status_counts: Record<string, number>
+    prediction_counts: Record<string, number>
+    mean_feature_coverage: number | null
+    coverage_sample_count: number
+  }>
 }
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
@@ -108,6 +144,7 @@ export const api = {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ cve_ids: cveIds }),
   }),
+  getThreatPrioritization: (runId: string) => request<ThreatPrioritization>(`${API_BASE}/analyses/${encodeURIComponent(runId)}/threat-prioritization`),
 }
 
 export function uploadAnalysis(
