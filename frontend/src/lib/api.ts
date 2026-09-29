@@ -69,6 +69,19 @@ export interface ThreatResponse {
   note?: string
 }
 
+export interface DashboardSummary {
+  capture_count: number
+  stream_count: number
+  captures_by_day: Record<string, number>
+  protocol_counts: Record<string, number>
+  tls_version_counts: Record<string, number>
+  certificate_counts: Record<string, number>
+  rule_verdicts: Record<string, number>
+  rule_severities: Record<string, number>
+  ml_statuses: Record<string, number>
+  posture_tiers: Record<string, number>
+}
+
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, init)
   if (!response.ok) {
@@ -79,13 +92,16 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
     } catch { /* the HTTP status is sufficient */ }
     throw new Error(detail)
   }
+  if (response.status === 204) return undefined as T
   return response.json() as Promise<T>
 }
 
 export const api = {
   health: () => request<{ status: string; api_version: string }>(`${API_BASE}/health`),
   listAnalyses: (limit = 100) => request<{ items: AnalysisSummary[]; count: number }>(`${API_BASE}/analyses?limit=${limit}`),
+  getOverview: () => request<DashboardSummary>(`${API_BASE}/overview`),
   getAnalysis: (runId: string) => request<AnalysisDetail>(`${API_BASE}/analyses/${encodeURIComponent(runId)}`),
+  deleteAnalysis: (runId: string) => request<void>(`${API_BASE}/analyses/${encodeURIComponent(runId)}`, { method: 'DELETE' }),
   getModels: () => request<ModelCatalog>(`${API_BASE}/ml/models`),
   prioritize: (cveIds: string[]) => request<ThreatResponse>(`${API_BASE}/threat-prioritization`, {
     method: 'POST',
@@ -96,13 +112,13 @@ export const api = {
 
 export function uploadAnalysis(
   file: File,
-  options: { trustStore: string; enableMl: boolean },
+  options: { trustStore: string },
   onProgress: (loaded: number, total: number) => void,
   onAbort?: (abort: () => void) => void,
 ): Promise<{ run_id: string; total_streams: number }> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
-    const query = new URLSearchParams({ trust_store: options.trustStore, enable_ml: String(options.enableMl) })
+    const query = new URLSearchParams({ trust_store: options.trustStore })
     xhr.open('POST', `${API_BASE}/analyses?${query}`)
     xhr.setRequestHeader('Content-Type', 'application/octet-stream')
     xhr.setRequestHeader('X-Filename', encodeURIComponent(file.name))
@@ -119,7 +135,7 @@ export function uploadAnalysis(
         reject(new Error(detail))
       }
     }
-    xhr.onerror = () => reject(new Error('Could not reach the SecureMailScope API.'))
+    xhr.onerror = () => reject(new Error('Could not reach the local analysis API.'))
     xhr.onabort = () => reject(new Error('Upload cancelled.'))
     onAbort?.(() => xhr.abort())
     xhr.send(file)

@@ -42,12 +42,19 @@ exposed directly to a network.
 
 - Add one or more PCAP/PCAPNG files; the frontend validates extension and size,
   while the backend analyzes each capture and persists the report in SQLite.
-- View archived analyses, reconstructed streams, policy results, observations,
-  posture rubric, ML inference, and evidence references.
+- Use the overview for the case archive and selected-capture summary. The
+  Investigation area groups deterministic findings, reconstructed sessions,
+  certificate/TLS evidence, ML advisory results, posture, and packet references.
+- Every API analysis run enables the ML layer. Models return not-applicable or
+  not-evaluable states where the protocol cohort or observed evidence does not
+  support inference; the interface does not offer an ML-off switch.
 - Export the persisted analysis as JSON or standalone HTML. “Save PDF” opens a
   print-ready report and invokes the browser print dialog.
 - Enrich explicitly supplied CVE IDs with the local KEV/EPSS data. The UI does
   not infer CVEs from TLS settings.
+- The Assistant area has entry points for report explanations and natural-
+  language archive queries. They remain disabled until an LLM backend is
+  connected; neither feature is represented as active analysis today.
 
 Raw PCAP retention follows the backend's configured lifecycle; report exports
 contain the analysis record, not the original packet payloads. ML output is

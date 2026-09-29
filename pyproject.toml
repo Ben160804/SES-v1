@@ -1,0 +1,19 @@
+[project]
+name = "securemailscope"
+version = "1.0.0"
+description = "Email security forensic analysis — TLS/STARTTLS inspection, ML risk classification, rule engine"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "cryptography>=42",
+    "scapy>=2.6",
+    "dpkt>=1.9.8",
+    "scikit-learn>=1.5",
+]
+
+[tool.pytest.ini_options]
+# Run pytest from the repo root: `pytest`
+testpaths = ["tests"]
+pythonpath = ["."]          # puts SES-v1/ on sys.path → `import analysis` works
+addopts = "-v --tb=short"

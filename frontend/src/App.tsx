@@ -2,37 +2,52 @@ import { ResearchReport } from './ResearchReport'
 import { Workspace } from './Workspace'
 
 function Brand({ compact = false }: { compact?: boolean }) {
-  return <a className={`brand ${compact ? 'brand-compact' : ''}`} href="/" aria-label="SecureMailScope home">
-    <span><strong>SecureMailScope</strong></span>
-  </a>
+  return <a className={`brand-home ${compact ? 'brand-home-compact' : ''}`} href="/" aria-label="Return to the project home">HOME <span aria-hidden="true">↗</span></a>
+}
+
+function AnalysisDrawing() {
+  return <div className="landing-visual" aria-label="Flow from packet capture to evidence-backed security assessment">
+    <div className="visual-head"><span>ANALYSIS PATH</span><span>PASSIVE PCAP FORENSICS</span></div>
+    <svg viewBox="0 0 720 250" role="img" aria-labelledby="flow-title flow-desc">
+      <title id="flow-title">Passive email analysis path</title>
+      <desc id="flow-desc">A passive capture is reconstructed into sessions, assessed in parallel by the deterministic rule engine and advisory ML, then joined in an evidence report.</desc>
+      <path className="flow-track" d="M101 126H232M292 126H355M355 126 424 75M355 126 424 177M480 75H548V126M480 177H548V126M548 126H619"/>
+      <circle className="flow-junction" cx="355" cy="126" r="3.5"/><circle className="flow-junction" cx="548" cy="126" r="3.5"/>
+      <circle className="flow-pulse" r="4" opacity="0"><animateMotion path="M101 126H355L424 75H548V126H619" dur="4.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.03;.995;1" dur="4.6s" repeatCount="indefinite"/></circle>
+      <circle className="flow-pulse" r="4" opacity="0"><animateMotion path="M101 126H355L424 177H548V126H619" dur="4.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.03;.995;1" dur="4.6s" repeatCount="indefinite"/></circle>
+      <g className="flow-node" transform="translate(70 126)"><circle r="30"/><path d="M-10 -9h20v18h-20zM-6 -14v5m12-5v5m-12 18v5m12-5v5"/><text y="63">CAPTURE</text><text y="81">PCAP / PCAPNG</text></g>
+      <g className="flow-node" transform="translate(262 126)"><circle r="30"/><path d="M-12 -7h24v17h-24zM-7 -13h14M-7 16h14"/><text y="63">RECONSTRUCT</text><text y="81">TCP · MAIL · TLS</text></g>
+      <g className="flow-node" transform="translate(455 75)"><text className="flow-label-top" y="-39">RULE ENGINE</text><circle r="25"/><path d="M-10 -8h20M-10 0h13M-10 8h17"/><text y="49">Deterministic findings</text></g>
+      <g className="flow-node flow-node-ml" transform="translate(455 177)"><circle r="25"/><path d="M-10 8l7-9 6 5 9-13"/><text y="49">ML LAYER</text><text y="67">Risk · anomaly · novelty</text></g>
+      <g className="flow-node flow-node-output" transform="translate(650 126)"><circle r="30"/><path d="M-10 -12h15l6 6v18h-21zM5-12v7h6M-5 1h12M-5 7h9"/><text y="63">EVIDENCE</text><text y="81">Findings + context</text></g>
+    </svg>
+    <div className="visual-foot"><span>RULE FINDINGS REMAIN AUTHORITATIVE</span><span>ML IS ADVISORY</span></div>
+  </div>
 }
 
 function Landing() {
-  return <main className="landing">
-    <header className="landing-header"><Brand /></header>
+  return <main className="landing-page">
+    <header className="landing-header"><Brand/><nav aria-label="Main"><a href="#method">How it works</a><a href="/technical-report">Technical report</a></nav><a href="/workspace" className="landing-open">Open workspace <span>↗</span></a></header>
     <section className="landing-hero">
       <div className="hero-copy">
-        <h1>See what the<br /><em>mail session</em><br />actually negotiated.</h1>
-        <p className="hero-description">A forensic workspace for examining the cryptographic posture of SMTP, IMAP, and POP3 traffic—from packet evidence to policy findings.</p>
-        <div className="hero-actions">
-          <a className="button button-primary" href="/workspace">Open analysis workspace <span aria-hidden="true">↗</span></a>
-          <a className="button button-secondary" href="/technical-report">Read the technical report <span aria-hidden="true">→</span></a>
-        </div>
-        <p className="hero-footnote">PCAP / PCAPNG <span>·</span> No active scanning <span>·</span> Rule findings kept separate from ML</p>
+        <div className="hero-index"><span/> PASSIVE EMAIL CRYPTOGRAPHY FORENSICS</div>
+        <h1>Know what<br/>the wire <em>reveals.</em></h1>
+        <p>Turn captured SMTP, IMAP, and POP3 traffic into a clear account of negotiated encryption, certificate evidence, and policy posture.</p>
+        <div className="hero-actions"><a className="button button-primary" href="/workspace">Analyze a capture <span>↗</span></a><a className="hero-text-link" href="/technical-report">Read the research report <span>→</span></a></div>
+        <div className="hero-note"><span>01</span> No active probing <i/> <span>02</span> Findings stay evidence-linked <i/> <span>03</span> ML stays advisory</div>
       </div>
-      <div className="hero-figure" aria-label="Analysis pipeline: packet capture, session reconstruction, security assessment, evidence report">
-        <div className="figure-topline"><span>ANALYSIS PATH</span><span>01 — 04</span></div>
-        <div className="flow-step"><span className="flow-index">01</span><div><b>Packet evidence</b><small>PCAP · PCAPNG</small></div><span className="flow-glyph">⌁</span></div>
-        <div className="flow-connector" />
-        <div className="flow-step"><span className="flow-index">02</span><div><b>Session reconstruction</b><small>TCP · SMTP · IMAP · POP3</small></div><span className="flow-glyph">⇄</span></div>
-        <div className="flow-connector split" />
-        <div className="flow-branches"><div className="flow-branch"><span className="branch-rule">RULE ENGINE</span><small>Deterministic policy checks</small></div><div className="flow-branch"><span className="branch-ml">ML LAYER</span><small>Advisory risk & novelty</small></div></div>
-        <div className="flow-connector merge" />
-        <div className="flow-step report-step"><span className="flow-index">04</span><div><b>Evidence-backed report</b><small>Findings · coverage · limitations</small></div><span className="flow-glyph">↗</span></div>
-        <div className="figure-bottom"><span>● SYSTEM READY</span></div>
+      <AnalysisDrawing/>
+    </section>
+    <section className="landing-method" id="method">
+      <div className="method-lead"><span className="section-index">THE ANALYSIS</span><h2>One capture.<br/><span>Three independent views.</span></h2><p>The analysis keeps protocol evidence, deterministic policy findings, and learned signals distinct so investigators can see what was observed and how each conclusion was reached.</p></div>
+      <div className="method-rows">
+        <article><span>01</span><div><h3>Reconstruct the session</h3><p>Reassemble TCP streams, identify mail protocols, and follow STARTTLS upgrades into the observable TLS handshake.</p></div><b>→</b></article>
+        <article><span>02</span><div><h3>Assess the cryptography</h3><p>Inspect negotiated versions, ciphers, key exchange, certificate chains, validity, identity, and policy conformance.</p></div><b>→</b></article>
+        <article><span>03</span><div><h3>Read the learned context</h3><p>Review risk estimates, cohort-relative novelty, feature coverage, source provenance, and model limitations beside the rule results.</p></div><b>→</b></article>
       </div>
     </section>
-    <footer className="landing-footer"><span>SMART INDIA HACKATHON · SECUREMAILSCOPE</span><span>PCAP IN <i /> EVIDENCE OUT</span></footer>
+    <section className="landing-proof"><div><span className="section-index">BUILT FOR INVESTIGATION</span><h2>Every conclusion<br/>has a place in the evidence.</h2></div><div className="proof-detail"><p>Move from the capture to a specific flow, inspect its TLS and certificate facts, expand the supporting rule evidence, and export the analysis as a portable report.</p><a href="/technical-report">Explore architecture, datasets, and validation <span>↗</span></a></div></section>
+    <footer className="landing-footer"><Brand compact/><span>PASSIVE PCAP FORENSICS · SIH26159</span><a href="/workspace">Open analysis workspace ↗</a></footer>
   </main>
 }
 

@@ -1,4 +1,4 @@
-"""Read-only HTTP API for persisted SecureMailScope forensic reports."""
+"""Local HTTP API for PCAP analysis and persisted SecureMailScope reports."""
 
 from __future__ import annotations
 
@@ -33,7 +33,7 @@ def create_app(store: ReportStore | None = None) -> FastAPI:
     app = FastAPI(
         title="SecureMailScope Forensic API",
         version="1.0.0",
-        description="Read-only access to persisted PCAP analysis and independent rule/ML results.",
+        description="Local PCAP analysis and persisted independent rule/ML results.",
     )
     app.state.report_store = report_store
 
@@ -49,6 +49,10 @@ def create_app(store: ReportStore | None = None) -> FastAPI:
     def list_analyses(limit: int = Query(default=50, ge=1, le=500)) -> dict[str, Any]:
         runs = report_store.list_runs(limit)
         return {"items": runs, "count": len(runs)}
+
+    @app.get("/api/v1/overview")
+    def overview() -> dict[str, Any]:
+        return report_store.dashboard_summary()
 
     @app.post(
         "/api/v1/analyses",
@@ -67,7 +71,6 @@ def create_app(store: ReportStore | None = None) -> FastAPI:
         request: Request,
         filename: str = Header(default="capture.pcap", alias="X-Filename"),
         trust_store: str = Query(default="testbed", pattern="^(testbed|production|system)$"),
-        enable_ml: bool = Query(default=True),
     ) -> dict[str, Any]:
         accepted_types = {
             "application/octet-stream",
@@ -90,7 +93,9 @@ def create_app(store: ReportStore | None = None) -> FastAPI:
             if size == 0:
                 raise HTTPException(status_code=400, detail="PCAP body is empty")
             try:
-                engine = RuleEngine(enable_ml=enable_ml)
+                # ML is part of every analysis run. Individual model outputs
+                # remain protocol/cohort/feature gated inside ml_runtime.
+                engine = RuleEngine(enable_ml=True)
                 report = engine.evaluate_pcap(str(capture_path), trust_store=trust_store)
                 run_id = report_store.save_report(report, safe_filename)
             except HTTPException:
@@ -108,6 +113,11 @@ def create_app(store: ReportStore | None = None) -> FastAPI:
         if report is None:
             raise HTTPException(status_code=404, detail="Analysis not found")
         return {"run_id": run_id, "report": report}
+
+    @app.delete("/api/v1/analyses/{run_id}", status_code=204)
+    def delete_analysis(run_id: str) -> None:
+        if not report_store.delete_run(run_id):
+            raise HTTPException(status_code=404, detail="Analysis not found")
 
     @app.get("/api/v1/analyses/{run_id}/streams/{stream_id}")
     def get_stream(run_id: str, stream_id: int) -> dict[str, Any]:

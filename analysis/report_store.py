@@ -120,12 +120,99 @@ class ReportStore:
             ).fetchall()
         return [dict(row) for row in rows]
 
+    def dashboard_summary(self) -> dict[str, Any]:
+        """Aggregate observed evidence across all saved runs for the overview UI."""
+        with self._connection() as db:
+            runs = db.execute(
+                "SELECT run_id, created_at FROM analysis_runs ORDER BY created_at DESC"
+            ).fetchall()
+            if not runs:
+                return {
+                    "capture_count": 0, "stream_count": 0, "captures_by_day": {},
+                    "protocol_counts": {}, "tls_version_counts": {}, "certificate_counts": {},
+                    "rule_verdicts": {}, "rule_severities": {}, "ml_statuses": {},
+                    "posture_tiers": {},
+                }
+            streams = db.execute(
+                """SELECT protocol, rule_results_json, input_snapshot_json,
+                           ml_results_json, posture_assessment_json
+                    FROM stream_reports"""
+            ).fetchall()
+
+        def count(target: dict[str, int], key: Any) -> None:
+            name = str(key or "Unknown")
+            target[name] = target.get(name, 0) + 1
+
+        captures_by_day: dict[str, int] = {}
+        for run in runs:
+            day = str(run["created_at"])[:10]
+            count(captures_by_day, day)
+        protocol_counts: dict[str, int] = {}
+        tls_version_counts: dict[str, int] = {}
+        certificate_counts: dict[str, int] = {}
+        rule_verdicts: dict[str, int] = {}
+        rule_severities: dict[str, int] = {}
+        ml_statuses: dict[str, int] = {}
+        posture_tiers: dict[str, int] = {}
+        for row in streams:
+            count(protocol_counts, row["protocol"])
+            snapshot = json.loads(row["input_snapshot_json"])
+            tls = snapshot.get("tls") if isinstance(snapshot.get("tls"), dict) else snapshot
+            version = tls.get("tls_version") or tls.get("selected_version") or tls.get("version")
+            count(tls_version_counts, version or "TLS not observed")
+            cert = snapshot.get("certificate") if isinstance(snapshot.get("certificate"), dict) else snapshot
+            observed = cert.get("observable", cert.get("certificate_observed", cert.get("observed", False)))
+            if isinstance(observed, str):
+                observed = observed.strip().lower() in {"true", "yes", "observed", "present"}
+            if not observed and isinstance(cert.get("leaf_cert"), dict):
+                observed = True
+            count(certificate_counts, "Observed" if observed else "Not observed")
+
+            rules = json.loads(row["rule_results_json"])
+            if isinstance(rules, dict):
+                for items in rules.values():
+                    if not isinstance(items, list):
+                        continue
+                    for item in items:
+                        if not isinstance(item, dict):
+                            continue
+                        verdict = str(item.get("verdict") or "UNKNOWN").upper()
+                        count(rule_verdicts, verdict)
+                        if verdict == "FAIL":
+                            count(rule_severities, item.get("severity") or "UNSPECIFIED")
+
+            ml = json.loads(row["ml_results_json"])
+            if isinstance(ml, dict):
+                for result in ml.values():
+                    if isinstance(result, dict):
+                        count(ml_statuses, str(result.get("status") or "UNKNOWN").upper())
+            posture = json.loads(row["posture_assessment_json"])
+            if isinstance(posture, dict):
+                tier = posture.get("tier") or posture.get("risk_tier") or posture.get("band")
+                if tier:
+                    count(posture_tiers, str(tier).upper())
+
+        return {
+            "capture_count": len(runs), "stream_count": len(streams),
+            "captures_by_day": dict(sorted(captures_by_day.items())),
+            "protocol_counts": protocol_counts, "tls_version_counts": tls_version_counts,
+            "certificate_counts": certificate_counts, "rule_verdicts": rule_verdicts,
+            "rule_severities": rule_severities, "ml_statuses": ml_statuses,
+            "posture_tiers": posture_tiers,
+        }
+
     def get_run(self, run_id: str) -> dict[str, Any] | None:
         with self._connection() as db:
             row = db.execute(
                 "SELECT report_json FROM analysis_runs WHERE run_id = ?", (run_id,)
             ).fetchone()
         return json.loads(row["report_json"]) if row else None
+
+    def delete_run(self, run_id: str) -> bool:
+        """Delete a persisted analysis and its normalized stream rows."""
+        with self._connection() as db:
+            cursor = db.execute("DELETE FROM analysis_runs WHERE run_id = ?", (run_id,))
+        return cursor.rowcount > 0
 
     def get_stream(self, run_id: str, stream_id: int) -> dict[str, Any] | None:
         with self._connection() as db:

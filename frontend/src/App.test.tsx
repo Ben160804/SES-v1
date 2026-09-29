@@ -5,6 +5,7 @@ import App from './App'
 const apiMock = vi.hoisted(() => ({
   health: vi.fn(),
   listAnalyses: vi.fn(),
+  getOverview: vi.fn(),
   getAnalysis: vi.fn(),
   getModels: vi.fn(),
   prioritize: vi.fn(),
@@ -23,26 +24,28 @@ const catalog = {
   models: [],
 }
 
-describe('SecureMailScope application', () => {
+describe('forensic web application', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     apiMock.health.mockResolvedValue({ status: 'ok', api_version: '1.0.0' })
     apiMock.listAnalyses.mockResolvedValue({ items: [], count: 0 })
+    apiMock.getOverview.mockResolvedValue({ capture_count: 0, stream_count: 0, captures_by_day: {}, protocol_counts: {}, tls_version_counts: {}, certificate_counts: {}, rule_verdicts: {}, rule_severities: {}, ml_statuses: {}, posture_tiers: {} })
+    apiMock.getAnalysis.mockReset()
     apiMock.getModels.mockResolvedValue(catalog)
     apiMock.uploadAnalysis.mockReset()
   })
 
   it('presents the two intended landing actions', () => {
     render(<App />)
-    expect(screen.getByRole('heading', { name: /see what the mail session actually negotiated/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /open analysis workspace/i })).toHaveAttribute('href', '/workspace')
-    expect(screen.getByRole('link', { name: /read the technical report/i })).toHaveAttribute('href', '/technical-report')
+    expect(screen.getByRole('heading', { name: /know what the wire reveals/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /analyze a capture/i })).toHaveAttribute('href', '/workspace')
+    expect(screen.getByRole('link', { name: /read the research report/i })).toHaveAttribute('href', '/technical-report')
   })
 
   it('renders the research report with the project architecture and ML caveats', () => {
     window.history.replaceState({}, '', '/technical-report')
     render(<App />)
-    expect(screen.getByRole('heading', { name: 'SecureMailScope' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Email transport forensics' })).toBeInTheDocument()
     expect(screen.getByText(/SMTP, IMAP, and POP3 communications/i)).toBeInTheDocument()
     expect(screen.getByText(/They do not measure attack detection/i)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /print or save the technical report as pdf/i })).toBeInTheDocument()
@@ -51,10 +54,10 @@ describe('SecureMailScope application', () => {
   it('uses the real API state and an honest empty archive state', async () => {
     window.history.replaceState({}, '', '/workspace')
     render(<App />)
-    expect(await screen.findByRole('heading', { name: 'Analysis overview' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'Investigation overview' })).toBeInTheDocument()
     expect(await screen.findByText('No analyses in the archive')).toBeInTheDocument()
-    expect(screen.getByText('Connected to local API')).toBeInTheDocument()
-    expect(apiMock.listAnalyses).toHaveBeenCalledWith(100)
+    expect(screen.getByText('ONLINE')).toBeInTheDocument()
+    expect(apiMock.listAnalyses).toHaveBeenCalledWith(500)
   })
 
   it('shows the API failure instead of substituting sample data', async () => {
@@ -65,14 +68,54 @@ describe('SecureMailScope application', () => {
     expect(screen.queryByText(/92% secure/i)).not.toBeInTheDocument()
   })
 
+  it('uses a case-centered navigation and exposes the two assistant entry points honestly', async () => {
+    window.history.replaceState({}, '', '/workspace')
+    render(<App />)
+    expect(await screen.findByRole('heading', { name: 'Investigation overview' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /ml models/i })).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /investigation/i }))
+    expect(await screen.findByRole('tab', { name: /findings/i })).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: /sessions/i })).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /reports & assistant/i }))
+    fireEvent.click(await screen.findByRole('tab', { name: /ai assistant/i }))
+    expect(await screen.findByRole('heading', { name: /ask the evidence/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /generate analyst brief/i })).toBeDisabled()
+    expect(screen.getByRole('button', { name: /query local archive/i })).toBeDisabled()
+  })
+
+  it('switches cases from the persistent header and surfaces per-model outputs on overview', async () => {
+    const cases = [
+      { run_id: 'case-a', created_at: '2026-09-29T08:00:00Z', source_name: 'alpha.pcap', total_streams: 1 },
+      { run_id: 'case-b', created_at: '2026-09-29T09:00:00Z', source_name: 'beta.pcap', total_streams: 1 },
+    ]
+    apiMock.listAnalyses.mockResolvedValue({ items: cases, count: 2 })
+    apiMock.getAnalysis.mockImplementation(async (runId: string) => ({ run_id: runId, report: { total_streams: 1, stream_reports: { '1': {
+      stream_id: 1,
+      protocol: 'SMTP',
+      ml_results: {
+        zgrab_evidence_risk_classifier: { model_id: 'zgrab_evidence_risk_classifier_v1', model_version: '1.0', status: 'COMPLETED_ADVISORY_RUBRIC_ESTIMATE', prediction: 'HIGH', feature_coverage: .8 },
+        certificate_novelty: { model_id: 'mta_sts_cert_anomaly_v1', status: 'COMPLETED_EXPLORATORY', prediction: 'WITHIN_REFERENCE', feature_coverage: .9 },
+      },
+    } } } }))
+    window.history.replaceState({}, '', '/workspace')
+    render(<App />)
+    const switcher = await screen.findByRole('combobox', { name: /switch current capture/i })
+    expect(screen.getByText('SMTP risk classification')).toBeInTheDocument()
+    expect(screen.getByText(/HIGH · 1/i)).toBeInTheDocument()
+    fireEvent.change(switcher, { target: { value: 'case-b' } })
+    expect(await screen.findByRole('heading', { name: 'beta.pcap' })).toBeInTheDocument()
+    expect(switcher).toHaveValue('case-b')
+  })
+
   it('opens the upload workspace from the overview action', async () => {
     window.history.replaceState({}, '', '/workspace')
     render(<App />)
-    const button = await screen.findByRole('button', { name: /analyze pcaps/i })
+    const button = await screen.findByRole('button', { name: /add capture/i })
     fireEvent.click(button)
     await waitFor(() => expect(screen.getByRole('heading', { name: 'PCAP analysis' })).toBeInTheDocument())
     expect(screen.getByText(/certificate trust store/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/run advisory ml inference/i)).toBeInTheDocument()
+    expect(screen.getByText(/parser · rule engine · applicable ml models/i)).toBeInTheDocument()
+    expect(screen.queryByRole('checkbox', { name: /ml/i })).not.toBeInTheDocument()
   })
 
   it('queues a real selected file, sends it through the API, and archives its report', async () => {
@@ -91,7 +134,7 @@ describe('SecureMailScope application', () => {
     fireEvent.click(await screen.findByRole('button', { name: /analyze 1 queued/i }))
     expect(await screen.findByText('mail-trace.pcap')).toBeInTheDocument()
     await waitFor(() => expect(apiMock.uploadAnalysis).toHaveBeenCalledTimes(1))
-    expect(apiMock.uploadAnalysis).toHaveBeenCalledWith(file, { trustStore: 'testbed', enableMl: true }, expect.any(Function), expect.any(Function))
+    expect(apiMock.uploadAnalysis).toHaveBeenCalledWith(file, { trustStore: 'testbed' }, expect.any(Function), expect.any(Function))
     expect(await screen.findByText(/report run-42/i)).toBeInTheDocument()
   })
 })
