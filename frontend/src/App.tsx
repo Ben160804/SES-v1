@@ -27,26 +27,26 @@ function AnalysisDrawing() {
 
 function Landing() {
   return <main className="landing-page">
-    <header className="landing-header"><Brand/><nav aria-label="Main"><a href="#method">How it works</a><a href="/technical-report">Technical report</a></nav><a href="/workspace" className="landing-open">Open workspace <span>↗</span></a></header>
+    <header className="landing-header"><Brand/><nav aria-label="Main"><a href="#method">How it works</a><a href="/technical-report">Technical report</a></nav><div className="landing-header-actions"><a href="/workspace" className="landing-open">Open workspace <span>↗</span></a><a href="https://github.com/Ben160804/SES-v1/tree/master/testbed/captures" className="landing-open" target="_blank" rel="noreferrer">Test data <span>↗</span></a></div></header>
     <section className="landing-hero">
       <div className="hero-copy">
-        <div className="hero-index"><span/> PASSIVE EMAIL CRYPTOGRAPHY FORENSICS</div>
-        <h1>Know what<br/>the wire <em>reveals.</em></h1>
-        <p>Turn captured SMTP, IMAP, and POP3 traffic into a clear account of negotiated encryption, certificate evidence, and policy posture.</p>
+        <div className="hero-index"><span/> PASSIVE PCAP ANALYSIS · EMAIL TRANSPORT SECURITY</div>
+        <h1>Email transport<br/>security <em>analysis.</em></h1>
+        <p>Analyze SMTP, IMAP, and POP3 captures. Reconstruct sessions, inspect STARTTLS and TLS negotiation, parse visible certificate data, and evaluate each stream against deterministic policy checks.</p>
         <div className="hero-actions"><a className="button button-primary" href="/workspace">Analyze a capture <span>↗</span></a><a className="hero-text-link" href="/technical-report">Read the research report <span>→</span></a></div>
         <div className="hero-note"><span>01</span> No active probing <i/> <span>02</span> Findings stay evidence-linked <i/> <span>03</span> ML stays advisory</div>
       </div>
       <AnalysisDrawing/>
     </section>
     <section className="landing-method" id="method">
-      <div className="method-lead"><span className="section-index">THE ANALYSIS</span><h2>One capture.<br/><span>Three independent views.</span></h2><p>The analysis keeps protocol evidence, deterministic policy findings, and learned signals distinct so investigators can see what was observed and how each conclusion was reached.</p></div>
+      <div className="method-lead"><span className="section-index">ANALYSIS PIPELINE</span><h2>From packet capture<br/><span>to evidence-based results.</span></h2><p>Protocol observations, deterministic policy checks, posture summaries, and advisory ML outputs are calculated separately and linked to the analyzed stream.</p></div>
       <div className="method-rows">
-        <article><span>01</span><div><h3>Reconstruct the session</h3><p>Reassemble TCP streams, identify mail protocols, and follow STARTTLS upgrades into the observable TLS handshake.</p></div><b>→</b></article>
-        <article><span>02</span><div><h3>Assess the cryptography</h3><p>Inspect negotiated versions, ciphers, key exchange, certificate chains, validity, identity, and policy conformance.</p></div><b>→</b></article>
-        <article><span>03</span><div><h3>Read the learned context</h3><p>Review risk estimates, cohort-relative novelty, feature coverage, source provenance, and model limitations beside the rule results.</p></div><b>→</b></article>
+        <article><span>01</span><div><h3>Reconstruct protocol sessions</h3><p>Reassemble TCP streams, identify SMTP, IMAP, and POP3, and track STARTTLS or implicit TLS state and handshake evidence.</p></div></article>
+        <article><span>02</span><div><h3>Evaluate cryptographic configuration</h3><p>Extract negotiated TLS version, cipher suite, key exchange, forward-secrecy indicators, and available X.509 certificate fields. Apply deterministic policy checks.</p></div></article>
+        <article><span>03</span><div><h3>Report assessment results</h3><p>Present stream evidence, policy outcomes, deterministic posture, and separate advisory ML estimates with feature coverage, data provenance, and limitations.</p></div></article>
       </div>
     </section>
-    <section className="landing-proof"><div><span className="section-index">BUILT FOR INVESTIGATION</span><h2>Every conclusion<br/>has a place in the evidence.</h2></div><div className="proof-detail"><p>Move from the capture to a specific flow, inspect its TLS and certificate facts, expand the supporting rule evidence, and export the analysis as a portable report.</p><a href="/technical-report">Explore architecture, datasets, and validation <span>↗</span></a></div></section>
+    <section className="landing-proof"><div><span className="section-index">CASE EVIDENCE</span><h2>Inspect each stream<br/>and its assessment.</h2></div><div className="proof-detail"><p>Review reconstructed protocol state, negotiated TLS parameters, visible certificate data, policy findings, posture summaries, and advisory ML outputs. Export case results as JSON, HTML, or PDF.</p><a href="/technical-report">Read the architecture, datasets, and evaluation <span>↗</span></a></div></section>
     <footer className="landing-footer"><Brand compact/><span>PASSIVE PCAP FORENSICS · SIH26159</span><a href="/workspace">Open analysis workspace ↗</a></footer>
   </main>
 }
